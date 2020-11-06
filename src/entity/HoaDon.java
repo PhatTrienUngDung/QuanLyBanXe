@@ -58,11 +58,6 @@ public class HoaDon {
 	public void setNgayLapHoaDon(LocalDate ngayLapHoaDon) {
 		this.ngayLapHoaDon = ngayLapHoaDon;
 	}
-	
-	public double getThanhTien() {
-		
-		return 0;
-	}
 
 	@Override
 	public String toString() {
