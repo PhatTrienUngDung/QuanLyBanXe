@@ -1,30 +1,31 @@
 package entity;
 
 public class NhaCungCap {
-	private String nhaCungCap;
+	private String maNhaCungCap;
 	private String tenNhaCungCap;
 	private String diaChi;
 	private String chuThich;
 	private String soDienThoai;
-	
-	public NhaCungCap(String nhaCungCap, String tenNhaCungCap, String diaChi, String chuThich, String soDienThoai) {
+	private String email;
+	public NhaCungCap(String maNhaCungCap, String tenNhaCungCap, String diaChi, String chuThich, String soDienThoai, String email) {
 		super();
-		this.nhaCungCap = nhaCungCap;
+		this.maNhaCungCap = maNhaCungCap;
 		this.tenNhaCungCap = tenNhaCungCap;
 		this.diaChi = diaChi;
 		this.chuThich = chuThich;
 		this.soDienThoai = soDienThoai;
+		this.email= email;
 	}
 	
 	public NhaCungCap() {
 		super();
 	}
 
-	public String getNhaCungCap() {
-		return nhaCungCap;
+	public String getMaNhaCungCap() {
+		return maNhaCungCap;
 	}
-	public void setNhaCungCap(String nhaCungCap) {
-		this.nhaCungCap = nhaCungCap;
+	public void setMaNhaCungCap(String nhaCungCap) {
+		this.maNhaCungCap = nhaCungCap;
 	}
 	public String getTenNhaCungCap() {
 		return tenNhaCungCap;
@@ -50,10 +51,20 @@ public class NhaCungCap {
 	public void setSoDienThoai(String soDienThoai) {
 		this.soDienThoai = soDienThoai;
 	}
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@Override
 	public String toString() {
-		return "NhaCungCap [nhaCungCap=" + nhaCungCap + ", tenNhaCungCap=" + tenNhaCungCap + ", diaChi=" + diaChi
-				+ ", chuThich=" + chuThich + ", soDienThoai=" + soDienThoai + "]";
+		return "NhaCungCap [nhaCungCap=" + maNhaCungCap + ", tenNhaCungCap=" + tenNhaCungCap + ", diaChi=" + diaChi
+				+ ", chuThich=" + chuThich + ", soDienThoai=" + soDienThoai + ", email=" + email + "]";
 	}
+
+	
+	
 }

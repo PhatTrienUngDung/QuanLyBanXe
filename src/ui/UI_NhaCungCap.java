@@ -1,50 +1,54 @@
 package ui;
-
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.ScrollPane;
+import javax.swing.JOptionPane;
 
-import javax.swing.border.TitledBorder;
+import java.awt.Font;
+import java.awt.Frame;
+
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.DropMode;
 import java.awt.Color;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
+import java.sql.SQLException;
+
 import javax.swing.UIManager;
-import javax.swing.JTabbedPane;
-import javax.swing.JDesktopPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JRadioButton;
+
+import connect.ConnectDB;
+import dao.Dao_NhaCungCap;
+import entity.NhaCungCap;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 
 public class UI_NhaCungCap extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_1;
+	private JTextField txtMaNCC;
+	private JTextField txtDiaChi;
+	private JTextField txtEmail;
+	private JTextField txtTenNCC;
 	private JTable table;
 	private JTable table_1;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtTim;
+	private JTextField txtDem;
+	private DefaultTableModel tableModel;
+	private JTextField txtSDT;
+	private Dao_NhaCungCap dao_ncc= new Dao_NhaCungCap();
 
 	/**
 	 * Launch the application.
@@ -66,6 +70,12 @@ public class UI_NhaCungCap extends JFrame {
 	 * Create the frame.
 	 */
 	public UI_NhaCungCap() {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1267, 740);
 		contentPane = new JPanel();
@@ -121,29 +131,29 @@ public class UI_NhaCungCap extends JFrame {
 		lblTnNhCung.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JLabel lblNewLabel_1 = new JLabel("Ch\u00FA Th\u00EDch");
-		lblNewLabel_1.setBounds(10, 72, 89, 13);
+		lblNewLabel_1.setBounds(446, 72, 89, 13);
 		panel_3.add(lblNewLabel_1);
 		lblNewLabel_1.setForeground(new Color(0, 128, 0));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		textField = new JTextField();
-		textField.setBounds(146, 11, 237, 19);
-		panel_3.add(textField);
-		textField.setColumns(10);
+		txtMaNCC = new JTextField();
+		txtMaNCC.setBounds(146, 11, 237, 19);
+		panel_3.add(txtMaNCC);
+		txtMaNCC.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(146, 42, 237, 19);
-		panel_3.add(textField_1);
-		textField_1.setColumns(10);
+		txtTenNCC = new JTextField();
+		txtTenNCC.setBounds(146, 42, 237, 19);
+		panel_3.add(txtTenNCC);
+		txtTenNCC.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(555, 11, 237, 19);
-		panel_3.add(textField_3);
-		textField_3.setColumns(10);
+		txtEmail = new JTextField();
+		txtEmail.setBounds(555, 11, 237, 19);
+		panel_3.add(txtEmail);
+		txtEmail.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(555, 41, 237, 19);
-		panel_3.add(textField_2);
-		textField_2.setColumns(10);
+		txtDiaChi = new JTextField();
+		txtDiaChi.setBounds(555, 41, 237, 19);
+		panel_3.add(txtDiaChi);
+		txtDiaChi.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setBounds(446, 10, 123, 21);
@@ -157,13 +167,24 @@ public class UI_NhaCungCap extends JFrame {
 		lblaCh.setForeground(new Color(0, 128, 0));
 		lblaCh.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(146, 72, 646, 35);
-		panel_3.add(textArea);
-		textArea.setToolTipText("");
-		textArea.setBackground(SystemColor.controlHighlight);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
+		JTextArea txtChuThich = new JTextArea();
+		txtChuThich.setBounds(555, 72, 237, 35);
+		panel_3.add(txtChuThich);
+		txtChuThich.setToolTipText("");
+		txtChuThich.setBackground(SystemColor.controlHighlight);
+		txtChuThich.setLineWrap(true);
+		txtChuThich.setWrapStyleWord(true);
+		
+		JLabel lblSo = new JLabel("Số Điện Thoại");
+		lblSo.setForeground(new Color(0, 128, 0));
+		lblSo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblSo.setBounds(10, 72, 123, 21);
+		panel_3.add(lblSo);
+		
+		txtSDT = new JTextField();
+		txtSDT.setColumns(10);
+		txtSDT.setBounds(146, 73, 237, 19);
+		panel_3.add(txtSDT);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(853, 51, 358, 167);
@@ -184,22 +205,105 @@ public class UI_NhaCungCap extends JFrame {
 		panel_2_1.add(lblNewLabel_2_1);
 		
 		JButton btnThem = new JButton("Th\u00EAm");
-		Image img = new ImageIcon(this.getClass().getResource("/add.ico")).getImage();
+		btnThem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String ma= txtMaNCC.getText();
+				String ten=txtTenNCC.getText();
+				String diachi=txtDiaChi.getText();
+				String email= txtEmail.getText();
+				String sodt= txtSDT.getText();
+				String chuThich=txtChuThich.getText();
+				NhaCungCap ncc= new NhaCungCap(ma, ten, diachi, chuThich, sodt, email);
+				tableModel.addRow(new Object[] {ncc.getMaNhaCungCap(),ncc.getTenNhaCungCap(),ncc.getDiaChi(),ncc.getEmail(),ncc.getSoDienThoai(),ncc.getChuThich()});
+				dao_ncc.themNCC(ncc);
+				JFrame f= new JFrame();
+				JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+			}
+		});
+		/*
+		 * Image img = new
+		 * ImageIcon(this.getClass().getResource("/add.ico")).getImage();
+		 */
 		btnThem.setBackground(new Color(152, 251, 152));
 		btnThem.setBounds(20, 52, 142, 36);
 		panel_1.add(btnThem);
 		
 		JButton btnNewButton_1 = new JButton("X\u00F3a");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row=table_1.getSelectedRow();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ bị xóa","Chú ý",JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+							int r= table_1.getSelectedRow();
+							tableModel.removeRow(r);
+							xoaNCC();
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vu lòng chọn nhà cung cấp để xóa");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnNewButton_1.setBackground(new Color(152, 251, 152));
 		btnNewButton_1.setBounds(199, 52, 142, 36);
 		panel_1.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("C\u1EADp nh\u1EADt");
+		btnNewButton_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row=table_1.getSelectedRow();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+							String ma= txtMaNCC.getText();
+							String ten=txtTenNCC.getText();
+							String diachi=txtDiaChi.getText();
+							String email= txtEmail.getText();
+							String sodt= txtSDT.getText();
+							String chuThich=txtChuThich.getText();
+							NhaCungCap ncc= new NhaCungCap(ma, ten, diachi, chuThich, sodt, email);
+							dao_ncc.update(ncc);
+							try {
+								loadNCC();
+							} catch (Exception e2) {
+								// TODO: handle exception
+								e2.printStackTrace();
+							}
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vu lòng chọn nhà cung cấp để xóa");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnNewButton_2.setBackground(new Color(152, 251, 152));
 		btnNewButton_2.setBounds(20, 110, 142, 36);
 		panel_1.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("L\u00E0m t\u01B0\u01A1i");
+		btnNewButton_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtMaNCC.setText("");
+				txtTenNCC.setText("");
+				txtDiaChi.setText("");
+				txtEmail.setText("");
+				txtSDT.setText("");
+				txtChuThich.setText("");
+			}
+		});
 		btnNewButton_3.setBackground(new Color(152, 251, 152));
 		btnNewButton_3.setBounds(199, 110, 142, 36);
 		panel_1.add(btnNewButton_3);
@@ -220,31 +324,35 @@ public class UI_NhaCungCap extends JFrame {
 		panel_6.setBounds(10, 306, 1201, 289);
 		panel_4.add(panel_6);
 		panel_6.setLayout(null);
-		String[] header= {"M\u00E3 nh\u00E0 cung c\u1EA5p", "T\u00EAn nh\u00E0 cung c\u1EA5p", "Email", "\u0110\u1ECBa ch\u1EC9", "Ch\u00FA th\u00EDch"};
-		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
-		
+		String[] header= {"Mã Nhà Cung Cấp","Tên Nhà Cung Cấp", "Địa Chỉ", "Email", "Số Điện Thoại","Ghi Chú"};
+		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setToolTipText("");
 		scrollPane.setViewportBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setBounds(10, 10, 1181, 269);
 		panel_6.add(scrollPane);
-		table_1 = new JTable();
+		table_1 = new JTable(tableModel);
+		table_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i=table_1.getSelectedRow();
+				txtMaNCC.setText(tableModel.getValueAt(i, 0).toString());
+				txtTenNCC.setText(tableModel.getValueAt(i, 1).toString());
+				txtDiaChi.setText(tableModel.getValueAt(i, 2).toString());
+				txtEmail.setText(tableModel.getValueAt(i, 3).toString());
+				txtSDT.setText(tableModel.getValueAt(i, 4).toString());
+				txtChuThich.setText(tableModel.getValueAt(i, 5).toString());
+			}
+		});
 		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table_1);
-		table_1.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 nh\u00E0 cung c\u1EA5p", "T\u00EAn nh\u00E0 cung c\u1EA5p", "Email", "\u0110\u1ECBa ch\u1EC9", "Ch\u00FA th\u00EDch"
-			}
-		));
-		table_1.getColumnModel().getColumn(0).setPreferredWidth(120);
-		table_1.getColumnModel().getColumn(1).setPreferredWidth(123);
-		
+		//Load Dữ liệu lên bảng
+		try {
+			loadNCC();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		JPanel panel_7 = new JPanel();
 		panel_7.setBounds(10, 236, 826, 60);
 		panel_4.add(panel_7);
@@ -256,20 +364,42 @@ public class UI_NhaCungCap extends JFrame {
 		lblNewLabel_4.setBounds(10, 14, 190, 27);
 		panel_7.add(lblNewLabel_4);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(209, 18, 228, 19);
-		panel_7.add(textField_4);
-		textField_4.setColumns(10);
+		txtTim = new JTextField();
+		txtTim.setBounds(209, 18, 228, 19);
+		panel_7.add(txtTim);
+		txtTim.setColumns(10);
 		
-		JButton btnNewButton_4 = new JButton("Tìm");
+		JButton btnNewButton_4 = new JButton("btnTim");
+		btnNewButton_4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					timNCC();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnNewButton_4.setBackground(new Color(0, 255, 0));
 		btnNewButton_4.setBounds(469, 17, 85, 21);
 		panel_7.add(btnNewButton_4);
 		
-		JButton btnNewButton_5 = new JButton("Hiển thị tất cả");
-		btnNewButton_5.setBackground(new Color(0, 255, 0));
-		btnNewButton_5.setBounds(566, 17, 134, 21);
-		panel_7.add(btnNewButton_5);
+		JButton btnShow = new JButton("Hiển thị tất cả");
+		btnShow.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					loadNCC();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnShow.setBackground(new Color(0, 255, 0));
+		btnShow.setBounds(566, 17, 134, 21);
+		panel_7.add(btnShow);
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBounds(853, 236, 358, 60);
@@ -282,15 +412,33 @@ public class UI_NhaCungCap extends JFrame {
 		lblNewLabel_5.setBounds(47, 10, 154, 40);
 		panel_8.add(lblNewLabel_5);
 		
-		textField_5 = new JTextField();
-		textField_5.setEnabled(false);
-		textField_5.setBounds(211, 18, 79, 28);
-		panel_8.add(textField_5);
-		textField_5.setColumns(10);
+		txtDem = new JTextField();
+		txtDem.setEnabled(false);
+		txtDem.setBounds(211, 18, 79, 28);
+		panel_8.add(txtDem);
+		txtDem.setColumns(10);
 		table = new JTable();
 	
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setCellSelectionEnabled(true);
 		table.setBounds(10, 267, 1181, -260);
+	}
+	//Hàm load database
+	private void loadNCC() throws SQLException {
+		Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
+		tableModel = dao_ncc.getAllNCC();
+		table_1.setModel(tableModel);
+	}
+	//Hàm xóa 
+	private void xoaNCC() throws SQLException {
+		Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
+		dao_ncc.xoaNCC(txtMaNCC.getText());
+		loadNCC();
+	}
+	//Tìm kiếm
+	private void timNCC() throws SQLException{
+		Dao_NhaCungCap dao_ncc= new Dao_NhaCungCap();
+		tableModel = dao_ncc.timKiem(txtTim.getText());
+		table_1.setModel(tableModel);
 	}
 }
