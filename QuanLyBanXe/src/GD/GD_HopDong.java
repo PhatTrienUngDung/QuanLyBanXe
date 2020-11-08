@@ -22,9 +22,7 @@ public class GD_HopDong extends JFrame {
 	
 	
 	
-	Box c = Box.createVerticalBox();
-	
-	Box c1, c2, c3, c4;
+
 	private JTable table;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -58,6 +56,7 @@ public class GD_HopDong extends JFrame {
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(238, 232, 170));
 		panel.setBounds(10, 10, 1279, 683);
 		getContentPane().add(panel);
 		panel.setLayout(null);
@@ -75,7 +74,7 @@ public class GD_HopDong extends JFrame {
 		panel_1.add(lblQunLHp);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 282, 1259, 391);
+		panel_2.setBounds(10, 482, 1259, 191);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -101,10 +100,76 @@ public class GD_HopDong extends JFrame {
 			}
 		));
 		
+		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(new Color(255, 250, 240));
+		panel_5.setBounds(687, 10, 571, 50);
+		panel.add(panel_5);
+		panel_5.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Nhập mã hợp đồng ");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setBackground(Color.RED);
+		lblNewLabel.setBounds(10, 10, 147, 26);
+		panel_5.add(lblNewLabel);
+		
+		textField_8 = new JTextField();
+		textField_8.setBounds(178, 16, 171, 19);
+		panel_5.add(textField_8);
+		textField_8.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Tìm kiếm");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNewButton.setBounds(388, 13, 91, 21);
+		panel_5.add(btnNewButton);
+		
+		JPanel panel_6 = new JPanel();
+		panel_6.setBackground(new Color(255, 215, 0));
+		panel_6.setBounds(687, 71, 571, 229);
+		panel.add(panel_6);
+		panel_6.setLayout(null);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBounds(77, 58, 433, 133);
+		panel_6.add(panel_4);
+		panel_4.setBackground(new Color(255, 235, 205));
+		panel_4.setLayout(null);
+		
+		JButton btnThm = new JButton("Thêm");
+		btnThm.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnThm.setBackground(Color.WHITE);
+		btnThm.setBounds(74, 27, 100, 21);
+		panel_4.add(btnThm);
+		
+		JButton btnXa = new JButton("Xóa");
+		btnXa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnXa.setBounds(74, 86, 100, 21);
+		panel_4.add(btnXa);
+		
+		JButton btnSa = new JButton("Sửa");
+		btnSa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnSa.setBounds(277, 27, 100, 21);
+		panel_4.add(btnSa);
+		
+		JButton btnNewButton_1 = new JButton("Làm mới");
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNewButton_1.setBounds(277, 86, 100, 21);
+		panel_4.add(btnNewButton_1);
+		
+		JLabel lblChcNng = new JLabel("Chức năng");
+		lblChcNng.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblChcNng.setBounds(253, 23, 131, 13);
+		panel_6.add(lblChcNng);
+		
+		JPanel panel_7 = new JPanel();
+		panel_7.setBackground(new Color(238, 232, 170));
+		panel_7.setBounds(10, 70, 667, 230);
+		panel.add(panel_7);
+		panel_7.setLayout(null);
+		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(10, 37, 634, 183);
+		panel_7.add(panel_3);
 		panel_3.setBackground(new Color(255, 228, 181));
-		panel_3.setBounds(10, 71, 667, 201);
-		panel.add(panel_3);
 		panel_3.setLayout(null);
 		
 		JLabel lblMHpng = new JLabel("Mã hợp đồng");
@@ -187,65 +252,10 @@ public class GD_HopDong extends JFrame {
 		panel_3.add(textField_7);
 		textField_7.setColumns(10);
 		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBackground(new Color(255, 250, 240));
-		panel_5.setBounds(687, 10, 571, 50);
-		panel.add(panel_5);
-		panel_5.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Nhập mã hợp đồng ");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBackground(Color.RED);
-		lblNewLabel.setBounds(10, 10, 147, 26);
-		panel_5.add(lblNewLabel);
-		
-		textField_8 = new JTextField();
-		textField_8.setBounds(178, 16, 171, 19);
-		panel_5.add(textField_8);
-		textField_8.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Tìm kiếm");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnNewButton.setBounds(388, 13, 91, 21);
-		panel_5.add(btnNewButton);
-		
-		JPanel panel_6 = new JPanel();
-		panel_6.setBackground(new Color(255, 215, 0));
-		panel_6.setBounds(687, 71, 571, 201);
-		panel.add(panel_6);
-		panel_6.setLayout(null);
-		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(77, 58, 433, 133);
-		panel_6.add(panel_4);
-		panel_4.setBackground(new Color(255, 235, 205));
-		panel_4.setLayout(null);
-		
-		JButton btnThm = new JButton("Thêm");
-		btnThm.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnThm.setBackground(Color.WHITE);
-		btnThm.setBounds(74, 27, 100, 21);
-		panel_4.add(btnThm);
-		
-		JButton btnXa = new JButton("Xóa");
-		btnXa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnXa.setBounds(74, 86, 100, 21);
-		panel_4.add(btnXa);
-		
-		JButton btnSa = new JButton("Sửa");
-		btnSa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSa.setBounds(277, 27, 100, 21);
-		panel_4.add(btnSa);
-		
-		JButton btnNewButton_1 = new JButton("Làm mới");
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnNewButton_1.setBounds(277, 86, 100, 21);
-		panel_4.add(btnNewButton_1);
-		
-		JLabel lblChcNng = new JLabel("Chức năng");
-		lblChcNng.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblChcNng.setBounds(265, 23, 119, 13);
-		panel_6.add(lblChcNng);
+		JLabel lblNewLabel_1 = new JLabel("Thông tin hợp đồng");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_1.setBounds(63, 10, 185, 24);
+		panel_7.add(lblNewLabel_1);
 		
 	}
 }

@@ -62,6 +62,7 @@ public class GD_NhanVien extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(152, 251, 152));
 		panel.setBounds(10, 10, 1279, 686);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -105,12 +106,13 @@ public class GD_NhanVien extends JFrame {
 		));
 		
 		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(new Color(135, 206, 250));
 		panel_5.setBounds(732, 70, 537, 268);
 		panel.add(panel_5);
 		panel_5.setLayout(null);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBackground(new Color(230, 230, 250));
+		panel_4.setBackground(new Color(0, 255, 255));
 		panel_4.setBounds(10, 115, 517, 143);
 		panel_5.add(panel_4);
 		panel_4.setLayout(null);
@@ -135,18 +137,13 @@ public class GD_NhanVien extends JFrame {
 		btnNewButton_3.setBounds(364, 97, 104, 21);
 		panel_4.add(btnNewButton_3);
 		
-		JPanel panel_7 = new JPanel();
-		panel_7.setBackground(new Color(230, 230, 250));
-		panel_7.setBounds(10, 11, 517, 94);
-		panel_5.add(panel_7);
-		panel_7.setLayout(null);
-		
-		JLabel lblChcNng_1 = new JLabel("Chức năng");
-		lblChcNng_1.setBounds(217, 33, 100, 17);
-		lblChcNng_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		panel_7.add(lblChcNng_1);
+		JLabel lblChcNng = new JLabel("Chức năng");
+		lblChcNng.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblChcNng.setBounds(222, 59, 88, 32);
+		panel_5.add(lblChcNng);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(175, 238, 238));
 		panel_3.setBounds(10, 70, 712, 268);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
@@ -163,7 +160,7 @@ public class GD_NhanVien extends JFrame {
 		panel_6.add(lblThngTinNhn);
 		
 		JPanel panel_3_1 = new JPanel();
-		panel_3_1.setBackground(new Color(230, 230, 250));
+		panel_3_1.setBackground(new Color(0, 255, 255));
 		panel_3_1.setLayout(null);
 		panel_3_1.setBounds(10, 45, 692, 198);
 		panel_3.add(panel_3_1);
