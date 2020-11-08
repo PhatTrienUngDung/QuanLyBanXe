@@ -9,13 +9,24 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Insets;
 
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.border.MatteBorder;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLClientInfoException;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.UIManager;
 import javax.swing.JTextArea;
@@ -29,6 +40,10 @@ import entity.NhaCungCap;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class UI_NhaCungCap extends JFrame {
@@ -101,8 +116,9 @@ public class UI_NhaCungCap extends JFrame {
 		panel.setLayout(null);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(50, 205, 50));
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBounds(10, 10, 805, 21);
+		panel_2.setBounds(0, 0, 826, 31);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -114,7 +130,7 @@ public class UI_NhaCungCap extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_3.setBackground(new Color(245, 245, 245));
-		panel_3.setBounds(10, 33, 805, 122);
+		panel_3.setBounds(0, 27, 826, 140);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
 		
@@ -189,48 +205,64 @@ public class UI_NhaCungCap extends JFrame {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(853, 51, 358, 167);
 		panel_4.add(panel_1);
-		panel_1.setBackground(new Color(220, 220, 220));
-		panel_1.setBorder(new MatteBorder(1, 6, 1, 1, (Color) UIManager.getColor("CheckBox.focus")));
+		panel_1.setBackground(new Color(255, 147, 0));
+		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panel_1.setLayout(null);
 		
 		JPanel panel_2_1 = new JPanel();
-		panel_2_1.setBounds(10, 10, 338, 21);
+		panel_2_1.setBackground(new Color(255, 204, 0));
+		panel_2_1.setBounds(0, 0, 358, 31);
 		panel_1.add(panel_2_1);
 		panel_2_1.setLayout(null);
 		panel_2_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Ch\u1EE9c n\u0103ng");
+		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2_1.setBounds(10, 0, 210, 21);
+		lblNewLabel_2_1.setBounds(72, 0, 210, 21);
 		panel_2_1.add(lblNewLabel_2_1);
 		
 		JButton btnThem = new JButton("Th\u00EAm");
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnThem.setIcon(new ImageIcon("img1/add.png"));
+		btnThem.setToolTipText("");
 		btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String ma= txtMaNCC.getText();
-				String ten=txtTenNCC.getText();
-				String diachi=txtDiaChi.getText();
-				String email= txtEmail.getText();
-				String sodt= txtSDT.getText();
-				String chuThich=txtChuThich.getText();
-				NhaCungCap ncc= new NhaCungCap(ma, ten, diachi, chuThich, sodt, email);
-				tableModel.addRow(new Object[] {ncc.getMaNhaCungCap(),ncc.getTenNhaCungCap(),ncc.getDiaChi(),ncc.getEmail(),ncc.getSoDienThoai(),ncc.getChuThich()});
-				dao_ncc.themNCC(ncc);
-				JFrame f= new JFrame();
-				JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+				try {
+					String ma= txtMaNCC.getText();
+					String ten=txtTenNCC.getText();
+					String diachi=txtDiaChi.getText();
+					String email= txtEmail.getText();
+					String sodt= txtSDT.getText();
+					String chuThich=txtChuThich.getText();
+					NhaCungCap ncc= new NhaCungCap(ma, ten, diachi, chuThich, sodt, email);
+					tableModel.addRow(new Object[] {ncc.getMaNhaCungCap(),ncc.getTenNhaCungCap(),ncc.getDiaChi(),ncc.getEmail(),ncc.getSoDienThoai(),ncc.getChuThich()});
+					dao_ncc.themNCC(ncc);
+					JFrame f= new JFrame();
+					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+					dem();
+				} catch (Exception s) {
+					s.getMessage();
+				}
+				
 			}
 		});
 		/*
 		 * Image img = new
 		 * ImageIcon(this.getClass().getResource("/add.ico")).getImage();
 		 */
-		btnThem.setBackground(new Color(152, 251, 152));
+		btnThem.setBackground(Color.ORANGE);
 		btnThem.setBounds(20, 52, 142, 36);
 		panel_1.add(btnThem);
 		
-		JButton btnNewButton_1 = new JButton("X\u00F3a");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
+		JButton btnXoa = new JButton("X\u00F3a");
+		btnXoa.setIcon(new ImageIcon("G:\\HKI-Nam 3\\PTUD\\QuanLyBanXe\\branches\\Develop\\img1\\Close-2-icon.png"));
+		
+		btnXoa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row=table_1.getSelectedRow();
@@ -242,6 +274,7 @@ public class UI_NhaCungCap extends JFrame {
 							int r= table_1.getSelectedRow();
 							tableModel.removeRow(r);
 							xoaNCC();
+							dem();
 						}
 					}
 					else
@@ -251,12 +284,13 @@ public class UI_NhaCungCap extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBackground(new Color(152, 251, 152));
-		btnNewButton_1.setBounds(199, 52, 142, 36);
-		panel_1.add(btnNewButton_1);
+		btnXoa.setBackground(Color.ORANGE);
+		btnXoa.setBounds(199, 52, 142, 36);
+		panel_1.add(btnXoa);
 		
-		JButton btnNewButton_2 = new JButton("C\u1EADp nh\u1EADt");
-		btnNewButton_2.addMouseListener(new MouseAdapter() {
+		JButton btnCapNhat = new JButton("C\u1EADp nh\u1EADt");
+		btnCapNhat.setIcon(new ImageIcon("img1/update.png"));
+		btnCapNhat.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row=table_1.getSelectedRow();
@@ -288,12 +322,13 @@ public class UI_NhaCungCap extends JFrame {
 				}
 			}
 		});
-		btnNewButton_2.setBackground(new Color(152, 251, 152));
-		btnNewButton_2.setBounds(20, 110, 142, 36);
-		panel_1.add(btnNewButton_2);
+		btnCapNhat.setBackground(Color.ORANGE);
+		btnCapNhat.setBounds(20, 110, 142, 36);
+		panel_1.add(btnCapNhat);
 		
-		JButton btnNewButton_3 = new JButton("L\u00E0m t\u01B0\u01A1i");
-		btnNewButton_3.addMouseListener(new MouseAdapter() {
+		JButton btnXoaTrang = new JButton("L\u00E0m t\u01B0\u01A1i");
+		btnXoaTrang.setIcon(new ImageIcon("img1/refresh.png"));
+		btnXoaTrang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				txtMaNCC.setText("");
@@ -304,9 +339,9 @@ public class UI_NhaCungCap extends JFrame {
 				txtChuThich.setText("");
 			}
 		});
-		btnNewButton_3.setBackground(new Color(152, 251, 152));
-		btnNewButton_3.setBounds(199, 110, 142, 36);
-		panel_1.add(btnNewButton_3);
+		btnXoaTrang.setBackground(Color.ORANGE);
+		btnXoaTrang.setBounds(199, 110, 142, 36);
+		panel_1.add(btnXoaTrang);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(new Color(192, 192, 192));
@@ -412,17 +447,24 @@ public class UI_NhaCungCap extends JFrame {
 		lblNewLabel_5.setBounds(47, 10, 154, 40);
 		panel_8.add(lblNewLabel_5);
 		
+		
 		txtDem = new JTextField();
-		txtDem.setEnabled(false);
+		txtDem.setEditable(false);
+		txtDem.setForeground(Color.RED);
+		txtDem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtDem.setBackground(new Color(255, 255, 255));
+		txtDem.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDem.setBounds(211, 18, 79, 28);
 		panel_8.add(txtDem);
 		txtDem.setColumns(10);
+		dem();
 		table = new JTable();
 	
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setCellSelectionEnabled(true);
 		table.setBounds(10, 267, 1181, -260);
 	}
+	//
 	//Hàm load database
 	private void loadNCC() throws SQLException {
 		Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
@@ -440,5 +482,20 @@ public class UI_NhaCungCap extends JFrame {
 		Dao_NhaCungCap dao_ncc= new Dao_NhaCungCap();
 		tableModel = dao_ncc.timKiem(txtTim.getText());
 		table_1.setModel(tableModel);
+	}
+	public void dem() {
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			String sql = "select count(maNhaCungCap) from nhaCungCap ";
+			PreparedStatement pst=con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				String count=rs.getString(1);
+				txtDem.setText(count);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 }

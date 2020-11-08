@@ -46,6 +46,8 @@ import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JCalendar;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JTabbedPane;
 
 public class UI_ThongKe extends JFrame {
 
@@ -113,32 +115,11 @@ public class UI_ThongKe extends JFrame {
         dataset.setValue("Nhóm trên 60", 44);
         JFreeChart pieChart = ChartFactory.createPieChart("Thống kê xe", dataset, true, true, true);
         PiePlot p= (PiePlot) pieChart.getPlot();
-        
-        
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(10, 312, 805, 356);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		ChartPanel chartPanel= new ChartPanel(jchart);
-		chartPanel.setBounds(10, 10, 782, 333);
-		panel.add(chartPanel);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBounds(832, 312, 411, 356);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		ChartPanel chartPanel1= new ChartPanel(pieChart);
-		chartPanel1.setBounds(10, 10, 391, 333);
-		panel_1.add(chartPanel1);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(255, 255, 255));
 		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		panel_2.setBounds(10, 159, 607, 143);
+		panel_2.setBounds(10, 130, 607, 143);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -188,7 +169,7 @@ public class UI_ThongKe extends JFrame {
 		panel_2_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panel_2_1.setBackground(new Color(255, 255, 255));
 		panel_2_1.setLayout(null);
-		panel_2_1.setBounds(636, 159, 607, 143);
+		panel_2_1.setBounds(636, 130, 607, 143);
 		contentPane.add(panel_2_1);
 		
 		textField_3 = new JTextField();
@@ -251,5 +232,35 @@ public class UI_ThongKe extends JFrame {
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setBounds(284, 159, 45, 13);
 		contentPane.add(lblNewLabel);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		tabbedPane.setBackground(Color.WHITE);
+		tabbedPane.setBounds(17, 302, 1226, 401);
+		contentPane.add(tabbedPane);
+		
+		
+		JPanel panel = new JPanel();
+		String html1 = "<html><body style ='width:100px;height:10px;border-radius:25px;'>";
+        String html2 =  "</body></html>";
+		 ImageIcon tab1Icon = new ImageIcon(
+		            this.getClass().getResource("/Barchar.png"));
+		tabbedPane.addTab("Thống kê xe",tab1Icon, panel, null);
+		tabbedPane.setBackgroundAt(0, Color.RED);
+		tabbedPane.setForeground(Color.BLACK);
+		tabbedPane.setUI(new CustomTabbedPaneUI());
+		panel.setBackground(Color.WHITE);
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setLayout(null);
+		ChartPanel chartPanel= new ChartPanel(jchart);
+		chartPanel.setBounds(10, 10, 782, 333);
+		panel.add(chartPanel);
+		ChartPanel chartPanel1= new ChartPanel(pieChart);
+		chartPanel1.setBounds(803, 10, 391, 333);
+		panel.add(chartPanel1);
+		
+		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addTab("New tab", tab1Icon, tabbedPane_1, null);
 	}
 }

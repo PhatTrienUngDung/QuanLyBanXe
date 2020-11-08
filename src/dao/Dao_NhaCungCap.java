@@ -79,7 +79,7 @@ public class Dao_NhaCungCap {
 		String sql = "delete nhaCungCap where maNhaCungCap='" + maNCC + "'";
 		PreparedStatement pstm = a.prepareStatement(sql);
 		if (pstm.executeUpdate() > 0) {
-			JOptionPane.showMessageDialog(null, "Xóa thành công nhà cung cấp" + maNCC);
+			JOptionPane.showMessageDialog(null, "Xóa thành công nhà cung cấp " + maNCC);
 		}
 	}
 //Cập nhật dữ liệu
