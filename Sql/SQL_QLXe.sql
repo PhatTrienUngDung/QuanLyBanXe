@@ -119,7 +119,7 @@ create table chiTietPhieuNhap(
 
 
 
-
+go
 
 insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE001','Vision','LX001','Đỏ','honda','150','20','45000000','2020-10-1','1',' ')
 insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE002','Vision','LX001','Vàng','honda','150','22','45000000','2020-1-21','1',' ')
