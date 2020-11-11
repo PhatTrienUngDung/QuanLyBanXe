@@ -9,7 +9,7 @@ public class NhanVien {
 	private Date ngaySinh;
 	private String diaChi;
 	private String email;
-	private String chucVu;
+	private ChucVu chucVu;
 	private String sdt;
 	private Date ngayVaoLam;
 	public String getMaNhanVien() {
@@ -48,10 +48,10 @@ public class NhanVien {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getChucVu() {
+	public ChucVu getChucVu() {
 		return chucVu;
 	}
-	public void setChucVu(String chucVu) {
+	public void setChucVu(ChucVu chucVu) {
 		this.chucVu = chucVu;
 	}
 	public String getSdt() {
@@ -71,7 +71,7 @@ public class NhanVien {
 		// TODO Auto-generated constructor stub
 	}
 	public NhanVien(String maNhanVien, String tenNhanVien, String gioiTinh, Date ngaySinh, String diaChi, String email,
-			String chucVu, String sdt, Date ngayVaoLam) {
+			ChucVu chucVu, String sdt, Date ngayVaoLam) {
 		super();
 		this.maNhanVien = maNhanVien;
 		this.tenNhanVien = tenNhanVien;

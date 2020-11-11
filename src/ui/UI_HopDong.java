@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class UI_HopDong extends JFrame {
@@ -72,18 +73,18 @@ getContentPane().setLayout(null);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(238, 232, 170));
+		panel.setBackground(new Color(230, 230, 250));
 		panel.setBounds(10, 10, 1279, 683);
 		getContentPane().add(panel);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(10, 10, 1269, 50);
-		panel_1.setBackground(new Color(255, 192, 203));
+		panel_1.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblQLHD = new JLabel("Quản lý hợp đồng");
-		lblQLHD.setBounds(583, 10, 154, 35);
-		lblQLHD.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblQLHD.setBackground(new Color(255, 69, 0));
+		lblQLHD.setBounds(529, 10, 189, 35);
+		lblQLHD.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblQLHD.setBackground(Color.WHITE);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(10, 340, 571, 50);
@@ -97,7 +98,8 @@ getContentPane().setLayout(null);
 		
 		
 		JButton btntimKiem = new JButton("Tìm kiếm");
-		btntimKiem.setBounds(390, 16, 91, 21);
+		btntimKiem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/search1.png")));
+		btntimKiem.setBounds(390, 9, 120, 34);
 		btntimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JPanel panel_6 = new JPanel();
@@ -105,20 +107,25 @@ getContentPane().setLayout(null);
 		panel_6.setBackground(new Color(255, 215, 0));
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(78, 64, 433, 133);
-		panel_4.setBackground(new Color(255, 235, 205));
+		panel_4.setBounds(0, 64, 571, 165);
+		
+		panel_4.setBackground(new Color(244, 164, 96));
 		
 		JButton btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnThem.setBackground(Color.WHITE);
+		
 		
 		JButton btnXoa = new JButton("Xóa");
+		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnSua = new JButton("Sửa");
+		btnSua.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Settings-icon.png")));
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnLamMoi = new JButton("Làm mới");
+		btnLamMoi.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JLabel lblChucNang = new JLabel("Chức năng");
@@ -126,14 +133,96 @@ getContentPane().setLayout(null);
 		lblChucNang.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		JPanel panel_7 = new JPanel();
-		panel_7.setBounds(10, 70, 667, 230);
-		panel_7.setBackground(new Color(250, 250, 210));
+		panel_7.setBounds(10, 70, 667, 41);
+		panel_7.setBackground(new Color(255, 215, 0));
 		panel_7.setLayout(null);
 		
+		
+		
+		JLabel lblTTHD = new JLabel("Thông tin hợp đồng");
+		lblTTHD.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTTHD.setBounds(63, 10, 185, 24);
+		panel_7.add(lblTTHD);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 448, 1239, 235);
+		
+		table = new JTable();
+		table.setBackground(new Color(255, 255, 255));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"M\u00E3 H\u1EE3p \u0110\u1ED3ng", "M\u00E3 Kh\u00E1ch H\u00E0ng", "T\u00EAn Kh\u00E1ch H\u00E0ng", "M\u00E3 Nh\u00E2n Vi\u00EAn", "T\u00EAn Nh\u00E2n Vi\u00EAn", "M\u00E3 Xe", "T\u00EAn xe", "Ng\u00E0y L\u1EADp"
+			}
+		));
+		
+		textField = new JTextField();
+		textField.setBounds(175, 19, 148, 19);
+		textField.setColumns(10);
+		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
+		gl_panel_4.setHorizontalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addGap(74)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+					.addGap(156)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnSua, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+						.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
+					.addGap(83))
+		);
+		gl_panel_4.setVerticalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addGap(27)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnThem)
+						.addComponent(btnSua, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(26)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+					.addGap(24))
+		);
+		panel_4.setLayout(gl_panel_4);
+		panel.setLayout(null);
+		panel.add(panel_5);
+		panel_5.setLayout(null);
+		panel_5.add(lblNhapHD);
+		panel_5.add(textField);
+		panel_5.add(btntimKiem);
+		panel.add(scrollPane);
+		panel.add(panel_7);
+		panel.add(panel_6);
+		panel_6.setLayout(null);
+		panel_6.add(panel_4);
+		panel_6.add(lblChucNang);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+		panel_1.add(lblQLHD);
+		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(10, 37, 634, 183);
-		panel_7.add(panel_3);
-		panel_3.setBackground(new Color(255, 228, 181));
+		panel_3.setBounds(10, 107, 667, 193);
+		panel.add(panel_3);
+		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setLayout(null);
 		
 		JLabel lblmaHD = new JLabel("Mã hợp đồng");
@@ -229,88 +318,6 @@ getContentPane().setLayout(null);
 		txtchuThich.setBounds(474, 132, 96, 19);
 		panel_3.add(txtchuThich);
 		txtchuThich.setColumns(10);
-		
-		
-		
-		JLabel lblTTHD = new JLabel("Thông tin hợp đồng");
-		lblTTHD.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTTHD.setBounds(63, 10, 185, 24);
-		panel_7.add(lblTTHD);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 448, 1239, 235);
-		
-		table = new JTable();
-		table.setBackground(new Color(255, 248, 220));
-		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 H\u1EE3p \u0110\u1ED3ng", "M\u00E3 Kh\u00E1ch H\u00E0ng", "T\u00EAn Kh\u00E1ch H\u00E0ng", "M\u00E3 Nh\u00E2n Vi\u00EAn", "T\u00EAn Nh\u00E2n Vi\u00EAn", "M\u00E3 Xe", "T\u00EAn xe", "Ng\u00E0y L\u1EADp"
-			}
-		));
-		
-		textField = new JTextField();
-		textField.setBounds(175, 19, 148, 19);
-		textField.setColumns(10);
-		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
-		gl_panel_4.setHorizontalGroup(
-			gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup()
-					.addGap(74)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(103)
-							.addComponent(btnSua, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addComponent(btnXoa, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(103)
-							.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))))
-		);
-		gl_panel_4.setVerticalGroup(
-			gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup()
-					.addGap(27)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSua, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
-					.addGap(38)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnXoa, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)))
-		);
-		panel_4.setLayout(gl_panel_4);
-		panel.setLayout(null);
-		panel.add(panel_5);
-		panel_5.setLayout(null);
-		panel_5.add(lblNhapHD);
-		panel_5.add(textField);
-		panel_5.add(btntimKiem);
-		panel.add(scrollPane);
-		panel.add(panel_7);
-		panel.add(panel_6);
-		panel_6.setLayout(null);
-		panel_6.add(panel_4);
-		panel_6.add(lblChucNang);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
-		panel_1.add(lblQLHD);
 		
 	}
 }

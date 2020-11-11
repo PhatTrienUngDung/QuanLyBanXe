@@ -23,8 +23,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -54,6 +57,8 @@ public class UI_NhanVien extends JFrame {
 				try {
 					UI_NhanVien frame = new UI_NhanVien();
 					frame.setVisible(true);
+					Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+					frame.setBounds(0, 0, 1900, screen.height);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -77,7 +82,7 @@ public class UI_NhanVien extends JFrame {
 		contentPane.add(panel);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(176, 224, 230));
+		panel_1.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblQunLNhn = new JLabel("Qu\u1EA3n l\u00FD nh\u00E2n vi\u00EAn");
 		lblQunLNhn.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -114,25 +119,25 @@ public class UI_NhanVien extends JFrame {
 		));
 		
 		JPanel panel_5 = new JPanel();
-		panel_5.setBackground(new Color(240, 248, 255));
+		panel_5.setBackground(new Color(255, 215, 0));
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBackground(new Color(220, 220, 220));
+		panel_4.setBackground(new Color(255, 127, 80));
 		
 		JButton btnThem = new JButton("Thêm");
-		btnThem.setIcon(new ImageIcon("C:\\Quản lý bán xe\\branches\\Develop\\img1\\add.png"));
+		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnXoa = new JButton("Xóa");
-		btnXoa.setIcon(new ImageIcon("C:\\Quản lý bán xe\\branches\\Develop\\icon\\delete.png"));
+		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnSua = new JButton("Sửa");
-		btnSua.setIcon(new ImageIcon("C:\\Quản lý bán xe\\branches\\Develop\\img1\\update.png"));
+		btnSua.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Settings-icon.png")));
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnLamMoi = new JButton("Làm mới");
-		btnLamMoi.setIcon(new ImageIcon("C:\\Quản lý bán xe\\branches\\Develop\\icon\\Clear-icon.png"));
+		btnLamMoi.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JLabel lblChucNang = new JLabel("Chức năng");
@@ -155,7 +160,7 @@ public class UI_NhanVien extends JFrame {
 		
 		JPanel panel_3_1 = new JPanel();
 		panel_3_1.setBackground(new Color(211, 211, 211));
-		panel_3_1.setBounds(10, 45, 692, 201);
+		panel_3_1.setBounds(10, 45, 692, 223);
 		panel_3.add(panel_3_1);
 		
 		JLabel lblmaNV = new JLabel("Mã Nhân Viên");
@@ -329,7 +334,7 @@ public class UI_NhanVien extends JFrame {
 		
 		
 		JPanel panel_8 = new JPanel();
-		panel_8.setBackground(new Color(255, 240, 245));
+		panel_8.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNhpThngTin = new JLabel("Nhập mã nhân viên");
 		lblNhpThngTin.setBackground(new Color(255, 228, 225));
@@ -339,6 +344,7 @@ public class UI_NhanVien extends JFrame {
 		txtTimKiem.setColumns(10);
 		
 		JButton btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/search1.png")));
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JLabel lblNewLabel_9 = new JLabel("");
@@ -387,7 +393,7 @@ public class UI_NhanVien extends JFrame {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(txtTimKiem, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
 					.addGap(35)
-					.addComponent(btnTimKiem, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnTimKiem, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblNewLabel_9, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
 		);
@@ -410,20 +416,19 @@ public class UI_NhanVien extends JFrame {
 		GroupLayout gl_panel_5 = new GroupLayout(panel_5);
 		gl_panel_5.setHorizontalGroup(
 			gl_panel_5.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_5.createSequentialGroup()
-					.addGap(222)
-					.addComponent(lblChucNang, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_panel_5.createSequentialGroup()
-					.addGap(10)
-					.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 496, GroupLayout.PREFERRED_SIZE))
+				.addGroup(Alignment.TRAILING, gl_panel_5.createSequentialGroup()
+					.addContainerGap(225, Short.MAX_VALUE)
+					.addComponent(lblChucNang, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+					.addGap(203))
+				.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
 		);
 		gl_panel_5.setVerticalGroup(
 			gl_panel_5.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5.createSequentialGroup()
-					.addGap(59)
+					.addGap(21)
 					.addComponent(lblChucNang, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addGap(24)
-					.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
 		);
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 		gl_panel_4.setHorizontalGroup(
@@ -433,22 +438,23 @@ public class UI_NhanVien extends JFrame {
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_4.createSequentialGroup()
 							.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-							.addGap(113)
+							.addPreferredGap(ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
 							.addComponent(btnSua, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_4.createSequentialGroup()
 							.addComponent(btnXoa, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-							.addGap(113)
-							.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))))
+							.addPreferredGap(ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+							.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
+					.addGap(80))
 		);
 		gl_panel_4.setVerticalGroup(
 			gl_panel_4.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_4.createSequentialGroup()
 					.addGap(33)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSua, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
-					.addGap(17)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
+					.addGap(40)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnXoa, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)))
 		);
