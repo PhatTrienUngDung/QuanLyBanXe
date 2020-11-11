@@ -1,3 +1,11 @@
+<<<<<<< .mine
+package entity;
+
+public class ChucVu {
+
+}
+||||||| .r0
+=======
 package entity;
 
 public class ChucVu {
@@ -26,3 +34,4 @@ public class ChucVu {
 	}
 	
 }
+>>>>>>> .r26
