@@ -15,11 +15,13 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.border.MatteBorder;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -91,8 +93,10 @@ public class UI_NhaCungCap extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1267, 740);
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(100, 100, screen.width, screen.height);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.textHighlightText);
 		contentPane.setForeground(Color.RED);
@@ -101,90 +105,77 @@ public class UI_NhaCungCap extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panel_4.setBackground(UIManager.getColor("window"));
-		panel_4.setBounds(10, 56, 1221, 618);
+		panel_4.setBounds(0, 10, 1522, 757);
 		contentPane.add(panel_4);
 		panel_4.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 51, 826, 167);
+		panel.setBounds(10, 116, 1100, 167);
 		panel_4.add(panel);
 		panel.setForeground(UIManager.getColor("CheckBox.focus"));
 		panel.setBackground(new Color(220, 220, 220));
 		panel.setBorder(new LineBorder(new Color(130, 135, 144)));
 		panel.setLayout(null);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(50, 205, 50));
-		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBounds(0, 0, 826, 31);
-		panel.add(panel_2);
-		panel_2.setLayout(null);
-		
-		JLabel lblNewLabel_2 = new JLabel("Th\u00F4ng tin nh\u00E0 cung c\u1EA5p");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2.setBounds(10, 0, 210, 21);
-		panel_2.add(lblNewLabel_2);
-		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_3.setBackground(new Color(245, 245, 245));
-		panel_3.setBounds(0, 27, 826, 140);
+		panel_3.setBounds(0, 38, 1100, 129);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("M\u00E3 Nh\u00E0 Cung C\u1EA5p");
 		lblNewLabel.setBounds(10, 10, 123, 21);
 		panel_3.add(lblNewLabel);
-		lblNewLabel.setForeground(new Color(0, 128, 0));
+		lblNewLabel.setForeground(Color.BLACK);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JLabel lblTnNhCung = new JLabel("T\u00EAn Nh\u00E0 Cung C\u1EA5p");
 		lblTnNhCung.setBounds(10, 41, 123, 21);
 		panel_3.add(lblTnNhCung);
-		lblTnNhCung.setForeground(new Color(0, 128, 0));
+		lblTnNhCung.setForeground(Color.BLACK);
 		lblTnNhCung.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JLabel lblNewLabel_1 = new JLabel("Ch\u00FA Th\u00EDch");
-		lblNewLabel_1.setBounds(446, 72, 89, 13);
+		lblNewLabel_1.setBounds(571, 72, 89, 21);
 		panel_3.add(lblNewLabel_1);
-		lblNewLabel_1.setForeground(new Color(0, 128, 0));
+		lblNewLabel_1.setForeground(Color.DARK_GRAY);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtMaNCC = new JTextField();
-		txtMaNCC.setBounds(146, 11, 237, 19);
+		txtMaNCC.setBounds(146, 11, 294, 19);
 		panel_3.add(txtMaNCC);
 		txtMaNCC.setColumns(10);
 		
 		txtTenNCC = new JTextField();
-		txtTenNCC.setBounds(146, 42, 237, 19);
+		txtTenNCC.setBounds(146, 42, 294, 19);
 		panel_3.add(txtTenNCC);
 		txtTenNCC.setColumns(10);
 		
 		txtEmail = new JTextField();
-		txtEmail.setBounds(555, 11, 237, 19);
+		txtEmail.setBounds(704, 11, 294, 19);
 		panel_3.add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		txtDiaChi = new JTextField();
-		txtDiaChi.setBounds(555, 41, 237, 19);
+		txtDiaChi.setBounds(704, 42, 294, 19);
 		panel_3.add(txtDiaChi);
 		txtDiaChi.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(446, 10, 123, 21);
+		lblEmail.setBounds(571, 10, 123, 21);
 		panel_3.add(lblEmail);
-		lblEmail.setForeground(new Color(0, 128, 0));
+		lblEmail.setForeground(Color.BLACK);
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JLabel lblaCh = new JLabel("\u0110\u1ECBa Ch\u1EC9");
-		lblaCh.setBounds(446, 41, 123, 21);
+		lblaCh.setBounds(571, 41, 89, 21);
 		panel_3.add(lblaCh);
-		lblaCh.setForeground(new Color(0, 128, 0));
+		lblaCh.setForeground(Color.DARK_GRAY);
 		lblaCh.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JTextArea txtChuThich = new JTextArea();
-		txtChuThich.setBounds(555, 72, 237, 35);
+		txtChuThich.setBounds(704, 76, 294, 35);
 		panel_3.add(txtChuThich);
 		txtChuThich.setToolTipText("");
 		txtChuThich.setBackground(SystemColor.controlHighlight);
@@ -192,18 +183,23 @@ public class UI_NhaCungCap extends JFrame {
 		txtChuThich.setWrapStyleWord(true);
 		
 		JLabel lblSo = new JLabel("Số Điện Thoại");
-		lblSo.setForeground(new Color(0, 128, 0));
-		lblSo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblSo.setBounds(10, 72, 123, 21);
+		lblSo.setForeground(Color.BLACK);
+		lblSo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panel_3.add(lblSo);
 		
 		txtSDT = new JTextField();
+		txtSDT.setBounds(146, 73, 294, 19);
 		txtSDT.setColumns(10);
-		txtSDT.setBounds(146, 73, 237, 19);
 		panel_3.add(txtSDT);
 		
+		JLabel lblNewLabel_2 = new JLabel("Thông Tin Nhà Cung Cấp ");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_2.setBounds(10, 0, 425, 39);
+		panel.add(lblNewLabel_2);
+		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(853, 51, 358, 167);
+		panel_1.setBounds(1134, 116, 358, 167);
 		panel_4.add(panel_1);
 		panel_1.setBackground(new Color(255, 147, 0));
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -217,9 +213,10 @@ public class UI_NhaCungCap extends JFrame {
 		panel_2_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Ch\u1EE9c n\u0103ng");
+		lblNewLabel_2_1.setIcon(new ImageIcon("img1\\Settings-icon.png"));
 		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2_1.setBounds(72, 0, 210, 21);
+		lblNewLabel_2_1.setBounds(72, 0, 210, 31);
 		panel_2_1.add(lblNewLabel_2_1);
 		
 		JButton btnThem = new JButton("Th\u00EAm");
@@ -344,19 +341,22 @@ public class UI_NhaCungCap extends JFrame {
 		panel_1.add(btnXoaTrang);
 		
 		JPanel panel_5 = new JPanel();
-		panel_5.setBackground(new Color(192, 192, 192));
-		panel_5.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		panel_5.setBounds(0, 0, 1221, 28);
+		panel_5.setBackground(Color.WHITE);
+		panel_5.setBounds(0, 10, 1522, 72);
 		panel_4.add(panel_5);
 		panel_5.setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("QU\u1EA2N L\u00DD NH\u00C0 CUNG C\u1EA4P");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_3.setBounds(43, 0, 353, 28);
+		lblNewLabel_3.setForeground(new Color(218, 165, 32));
+		lblNewLabel_3.setBackground(new Color(255, 255, 255));
+		lblNewLabel_3.setIcon(new ImageIcon("img1/Generate-tables-icon.png"));
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblNewLabel_3.setBounds(43, 0, 455, 72);
 		panel_5.add(lblNewLabel_3);
 		
 		JPanel panel_6 = new JPanel();
-		panel_6.setBounds(10, 306, 1201, 289);
+		panel_6.setBackground(Color.WHITE);
+		panel_6.setBounds(10, 363, 1482, 384);
 		panel_4.add(panel_6);
 		panel_6.setLayout(null);
 		String[] header= {"Mã Nhà Cung Cấp","Tên Nhà Cung Cấp", "Địa Chỉ", "Email", "Số Điện Thoại","Ghi Chú"};
@@ -364,7 +364,7 @@ public class UI_NhaCungCap extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setToolTipText("");
 		scrollPane.setViewportBorder(new LineBorder(new Color(0, 0, 0)));
-		scrollPane.setBounds(10, 10, 1181, 269);
+		scrollPane.setBounds(0, 0, 1483, 378);
 		panel_6.add(scrollPane);
 		table_1 = new JTable(tableModel);
 		table_1.addMouseListener(new MouseAdapter() {
@@ -379,7 +379,7 @@ public class UI_NhaCungCap extends JFrame {
 				txtChuThich.setText(tableModel.getValueAt(i, 5).toString());
 			}
 		});
-		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table_1.setBorder(null);
 		scrollPane.setViewportView(table_1);
 		//Load Dữ liệu lên bảng
 		try {
@@ -389,12 +389,13 @@ public class UI_NhaCungCap extends JFrame {
 			e.printStackTrace();
 		}
 		JPanel panel_7 = new JPanel();
-		panel_7.setBounds(10, 236, 826, 60);
+		panel_7.setBackground(Color.WHITE);
+		panel_7.setBounds(10, 293, 1100, 60);
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
 		
-		JLabel lblNewLabel_4 = new JLabel("Nhập mã nhà cung cấp cần tìm");
-		lblNewLabel_4.setForeground(new Color(0, 128, 0));
+		JLabel lblNewLabel_4 = new JLabel("Nhập thông tin nhà cung cấp cần tìm");
+		lblNewLabel_4.setForeground(Color.BLACK);
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_4.setBounds(10, 14, 190, 27);
 		panel_7.add(lblNewLabel_4);
@@ -404,7 +405,8 @@ public class UI_NhaCungCap extends JFrame {
 		panel_7.add(txtTim);
 		txtTim.setColumns(10);
 		
-		JButton btnNewButton_4 = new JButton("btnTim");
+		JButton btnNewButton_4 = new JButton("Tìm Kiếm");
+		btnNewButton_4.setIcon(new ImageIcon("img1\\search2.png"));
 		btnNewButton_4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -416,8 +418,8 @@ public class UI_NhaCungCap extends JFrame {
 				}
 			}
 		});
-		btnNewButton_4.setBackground(new Color(0, 255, 0));
-		btnNewButton_4.setBounds(469, 17, 85, 21);
+		btnNewButton_4.setBackground(Color.ORANGE);
+		btnNewButton_4.setBounds(468, 11, 118, 39);
 		panel_7.add(btnNewButton_4);
 		
 		JButton btnShow = new JButton("Hiển thị tất cả");
@@ -432,12 +434,13 @@ public class UI_NhaCungCap extends JFrame {
 				}
 			}
 		});
-		btnShow.setBackground(new Color(0, 255, 0));
-		btnShow.setBounds(566, 17, 134, 21);
+		btnShow.setBackground(Color.ORANGE);
+		btnShow.setBounds(596, 11, 145, 39);
 		panel_7.add(btnShow);
 		
 		JPanel panel_8 = new JPanel();
-		panel_8.setBounds(853, 236, 358, 60);
+		panel_8.setBackground(Color.WHITE);
+		panel_8.setBounds(1134, 293, 358, 60);
 		panel_4.add(panel_8);
 		panel_8.setLayout(null);
 		

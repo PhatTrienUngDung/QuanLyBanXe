@@ -20,6 +20,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class UI_HopDong extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField txtmaHD;
@@ -80,7 +84,7 @@ getContentPane().setLayout(null);
 		
 		JLabel lblNhapHD = new JLabel("Nhập mã hợp đồng");
 		lblNhapHD.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbLNhapHD.setBackground(Color.RED);
+		lblNhapHD.setBackground(Color.RED);
 		
 		
 		

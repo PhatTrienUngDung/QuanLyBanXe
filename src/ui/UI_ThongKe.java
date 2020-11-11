@@ -1,17 +1,11 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Frame;
-import java.util.Locale.Category;
-
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import org.jfree.chart.ChartColor;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
@@ -262,5 +256,50 @@ public class UI_ThongKe extends JFrame {
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("New tab", tab1Icon, tabbedPane_1, null);
+		tabbedPane.setBackgroundAt(1, Color.LIGHT_GRAY);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBackground(Color.WHITE);
+		tabbedPane_1.addTab("New tab", null, panel_1, null);
+		
+		DefaultCategoryDataset dcd1= new DefaultCategoryDataset();
+		dcd.addValue(20, "Số lượng", "Tháng 1");
+		dcd.addValue(100, "Số lượng", "Tháng 2");
+		dcd.addValue(200, "Số lượng", "Tháng 3");
+		dcd.addValue(14, "Số lượng", "Tháng 4");
+		dcd.addValue(16, "Số lượng", "Tháng 5");
+		dcd.addValue(19, "Số lượng", "Tháng 6");
+		dcd.addValue(29, "Số lượng", "Tháng 7");
+		dcd.addValue(22, "Số lượng", "Tháng 8");
+		dcd.addValue(26, "Số lượng", "Tháng 9");
+		dcd.addValue(23, "Số lượng", "Tháng 10");
+		dcd.addValue(11, "Số lượng", "Tháng 11");
+		dcd.addValue(223, "Số lượng", "Tháng 12");
+		
+		JFreeChart jchart1= ChartFactory.createBarChart("Thống kê số lượng xe bán", "Tháng", "Số lượng", dcd, PlotOrientation.VERTICAL, true, true, false);
+		
+		CategoryPlot plot1= jchart1.getCategoryPlot();
+		
+		BarRenderer renderer1 = (BarRenderer) plot1.getRenderer();
+		Color color1 = new Color(0, 192, 0);
+		renderer1.setSeriesPaint(0, color1);
+		plot.setRangeGridlinePaint(Color.black);
+		
+		DefaultPieDataset dataset1 = new DefaultPieDataset();
+        dataset1.setValue("Nhóm 0 - 14", 26);
+        dataset1.setValue("Nhóm 15 - 59", 30);
+        dataset1.setValue("Nhóm trên 60", 44);
+        JFreeChart pieChart1 = ChartFactory.createPieChart("Thống kê xe", dataset, true, true, true);
+        PiePlot p1= (PiePlot) pieChart1.getPlot();
+		
+		ChartPanel chartPanel_1 = new ChartPanel((jchart1));
+		chartPanel_1.setBounds(10, 10, 782, 312);
+		panel_1.add(chartPanel_1);
+		
+		ChartPanel chartPanel1_1 = new ChartPanel((pieChart));
+		chartPanel1_1.setBounds(803, 10, 391, 312);
+		panel_1.add(chartPanel1_1);
 	}
 }

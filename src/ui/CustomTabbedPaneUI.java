@@ -13,7 +13,7 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
     private Color deSelectColor;
     private int inclTab = 4;
     private int anchoFocoV = inclTab;
-    private int anchoFocoH = 4;
+    private int anchoFocoH = 20;
     private int anchoCarpetas = 18;
     private Polygon shape;
 
@@ -155,7 +155,7 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
 
     @Override
     protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
-        return 20 + inclTab + super.calculateTabWidth(tabPlacement, tabIndex, metrics);
+        return 100 + inclTab + super.calculateTabWidth(tabPlacement, tabIndex, metrics);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
     protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
     	g.setColor(Color.black);
     	g.drawPolygon(shape);
-    
+    	
     }
 
     @Override
