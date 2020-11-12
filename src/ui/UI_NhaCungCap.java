@@ -46,6 +46,7 @@ import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ScrollPaneConstants;
 
 
 public class UI_NhaCungCap extends JFrame {
@@ -363,7 +364,6 @@ public class UI_NhaCungCap extends JFrame {
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setToolTipText("");
-		scrollPane.setViewportBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setBounds(0, 0, 1483, 378);
 		panel_6.add(scrollPane);
 		table_1 = new JTable(tableModel);

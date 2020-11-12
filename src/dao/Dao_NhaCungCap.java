@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +22,7 @@ public class Dao_NhaCungCap {
 	}
 //Đọc dữ liệu lên bảng
 	public DefaultTableModel getAllNCC() throws SQLException {
-		String[] header= {"Mã Nhà Cung Cấp","Tên Nhà Cung Cấp", "Địa Chỉ", "Email", "Số Điện Thoại","Ghi Chú","Xoa"};
+		String[] header= {"Mã Nhà Cung Cấp","Tên Nhà Cung Cấp", "Địa Chỉ", "Email", "Số Điện Thoại","Ghi Chú"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
@@ -42,8 +44,9 @@ public class Dao_NhaCungCap {
 		String sql = "select *from nhaCungCap where maNhaCungCap='" + maNCC + "'";
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
+		
 		while (rs.next()) {
-			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(4),rs.getString(5),rs.getString(6) };
+			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(4),rs.getString(5),rs.getString(6)};
 			tableModel.addRow(o);
 		}
 		return tableModel;
