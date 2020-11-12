@@ -1,26 +1,35 @@
 package ui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import dao.Dao_HopDong;
+import dao.Dao_NhanVien;
+import entity.NhanVien;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
+import entity.HopDong;
 public class UI_HopDong extends JFrame {
 
 	/**
@@ -40,7 +49,8 @@ public class UI_HopDong extends JFrame {
 	private JTextField txtchuThich;
 	private JTextField txttimKiem;
 	private JTextField textField;
-
+	private DefaultTableModel tableModel;
+	private Dao_HopDong dao_nv= new Dao_HopDong();
 
 	/**
 	 * Launch the application.
@@ -87,7 +97,7 @@ getContentPane().setLayout(null);
 		lblQLHD.setBackground(Color.WHITE);
 		
 		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(10, 340, 571, 50);
+		panel_5.setBounds(10, 340, 667, 50);
 		panel_5.setBackground(new Color(255, 255, 224));
 		
 		JLabel lblNhapHD = new JLabel("Nhập mã hợp đồng");
@@ -113,19 +123,118 @@ getContentPane().setLayout(null);
 		
 		JButton btnThem = new JButton("Thêm");
 		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
+		btnThem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					String maNV= txtmaNV.getText();
+					String tenNV=txttenNV.getText();
+					String maHD=txtmaHD.getText();
+					String maKH= txtmaKH.getText();
+					String maXe= txtmaXe.getText();
+					String tenKH = txttenKH.getText();
+					String tenXe= txttenXe.getText();
+					String chuThich =txtchuThich.getText();
+					String ngayLap = txtngayLap.getText();
+					
+					
+					HopDong hd= new HopDong(maHD, maKH, tenKH, maNV, tenNV, maXe, tenXe, ngayLap, chuThich);
+					tableModel.addRow(new Object[] {hd.getMaHD(),hd.getMaKH(),hd.getTenKH(),hd.getMaNV(),hd.getTenNV(),hd.getMaXe(),hd.getTenXe(),hd.getNgayLap(),hd.getChuThich()});
+					dao_hd.themNV(hd);
+					JFrame f= new JFrame();
+					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+					dem();
+				} catch (Exception s) {
+					s.getMessage();
+				}
+				
+			}
+		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		
 		JButton btnXoa = new JButton("Xóa");
 		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
+		btnXoa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row=table.getSelectedRow();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Hợp đồng sẽ bị xóa","Chú ý",JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+							int r= table.getSelectedRow();
+							tableModel.removeRow(r);
+							xoaHD();
+							dem();
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vu lòng chọn hợp đồng để xóa");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnSua = new JButton("Sửa");
 		btnSua.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Settings-icon.png")));
+		btnSua.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row=table.getSelectedRow();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Hợp đồng này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+							String maNV= txtmaNV.getText();
+							String tenNV=txttenNV.getText();
+							String maHD=txtmaHD.getText();
+							String maKH= txtmaKH.getText();
+							String maXe= txtmaXe.getText();
+							String tenKH = txttenKH.getText();
+							String tenXe= txttenXe.getText();
+							String chuThich =txtchuThich.getText();
+							String ngayLap = txtngayLap.getText();
+							
+							HopDong hd= new HopDong(maHD, maKH, tenKH, maNV, tenNV, maXe, tenXe, ngayLap, chuThich);
+							dao_hd.update(hd);
+							try {
+								loadHD();
+							} catch (Exception e2) {
+								// TODO: handle exception
+								e2.printStackTrace();
+							}
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vu lòng chọn nhà cung cấp để xóa");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
+		btnLamMoi.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtmaNV.setText("");
+				txttenNV.setText("");
+				txtchuThich.setText("");
+				txtmaHD.setText("");
+				txtmaKH.setText("");
+				txtmaXe.setText("");
+				txttenKH.setText("");
+				txttenKH.setText("");
+				txtngayLap.setText("");
+			}
+		});
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JLabel lblChucNang = new JLabel("Chức năng");

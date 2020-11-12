@@ -4,53 +4,54 @@ import java.util.Date;
 
 public class HopDong {
 	private String maHD;
-	private String maKH;
-	private String tenKH;
-	private String maNV;
-	private String tenNV;
-	private String maXe;
-	private String tenXe;
+	private KhachHang maKH;
+	private KhachHang tenKH;
+	private NhanVien maNV;
+	private NhanVien tenNV;
+	private Xe maXe;
+	private Xe tenXe;
 	private Date ngayLap;
+	private String chuThich;
 	public String getMaHD() {
 		return maHD;
 	}
 	public void setMaHD(String maHD) {
 		this.maHD = maHD;
 	}
-	public String getMaKH() {
+	public KhachHang getMaKH() {
 		return maKH;
 	}
-	public void setMaKH(String maKH) {
+	public void setMaKH(KhachHang maKH) {
 		this.maKH = maKH;
 	}
-	public String getTenKH() {
+	public KhachHang getTenKH() {
 		return tenKH;
 	}
-	public void setTenKH(String tenKH) {
+	public void setTenKH(KhachHang tenKH) {
 		this.tenKH = tenKH;
 	}
-	public String getMaNV() {
+	public NhanVien getMaNV() {
 		return maNV;
 	}
-	public void setMaNV(String maNV) {
+	public void setMaNV(NhanVien maNV) {
 		this.maNV = maNV;
 	}
-	public String getTenNV() {
+	public NhanVien getTenNV() {
 		return tenNV;
 	}
-	public void setTenNV(String tenNV) {
+	public void setTenNV(NhanVien tenNV) {
 		this.tenNV = tenNV;
 	}
-	public String getMaXe() {
+	public Xe getMaXe() {
 		return maXe;
 	}
-	public void setMaXe(String maXe) {
+	public void setMaXe(Xe maXe) {
 		this.maXe = maXe;
 	}
-	public String getTenXe() {
+	public Xe getTenXe() {
 		return tenXe;
 	}
-	public void setTenXe(String tenXe) {
+	public void setTenXe(Xe tenXe) {
 		this.tenXe = tenXe;
 	}
 	public Date getNgayLap() {
@@ -59,12 +60,19 @@ public class HopDong {
 	public void setNgayLap(Date ngayLap) {
 		this.ngayLap = ngayLap;
 	}
-	public HopDong() {
-		super();
-		// TODO Auto-generated constructor stub
+	public String getChuThich() {
+		return chuThich;
 	}
-	public HopDong(String maHD, String maKH, String tenKH, String maNV, String tenNV, String maXe, String tenXe,
-			Date ngayLap) {
+	public void setChuThich(String chuThich) {
+		this.chuThich = chuThich;
+	}
+	@Override
+	public String toString() {
+		return "HopDong [maHD=" + maHD + ", maKH=" + maKH + ", tenKH=" + tenKH + ", maNV=" + maNV + ", tenNV=" + tenNV
+				+ ", maXe=" + maXe + ", tenXe=" + tenXe + ", ngayLap=" + ngayLap + ", chuThich=" + chuThich + "]";
+	}
+	public HopDong(String maHD, KhachHang maKH, KhachHang tenKH, NhanVien maNV, NhanVien tenNV, Xe maXe, Xe tenXe,
+			Date ngayLap, String chuThich) {
 		super();
 		this.maHD = maHD;
 		this.maKH = maKH;
@@ -74,10 +82,8 @@ public class HopDong {
 		this.maXe = maXe;
 		this.tenXe = tenXe;
 		this.ngayLap = ngayLap;
+		this.chuThich = chuThich;
 	}
-	@Override
-	public String toString() {
-		return "HopDong [maHD=" + maHD + ", maKH=" + maKH + ", tenKH=" + tenKH + ", maNV=" + maNV + ", tenNV=" + tenNV
-				+ ", maXe=" + maXe + ", tenXe=" + tenXe + ", ngayLap=" + ngayLap + "]";
-	}
+	
+	
 }
