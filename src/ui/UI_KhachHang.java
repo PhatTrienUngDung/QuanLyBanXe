@@ -32,6 +32,7 @@ import java.awt.Button;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 import java.awt.Checkbox;
 import java.awt.Choice;
@@ -80,7 +81,6 @@ public class UI_KhachHang extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(25, 5, 1267, 730);
 		contentPane = new JPanel();
-		
 		contentPane.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Th\u00F4ng tin chi ti\u1EBFt ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(70, 130, 180)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -93,7 +93,7 @@ public class UI_KhachHang extends JFrame {
 		panelTitle.setLayout(null);
 		
 		//Panel LabelTitle
-		JLabel lblTitle = new JLabel("Quản Lý Khách Hàng");
+		JLabel lblTitle = new JLabel("Quáº£n LÃ½ KhÃ¡ch HÃ ng");
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTitle.setBounds(29, 11, 600, 25);
 		lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
@@ -105,7 +105,7 @@ public class UI_KhachHang extends JFrame {
 		contentPane.add(panelTimkiem);
 		panelTimkiem.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Nhập mã khách hàng cần tìm\r\n");
+		JLabel lblNewLabel = new JLabel("Nháº­p mÃ£ khÃ¡ch hÃ ng cáº§n tÃ¬m\r\n");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setBounds(36, 16, 190, 26);
@@ -115,7 +115,7 @@ public class UI_KhachHang extends JFrame {
 		textArea.setBounds(251, 18, 190, 22);
 		panelTimkiem.add(textArea);
 		
-		JButton btnTmKiem = new JButton("Tìm Kiếm");
+		JButton btnTmKiem = new JButton("TÃ¬m Kiáº¿m");
 		btnTmKiem.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/search1.png")));
 		btnTmKiem.setBackground(new Color(0, 255, 127));
 		btnTmKiem.setForeground(new Color(0, 0, 0));
@@ -131,7 +131,7 @@ public class UI_KhachHang extends JFrame {
 		contentPane.add(paneltenBang);
 		paneltenBang.setLayout(null);
 		
-		JLabel lbltenBang = new JLabel("BẢNG KHÁCH HÀNG");
+		JLabel lbltenBang = new JLabel("Báº¢NG KHÃ�CH HÃ€NG");
 		lbltenBang.setForeground(new Color(128, 128, 0));
 		lbltenBang.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/Generate-tables-icon.png")));
 		lbltenBang.setHorizontalAlignment(SwingConstants.CENTER);
@@ -146,25 +146,25 @@ public class UI_KhachHang extends JFrame {
 		contentPane.add(panelthongTin);
 		panelthongTin.setLayout(null);
 		
-		JLabel lblTnKhchHang = new JLabel("Tên Khách Hàng");
+		JLabel lblTnKhchHang = new JLabel("TÃªn KhÃ¡ch HÃ ng");
 		lblTnKhchHang.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTnKhchHang.setBounds(315, 27, 104, 19);
 		panelthongTin.add(lblTnKhchHang);
 		
-		JLabel lblGiiTnh = new JLabel("Giới Tính");
+		JLabel lblGiiTnh = new JLabel("Giá»›i TÃ­nh");
 		lblGiiTnh.setBackground(new Color(255, 248, 220));
 		lblGiiTnh.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblGiiTnh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGiiTnh.setBounds(20, 56, 75, 19);
 		panelthongTin.add(lblGiiTnh);
 		
-		JLabel lblNewLabel_3 = new JLabel("Ngày Sinh");
+		JLabel lblNewLabel_3 = new JLabel("NgÃ y Sinh");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_3.setBounds(20, 115, 75, 17);
 		panelthongTin.add(lblNewLabel_3);
 		
-		JLabel lblNewLabel_4 = new JLabel("Địa Chỉ");
+		JLabel lblNewLabel_4 = new JLabel("Ä�á»‹a Chá»‰");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_4.setBounds(315, 65, 63, 19);
 		panelthongTin.add(lblNewLabel_4);
@@ -174,12 +174,12 @@ public class UI_KhachHang extends JFrame {
 		lblEmail.setBounds(315, 95, 63, 17);
 		panelthongTin.add(lblEmail);
 		
-		JLabel lblNewLabel_5 = new JLabel("Số Điện Thoại");
+		JLabel lblNewLabel_5 = new JLabel("Sá»‘ Ä�iá»‡n Thoáº¡i");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_5.setBounds(20, 85, 88, 19);
 		panelthongTin.add(lblNewLabel_5);
 		
-		JLabel lblChThch = new JLabel("Chú Thích");
+		JLabel lblChThch = new JLabel("ChÃº ThÃ­ch");
 		lblChThch.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblChThch.setBounds(315, 123, 57, 19);
 		panelthongTin.add(lblChThch);
@@ -195,7 +195,7 @@ public class UI_KhachHang extends JFrame {
 		textField_1.setColumns(10);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Ná»¯"}));
 		comboBox.setBounds(137, 55, 86, 20);
 		panelthongTin.add(comboBox);
 		
@@ -221,7 +221,7 @@ public class UI_KhachHang extends JFrame {
 		panelthongTin.add(textField_5);
 		textField_5.setColumns(10);
 		
-		JLabel lblMKhchHng = new JLabel("Mã Khách Hàng");
+		JLabel lblMKhchHng = new JLabel("MÃ£ KhÃ¡ch HÃ ng");
 		lblMKhchHng.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblMKhchHng.setBounds(20, 28, 107, 17);
 		panelthongTin.add(lblMKhchHng);
@@ -242,7 +242,7 @@ public class UI_KhachHang extends JFrame {
 		panelchucNang.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Chức Năng");
+		JLabel lblNewLabel_1 = new JLabel("Chá»©c NÄƒng");
 		lblNewLabel_1.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/Settings-icon.png")));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_1.setBounds(88, 11, 173, 23);
@@ -251,25 +251,25 @@ public class UI_KhachHang extends JFrame {
 		lblNewLabel_1.setBackground(Color.GREEN);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton btnXoa = new JButton("Xóa");
+		JButton btnXoa = new JButton("XÃ³a");
 		btnXoa.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/Delete-group-icon.png")));
 		btnXoa.setBackground(new Color(255, 228, 196));
 		btnXoa.setBounds(201, 67, 135, 34);
 		panelchucNang.add(btnXoa);
 		
-		JButton btncapNhat = new JButton("Cập Nhật");
+		JButton btncapNhat = new JButton("Cáº­p Nháº­t");
 		btncapNhat.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/Male-user-edit-icon.png")));
 		btncapNhat.setBackground(new Color(255, 228, 196));
 		btncapNhat.setBounds(38, 118, 135, 34);
 		panelchucNang.add(btncapNhat);
 		
-		JButton btnlamMoi = new JButton("Làm Mới");
+		JButton btnlamMoi = new JButton("LÃ m Má»›i");
 		btnlamMoi.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/refresh-icon.png")));
 		btnlamMoi.setBackground(new Color(255, 228, 181));
 		btnlamMoi.setBounds(201, 118, 135, 34);
 		panelchucNang.add(btnlamMoi);
 		
-		JButton btnNewButton = new JButton("Thêm");
+		JButton btnNewButton = new JButton("ThÃªm");
 		btnNewButton.setForeground(new Color(0, 0, 0));
 		btnNewButton.setBackground(new Color(255, 228, 196));
 		btnNewButton.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/Male-user-add-icon.png")));
@@ -306,7 +306,7 @@ public class UI_KhachHang extends JFrame {
 				
 			},
 			new String[] {
-				"STT","Mã Khách Hàng", "Tên Khách Hàng", "Giới Tính", "Ngày Sinh", "Địa Chỉ", "Email", "Số Điện Thoại","Chú Thích"
+				"STT","MÃ£ KhÃ¡ch HÃ ng", "TÃªn KhÃ¡ch HÃ ng", "Giá»›i TÃ­nh", "NgÃ y Sinh", "Ä�á»‹a Chá»‰", "Email", "Sá»‘ Ä�iá»‡n Thoáº¡i","ChÃº ThÃ­ch"
 			}
 		));
 	}

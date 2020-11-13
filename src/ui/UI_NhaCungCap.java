@@ -76,6 +76,7 @@ public class UI_NhaCungCap extends JFrame {
 			public void run() {
 				try {
 					UI_NhaCungCap frame = new UI_NhaCungCap();
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -183,7 +184,7 @@ public class UI_NhaCungCap extends JFrame {
 		txtChuThich.setLineWrap(true);
 		txtChuThich.setWrapStyleWord(true);
 		
-		JLabel lblSo = new JLabel("Số Điện Thoại");
+		JLabel lblSo = new JLabel("Sá»‘ Ä�iá»‡n Thoáº¡i");
 		lblSo.setBounds(10, 72, 123, 21);
 		lblSo.setForeground(Color.BLACK);
 		lblSo.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -241,7 +242,7 @@ public class UI_NhaCungCap extends JFrame {
 					tableModel.addRow(new Object[] {ncc.getMaNhaCungCap(),ncc.getTenNhaCungCap(),ncc.getDiaChi(),ncc.getEmail(),ncc.getSoDienThoai(),ncc.getChuThich()});
 					dao_ncc.themNCC(ncc);
 					JFrame f= new JFrame();
-					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+					JOptionPane.showMessageDialog(f, "ThÃªm thÃ nh cÃ´ng !!!");
 					dem();
 				} catch (Exception s) {
 					s.getMessage();
@@ -267,7 +268,7 @@ public class UI_NhaCungCap extends JFrame {
 				try {
 					if(row!=-1) {
 						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ bị xóa","Chú ý",JOptionPane.YES_NO_OPTION);
+						int hoi=JOptionPane.showConfirmDialog(f, "NhÃ  cung cáº¥p nÃ y sáº½ bá»‹ xÃ³a","ChÃº Ã½",JOptionPane.YES_NO_OPTION);
 						if(hoi==JOptionPane.YES_OPTION) {
 							int r= table_1.getSelectedRow();
 							tableModel.removeRow(r);
@@ -276,7 +277,7 @@ public class UI_NhaCungCap extends JFrame {
 						}
 					}
 					else
-						JOptionPane.showMessageDialog(null, "Vu lòng chọn nhà cung cấp để xóa");
+						JOptionPane.showMessageDialog(null, "Vu lÃ²ng chá»�n nhÃ  cung cáº¥p Ä‘á»ƒ xÃ³a");
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -295,7 +296,7 @@ public class UI_NhaCungCap extends JFrame {
 				try {
 					if(row!=-1) {
 						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
+						int hoi=JOptionPane.showConfirmDialog(f, "NhÃ  cung cáº¥p nÃ y sáº½ Ä‘Æ°á»£c cáº­p nháº­t","ChÃº Ã½",JOptionPane.YES_NO_OPTION);
 						if(hoi==JOptionPane.YES_OPTION) {
 							String ma= txtMaNCC.getText();
 							String ten=txtTenNCC.getText();
@@ -314,7 +315,7 @@ public class UI_NhaCungCap extends JFrame {
 						}
 					}
 					else
-						JOptionPane.showMessageDialog(null, "Vu lòng chọn nhà cung cấp để xóa");
+						JOptionPane.showMessageDialog(null, "Vu lÃ²ng chá»�n nhÃ  cung cáº¥p Ä‘á»ƒ xÃ³a");
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -360,7 +361,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_6.setBounds(10, 363, 1482, 384);
 		panel_4.add(panel_6);
 		panel_6.setLayout(null);
-		String[] header= {"Mã Nhà Cung Cấp","Tên Nhà Cung Cấp", "Địa Chỉ", "Email", "Số Điện Thoại","Ghi Chú"};
+		String[] header= {"MÃ£ NhÃ  Cung Cáº¥p","TÃªn NhÃ  Cung Cáº¥p", "Ä�á»‹a Chá»‰", "Email", "Sá»‘ Ä�iá»‡n Thoáº¡i","Ghi ChÃº"};
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setToolTipText("");
@@ -381,7 +382,7 @@ public class UI_NhaCungCap extends JFrame {
 		});
 		table_1.setBorder(null);
 		scrollPane.setViewportView(table_1);
-		//Load Dữ liệu lên bảng
+		//Load Dá»¯ liá»‡u lÃªn báº£ng
 		try {
 			loadNCC();
 		} catch (SQLException e) {
@@ -394,8 +395,15 @@ public class UI_NhaCungCap extends JFrame {
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
 		
-		JLabel lblNewLabel_4 = new JLabel("Nhập thông tin nhà cung cấp cần tìm");
-		lblNewLabel_4.setForeground(Color.BLACK);
+		JLabel lblNewLabel_4 = new JLabel("Nháº­p mÃ£ nhÃ  cung cáº¥p cáº§n tÃ¬m");
+		lblNewLabel_4.setForeground(new Color(0, 128, 0));
+		
+		JLabel lblNewLabel_5 = new JLabel("Nhập mã nhà cung cấp cần tìm");
+		lblNewLabel_5.setForeground(new Color(0, 128, 0));
+
+		JLabel lblNewLabel_6 = new JLabel("Nhập thông tin nhà cung cấp cần tìm");
+		lblNewLabel_6.setForeground(Color.BLACK);
+
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_4.setBounds(10, 14, 190, 27);
 		panel_7.add(lblNewLabel_4);
@@ -422,7 +430,7 @@ public class UI_NhaCungCap extends JFrame {
 		btnNewButton_4.setBounds(468, 11, 118, 39);
 		panel_7.add(btnNewButton_4);
 		
-		JButton btnShow = new JButton("Hiển thị tất cả");
+		JButton btnShow = new JButton("Hiá»ƒn thá»‹ táº¥t cáº£");
 		btnShow.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -444,11 +452,11 @@ public class UI_NhaCungCap extends JFrame {
 		panel_4.add(panel_8);
 		panel_8.setLayout(null);
 		
-		JLabel lblNewLabel_5 = new JLabel("Số lượng nhà cung cấp :");
-		lblNewLabel_5.setForeground(new Color(0, 128, 0));
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_5.setBounds(47, 10, 154, 40);
-		panel_8.add(lblNewLabel_5);
+		JLabel lblNewLabel_7= new JLabel("Sá»‘ lÆ°á»£ng nhÃ  cung cáº¥p :");
+		lblNewLabel_7.setForeground(new Color(0, 128, 0));
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_7.setBounds(47, 10, 154, 40);
+		panel_8.add(lblNewLabel_7);
 		
 		
 		txtDem = new JTextField();
@@ -468,19 +476,19 @@ public class UI_NhaCungCap extends JFrame {
 		table.setBounds(10, 267, 1181, -260);
 	}
 	//
-	//Hàm load database
+	//HÃ m load database
 	private void loadNCC() throws SQLException {
 		Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
 		tableModel = dao_ncc.getAllNCC();
 		table_1.setModel(tableModel);
 	}
-	//Hàm xóa 
+	//HÃ m xÃ³a 
 	private void xoaNCC() throws SQLException {
 		Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
 		dao_ncc.xoaNCC(txtMaNCC.getText());
 		loadNCC();
 	}
-	//Tìm kiếm
+	//TÃ¬m kiáº¿m
 	private void timNCC() throws SQLException{
 		Dao_NhaCungCap dao_ncc= new Dao_NhaCungCap();
 		tableModel = dao_ncc.timKiem(txtTim.getText());
