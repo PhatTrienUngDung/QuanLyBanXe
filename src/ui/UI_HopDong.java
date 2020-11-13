@@ -3,13 +3,17 @@ package ui;
 import java.awt.BorderLayout;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,37 +24,33 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JComboBox;
+import com.toedter.calendar.JDateChooser;
 
+import connect.ConnectDB;
 import dao.Dao_HopDong;
+import dao.Dao_NhaCungCap;
 import dao.Dao_NhanVien;
-import entity.NhanVien;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import entity.HopDong;
+import entity.NhanVien;
+import entity.KhachHang;
+import entity.Xe;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class UI_HopDong extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField txtmaHD;
-	private JTextField txtmaKH;
-	private JTextField txttenKH;
-	private JTextField txtmaNV;
-	private JTextField txttenNV;
-	private JTextField txtmaXe;
-	private JTextField txttenXe;
-	private JTextField txtngayLap;
-	private JTextField txtchuThich;
-	private JTextField txttimKiem;
 	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField txtTimKiem;
+	private JTextField txtmaHD;
+	private JTextField txttenHD;
+	private JTextField txtmaKH,txtmaNV,txtmaXe,txtTGBH,txtngayLap;
 	private DefaultTableModel tableModel;
-	private Dao_HopDong dao_nv= new Dao_HopDong();
+	private JDateChooser datengayLap;
 
 	/**
 	 * Launch the application.
@@ -60,8 +60,6 @@ public class UI_HopDong extends JFrame {
 			public void run() {
 				try {
 					UI_HopDong frame = new UI_HopDong();
-					Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-					frame.setBounds(0, 0, 1900, screen.height);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -75,111 +73,57 @@ public class UI_HopDong extends JFrame {
 	 */
 	public UI_HopDong() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1314, 754);
+		setBounds(100, 100, 1312, 735);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 getContentPane().setLayout(null);
-		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(230, 230, 250));
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(10, 10, 1279, 683);
 		getContentPane().add(panel);
+		panel.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 10, 1269, 50);
 		panel_1.setBackground(new Color(255, 255, 255));
+		panel_1.setBounds(10, 10, 1248, 50);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
 		
-		JLabel lblQLHD = new JLabel("Quản lý hợp đồng");
-		lblQLHD.setBounds(529, 10, 189, 35);
-		lblQLHD.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblQLHD.setBackground(Color.WHITE);
-		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(10, 340, 667, 50);
-		panel_5.setBackground(new Color(255, 255, 224));
-		
-		JLabel lblNhapHD = new JLabel("Nhập mã hợp đồng");
-		lblNhapHD.setBounds(10, 13, 147, 26);
-		lblNhapHD.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNhapHD.setBackground(Color.RED);
-		
-		
-		
-		JButton btntimKiem = new JButton("Tìm kiếm");
-		btntimKiem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/search1.png")));
-		btntimKiem.setBounds(390, 9, 120, 34);
-		btntimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLabel lblQunLHp = new JLabel("Quản lý hợp đồng");
+		lblQunLHp.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblQunLHp.setBackground(new Color(255, 69, 0));
+		lblQunLHp.setBounds(539, 10, 159, 35);
+		panel_1.add(lblQunLHp);
 		
 		JPanel panel_6 = new JPanel();
-		panel_6.setBounds(687, 71, 571, 229);
 		panel_6.setBackground(new Color(255, 215, 0));
+		panel_6.setBounds(687, 71, 571, 229);
+		panel.add(panel_6);
+		panel_6.setLayout(null);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(0, 64, 571, 165);
-		
-		panel_4.setBackground(new Color(244, 164, 96));
+		panel_4.setBounds(77, 61, 433, 133);
+		panel_6.add(panel_4);
+		panel_4.setBackground(new Color(255, 140, 0));
+		panel_4.setLayout(null);
 		
 		JButton btnThem = new JButton("Thêm");
-		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
-		btnThem.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					String maNV= txtmaNV.getText();
-					String tenNV=txttenNV.getText();
-					String maHD=txtmaHD.getText();
-					String maKH= txtmaKH.getText();
-					String maXe= txtmaXe.getText();
-					String tenKH = txttenKH.getText();
-					String tenXe= txttenXe.getText();
-					String chuThich =txtchuThich.getText();
-					String ngayLap = txtngayLap.getText();
-					
-					
-					HopDong hd= new HopDong(maHD, maKH, tenKH, maNV, tenNV, maXe, tenXe, ngayLap, chuThich);
-					tableModel.addRow(new Object[] {hd.getMaHD(),hd.getMaKH(),hd.getTenKH(),hd.getMaNV(),hd.getTenNV(),hd.getMaXe(),hd.getTenXe(),hd.getNgayLap(),hd.getChuThich()});
-					dao_hd.themNV(hd);
-					JFrame f= new JFrame();
-					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
-					dem();
-				} catch (Exception s) {
-					s.getMessage();
-				}
-				
-			}
-		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
+		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
+		btnThem.setBounds(61, 27, 129, 21);
+		panel_4.add(btnThem);
 		
 		JButton btnXoa = new JButton("Xóa");
-		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
-		btnXoa.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int row=table.getSelectedRow();
-				try {
-					if(row!=-1) {
-						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "Hợp đồng sẽ bị xóa","Chú ý",JOptionPane.YES_NO_OPTION);
-						if(hoi==JOptionPane.YES_OPTION) {
-							int r= table.getSelectedRow();
-							tableModel.removeRow(r);
-							xoaHD();
-							dem();
-						}
-					}
-					else
-						JOptionPane.showMessageDialog(null, "Vu lòng chọn hợp đồng để xóa");
-				} catch (Exception e2) {
-					// TODO: handle exception
-				}
-			}
-		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
+		btnXoa.setBounds(61, 86, 129, 21);
+		panel_4.add(btnXoa);
 		
 		JButton btnSua = new JButton("Sửa");
+		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSua.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Settings-icon.png")));
 		btnSua.addMouseListener(new MouseAdapter() {
 			@Override
@@ -188,20 +132,19 @@ getContentPane().setLayout(null);
 				try {
 					if(row!=-1) {
 						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "Hợp đồng này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
+						int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
 						if(hoi==JOptionPane.YES_OPTION) {
-							String maNV= txtmaNV.getText();
-							String tenNV=txttenNV.getText();
-							String maHD=txtmaHD.getText();
-							String maKH= txtmaKH.getText();
-							String maXe= txtmaXe.getText();
-							String tenKH = txttenKH.getText();
-							String tenXe= txttenXe.getText();
-							String chuThich =txtchuThich.getText();
-							String ngayLap = txtngayLap.getText();
+							String maHD= txtmaHD.getText();
+							String maKH =txtmaKH.getText();
+							String maNV =txtmaNV.getText();
+							String maXe =txtmaXe.getText();
+							Date ngayLap = datengayLap.getDate();
+						
+							String tgbh = txtTGBH.getText();
 							
-							HopDong hd= new HopDong(maHD, maKH, tenKH, maNV, tenNV, maXe, tenXe, ngayLap, chuThich);
-							dao_hd.update(hd);
+							
+							HopDong hd= new HopDong(maHD, new KhachHang(maKH), new NhanVien(maNV), new Xe(maXe), ngayLap, tgbh);
+							tableModel.addRow(new Object[] {hd.getMaHD(),hd.getKhachHang(),hd.getNhanVien(),hd.getXe(),hd.getNgayLap(),hd.getTGBH()});
 							try {
 								loadHD();
 							} catch (Exception e2) {
@@ -217,44 +160,130 @@ getContentPane().setLayout(null);
 				}
 			}
 		});
-		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JButton btnLamMoi = new JButton("Làm mới");
-		btnLamMoi.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
-		btnLamMoi.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtmaNV.setText("");
-				txttenNV.setText("");
-				txtchuThich.setText("");
-				txtmaHD.setText("");
-				txtmaKH.setText("");
-				txtmaXe.setText("");
-				txttenKH.setText("");
-				txttenKH.setText("");
-				txtngayLap.setText("");
-			}
-		});
-		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		btnSua.setBounds(277, 27, 129, 21);
+		panel_4.add(btnSua);
+		
+		JButton btnNew = new JButton("Làm mới");
+		btnNew.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNew.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
+		btnNew.setBounds(277, 86, 129, 21);
+		panel_4.add(btnNew);
 		
 		JLabel lblChucNang = new JLabel("Chức năng");
-		lblChucNang.setBounds(252, 24, 131, 13);
 		lblChucNang.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblChucNang.setBounds(253, 23, 131, 13);
+		panel_6.add(lblChucNang);
 		
 		JPanel panel_7 = new JPanel();
-		panel_7.setBounds(10, 70, 667, 41);
 		panel_7.setBackground(new Color(255, 215, 0));
+		panel_7.setBounds(10, 70, 667, 230);
+		panel.add(panel_7);
 		panel_7.setLayout(null);
-		
-		
 		
 		JLabel lblTTHD = new JLabel("Thông tin hợp đồng");
 		lblTTHD.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTTHD.setBounds(63, 10, 185, 24);
 		panel_7.add(lblTTHD);
 		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(10, 36, 647, 184);
+		panel_7.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel lblmaHD = new JLabel("Mã Hợp Đồng");
+		lblmaHD.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblmaHD.setBounds(10, 10, 101, 13);
+		panel_2.add(lblmaHD);
+		
+		txtmaHD = new JTextField();
+		txtmaHD.setBounds(143, 9, 96, 19);
+		panel_2.add(txtmaHD);
+		txtmaHD.setColumns(10);
+		
+		JLabel lbltenHD= new JLabel("Tên Hợp Đồng");
+		lbltenHD.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbltenHD.setBounds(10, 50, 101, 13);
+		panel_2.add(lbltenHD);
+		
+		txttenHD = new JTextField();
+		txttenHD.setBounds(143, 49, 96, 19);
+		panel_2.add(txttenHD);
+		txttenHD.setColumns(10);
+		
+		JLabel lblmaKH = new JLabel("Mã Khách Hàng");
+		lblmaKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblmaKH.setBounds(10, 90, 101, 13);
+		panel_2.add(lblmaKH);
+		
+		JComboBox cbmaKH = new JComboBox();
+		cbmaKH.setBounds(143, 88, 96, 21);
+		panel_2.add(cbmaKH);
+		
+		JLabel lbltenKH = new JLabel("Tên Khách Hàng");
+		lbltenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbltenKH.setBounds(10, 127, 129, 13);
+		panel_2.add(lbltenKH);
+		
+		JComboBox cbtenKH = new JComboBox();
+		cbtenKH.setBounds(143, 125, 96, 21);
+		panel_2.add(cbtenKH);
+		
+		JLabel lblmaNV = new JLabel("Mã Nhân Viên");
+		lblmaNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblmaNV.setBounds(10, 161, 101, 13);
+		panel_2.add(lblmaNV);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setBounds(143, 161, 96, 21);
+		panel_2.add(comboBox_2);
+		
+		JLabel lbltenNV = new JLabel("Tên Nhân Viên");
+		lbltenNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbltenNV.setBounds(395, 12, 94, 13);
+		panel_2.add(lbltenNV);
+		
+		JComboBox cbtenNV = new JComboBox();
+		cbtenNV.setBounds(526, 8, 94, 21);
+		panel_2.add(cbtenNV);
+		
+		JLabel lblLoaiXe = new JLabel("Loại Xe");
+		lblLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblLoaiXe.setBounds(395, 52, 74, 13);
+		panel_2.add(lblLoaiXe);
+		
+		JComboBox cbloaiXe = new JComboBox();
+		cbloaiXe.setBounds(526, 48, 94, 21);
+		panel_2.add(cbloaiXe);
+		
+		JLabel lblMauXe = new JLabel("Màu Xe");
+		lblMauXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblMauXe.setBounds(395, 92, 94, 13);
+		panel_2.add(lblMauXe);
+		
+		JComboBox cbmauXe = new JComboBox();
+		cbmauXe.setBounds(526, 88, 94, 21);
+		panel_2.add(cbmauXe);
+		
+		JLabel lblNgayLap = new JLabel("Ngày Lập");
+		lblNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNgayLap.setBounds(395, 129, 74, 13);
+		panel_2.add(lblNgayLap);
+		
+		datengayLap= new JDateChooser();
+		datengayLap.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		 datengayLap.setBounds(526, 127, 94, 19);
+		panel_2.add( datengayLap);
+		
+		
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 448, 1239, 235);
+		scrollPane.setBounds(30, 438, 1239, 235);
+		panel.add(scrollPane);
 		
 		table = new JTable();
 		table.setBackground(new Color(255, 255, 255));
@@ -281,154 +310,60 @@ getContentPane().setLayout(null);
 			}
 		));
 		
-		textField = new JTextField();
-		textField.setBounds(175, 19, 148, 19);
-		textField.setColumns(10);
-		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
-		gl_panel_4.setHorizontalGroup(
-			gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup()
-					.addGap(74)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
-					.addGap(156)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnSua, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
-						.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
-					.addGap(83))
-		);
-		gl_panel_4.setVerticalGroup(
-			gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup()
-					.addGap(27)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnThem)
-						.addComponent(btnSua, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(26)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-					.addGap(24))
-		);
-		panel_4.setLayout(gl_panel_4);
-		panel.setLayout(null);
-		panel.add(panel_5);
-		panel_5.setLayout(null);
-		panel_5.add(lblNhapHD);
-		panel_5.add(textField);
-		panel_5.add(btntimKiem);
-		panel.add(scrollPane);
-		panel.add(panel_7);
-		panel.add(panel_6);
-		panel_6.setLayout(null);
-		panel_6.add(panel_4);
-		panel_6.add(lblChucNang);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
-		panel_1.add(lblQLHD);
-		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(10, 107, 667, 193);
+		panel_3.setBounds(35, 330, 642, 57);
 		panel.add(panel_3);
-		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setLayout(null);
 		
-		JLabel lblmaHD = new JLabel("Mã hợp đồng");
-		lblmaHD.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblmaHD.setBounds(24, 10, 96, 24);
-		panel_3.add(lblmaHD);
+		JLabel lblNhpMHp = new JLabel("Nhập mã hợp đồng");
+		lblNhpMHp.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNhpMHp.setBounds(10, 21, 175, 13);
+		panel_3.add(lblNhpMHp);
 		
-		txtmaHD = new JTextField();
-		txtmaHD.setBounds(130, 15, 96, 19);
-		panel_3.add(txtmaHD);
-		txtmaHD.setColumns(10);
+		txtTimKiem = new JTextField();
+		txtTimKiem.setBounds(220, 20, 137, 19);
+		panel_3.add(txtTimKiem);
+		txtTimKiem.setColumns(10);
 		
-		
-		
-		JLabel 	lblmaKH = new JLabel("Mã khách hàng");
-		lblmaKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblmaKH.setBounds(24, 83, 96, 13);
-		panel_3.add(lblmaKH);
-		
-		txtmaKH = new JTextField();
-		txtmaKH.setBounds(130, 45, 96, 19);
-		panel_3.add(txtmaKH);
-		txtmaKH.setColumns(10);
-		
-		JLabel lbltenKH = new JLabel("Tên khách hàng");
-		lbltenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbltenKH.setBounds(24, 46, 109, 13);
-		panel_3.add(lbltenKH);
-		
-		txttenKH = new JTextField();
-		txttenKH.setBounds(130, 82, 96, 19);
-		panel_3.add(txttenKH);
-		txttenKH.setColumns(10);
-		
-		JLabel lblmaNV = new JLabel("Mã nhân viên");
-		lblmaNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblmaNV.setBounds(24, 120, 96, 13);
-		panel_3.add(lblmaNV);
-		
-		txtmaNV = new JTextField();
-		txtmaNV.setBounds(130, 119, 96, 19);
-		panel_3.add(txtmaNV);
-		txtmaNV.setColumns(10);
-		
-		JLabel lbltenNV = new JLabel("Tên nhân viên");
-		lbltenNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbltenNV.setBounds(24, 156, 96, 13);
-		panel_3.add(lbltenNV);
-		
-		txttenNV = new JTextField();
-		txttenNV.setBounds(130, 155, 96, 19);
-		panel_3.add(txttenNV);
-		txttenNV.setColumns(10);
-		
-		JLabel lblmaXe = new JLabel("Mã xe");
-		lblmaXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblmaXe.setBounds(394, 16, 73, 13);
-		panel_3.add(lblmaXe);
-		
-		txtmaXe = new JTextField();
-		txtmaXe.setBounds(474, 15, 96, 19);
-		panel_3.add(txtmaXe);
-		txtmaXe.setColumns(10);
-		
-		JLabel lbltenXe = new JLabel("Tên xe");
-		lbltenXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbltenXe.setBounds(394, 46, 73, 13);
-		panel_3.add(lbltenXe);
-		
-		txttenXe = new JTextField();
-		txttenXe.setBounds(474, 45, 96, 19);
-		panel_3.add(txttenXe);
-		txttenXe.setColumns(10);
-		
-		JLabel lblngayLap = new JLabel("Ngày lập");
-		lblngayLap.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblngayLap.setBounds(394, 72, 84, 35);
-		panel_3.add(lblngayLap);
-		
-		txtngayLap = new JTextField();
-		txtngayLap.setBounds(474, 82, 96, 19);
-		panel_3.add(txtngayLap);
-		txtngayLap.setColumns(10);
-		
-		JLabel lblChuThich = new JLabel("Chú thích");
-		lblChuThich.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblChuThich.setBounds(394, 133, 73, 13);
-		panel_3.add(lblChuThich);
-		
-		
-		
-		txtchuThich= new JTextField();
-		txtchuThich.setBounds(474, 132, 96, 19);
-		panel_3.add(txtchuThich);
-		txtchuThich.setColumns(10);
+		JButton btnTmKim = new JButton("Tìm Kiếm");
+		btnTmKim.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnTmKim.setBounds(437, 19, 100, 21);
+		panel_3.add(btnTmKim);
 		
 	}
+	//Hàm Load
+		private void loadHD() throws SQLException {
+			Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
+			tableModel = dao_ncc.getAllNCC();
+			table.setModel(tableModel);
+		}
+		//Hàm Xóa
+		private void xoaHD() throws SQLException {
+			Dao_HopDong dao_hd= new Dao_HopDong();
+			dao_hd.xoaHD(txtmaHD.getText());
+			loadHD();
+		}
+		//Tìm kiếm
+			private void timHD() throws SQLException{
+				Dao_HopDong dao_hd= new Dao_HopDong();
+				tableModel = dao_hd.timKiem(txtTimKiem.getText());
+				table.setModel(tableModel);
+			}
+			public void dem() {
+				try {
+					ConnectDB.getInstance();
+					Connection con = ConnectDB.getCon();
+					String sql = "select count(maNhaCungCap) from nhaCungCap ";
+					PreparedStatement pst=con.prepareStatement(sql);
+					ResultSet rs = pst.executeQuery();
+					if(rs.next()) {
+						String count=rs.getString(1);
+					
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
 }
 
 

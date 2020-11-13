@@ -170,5 +170,10 @@ public class Xe {
 				+ ", hangSanXuat=" + hangSanXuat + ", ngayNhap=" + ngayNhap + ", trangThai=" + trangThai + ", chuThich="
 				+ chuThich + ", img1=" + img1 + ", img2=" + img2 + ", img3=" + img3 + "]";
 	}
+
+	public Xe(String maXe) {
+		super();
+		this.maXe = maXe;
+	}
 	
 }

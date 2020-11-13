@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,10 +17,10 @@ import entity.NhanVien;
 
 public class Dao_NhanVien {
 	private int n;
-	public Dao_NhanVien() {
+	public Dao_NhanVien() {}
 //Load data
-		public DefaultTableModel getAllNCC() throws SQLException {
-			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên", "Địa Chỉ", "Email", "Số Điện Thoại","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};
+		public DefaultTableModel getAllNV() throws SQLException {
+			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên", "Địa Chỉ", "Email", "Số Điện Thoại","Giới tính","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};
 			DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
@@ -33,10 +34,10 @@ public class Dao_NhanVien {
 			return tableModel;
 		}
 		
-	}
+	
 //Tìm
 	public DefaultTableModel timKiem(String maNV) throws SQLException {
-		String[] header= {"Mã Nhân Viên","Tên Nhân Viên", "Địa Chỉ", "Email", "Số Điện Thoại","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};
+		String[] header= {"Mã Nhân Viên","Tên Nhân Viên", "Địa Chỉ", "Email","Giới tính", "Số Điện Thoại","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
@@ -65,6 +66,7 @@ public class Dao_NhanVien {
 			stmt.setString(6, nv.getSdt());
 			stmt.setDate(7, (Date) nv.getNgaySinh());
 			stmt.setDate(8, (Date) nv.getNgayVaoLam());
+			stmt.setString(9, nv.getGioiTinh());
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,9 +103,10 @@ public class Dao_NhanVien {
 				stmt.setString(3, nv.getDiaChi());
 				stmt.setString(4, nv.getEmail());
 				stmt.setString(5, nv.getSdt());
-				stmt.setString(6, nv.getChucVu());
+				stmt.setString(6, nv.getChucVu().getMaChucVu());
 				stmt.setDate(7,(Date) nv.getNgaySinh());
 				stmt.setDate(8,(Date) nv.getNgayVaoLam());
+				stmt.setString(9, nv.getGioiTinh());
 				n = stmt.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();

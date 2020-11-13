@@ -70,24 +70,16 @@ public class NhanVien {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public NhanVien(String maNhanVien, String tenNhanVien, String gioiTinh, Date ngaySinh, String diaChi, String email,
-			ChucVu chucVu, String sdt, Date ngayVaoLam) {
-		super();
-		this.maNhanVien = maNhanVien;
-		this.tenNhanVien = tenNhanVien;
-		this.gioiTinh = gioiTinh;
-		this.ngaySinh = ngaySinh;
-		this.diaChi = diaChi;
-		this.email = email;
-		this.chucVu = chucVu;
-		this.sdt = sdt;
-		this.ngayVaoLam = ngayVaoLam;
-	}
+
 	@Override
 	public String toString() {
 		return "NhanVien [maNhanVien=" + maNhanVien + ", tenNhanVien=" + tenNhanVien + ", gioiTinh=" + gioiTinh
 				+ ", ngaySinh=" + ngaySinh + ", diaChi=" + diaChi + ", email=" + email + ", chucVu=" + chucVu + ", sdt="
 				+ sdt + ", ngayVaoLam=" + ngayVaoLam + "]";
+	}
+	public NhanVien(String maNhanVien) {
+		super();
+		this.maNhanVien = maNhanVien;
 	}
 	
 }
