@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
@@ -69,7 +70,7 @@ public class Menu extends JFrame {
 		JPanel panel = new JPanel();
 		
 		UI_QuanLyXe faNhaCungCap= new UI_QuanLyXe();
-		tabbedPane.addTab("New tab", null, panel, null);
+		tabbedPane.addTab("Kho", new ImageIcon("img1//kho.png"), panel, null);
 		tabbedPane.setBorder(BorderFactory.createLineBorder(Color.white,1));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(

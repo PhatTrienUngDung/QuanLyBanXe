@@ -5,9 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.imageio.ImageIO;
-import javax.lang.model.util.SimpleAnnotationValueVisitor14;
-import javax.sound.sampled.TargetDataLine;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -31,11 +29,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JOptionPane;
-
 import com.toedter.calendar.JDateChooser;
 
 import connect.ConnectDB;
-import dao.Dao_NhaCungCap;
 import dao.Dao_QuanLyXe;
 import entity.HangSanXuat;
 import entity.LoaiXe;
@@ -44,20 +40,14 @@ import entity.Xe;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
 
 public class UI_QuanLyXe extends JFrame {
 
@@ -106,6 +96,7 @@ public class UI_QuanLyXe extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("unchecked")
 	public UI_QuanLyXe() {
 		try {
 			ConnectDB.getInstance().connect();
@@ -196,6 +187,7 @@ public class UI_QuanLyXe extends JFrame {
 		lblNewLabel_2_4_1_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		ArrayList<NhaCungCap> listNCC= dao_qlXe.getAllNCC();
+		@SuppressWarnings("rawtypes")
 		JComboBox cbNhaCC = new JComboBox();
 		cbNhaCC.setBounds(557, 13, 206, 19);
 		cbNhaCC.setEditable(true);
@@ -208,6 +200,7 @@ public class UI_QuanLyXe extends JFrame {
 		lblNewLabel_2_4_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
+		@SuppressWarnings("rawtypes")
 		JComboBox cbHangSx = new JComboBox();
 		cbHangSx.setBounds(557, 42, 206, 19);
 		cbHangSx.setEditable(true);
@@ -220,6 +213,7 @@ public class UI_QuanLyXe extends JFrame {
 		lblNewLabel_2_4_1_2_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		ArrayList<LoaiXe> dsLoai= dao_qlXe.getAllLoaiXe();
+		@SuppressWarnings("rawtypes")
 		JComboBox cbLoaiXe = new JComboBox();
 		cbLoaiXe.setBounds(557, 72, 206, 19);
 		cbLoaiXe.setEditable(true);
@@ -413,6 +407,7 @@ public class UI_QuanLyXe extends JFrame {
 		JDateChooser dateChooser_1 = new JDateChooser();
 		dateChooser_1.setBounds(557, 127, 206, 19);
 		panel_4.add(dateChooser_1);
+		dateChooser_1.setDate(Date.valueOf(LocalDate.now()));
 		String[] header= {"Mã Xe","Tên Xe", "Loại Xe", "Màu Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
@@ -628,7 +623,6 @@ public class UI_QuanLyXe extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row=table.getSelectedRow();
-				String ma=table.getColumnName(1);
 				try {
 					if(row!=-1) {
 						//Detail d= new Detail(txtMa.getText());
@@ -704,6 +698,7 @@ public class UI_QuanLyXe extends JFrame {
 		JLabel lblNewLabel_2_4_1_2_2_1 = new JLabel("Mã Xe");
 		lblNewLabel_2_4_1_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox comboBox_2_1 = new JComboBox();
 		comboBox_2_1.setEditable(true);
 		comboBox_2_1.setBackground(Color.WHITE);
@@ -741,6 +736,7 @@ public class UI_QuanLyXe extends JFrame {
 		JLabel lblNewLabel_2_4_1_2_3 = new JLabel("Mã Xe");
 		lblNewLabel_2_4_1_2_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox comboBox_3 = new JComboBox();
 		comboBox_3.setEditable(true);
 		comboBox_3.setBackground(Color.WHITE);
@@ -748,6 +744,7 @@ public class UI_QuanLyXe extends JFrame {
 		JLabel lblNewLabel_2_4_1_2_1_1 = new JLabel("Mã Xe");
 		lblNewLabel_2_4_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox comboBox_1_1 = new JComboBox();
 		comboBox_1_1.setEditable(true);
 		comboBox_1_1.setBackground(Color.WHITE);
