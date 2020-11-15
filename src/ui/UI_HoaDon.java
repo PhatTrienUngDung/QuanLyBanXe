@@ -16,6 +16,10 @@ import java.awt.TextField;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import dao.Dao_HoaDon;
+import dao.Dao_TaiKhoan;
+
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.Panel;
@@ -67,7 +71,7 @@ public class UI_HoaDon extends JFrame {
 		contentPane.add(pBillTitle);
 		pBillTitle.setLayout(null);
 		
-		JLabel lblBillTitle = new JLabel("H\u00F3a \u0110\u01A1n B\u00E1n L\u1EBB");
+		JLabel lblBillTitle = new JLabel("Hóa Đơn Bán Lẻ");
 		lblBillTitle.setBounds(72, 4, 168, 25);
 		lblBillTitle.setForeground(new Color(220, 20, 60));
 		lblBillTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -79,7 +83,7 @@ public class UI_HoaDon extends JFrame {
 		contentPane.add(pGenInfo_Bill);
 		pGenInfo_Bill.setLayout(null);
 		
-		JLabel lblGenInfo_Bill = new JLabel("Th\u00F4ng tin chung");
+		JLabel lblGenInfo_Bill = new JLabel("Thông tin chung");
 		lblGenInfo_Bill.setBounds(10, 5, 139, 20);
 		lblGenInfo_Bill.setFont(new Font("Tahoma", Font.BOLD, 16));
 		pGenInfo_Bill.add(lblGenInfo_Bill);
@@ -105,22 +109,16 @@ public class UI_HoaDon extends JFrame {
 		btnSearchCMND_Bill.setBounds(320, 10, 25, 25);
 		pCustomerInfo_Bill.add(btnSearchCMND_Bill);
 		
-		JLabel lblNumPhone_Bill = new JLabel("S\u0110T");
+		JLabel lblNumPhone_Bill = new JLabel("SĐT");
 		lblNumPhone_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNumPhone_Bill.setBounds(10, 55, 45, 21);
 		pCustomerInfo_Bill.add(lblNumPhone_Bill);
 		
 		TextField txtNumPhone_Bill = new TextField();
 		txtNumPhone_Bill.setBounds(100, 53, 220, 25);
-		pCustomerInfo_Bill.add(txtNumPhone_Bill);		
+		pCustomerInfo_Bill.add(txtNumPhone_Bill);
 		
-		JButton btnSearchPhone_Bill = new JButton("");
-		btnSearchPhone_Bill.setBackground(Color.WHITE);
-		btnSearchPhone_Bill.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/search-icon.png")));
-		btnSearchPhone_Bill.setBounds(320, 53, 25, 25);
-		pCustomerInfo_Bill.add(btnSearchPhone_Bill);
-		
-		JLabel lblCustomerName_Bill = new JLabel("T�n Kh�ch H�ng");
+		JLabel lblCustomerName_Bill = new JLabel("Tên Khách Hàng");
 		lblCustomerName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblCustomerName_Bill.setBounds(405, 12, 128, 21);
 		pCustomerInfo_Bill.add(lblCustomerName_Bill);
@@ -129,7 +127,7 @@ public class UI_HoaDon extends JFrame {
 		txtCustomerName_Bill.setBounds(570, 10, 327, 25);
 		pCustomerInfo_Bill.add(txtCustomerName_Bill);
 		
-		JLabel lblNote_Bill = new JLabel("Ch� Th�ch");
+		JLabel lblNote_Bill = new JLabel("Chú Thích");
 		lblNote_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNote_Bill.setBounds(405, 55, 87, 21);
 		pCustomerInfo_Bill.add(lblNote_Bill);
@@ -144,9 +142,9 @@ public class UI_HoaDon extends JFrame {
 		contentPane.add(pOtherInfo_Bill);
 		pOtherInfo_Bill.setLayout(null);
 		
-		JLabel lblOtherInfo_Bill = new JLabel("Th\u00F4ng tin kh\u00E1c");
-		lblOtherInfo_Bill.setBounds(10, 5, 97, 16);
-		lblOtherInfo_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
+		JLabel lblOtherInfo_Bill = new JLabel("Thông Tin Khác");
+		lblOtherInfo_Bill.setBounds(10, 5, 150, 16);
+		lblOtherInfo_Bill.setFont(new Font("Tahoma", Font.BOLD, 16));
 		pOtherInfo_Bill.add(lblOtherInfo_Bill);
 		
 		JPanel pEmployeeInfo_Bill = new JPanel();
@@ -154,7 +152,7 @@ public class UI_HoaDon extends JFrame {
 		pOtherInfo_Bill.add(pEmployeeInfo_Bill);
 		pEmployeeInfo_Bill.setLayout(null);
 		
-		JLabel lblEmployee_Bill = new JLabel("Nh\u00E2n Vi\u00EAn");
+		JLabel lblEmployee_Bill = new JLabel("Nhân Viên");
 		lblEmployee_Bill.setBackground(new Color(230, 230, 250));
 		lblEmployee_Bill.setBounds(10, 12, 87, 21);
 		lblEmployee_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -170,7 +168,7 @@ public class UI_HoaDon extends JFrame {
 		txtEmployeeName_Bill.setBounds(320, 10, 258, 25);
 		pEmployeeInfo_Bill.add(txtEmployeeName_Bill);
 		
-		JLabel lblBillNum = new JLabel("M\u00E3 H\u00F3a \u0110\u01A1n");
+		JLabel lblBillNum = new JLabel("Mã Hóa Đơn");
 		lblBillNum.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblBillNum.setBounds(10, 55, 92, 21);
 		pEmployeeInfo_Bill.add(lblBillNum);
@@ -180,7 +178,7 @@ public class UI_HoaDon extends JFrame {
 		txtBillNum.setBounds(140, 53, 168, 25);
 		pEmployeeInfo_Bill.add(txtBillNum);
 		
-		JLabel lblBillDate = new JLabel("Ng\u00E0y LHD");
+		JLabel lblBillDate = new JLabel("Ngày LHD");
 		lblBillDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblBillDate.setBounds(320, 55, 86, 21);
 		pEmployeeInfo_Bill.add(lblBillDate);
@@ -288,25 +286,10 @@ public class UI_HoaDon extends JFrame {
 		
 		table = new JTable();
 		scrollPane_1.setViewportView(table);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"STT", "M\u00E3 xe", "T\u00EAn xe", "M\u00E0u xe", "Ph\u00E2n Kh\u1ED1i", "H\u00E3ng s\u1EA3n xu\u1EA5t", "S\u1ED1 l\u01B0\u1EE3ng", "\u0110\u01A1n gi\u00E1", "Th\u00E0nh ti\u1EC1n"
-			}
-		));
+		String[] header = {"Mã Xe", "Tên Xe", "Màu xe", "Phân Khối", "Hãng Sản Xuất", "Số Lượng", "Đơn Giá", "Thuế VAT", "Thành tiền"};
+		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+		table.setModel(tableModel);
+		scrollPane_1.setViewportView(table);
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
 		table.getTableHeader().setForeground(new Color(50,205,50));
 		table.setRowHeight(25);

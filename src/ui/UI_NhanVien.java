@@ -164,7 +164,7 @@ public class UI_NhanVien extends JFrame {
 					
 					NhanVien nv= new NhanVien ();
 					tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getDiaChi(),nv.getEmail(),nv.getGioiTinh(),nv.getChucVu(),nv.getNgaySinh(),nv.getNgayVaoLam()});
-					dao_nv.themNV(nv);
+					//dao_nv.themNV(nv);
 					JFrame f= new JFrame();
 					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
 					dem();
@@ -222,7 +222,7 @@ public class UI_NhanVien extends JFrame {
 							String ngayVaoLam =txtNgayVaoLam.getText();
 							String gioiTinh = txtGT.getText();
 							NhanVien nv= new NhanVien();
-							dao_nv.update(nv);
+							//dao_nv.update(nv);
 							try {
 								loadNV();
 							} catch (Exception e2) {

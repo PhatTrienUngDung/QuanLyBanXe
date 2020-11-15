@@ -32,12 +32,22 @@ import java.awt.Button;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import connect.ConnectDB;
+import dao.Dao_TaiKhoan;
+import entity.TaiKhoan;
+
 import javax.swing.JScrollPane;
 import java.awt.TextArea;
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 
 public class UI_TaiKhoan extends JFrame {
 
@@ -63,8 +73,15 @@ public class UI_TaiKhoan extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public UI_TaiKhoan() {
+	public UI_TaiKhoan() throws SQLException {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setBounds(100, 100, 1133, 678);
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -158,43 +175,15 @@ public class UI_TaiKhoan extends JFrame {
 		scrollPane.setBounds(1, 1, 1523, 581);
 		pAccountList.add(scrollPane);
 		
-		table = new JTable();
-		table.setColumnSelectionAllowed(true);
+		String[] header = {"STT", "Mã Nhân Viên", "Tên Nhân Viên", "Mật Khẩu", "Quyền", "Chú Thích"};
+		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+		table = new JTable(tableModel);
+		//table.setColumnSelectionAllowed(true);
 		table.setForeground(Color.BLACK);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		Dao_TaiKhoan dao_tk = new Dao_TaiKhoan();
 		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"STT", "M\u00E3 Nh\u00E2n Vi\u00EAn", "T\u00EAn Nh\u00E2n Vi\u00EAn", "M\u1EADt Kh\u1EA9u", "Quy\u1EC1n", "Ch\u00FA Th\u00EDch"
-			}
-		));
+		table.setModel(dao_tk.getAllAccount(header, tableModel));
 		table.setRowHeight(25);
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
@@ -232,50 +221,61 @@ public class UI_TaiKhoan extends JFrame {
 		radEmpployeeNameSearch.setBackground(new Color(230, 230, 250));
 		radEmpployeeNameSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-				JLabel lblSearch_Acc = new JLabel("Nhập nội dung tìm kiếm");
-				lblSearch_Acc.setBounds(88, 37, 175, 21);
-				panel_1.add(lblSearch_Acc);
-				lblSearch_Acc.setForeground(new Color(0, 128, 128));
-				lblSearch_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				
-				TextField txtSearch_Acc = new TextField();
-				txtSearch_Acc.setBounds(16, 75, 308, 25);
-				panel_1.add(txtSearch_Acc);
-				
-				JButton btnNewButton = new JButton("");
-				btnNewButton.setBounds(324, 75, 25, 25);
-				panel_1.add(btnNewButton);
-				btnNewButton.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/search-icon.png")));
-				btnNewButton.setBackground(new Color(255, 215, 0));
-				btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-				
-				JPanel pAccountFunction = new JPanel();
-				pAccountFunction.setBackground(new Color(211, 211, 211));
-				pAccountFunction.setBounds(1302, 50, 228, 149);
-				pAccount.add(pAccountFunction);
-				pAccountFunction.setLayout(null);
-				
-				JButton btnAdd_Acc = new JButton("Cấp Tài Khoản");
-				btnAdd_Acc.setBackground(new Color(60, 179, 113));
-				btnAdd_Acc.setBounds(20, 10, 193, 40);
-				pAccountFunction.add(btnAdd_Acc);
-				btnAdd_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
-				btnAdd_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/add-user-icon.png")));
-				
-				JButton btnDelete_Acc = new JButton("Xóa Tài Khoản");
-				btnDelete_Acc.setBackground(new Color(255, 0, 0));
-				btnDelete_Acc.setBounds(20, 55, 193, 40);
-				pAccountFunction.add(btnDelete_Acc);
-				btnDelete_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
-				btnDelete_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/remove-user-icon.png")));
-				
-				JButton btnResetPassword_Acc = new JButton("Đặt Lại Mật Khẩu");
-				btnResetPassword_Acc.setBackground(new Color(30, 144, 255));
-				btnResetPassword_Acc.setBounds(20, 100, 193, 40);
-				pAccountFunction.add(btnResetPassword_Acc);
-				btnResetPassword_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
-				btnResetPassword_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/Reset-icon.png")));
+		JLabel lblSearch_Acc = new JLabel("Nhập nội dung tìm kiếm");
+		lblSearch_Acc.setBounds(88, 37, 175, 21);
+		panel_1.add(lblSearch_Acc);
+		lblSearch_Acc.setForeground(new Color(0, 128, 128));
+		lblSearch_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		TextField txtSearch_Acc = new TextField();
+		txtSearch_Acc.setBounds(16, 75, 308, 25);
+		panel_1.add(txtSearch_Acc);
 		
+		JButton btnSearchAccount = new JButton("");
+		btnSearchAccount.setBounds(324, 75, 25, 25);
+		panel_1.add(btnSearchAccount);
+		btnSearchAccount.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/search-icon.png")));
+		btnSearchAccount.setBackground(new Color(255, 215, 0));
+		btnSearchAccount.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		JPanel pAccountFunction = new JPanel();
+		pAccountFunction.setBackground(new Color(211, 211, 211));
+		pAccountFunction.setBounds(1302, 50, 228, 149);
+		pAccount.add(pAccountFunction);
+		pAccountFunction.setLayout(null);
+		
+		JButton btnAdd_Acc = new JButton("Cấp Tài Khoản");
+		btnAdd_Acc.setBackground(new Color(60, 179, 113));
+		btnAdd_Acc.setBounds(20, 10, 193, 40);
+		pAccountFunction.add(btnAdd_Acc);
+		btnAdd_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnAdd_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/add-user-icon.png")));
+		
+		JButton btnDelete_Acc = new JButton("Xóa Tài Khoản");
+		btnDelete_Acc.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();				
+				String maNhanVien = table.getValueAt(row, 1).toString();
+				if(dao_tk.delete(maNhanVien)) {
+					tableModel.removeRow(row);
+				}
+				else {
+					System.out.println("Wrong!");
+				}
+			}
+		});
+		btnDelete_Acc.setBackground(new Color(255, 0, 0));
+		btnDelete_Acc.setBounds(20, 55, 193, 40);
+		pAccountFunction.add(btnDelete_Acc);
+		btnDelete_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnDelete_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/remove-user-icon.png")));
+		
+		JButton btnResetPassword_Acc = new JButton("Đặt Lại Mật Khẩu");
+		btnResetPassword_Acc.setBackground(new Color(30, 144, 255));
+		btnResetPassword_Acc.setBounds(20, 100, 193, 40);
+		pAccountFunction.add(btnResetPassword_Acc);
+		btnResetPassword_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnResetPassword_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/Reset-icon.png")));
 	}
 }
