@@ -17,6 +17,11 @@ public class NhaCungCap {
 		this.email= email;
 	}
 	
+	public NhaCungCap(String maNhaCungCap) {
+		super();
+		this.maNhaCungCap = maNhaCungCap;
+	}
+
 	public NhaCungCap(String maNhaCungCap, String tenNhaCungCap) {
 		super();
 		this.maNhaCungCap = maNhaCungCap;

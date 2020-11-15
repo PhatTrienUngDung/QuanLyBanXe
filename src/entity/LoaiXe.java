@@ -8,6 +8,10 @@ public class LoaiXe {
 		this.maLoaiXe = maLoaiXe;
 		this.tenLoaiXe = tenLoaiXe;
 	}
+	public LoaiXe(String maLoaiXe) {
+		super();
+		this.maLoaiXe = maLoaiXe;
+	}
 	public LoaiXe() {
 		super();
 	}

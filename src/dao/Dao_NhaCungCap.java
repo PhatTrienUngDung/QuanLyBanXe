@@ -115,18 +115,4 @@ public class Dao_NhaCungCap {
 		}
 		return n > 0;
 	}
-	
-	public void suaNCC(String maNCC) throws SQLException {
-		Connection a = ConnectDB.getCon();
-		n = 0;
-		
-		String sql = "update maNhaCungCap set maNhaCungCap=?,tenNhaCungcap=?,diaChi=?,email=?,soDienThoai=?,chuThich=? where MaKH='"
-				+ maNCC + "'";
-		PreparedStatement pstm = a.prepareStatement(sql);
-		n = pstm.executeUpdate();
-		if (pstm.executeUpdate() > 0) {
-			JOptionPane.showMessageDialog(null, "Sua Thanh Cong Nha Cung Cap: " + maNCC);
-		}
-		a.close();
-	}
 }

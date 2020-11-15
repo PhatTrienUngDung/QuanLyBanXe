@@ -13,13 +13,40 @@ public class Xe {
 	private NhaCungCap nhaCungCap;
 	private HangSanXuat hangSanXuat;
 	private Date ngayNhap;
-	private boolean trangThai;
+	private String trangThai;
 	private String chuThich;
 	private String img1;
 	private String img2;
 	private String img3;
+	
+	public Xe(String maXe, String tenXe) {
+		super();
+		this.maXe = maXe;
+		this.tenXe = tenXe;
+	}
+
 	public Xe(String maXe, String tenXe, String mauXe, int phanKhoi, int soLuong, double giaNhap, LoaiXe loaiXe,
-			NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, Date ngayNhap, boolean trangThai, String chuThich,
+			NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, String trangThai, String chuThich, String img1, String img2,
+			String img3) {
+		super();
+		this.maXe = maXe;
+		this.tenXe = tenXe;
+		this.mauXe = mauXe;
+		this.phanKhoi = phanKhoi;
+		this.soLuong = soLuong;
+		this.giaNhap = giaNhap;
+		this.loaiXe = loaiXe;
+		this.nhaCungCap = nhaCungCap;
+		this.hangSanXuat = hangSanXuat;
+		this.trangThai = trangThai;
+		this.chuThich = chuThich;
+		this.img1 = img1;
+		this.img2 = img2;
+		this.img3 = img3;
+	}
+
+	public Xe(String maXe, String tenXe, String mauXe, int phanKhoi, int soLuong, double giaNhap, LoaiXe loaiXe,
+			NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, Date ngayNhap, String trangThai, String chuThich,
 			String img1, String img2, String img3) {
 		super();
 		this.maXe = maXe;
@@ -123,11 +150,11 @@ public class Xe {
 		this.ngayNhap = ngayNhap;
 	}
 
-	public boolean isTrangThai() {
+	public String getTrangThai() {
 		return trangThai;
 	}
 
-	public void setTrangThai(boolean trangThai) {
+	public void setTrangThai(String trangThai) {
 		this.trangThai = trangThai;
 	}
 
@@ -174,6 +201,12 @@ public class Xe {
 	public Xe(String maXe) {
 		super();
 		this.maXe = maXe;
+	}
+
+	public Xe(String ma, String ten, String mau, int phanKhoi2, int soLuong2, double giaNhap2, LoaiXe loaiXe2,
+			NhaCungCap nhaCungCap2, HangSanXuat hangSanXuat2, java.util.Date parse, String trangThai2, String chuThich2,
+			String img12, String img22, String img32) {
+		// TODO Auto-generated constructor stub
 	}
 	
 }

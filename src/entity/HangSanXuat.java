@@ -5,6 +5,10 @@ public class HangSanXuat {
 	private String tenHangSX;
 	private String quocGia;
 	
+	public HangSanXuat(String maHangSX) {
+		super();
+		this.maHangSX = maHangSX;
+	}
 	public HangSanXuat() {
 		super();
 	}
@@ -12,6 +16,13 @@ public class HangSanXuat {
 		super();
 		this.maHangSX = maHangSX;
 		this.tenHangSX = tenHangSX;
+	}
+	
+	public HangSanXuat(String maHangSX, String tenHangSX, String quocGia) {
+		super();
+		this.maHangSX = maHangSX;
+		this.tenHangSX = tenHangSX;
+		this.quocGia = quocGia;
 	}
 	@Override
 	public String toString() {

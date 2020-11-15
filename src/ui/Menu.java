@@ -38,9 +38,8 @@ public class Menu extends JFrame {
 				try {
 					
 					Menu frame = new Menu();
-					Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-					frame.setBounds(100, 100, screen.width, screen.height);
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					
+				
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,24 +52,23 @@ public class Menu extends JFrame {
 	 * Create the frame.
 	 */
 	public Menu() {
-		
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(100, 100, screen.width, screen.height);
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setUI(new CustomTabbedPaneUI());
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 1376, Short.MAX_VALUE)
+				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 1522, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE))
+				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
 		);
 		
 		JPanel panel = new JPanel();
 		
-		UI_NhaCungCap faNhaCungCap= new UI_NhaCungCap();
+		UI_QuanLyXe faNhaCungCap= new UI_QuanLyXe();
 		tabbedPane.addTab("New tab", null, panel, null);
 		tabbedPane.setBorder(BorderFactory.createLineBorder(Color.white,1));
 		GroupLayout gl_panel = new GroupLayout(panel);

@@ -268,7 +268,7 @@ public class UI_NhaCungCap extends JFrame {
 				try {
 					if(row!=-1) {
 						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "NhÃ  cung cáº¥p nÃ y sáº½ bá»‹ xÃ³a","ChÃº Ã½",JOptionPane.YES_NO_OPTION);
+						int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ bị xóa","Chú ý", JOptionPane.YES_NO_OPTION);
 						if(hoi==JOptionPane.YES_OPTION) {
 							int r= table_1.getSelectedRow();
 							tableModel.removeRow(r);
@@ -277,7 +277,7 @@ public class UI_NhaCungCap extends JFrame {
 						}
 					}
 					else
-						JOptionPane.showMessageDialog(null, "Vu lÃ²ng chá»�n nhÃ  cung cáº¥p Ä‘á»ƒ xÃ³a");
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp để xóa");
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}

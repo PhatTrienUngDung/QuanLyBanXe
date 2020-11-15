@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.imageio.ImageIO;
+import javax.lang.model.util.SimpleAnnotationValueVisitor14;
+import javax.sound.sampled.TargetDataLine;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -37,12 +40,24 @@ import dao.Dao_QuanLyXe;
 import entity.HangSanXuat;
 import entity.LoaiXe;
 import entity.NhaCungCap;
+import entity.Xe;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 
 public class UI_QuanLyXe extends JFrame {
 
@@ -68,7 +83,7 @@ public class UI_QuanLyXe extends JFrame {
 	private JTextField txtTrangThai;
 	private JTable table;
 	private JTextField txtTim;
-	private JTextField textField_18;
+	private JTextField txtDem;
 	private DefaultTableModel tableModel;
 	private Dao_QuanLyXe dao_qlXe= new Dao_QuanLyXe();
 	/**
@@ -100,17 +115,17 @@ public class UI_QuanLyXe extends JFrame {
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(100, 100, screen.width, screen.height);
+		setBounds(100, 100, screen.width, (screen.height-50));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(5, 5, 1527, 817);
+		tabbedPane.setBounds(5, 5, 1527, 743);
 		
 		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_2, null);
+		tabbedPane.addTab("Quản lý nhập xe", null, panel_2, null);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1522, 41);
@@ -313,26 +328,20 @@ public class UI_QuanLyXe extends JFrame {
 		lblNewLabel_4.setBounds(0, 10, 283, 37);
 		panel_8.add(lblNewLabel_4);
 		
-		textField_18 = new JTextField();
-		textField_18.setFont(new Font("Tahoma", Font.BOLD, 20));
-		textField_18.setForeground(Color.BLACK);
-		textField_18.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_18.setText("1");
-		textField_18.setEnabled(false);
-		textField_18.setEditable(false);
-		textField_18.setBounds(10, 52, 263, 133);
-		panel_8.add(textField_18);
-		textField_18.setColumns(10);
-		
+		txtDem = new JTextField();
+		txtDem.setFont(new Font("Tahoma", Font.BOLD, 20));
+		txtDem.setForeground(Color.BLACK);
+		txtDem.setHorizontalAlignment(SwingConstants.CENTER);
+		txtDem.setText("1");
+		txtDem.setEnabled(false);
+		txtDem.setEditable(false);
+		txtDem.setBounds(10, 52, 263, 133);
+		panel_8.add(txtDem);
+		txtDem.setColumns(10);
+		dem();
 		JTextArea txtCt = new JTextArea();
 		txtCt.setBounds(964, 134, 208, 51);
 		panel_4.add(txtCt);
-		
-		JDateChooser dtNgayNhap = new JDateChooser();
-		dtNgayNhap.getCalendarButton().setBackground(Color.ORANGE);
-		dtNgayNhap.getCalendarButton().setForeground(new Color(0, 0, 0));
-		dtNgayNhap.setBounds(557, 129, 208, 19);
-		panel_4.add(dtNgayNhap);
 		
 		JButton btnImg1 = new JButton("...");
 		btnImg1.setBackground(Color.LIGHT_GRAY);
@@ -400,13 +409,38 @@ public class UI_QuanLyXe extends JFrame {
 		btnImg3.setBackground(Color.LIGHT_GRAY);
 		btnImg3.setBounds(1138, 97, 34, 22);
 		panel_4.add(btnImg3);
-		String[] header= {"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
+		
+		JDateChooser dateChooser_1 = new JDateChooser();
+		dateChooser_1.setBounds(557, 127, 206, 19);
+		panel_4.add(dateChooser_1);
+		String[] header= {"Mã Xe","Tên Xe", "Loại Xe", "Màu Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 441, 1502, 308);
+		
+		scrollPane.setBounds(10, 441, 1502, 261);
 		panel_2.add(scrollPane);
 		
 		table = new JTable(tableModel);
+//		ArrayList<Xe> listXe= dao_qlXe.getInfoXe("Xetest");
+//		txtImg1.setText(listXe.get(0).getImg1());
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i=table.getSelectedRow();
+				txtMa.setText(tableModel.getValueAt(i, 0).toString());
+				txtTen.setText(tableModel.getValueAt(i, 1).toString());
+				txtMau.setText(tableModel.getValueAt(i, 3).toString());
+				cbLoaiXe.setSelectedItem(tableModel.getValueAt(i, 2));
+				cbNhaCC.setSelectedItem(tableModel.getValueAt(i, 4));
+				cbHangSx.setSelectedItem(tableModel.getValueAt(i, 5));
+				txtPhanKhoi.setText(tableModel.getValueAt(i, 6).toString());
+				txtSoLuong.setText(tableModel.getValueAt(i, 7).toString());
+				txtGiaNhap.setText(tableModel.getValueAt(i, 8).toString());
+				dateChooser_1.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 9).toString())));
+				txtTrangThai.setText(tableModel.getValueAt(i, 10).toString());
+				txtCt.setText(tableModel.getValueAt(i, 11).toString());
+			}
+		});
 		scrollPane.setViewportView(table);
 		try {
 			loadXe();
@@ -422,23 +456,39 @@ public class UI_QuanLyXe extends JFrame {
 		
 		JLabel lblNewLabel_3 = new JLabel("Nhập thông tin cần tìm");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_3.setBounds(10, 27, 191, 40);
+		lblNewLabel_3.setBounds(10, 27, 142, 40);
 		panel_6.add(lblNewLabel_3);
 		
 		txtTim = new JTextField();
-		txtTim.setBounds(180, 38, 191, 19);
+		txtTim.setBounds(151, 38, 321, 19);
 		panel_6.add(txtTim);
 		txtTim.setColumns(10);
 		
-		JButton btnShow = new JButton("Hiển thị tất cả");
-		btnShow.setBackground(Color.ORANGE);
-		btnShow.setBounds(545, 28, 145, 39);
-		panel_6.add(btnShow);
-		
 		JButton btnTimKiem = new JButton("Tìm Kiếm");
+		btnTimKiem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(txtTim.getText().length()>0) {
+					try {
+						timXe();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else {
+					try {
+						loadXe();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		btnTimKiem.setIcon(new ImageIcon("G:\\HKI-Nam 3\\QuanLyBanXe\\branches\\Develop\\img1\\search2.png"));
 		btnTimKiem.setBackground(Color.ORANGE);
-		btnTimKiem.setBounds(417, 27, 118, 39);
+		btnTimKiem.setBounds(507, 27, 118, 40);
 		panel_6.add(btnTimKiem);
 		
 		JPanel panel_7 = new JPanel();
@@ -446,8 +496,43 @@ public class UI_QuanLyXe extends JFrame {
 		panel_7.setBounds(720, 336, 792, 95);
 		panel_2.add(panel_7);
 		panel_7.setLayout(null);
-		
 		JButton btnThem = new JButton("Thêm");
+		dateChooser_1.setDateFormatString("yyy-MM-dd");
+		btnThem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				try {
+					
+					String ma= txtMa.getText();
+					String ten=txtTen.getText();
+					String loai=(String) cbLoaiXe.getSelectedItem();
+					String mau= txtMau.getText();
+					int soLuong= Integer.parseInt(txtSoLuong.getText());
+					String ncc= (String) cbNhaCC.getSelectedItem();
+					String hsx=(String) cbHangSx.getSelectedItem();
+					int phanKhoi=Integer.parseInt(txtPhanKhoi.getText());
+					double giaNhap=Float.parseFloat(txtGiaNhap.getText());
+					String date  = ((JTextField)dateChooser_1.getDateEditor().getUiComponent()).getText();
+					Date ngay=Date.valueOf(LocalDate.parse(date));
+					String trangThai=txtTrangThai.getText();
+					String chuThich=txtCt.getText();
+					String img1=txtImg1.getText();
+					String img2=txtImg2.getText();
+					String img3=txtImg3.getText();
+					Xe xe= new Xe(ma, ten, mau, phanKhoi, soLuong, giaNhap, new LoaiXe(loai), new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2, img3);
+					//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
+					tableModel.addRow(new Object[] {xe.getMaXe(),xe.getTenXe(),xe.getMauXe(),xe.getLoaiXe().getMaLoaiXe(),xe.getNhaCungCap().getMaNhaCungCap(),xe.getHangSanXuat().getMaHangSX(),xe.getPhanKhoi(),xe.getSoLuong(),xe.getGiaNhap(),xe.getNgayNhap(),xe.getTrangThai(),xe.getTrangThai()});
+					dao_qlXe.themXe(xe);
+					JFrame f= new JFrame();
+					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+					dem();
+				} catch (Exception s) {
+					s.getMessage();
+					JOptionPane.showConfirmDialog(null, "aaa");
+				}
+			}
+		});
 		btnThem.setIcon(new ImageIcon("img1\\add.png"));
 		btnThem.setToolTipText("");
 		btnThem.setBackground(new Color(255,190,87));
@@ -455,24 +540,107 @@ public class UI_QuanLyXe extends JFrame {
 		panel_7.add(btnThem);
 		
 		JButton btnXoa = new JButton("Xóa");
+		btnXoa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row=table.getSelectedRow();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Xe "+txtTen.getText()+" sẽ bị xóa","Cảnh báo", JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+							int r= table.getSelectedRow();
+							tableModel.removeRow(r);
+							xoaXe();
+							dem();
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn xe để xóa !!!");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnXoa.setIcon(new ImageIcon("img1\\Close-2-icon.png"));
 		btnXoa.setBackground(new Color(255,190,87));
 		btnXoa.setBounds(169, 28, 125, 36);
 		panel_7.add(btnXoa);
 		
 		JButton btnCapNhat = new JButton("Cập nhật");
+		btnCapNhat.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row=table.getSelectedRow();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Xe '"+txtTen.getText()+"' sẽ được cập nhật !!!","Chú ý ",JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+							String ma= txtMa.getText();
+							String ten=txtTen.getText();
+							String loai=(String) cbLoaiXe.getSelectedItem();
+							String mau= txtMau.getText();
+							int soLuong= Integer.parseInt(txtSoLuong.getText());
+							String ncc= (String) cbNhaCC.getSelectedItem();
+							String hsx=(String) cbHangSx.getSelectedItem();
+							int phanKhoi=Integer.parseInt(txtPhanKhoi.getText());
+							double giaNhap=Float.parseFloat(txtGiaNhap.getText());
+							String date  = ((JTextField)dateChooser_1.getDateEditor().getUiComponent()).getText();
+							Date ngay=Date.valueOf(LocalDate.parse(date));
+							String trangThai=txtTrangThai.getText();
+							String chuThich=txtCt.getText();
+							String img1=txtImg1.getText();
+							String img2=txtImg2.getText();
+							String img3=txtImg3.getText();
+							Xe xe= new Xe(ma, ten, mau, phanKhoi, soLuong, giaNhap, new LoaiXe(loai), new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2, img3);
+							//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
+							tableModel.addRow(new Object[] {xe.getMaXe(),xe.getTenXe(),xe.getMauXe(),xe.getLoaiXe().getMaLoaiXe(),xe.getNhaCungCap().getMaNhaCungCap(),xe.getHangSanXuat().getMaHangSX(),xe.getPhanKhoi(),xe.getSoLuong(),xe.getGiaNhap(),xe.getNgayNhap(),xe.getTrangThai(),xe.getTrangThai()});
+							dao_qlXe.update(xe);
+							try {
+								loadXe();
+							} catch (Exception e2) {
+								// TODO: handle exception
+								e2.printStackTrace();
+							}
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn xe cần cập nhật");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnCapNhat.setIcon(new ImageIcon("img1\\update.png"));
 		btnCapNhat.setBackground(new Color(255,190,87));
 		btnCapNhat.setBounds(326, 28, 125, 36);
 		panel_7.add(btnCapNhat);
 		
-		JButton btnXoaTrang = new JButton("Làm tươi");
+		JButton btnXoaTrang = new JButton("Làm mới ");
 		btnXoaTrang.setIcon(new ImageIcon("img1\\refresh.png"));
 		btnXoaTrang.setBackground(new Color(255,190,87));
 		btnXoaTrang.setBounds(482, 28, 125, 36);
 		panel_7.add(btnXoaTrang);
 		
 		JButton btnTT = new JButton("Chi tiết");
+		btnTT.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row=table.getSelectedRow();
+				String ma=table.getColumnName(1);
+				try {
+					if(row!=-1) {
+						Detail d= new Detail(txtMa.getText());
+						d.setVisible(true);
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn xe để xem thông tin chi tiết !!!");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnTT.setIcon(new ImageIcon("img1\\detail.png"));
 		btnTT.setBackground(new Color(255, 190, 87));
 		btnTT.setBounds(642, 28, 125, 36);
@@ -690,10 +858,38 @@ public class UI_QuanLyXe extends JFrame {
 		panel_2_1.setLayout(gl_panel_2_1);
 		contentPane.add(tabbedPane);
 	}
-	//Hàm load database
+//Hàm load database
 		private void loadXe() throws SQLException {
 			Dao_QuanLyXe dao_xe = new Dao_QuanLyXe();
 			tableModel = dao_xe.getAllXe();
+			table.setModel(tableModel);
+		}
+//Đếm số lượng xe 
+		public void dem() {
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql = "select count(maXe) from Xe ";
+				PreparedStatement pst=con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()) {
+					String count=rs.getString(1);
+					txtDem.setText(count);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+//Xóa xe
+		private void xoaXe() throws SQLException {
+			Dao_QuanLyXe dao_qlXe = new Dao_QuanLyXe();
+			dao_qlXe.xoaXe(txtMa.getText());
+			loadXe();
+		}
+//Tìm xe theo tên và mã 
+		private void timXe() throws SQLException{
+			Dao_QuanLyXe dao_qlXe= new Dao_QuanLyXe();
+			tableModel = dao_qlXe.timKiem(txtTim.getText());
 			table.setModel(tableModel);
 		}
 }

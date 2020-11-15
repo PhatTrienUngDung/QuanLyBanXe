@@ -64,7 +64,7 @@ public class UI_NhanVien extends JFrame {
 	private JTextField txtTimKiem;
 	private JTextField textField;
 	private DefaultTableModel tableModel;
-	private Dao_NhanVien dao_nv= new Dao_NhanVien();
+	
 	
 
 	
