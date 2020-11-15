@@ -625,8 +625,8 @@ public class UI_QuanLyXe extends JFrame {
 				int row=table.getSelectedRow();
 				try {
 					if(row!=-1) {
-						//Detail d= new Detail(txtMa.getText());
-						//d.setVisible(true);
+						Detail d= new Detail(txtMa.getText());
+						d.setVisible(true);
 					}
 					else
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn xe để xem thông tin chi tiết !!!");
