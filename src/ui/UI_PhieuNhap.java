@@ -1,3 +1,4 @@
+
 package ui;
 /*
 * (C) Copyright 2020 IUH. All rights reserved.
@@ -7,8 +8,9 @@ package ui;
 * @version: 1.0
 */
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 
@@ -19,9 +21,17 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
+
+import dao.Dao_PhieuNhap;
+import entity.PhieuNhap;
+
 import javax.swing.JButton;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
@@ -29,29 +39,30 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
+import javax.swing.JTextArea;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
-public class UI_PhieuNhap extends JFrame {
+public class UI_PhieuNhap extends JFrame implements ActionListener,MouseListener {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
-	private JTextField textField_12;
+	private JTextField txtmaPhieuNhap;
+	private JTextField txtmaNhacc;
+	private JTextField txtmaXe;
+	private JTextField txtnguoiNhap;
+	private JTextField txtsoLuong;
+	private JTextField txtdonGia;
+	private JTextField txtvat;
+	private JTextField txtthanhTien;
+	private JTextField txttienThue;
+	private JTextField txttiemKiem;
 	private JTable table;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -63,208 +74,220 @@ public class UI_PhieuNhap extends JFrame {
 			}
 		});
 	}
+	private JButton btnThem,btnXoa,btncapNhat,btnlamMoi,btnthanhTien,btntienThue;
+	private JComboBox cbtenNhacc,cbtenXe;
+	private JTextArea txtchuThich;
+	private JDateChooser datengayNhap;
+	private Dao_PhieuNhap pn_dao;
+	
 
 	/**
 	 * Create the frame.
 	 */
 	public UI_PhieuNhap() {
+		setBackground(new Color(240, 240, 240));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UI_PhieuNhap.class.getResource("/image/truck-icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(25, 5, 1267, 730);
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(5,5 , screen.width, screen.height);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.LIGHT_GRAY);
-		panel.setBounds(0, 0, 1267, 40);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel paneltieuDe = new JPanel();
+		paneltieuDe.setBackground(Color.LIGHT_GRAY);
+		paneltieuDe.setBounds(0, 0, 1340, 40);
+		contentPane.add(paneltieuDe);
+		paneltieuDe.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Quản Lý Phiếu Nhập");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(29, 11, 600, 25);
-		panel.add(lblNewLabel);
+		JLabel lbltieuDe = new JLabel("Quản Lý Phiếu Nhập");
+		lbltieuDe.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Window-Enter-icon.png")));
+		lbltieuDe.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lbltieuDe.setBounds(29, 11, 301, 25);
+		paneltieuDe.add(lbltieuDe);
 		
-		JPanel panelNhap = new JPanel();
-		panelNhap.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Th\u00F4ng Tin Chi Ti\u1EBFt", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 0, 0)));
-		panelNhap.setBackground(new Color(144, 238, 144));
-		panelNhap.setBounds(0, 51, 785, 190);
-		contentPane.add(panelNhap);
-		panelNhap.setLayout(null);
+		JPanel panelthongTin = new JPanel();
+		panelthongTin.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Th\u00F4ng Tin Chi Ti\u1EBFt", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 0, 0)));
+		panelthongTin.setBackground(new Color(238, 232, 170));
+		panelthongTin.setBounds(33, 51, 864, 190);
+		contentPane.add(panelthongTin);
+		panelthongTin.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Mã Phiếu Nhập");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_1.setBounds(31, 16, 87, 14);
-		panelNhap.add(lblNewLabel_1);
+		JLabel lblmaPhieuNhap = new JLabel("Mã Phiếu Nhập");
+		lblmaPhieuNhap.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblmaPhieuNhap.setBounds(31, 36, 87, 14);
+		panelthongTin.add(lblmaPhieuNhap);
 		
-		textField = new JTextField();
-		textField.setBounds(128, 11, 276, 20);
-		panelNhap.add(textField);
-		textField.setColumns(10);
+		txtmaPhieuNhap = new JTextField();
+		txtmaPhieuNhap.setBounds(128, 33, 276, 20);
+		panelthongTin.add(txtmaPhieuNhap);
+		txtmaPhieuNhap.setColumns(10);
 		
-		JLabel lblNhCungCp = new JLabel("Mã Cung Cấp");
-		lblNhCungCp.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNhCungCp.setBounds(31, 47, 78, 14);
-		panelNhap.add(lblNhCungCp);
+		JLabel lblmaNhacc = new JLabel("Mã Cung Cấp");
+		lblmaNhacc.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblmaNhacc.setBounds(31, 95, 78, 14);
+		panelthongTin.add(lblmaNhacc);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(128, 44, 276, 20);
-		panelNhap.add(textField_1);
-		textField_1.setColumns(10);
+		JLabel lbltenNhacc = new JLabel("Tên Nhà CC");
+		lbltenNhacc.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbltenNhacc.setBounds(31, 64, 87, 20);
+		panelthongTin.add(lbltenNhacc);
 		
-		JLabel lblNgiNhp = new JLabel("Tên Nhà CC");
-		lblNgiNhp.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNgiNhp.setBounds(31, 76, 87, 20);
-		panelNhap.add(lblNgiNhp);
+		txtmaNhacc = new JTextField();
+		txtmaNhacc.setBackground(new Color(211, 211, 211));
+		txtmaNhacc.setBounds(128, 95, 276, 20);
+		panelthongTin.add(txtmaNhacc);
+		txtmaNhacc.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(128, 76, 276, 20);
-		panelNhap.add(textField_2);
-		textField_2.setColumns(10);
+		JLabel lblngayNhap = new JLabel("Ngày Nhập");
+		lblngayNhap.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblngayNhap.setBounds(31, 134, 71, 14);
+		panelthongTin.add(lblngayNhap);
 		
-		JLabel lblNgyNhp = new JLabel("Ngày Nhập");
-		lblNgyNhp.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNgyNhp.setBounds(31, 117, 71, 14);
-		panelNhap.add(lblNgyNhp);
+		//date chooser
+		datengayNhap = new JDateChooser();
+		datengayNhap.setBounds(128, 126, 185, 20);
+		panelthongTin.add(datengayNhap);
+		datengayNhap.setDateFormatString("dd/MM/yyyy");
+		JLabel lblchuThich = new JLabel("Chú Thích");
+		lblchuThich.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblchuThich.setBounds(447, 126, 71, 14);
+		panelthongTin.add(lblchuThich);
 		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(128, 111, 185, 20);
-		panelNhap.add(dateChooser);
+		JLabel lblmaXe = new JLabel("Mã Xe");
+		lblmaXe.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblmaXe.setBounds(447, 67, 46, 14);
+		panelthongTin.add(lblmaXe);
 		
-		JLabel lblNewLabel_2 = new JLabel("Chú Thích");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_2.setBounds(31, 153, 71, 14);
-		panelNhap.add(lblNewLabel_2);
+		JLabel lbltenXe = new JLabel("Tên Xe");
+		lbltenXe.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbltenXe.setBounds(447, 36, 46, 14);
+		panelthongTin.add(lbltenXe);
 		
-		textField_3 = new JTextField();
-		textField_3.setBackground(Color.LIGHT_GRAY);
-		textField_3.setBounds(128, 150, 276, 29);
-		panelNhap.add(textField_3);
-		textField_3.setColumns(10);
+		txtmaXe = new JTextField();
+		txtmaXe.setBackground(new Color(211, 211, 211));
+		txtmaXe.setBounds(531, 64, 244, 20);
+		panelthongTin.add(txtmaXe);
+		txtmaXe.setColumns(10);
 		
-		JLabel lblMXe = new JLabel("Mã Xe");
-		lblMXe.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblMXe.setBounds(447, 11, 46, 14);
-		panelNhap.add(lblMXe);
+		JLabel lblnguoiNhap = new JLabel("Người Nhập");
+		lblnguoiNhap.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblnguoiNhap.setBounds(447, 98, 74, 14);
+		panelthongTin.add(lblnguoiNhap);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(531, 8, 244, 20);
-		panelNhap.add(textField_4);
-		textField_4.setColumns(10);
+		txtnguoiNhap = new JTextField();
+		txtnguoiNhap.setBounds(531, 95, 244, 20);
+		panelthongTin.add(txtnguoiNhap);
+		txtnguoiNhap.setColumns(10);
 		
-		JLabel lblTnXe = new JLabel("Tên Xe");
-		lblTnXe.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblTnXe.setBounds(447, 47, 46, 14);
-		panelNhap.add(lblTnXe);
+		txtchuThich = new JTextArea();
+		txtchuThich.setBounds(531, 129, 244, 50);
+		panelthongTin.add(txtchuThich);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(531, 44, 244, 20);
-		panelNhap.add(textField_5);
-		textField_5.setColumns(10);
+		cbtenNhacc = new JComboBox();
+		cbtenNhacc.setModel(new DefaultComboBoxModel(new String[] {"", "Công Ty TNHH Thương Mại Ngọc Hoa", "Công Ty TNHH KBK Việt Nam Bearing", "CÔNG TY TNHH SẢN XUẤT VÀ THƯƠNG MẠI TIẾN LỘC"}));
+		cbtenNhacc.setBounds(128, 64, 276, 20);
+		panelthongTin.add(cbtenNhacc);
 		
-		JLabel lblNgiNhp_1 = new JLabel("Người Nhập");
-		lblNgiNhp_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNgiNhp_1.setBounds(447, 79, 74, 14);
-		panelNhap.add(lblNgiNhp_1);
-		
-		textField_6 = new JTextField();
-		textField_6.setBounds(531, 76, 244, 20);
-		panelNhap.add(textField_6);
-		textField_6.setColumns(10);
+		cbtenXe = new JComboBox();
+		cbtenXe.setModel(new DefaultComboBoxModel(new String[] {"", "Exciter 150 RC", "Exciter 150 CC", "Jupiter 150"}));
+		cbtenXe.setBounds(531, 33, 244, 20);
+		panelthongTin.add(cbtenXe);
 		
 		JPanel panel_Tien = new JPanel();
 		panel_Tien.setBorder(new TitledBorder(null, "Th\u00E0nh Ti\u1EC1n", TitledBorder.LEADING, TitledBorder.TOP, null, Color.RED));
-		panel_Tien.setBackground(new Color(135, 206, 250));
-		panel_Tien.setBounds(808, 51, 433, 190);
+		panel_Tien.setBackground(new Color(238, 232, 170));
+		panel_Tien.setBounds(907, 51, 433, 190);
 		contentPane.add(panel_Tien);
 		panel_Tien.setLayout(null);
 		
-		JLabel lblNewLabel_3 = new JLabel("Số Lượng");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_3.setBounds(10, 22, 69, 19);
-		panel_Tien.add(lblNewLabel_3);
+		JLabel lblsoLuong = new JLabel("Số Lượng");
+		lblsoLuong.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblsoLuong.setBounds(10, 22, 69, 19);
+		panel_Tien.add(lblsoLuong);
 		
-		textField_7 = new JTextField();
-		textField_7.setBounds(78, 21, 79, 20);
-		panel_Tien.add(textField_7);
-		textField_7.setColumns(10);
+		txtsoLuong = new JTextField();
+		txtsoLuong.setBounds(78, 21, 79, 20);
+		panel_Tien.add(txtsoLuong);
+		txtsoLuong.setColumns(10);
 		
-		JLabel lblNewLabel_4 = new JLabel("Đơn Giá");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_4.setBounds(10, 52, 46, 14);
-		panel_Tien.add(lblNewLabel_4);
+		JLabel lbldonGia = new JLabel("Đơn Giá");
+		lbldonGia.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbldonGia.setBounds(10, 52, 46, 14);
+		panel_Tien.add(lbldonGia);
 		
-		textField_8 = new JTextField();
-		textField_8.setBounds(78, 49, 137, 20);
-		panel_Tien.add(textField_8);
-		textField_8.setColumns(10);
+		txtdonGia = new JTextField();
+		txtdonGia.setBounds(78, 49, 137, 20);
+		panel_Tien.add(txtdonGia);
+		txtdonGia.setColumns(10);
 		
 		JLabel lblVat = new JLabel("%VAT");
 		lblVat.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblVat.setBounds(10, 86, 46, 14);
 		panel_Tien.add(lblVat);
 		
-		textField_9 = new JTextField();
-		textField_9.setBounds(78, 83, 79, 20);
-		panel_Tien.add(textField_9);
-		textField_9.setColumns(10);
+		txtvat = new JTextField();
+		txtvat.setBounds(78, 83, 79, 20);
+		panel_Tien.add(txtvat);
+		txtvat.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Tổng Tiền");
-		btnNewButton.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Money-icon.png")));
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnNewButton.setBackground(new Color(250, 128, 114));
-		btnNewButton.setBounds(78, 127, 137, 39);
-		panel_Tien.add(btnNewButton);
+		btnthanhTien = new JButton("Tổng Tiền");
+		btnthanhTien.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Money-icon.png")));
+		btnthanhTien.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnthanhTien.setBackground(new Color(255, 248, 220));
+		btnthanhTien.setBounds(78, 127, 137, 39);
+		panel_Tien.add(btnthanhTien);
 		
-		JButton btnNewButton_1 = new JButton("Tiền Thuế");
-		btnNewButton_1.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Percent-icon.png")));
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnNewButton_1.setBackground(new Color(250, 128, 114));
-		btnNewButton_1.addActionListener(new ActionListener() {
+	     btntienThue = new JButton("Tiền Thuế");
+		btntienThue.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Percent-icon.png")));
+		btntienThue.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btntienThue.setBackground(new Color(255, 248, 220));
+		btntienThue.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_1.setBounds(251, 127, 143, 39);
-		panel_Tien.add(btnNewButton_1);
+		btntienThue.setBounds(251, 127, 143, 39);
+		panel_Tien.add(btntienThue);
 		
-		textField_10 = new JTextField();
-		textField_10.setBackground(SystemColor.inactiveCaption);
-		textField_10.setBounds(301, 10, 122, 20);
-		panel_Tien.add(textField_10);
-		textField_10.setColumns(10);
+		txtthanhTien = new JTextField();
+		txtthanhTien.setBackground(SystemColor.inactiveCaption);
+		txtthanhTien.setBounds(301, 49, 122, 20);
+		panel_Tien.add(txtthanhTien);
+		txtthanhTien.setColumns(10);
 		
-		textField_11 = new JTextField();
-		textField_11.setBackground(SystemColor.inactiveCaption);
-		textField_11.setBounds(301, 49, 122, 20);
-		panel_Tien.add(textField_11);
-		textField_11.setColumns(10);
+		txttienThue = new JTextField();
+		txttienThue.setBackground(SystemColor.inactiveCaption);
+		txttienThue.setBounds(301, 83, 122, 20);
+		panel_Tien.add(txttienThue);
+		txttienThue.setColumns(10);
 		
-		JLabel lblThnhTin = new JLabel("Thành Tiền");
-		lblThnhTin.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblThnhTin.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblThnhTin.setBounds(222, 13, 69, 14);
-		panel_Tien.add(lblThnhTin);
+		JLabel lblthanhTien = new JLabel("Thành Tiền");
+		lblthanhTien.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblthanhTien.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblthanhTien.setBounds(222, 52, 69, 14);
+		panel_Tien.add(lblthanhTien);
 		
-		JLabel lblThu = new JLabel("Tiền Thuế");
-		lblThu.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblThu.setBounds(232, 52, 59, 14);
-		panel_Tien.add(lblThu);
+		JLabel lbltienThue = new JLabel("Tiền Thuế");
+		lbltienThue.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbltienThue.setBounds(232, 85, 55, 17);
+		panel_Tien.add(lbltienThue);
 		
 		JPanel panelTable = new JPanel();
 		panelTable.setBackground(Color.WHITE);
-		panelTable.setBounds(0, 252, 1251, 372);
+		panelTable.setBounds(0, 252, 1288, 372);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 1231, 350);
+		scrollPane.setBounds(56, 11, 1224, 350);
 		panelTable.add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
+				
 				{null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null},
@@ -287,78 +310,147 @@ public class UI_PhieuNhap extends JFrame {
 				{null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"STT", "Mã Phiếu", "Tên Xe", "Người Nhập", "Tên Xe", "Số Lượng", "Đơn Giá","Thuế","Thành Tiền"
+				 "Mã Phiếu", "Mã Nhà Cung Cấp", "Người Nhập", "Tên Xe", "Số Lượng", "Đơn Giá"," Tiền Thuế","Thành Tiền","Chú Thích"	 
 			}
 		));
 		
 		JPanel panelchucNang = new JPanel();
 		panelchucNang.setBackground(new Color(255, 165, 0));
-		panelchucNang.setBounds(634, 635, 631, 45);
+		panelchucNang.setBounds(678, 646, 631, 45);
 		contentPane.add(panelchucNang);
 		panelchucNang.setLayout(null);
 		
-		JButton btnNewButton_2 = new JButton("Thêm");
-		btnNewButton_2.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
-		btnNewButton_2.setBackground(new Color(255, 222, 173));
-		btnNewButton_2.setBounds(36, 5, 119, 34);
-		panelchucNang.add(btnNewButton_2);
+		btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
+		btnThem.setBackground(new Color(255, 222, 173));
+		btnThem.setBounds(36, 5, 119, 34);
+		panelchucNang.add(btnThem);
 		
-		JButton btnNewButton_3 = new JButton("Xóa");
-		btnNewButton_3.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
-		btnNewButton_3.setBackground(new Color(255, 222, 173));
-		btnNewButton_3.setBounds(192, 5, 112, 34);
-		panelchucNang.add(btnNewButton_3);
+		btnXoa = new JButton("Xóa");
+		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
+		btnXoa.setBackground(new Color(255, 222, 173));
+		btnXoa.setBounds(192, 5, 112, 34);
+		panelchucNang.add(btnXoa);
 		
-		JButton btnNewButton_4 = new JButton("Cập Nhật");
-		btnNewButton_4.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Other-Update-Metro-icon.png")));
-		btnNewButton_4.setBackground(new Color(255, 222, 173));
-		btnNewButton_4.addActionListener(new ActionListener() {
+		btncapNhat = new JButton("Cập Nhật");
+		btncapNhat.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Other-Update-Metro-icon.png")));
+		btncapNhat.setBackground(new Color(255, 222, 173));
+		btncapNhat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_4.setBounds(327, 5, 127, 34);
-		panelchucNang.add(btnNewButton_4);
+		btncapNhat.setBounds(327, 5, 127, 34);
+		panelchucNang.add(btncapNhat);
 		
-		JButton btnNewButton_5 = new JButton("Làm Mới");
-		btnNewButton_5.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Actions-view-refresh-icon.png")));
-		btnNewButton_5.setBackground(new Color(255, 222, 173));
-		btnNewButton_5.setBounds(485, 5, 112, 34);
-		panelchucNang.add(btnNewButton_5);
+		btnlamMoi = new JButton("Làm Mới");
+		btnlamMoi.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Actions-view-refresh-icon.png")));
+		btnlamMoi.setBackground(new Color(255, 222, 173));
+		btnlamMoi.setBounds(485, 5, 112, 34);
+		panelchucNang.add(btnlamMoi);
 		
 		JPanel paneltimKiem = new JPanel();
 		paneltimKiem.setBackground(new Color(169, 169, 169));
-		paneltimKiem.setBounds(10, 635, 547, 45);
+		paneltimKiem.setBounds(10, 646, 547, 45);
 		contentPane.add(paneltimKiem);
 		paneltimKiem.setLayout(null);
 		
-		JLabel lblNhpMPhiu = new JLabel("Nhập mã phiếu cần tìm");
-		lblNhpMPhiu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNhpMPhiu.setBounds(10, 14, 159, 14);
-		paneltimKiem.add(lblNhpMPhiu);
+		JLabel lbltimKiem = new JLabel("Nhập mã phiếu cần tìm");
+		lbltimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbltimKiem.setBounds(10, 14, 159, 14);
+		paneltimKiem.add(lbltimKiem);
 		
-		textField_12 = new JTextField();
-		textField_12.setBounds(188, 9, 211, 25);
-		paneltimKiem.add(textField_12);
-		textField_12.setColumns(10);
+		txttiemKiem = new JTextField();
+		txttiemKiem.setBounds(188, 9, 211, 25);
+		paneltimKiem.add(txttiemKiem);
+		txttiemKiem.setColumns(10);
 		
-		JButton btnTm = new JButton("Tìm");
-		btnTm.setBackground(new Color(255, 255, 0));
-		btnTm.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/search1.png")));
-		btnTm.setBounds(430, 8, 107, 26);
-		paneltimKiem.add(btnTm);
-//		
-//		JPanel panelTitle = new JPanel();
-//		panelTitle.setBackground(Color.LIGHT_GRAY);
-//		panelTitle.setBounds(0, 0, 50, 40);
-//		contentPane.add(panelTitle);
-//		panelTitle.setLayout(null);
-//		
-//		//Panel LabelTitle
-//		JLabel lblTitle = new JLabel("Quản Lý Khách Hàng");
-//		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
-//		lblTitle.setBounds(29, 11, 600, 25);
-//		lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
-//		panelTitle.add(lblTitle);
+		JButton btntim = new JButton("Tìm");
+		btntim.setBackground(new Color(255, 255, 0));
+		btntim.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/search1.png")));
+		btntim.setBounds(430, 8, 107, 26);
+		paneltimKiem.add(btntim);
+		
+		//event
+		btnlamMoi.addActionListener(this);
+		btnThem.addActionListener(this);
+		btnXoa.addActionListener(this);
+		btncapNhat.addActionListener(this);
+		btnthanhTien.addActionListener(this);
+		btnthanhTien.addActionListener(this);
+		btntienThue.addActionListener(this);
+	}
+	public void themVaoTable(PhieuNhap pn,DefaultTableModel modelTable) {
+		modelTable.addRow(new Object[] {
+			pn.getMaPhieuNhap(),pn.getNhaCungCap().getMaNhaCungCap(),pn.getNhanVien().getTenNhanVien(),
+			pn.getXe().getTenXe(),pn.getSoLuong(),pn.getDonGia(),pn.getTienThue(),pn.getThanhTien(),pn.getChuThich()
+			
+		});
+	}
+	public void docDuLieuTuSQLVaoTable() {
+		DefaultTableModel<PhieuNhap> pn = pn_dao.getAllPN();
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(btnlamMoi))
+			lamMoi();
+		if(o.equals(btnThem))
+			themMoi();
+			
+	}
+	
+	//ham retest
+	public void lamMoi() {
+		txtmaPhieuNhap.setText("");
+		cbtenNhacc.setSelectedIndex(-1);
+		txtmaNhacc.setText("");
+		cbtenXe.setSelectedIndex(-1);
+		txtmaXe.setText("");
+		txtnguoiNhap.setText("");
+		txtchuThich.setText("");
+		txtsoLuong.setText("");
+		txtdonGia.setText("");
+		txtvat.setText("");
+		txtthanhTien.setText("");
+		txttienThue.setText("");
+		datengayNhap.setCalendar(null);
+		txtmaPhieuNhap.requestFocus();
+	}
+	
+	//ham them
+	public void themMoi() {
+		
 	}
 }
 
