@@ -55,17 +55,12 @@ public class UI_QuanLyXe extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	private JPanel getContentPane;
 	private JTextField txtMa;
 	private JTextField txtTen;
 	private JTextField txtMau;
 	private JTextField txtSoLuong;
 	private JTextField txtPhanKhoi;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
 	private JTextField txtGiaNhap;
 	private JTextField txtImg3;
 	private JTextField txtImg2;
@@ -76,6 +71,15 @@ public class UI_QuanLyXe extends JFrame {
 	private JTextField txtDem;
 	private DefaultTableModel tableModel;
 	private Dao_QuanLyXe dao_qlXe= new Dao_QuanLyXe();
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTable table_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTable table_2;
+	private JTextField textField_6;
 	/**
 	 * Launch the application.
 	 */
@@ -107,16 +111,17 @@ public class UI_QuanLyXe extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(100, 100, screen.width, (screen.height-50));
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		getContentPane = new JPanel();
+		getContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(getContentPane);
+		getContentPane.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setUI(new CustomTabbedPaneUI());
 		tabbedPane.setBounds(5, 5, 1527, 743);
 		
 		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("Quản lý nhập xe", null, panel_2, null);
+		tabbedPane.addTab("Quản lý nhập xe", new ImageIcon("img1\\moto.png"), panel_2, null);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1522, 41);
@@ -133,7 +138,6 @@ public class UI_QuanLyXe extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("DANH SÁCH XE NHẬP");
 		lblNewLabel_1.setBounds(57, 0, 329, 72);
 		lblNewLabel_1.setForeground(new Color(184, 134, 11));
-		lblNewLabel_1.setIcon(new ImageIcon("img1/moto.png"));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 		
 		JPanel panel_4 = new JPanel();
@@ -192,7 +196,7 @@ public class UI_QuanLyXe extends JFrame {
 		cbNhaCC.setBounds(557, 13, 206, 19);
 		cbNhaCC.setEditable(true);
 		for (NhaCungCap nhaCungCap : listNCC) {
-			cbNhaCC.addItem(nhaCungCap.getMaNhaCungCap());
+			cbNhaCC.addItem(nhaCungCap.getTenNhaCungCap());
 		}
 		
 		JLabel lblNewLabel_2_4_1_2_1 = new JLabel("Hãng sản xuất");
@@ -205,7 +209,7 @@ public class UI_QuanLyXe extends JFrame {
 		cbHangSx.setBounds(557, 42, 206, 19);
 		cbHangSx.setEditable(true);
 		for (HangSanXuat hangSanXuat : listHang) {
-			cbHangSx.addItem(hangSanXuat.getMaHangSX());
+			cbHangSx.addItem(hangSanXuat.getTenHangSX());
 		}
 		
 		JLabel lblNewLabel_2_4_1_2_2 = new JLabel("Loại xe");
@@ -218,7 +222,7 @@ public class UI_QuanLyXe extends JFrame {
 		cbLoaiXe.setBounds(557, 72, 206, 19);
 		cbLoaiXe.setEditable(true);
 		for (LoaiXe loaiXe : dsLoai) {
-			cbLoaiXe.addItem(loaiXe.getMaLoaiXe());
+			cbLoaiXe.addItem(loaiXe.getTenLoaiXe());
 		}
 		
 		txtGiaNhap = new JTextField();
@@ -408,7 +412,7 @@ public class UI_QuanLyXe extends JFrame {
 		dateChooser_1.setBounds(557, 127, 206, 19);
 		panel_4.add(dateChooser_1);
 		dateChooser_1.setDate(Date.valueOf(LocalDate.now()));
-		String[] header= {"Mã Xe","Tên Xe", "Loại Xe", "Màu Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
+		String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Số lượng","Giá nhập","Ngày nhập","Trạng thái","Chú thích", "Tổng tiền"};
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
 		
@@ -424,16 +428,16 @@ public class UI_QuanLyXe extends JFrame {
 				int i=table.getSelectedRow();
 				txtMa.setText(tableModel.getValueAt(i, 0).toString());
 				txtTen.setText(tableModel.getValueAt(i, 1).toString());
-				txtMau.setText(tableModel.getValueAt(i, 3).toString());
-				cbLoaiXe.setSelectedItem(tableModel.getValueAt(i, 2));
-				cbNhaCC.setSelectedItem(tableModel.getValueAt(i, 4));
-				cbHangSx.setSelectedItem(tableModel.getValueAt(i, 5));
-				txtPhanKhoi.setText(tableModel.getValueAt(i, 6).toString());
-				txtSoLuong.setText(tableModel.getValueAt(i, 7).toString());
-				txtGiaNhap.setText(tableModel.getValueAt(i, 8).toString());
-				dateChooser_1.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 9).toString())));
-				txtTrangThai.setText(tableModel.getValueAt(i, 10).toString());
-				txtCt.setText(tableModel.getValueAt(i, 11).toString());
+				txtMau.setText(tableModel.getValueAt(i, 2).toString());
+				cbLoaiXe.setSelectedItem(tableModel.getValueAt(i, 3));
+				cbHangSx.setSelectedItem(tableModel.getValueAt(i, 4));
+				cbNhaCC.setSelectedItem(tableModel.getValueAt(i, 5));
+				txtPhanKhoi.setText(tableModel.getValueAt(i, 7).toString());
+				txtSoLuong.setText(tableModel.getValueAt(i, 8).toString());
+				txtGiaNhap.setText(tableModel.getValueAt(i, 9).toString());
+				dateChooser_1.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 10).toString())));
+				txtTrangThai.setText(tableModel.getValueAt(i, 11).toString());
+				txtCt.setText(tableModel.getValueAt(i, 12).toString());
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -481,7 +485,7 @@ public class UI_QuanLyXe extends JFrame {
 				}
 			}
 		});
-		btnTimKiem.setIcon(new ImageIcon("G:\\HKI-Nam 3\\QuanLyBanXe\\branches\\Develop\\img1\\search2.png"));
+		btnTimKiem.setIcon(new ImageIcon("img1\\search2.png"));
 		btnTimKiem.setBackground(Color.ORANGE);
 		btnTimKiem.setBounds(507, 27, 118, 40);
 		panel_6.add(btnTimKiem);
@@ -498,14 +502,29 @@ public class UI_QuanLyXe extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 
 				try {
-					
+					String ncc=null;
+					String loai=null;
+					String hsx = null;
 					String ma= txtMa.getText();
 					String ten=txtTen.getText();
-					String loai=(String) cbLoaiXe.getSelectedItem();
 					String mau= txtMau.getText();
 					int soLuong= Integer.parseInt(txtSoLuong.getText());
-					String ncc= (String) cbNhaCC.getSelectedItem();
-					String hsx=(String) cbHangSx.getSelectedItem();
+					for (int i = 0; i < listNCC.size(); i++) {
+						if(cbNhaCC.getSelectedItem().toString().equalsIgnoreCase(listNCC.get(i).getTenNhaCungCap())) {
+							ncc= listNCC.get(i).getMaNhaCungCap();
+						}
+					} 
+						
+					for (int i = 0; i < listHang.size(); i++) {
+						if(cbHangSx.getSelectedItem().toString().equalsIgnoreCase(listHang.get(i).getTenHangSX())) {
+							hsx= listHang.get(i).getMaHangSX();
+						}
+					} 
+					for (int i = 0; i < dsLoai.size(); i++) {
+						if(cbLoaiXe.getSelectedItem().toString().equalsIgnoreCase(dsLoai.get(i).getTenLoaiXe())) {
+							loai= dsLoai.get(i).getMaLoaiXe();
+						}
+					} 
 					int phanKhoi=Integer.parseInt(txtPhanKhoi.getText());
 					double giaNhap=Float.parseFloat(txtGiaNhap.getText());
 					String date  = ((JTextField)dateChooser_1.getDateEditor().getUiComponent()).getText();
@@ -517,11 +536,12 @@ public class UI_QuanLyXe extends JFrame {
 					String img3=txtImg3.getText();
 					Xe xe= new Xe(ma, ten, mau, phanKhoi, soLuong, giaNhap, new LoaiXe(loai), new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2, img3);
 					//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
-					tableModel.addRow(new Object[] {xe.getMaXe(),xe.getTenXe(),xe.getMauXe(),xe.getLoaiXe().getMaLoaiXe(),xe.getNhaCungCap().getMaNhaCungCap(),xe.getHangSanXuat().getMaHangSX(),xe.getPhanKhoi(),xe.getSoLuong(),xe.getGiaNhap(),xe.getNgayNhap(),xe.getTrangThai(),xe.getTrangThai()});
 					dao_qlXe.themXe(xe);
 					JFrame f= new JFrame();
+					loadXe();
 					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
 					dem();
+					
 				} catch (Exception s) {
 					s.getMessage();
 					JOptionPane.showConfirmDialog(null, "aaa");
@@ -572,13 +592,28 @@ public class UI_QuanLyXe extends JFrame {
 						JFrame f= new JFrame();
 						int hoi=JOptionPane.showConfirmDialog(f, "Xe '"+txtTen.getText()+"' sẽ được cập nhật !!!","Chú ý ",JOptionPane.YES_NO_OPTION);
 						if(hoi==JOptionPane.YES_OPTION) {
+							String ncc=null;
+							String hsx=null;
+							String loai=null;
 							String ma= txtMa.getText();
 							String ten=txtTen.getText();
-							String loai=(String) cbLoaiXe.getSelectedItem();
 							String mau= txtMau.getText();
 							int soLuong= Integer.parseInt(txtSoLuong.getText());
-							String ncc= (String) cbNhaCC.getSelectedItem();
-							String hsx=(String) cbHangSx.getSelectedItem();
+							for (int i = 0; i < listNCC.size(); i++) {
+								if(cbNhaCC.getSelectedItem().toString().equalsIgnoreCase(listNCC.get(i).getTenNhaCungCap())) {
+									ncc= listNCC.get(i).getMaNhaCungCap();
+								}
+							} 
+							for (int i = 0; i < listHang.size(); i++) {
+								if(cbHangSx.getSelectedItem().toString().equalsIgnoreCase(listHang.get(i).getTenHangSX())) {
+									hsx= listHang.get(i).getMaHangSX();
+								}
+							} 
+							for (int i = 0; i < dsLoai.size(); i++) {
+								if(cbLoaiXe.getSelectedItem().toString().equalsIgnoreCase(dsLoai.get(i).getTenLoaiXe())) {
+									loai= dsLoai.get(i).getMaLoaiXe();
+								}
+							} 
 							int phanKhoi=Integer.parseInt(txtPhanKhoi.getText());
 							double giaNhap=Float.parseFloat(txtGiaNhap.getText());
 							String date  = ((JTextField)dateChooser_1.getDateEditor().getUiComponent()).getText();
@@ -590,8 +625,10 @@ public class UI_QuanLyXe extends JFrame {
 							String img3=txtImg3.getText();
 							Xe xe= new Xe(ma, ten, mau, phanKhoi, soLuong, giaNhap, new LoaiXe(loai), new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2, img3);
 							//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
-							tableModel.addRow(new Object[] {xe.getMaXe(),xe.getTenXe(),xe.getMauXe(),xe.getLoaiXe().getMaLoaiXe(),xe.getNhaCungCap().getMaNhaCungCap(),xe.getHangSanXuat().getMaHangSX(),xe.getPhanKhoi(),xe.getSoLuong(),xe.getGiaNhap(),xe.getNgayNhap(),xe.getTrangThai(),xe.getTrangThai()});
+							
 							dao_qlXe.update(xe);
+							loadXe();
+							JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!");
 							try {
 								loadXe();
 							} catch (Exception e2) {
@@ -639,221 +676,226 @@ public class UI_QuanLyXe extends JFrame {
 		btnTT.setBackground(new Color(255, 190, 87));
 		btnTT.setBounds(642, 28, 125, 36);
 		panel_7.add(btnTT);
+		getContentPane.add(tabbedPane);
 		
 		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_3, null);
+		tabbedPane.addTab("Loại Xe", new ImageIcon("img1\\loaixe.png"), panel_3, null);
+		panel_3.setLayout(null);
+		
+		JPanel panel_1_2 = new JPanel();
+		panel_1_2.setLayout(null);
+		panel_1_2.setBounds(0, 47, 1512, 82);
+		panel_3.add(panel_1_2);
+		
+		JLabel lblNewLabel_1_2 = new JLabel("DANH SÁCH LOẠI XE");
+		lblNewLabel_1_2.setForeground(new Color(184, 134, 11));
+		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel_1_2.setBounds(57, 0, 329, 72);
+		panel_1_2.add(lblNewLabel_1_2);
+		
+		JLabel lblNewLabel_2_4_1_5 = new JLabel("Mã Loại Xe");
+		lblNewLabel_2_4_1_5.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_4_1_5.setBounds(22, 142, 130, 14);
+		panel_3.add(lblNewLabel_2_4_1_5);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(156, 142, 287, 19);
+		panel_3.add(textField);
+		
+		JLabel lblNewLabel_2_4_1_5_1 = new JLabel("Tên Loại Xe");
+		lblNewLabel_2_4_1_5_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_4_1_5_1.setBounds(22, 179, 130, 14);
+		panel_3.add(lblNewLabel_2_4_1_5_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(156, 177, 287, 19);
+		panel_3.add(textField_1);
+		
+		JPanel panel_7_1 = new JPanel();
+		panel_7_1.setLayout(null);
+		panel_7_1.setBackground(new Color(231, 150, 36));
+		panel_7_1.setBounds(464, 142, 548, 54);
+		panel_3.add(panel_7_1);
+		
+		JButton btnThem_1 = new JButton("Thêm");
+		btnThem_1.setIcon(new ImageIcon("img1\\add.png"));
+		btnThem_1.setToolTipText("");
+		btnThem_1.setBackground(new Color(255, 190, 87));
+		btnThem_1.setBounds(10, 10, 125, 36);
+		panel_7_1.add(btnThem_1);
+		
+		JButton btnXoa_1 = new JButton("Xóa");
+		btnXoa_1.setIcon(new ImageIcon("img1\\Close-2-icon.png"));
+		btnXoa_1.setBackground(new Color(255, 190, 87));
+		btnXoa_1.setBounds(145, 10, 125, 36);
+		panel_7_1.add(btnXoa_1);
+		
+		JButton btnCapNhat_1 = new JButton("Cập nhật");
+		btnCapNhat_1.setIcon(new ImageIcon("img1\\update.png"));
+		btnCapNhat_1.setBackground(new Color(255, 190, 87));
+		btnCapNhat_1.setBounds(280, 10, 125, 36);
+		panel_7_1.add(btnCapNhat_1);
+		
+		JButton btnXoaTrang_1 = new JButton("Làm mới ");
+		btnXoaTrang_1.setIcon(new ImageIcon("img1\\refresh.png"));
+		btnXoaTrang_1.setBackground(new Color(255, 190, 87));
+		btnXoaTrang_1.setBounds(415, 10, 125, 36);
+		panel_7_1.add(btnXoaTrang_1);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(22, 238, 1470, 410);
+		panel_3.add(scrollPane_1);
+		
+		table_1 = new JTable();
+		scrollPane_1.setViewportView(table_1);
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"M\u00E3 Lo\u1EA1i Xe", "T\u00EAn Lo\u1EA1i Xe"
+			}
+		));
+		
+		JPanel panel_7_1_1 = new JPanel();
+		panel_7_1_1.setLayout(null);
+		panel_7_1_1.setBackground(new Color(231, 150, 36));
+		panel_7_1_1.setBounds(1022, 142, 472, 54);
+		panel_3.add(panel_7_1_1);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("Nhập thông tin cần tìm");
+		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_3_1.setBounds(10, 10, 132, 40);
+		panel_7_1_1.add(lblNewLabel_3_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(146, 21, 152, 19);
+		panel_7_1_1.add(textField_2);
+		
+		JButton btnXoaTrang_1_1 = new JButton("Tìm Kiếm");
+		btnXoaTrang_1_1.setIcon(new ImageIcon("img1\\search2.png"));
+		btnXoaTrang_1_1.setBackground(new Color(255, 190, 87));
+		btnXoaTrang_1_1.setBounds(303, 12, 125, 36);
+		panel_7_1_1.add(btnXoaTrang_1_1);
 		
 		JPanel panel_2_1 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_2_1, null);
+		tabbedPane.addTab("Hãng Sản Xuất", new ImageIcon("img1\\com.png"), panel_2_1, null);
+		panel_2_1.setLayout(null);
 		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_5.setBackground(Color.LIGHT_GRAY);
+		JPanel panel_3_1 = new JPanel();
+		panel_3_1.setLayout(null);
+		panel_3_1.setBounds(0, 0, 1522, 716);
+		panel_2_1.add(panel_3_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Quản Lý Nhập Xe");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 20));
-		GroupLayout gl_panel_5 = new GroupLayout(panel_5);
-		gl_panel_5.setHorizontalGroup(
-			gl_panel_5.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 1237, Short.MAX_VALUE)
-				.addGroup(gl_panel_5.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(930, Short.MAX_VALUE))
-		);
-		gl_panel_5.setVerticalGroup(
-			gl_panel_5.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 41, Short.MAX_VALUE)
-				.addGroup(gl_panel_5.createSequentialGroup()
-					.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		panel_5.setLayout(gl_panel_5);
+		JPanel panel_1_2_1 = new JPanel();
+		panel_1_2_1.setLayout(null);
+		panel_1_2_1.setBounds(0, 47, 1512, 82);
+		panel_3_1.add(panel_1_2_1);
 		
-		JPanel panel_1_1 = new JPanel();
+		JLabel lblNewLabel_1_2_1 = new JLabel("DANH SÁCH HÃNG SẢN XUẤT");
+		lblNewLabel_1_2_1.setForeground(new Color(184, 134, 11));
+		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel_1_2_1.setBounds(57, 0, 384, 72);
+		panel_1_2_1.add(lblNewLabel_1_2_1);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("DANH SÁCH XE NHẬP");
-		lblNewLabel_1_1.setForeground(new Color(184, 134, 11));
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		GroupLayout gl_panel_1_1 = new GroupLayout(panel_1_1);
-		gl_panel_1_1.setHorizontalGroup(
-			gl_panel_1_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 1237, Short.MAX_VALUE)
-				.addGroup(gl_panel_1_1.createSequentialGroup()
-					.addGap(57)
-					.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(851, Short.MAX_VALUE))
-		);
-		gl_panel_1_1.setVerticalGroup(
-			gl_panel_1_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 82, Short.MAX_VALUE)
-				.addGroup(gl_panel_1_1.createSequentialGroup()
-					.addComponent(lblNewLabel_1_1, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		panel_1_1.setLayout(gl_panel_1_1);
+		JLabel lblNewLabel_2_4_1_5_2 = new JLabel("Mã Hãng Sản Xuất");
+		lblNewLabel_2_4_1_5_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_4_1_5_2.setBounds(22, 142, 130, 14);
+		panel_3_1.add(lblNewLabel_2_4_1_5_2);
 		
-		JPanel panel_4_1 = new JPanel();
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(156, 142, 287, 19);
+		panel_3_1.add(textField_3);
 		
-		JLabel lblNewLabel_2_4_1_2_2_1 = new JLabel("Mã Xe");
-		lblNewLabel_2_4_1_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lblNewLabel_2_4_1_5_1_1 = new JLabel("Tên Hãng Sản Xuất");
+		lblNewLabel_2_4_1_5_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_4_1_5_1_1.setBounds(22, 179, 130, 14);
+		panel_3_1.add(lblNewLabel_2_4_1_5_1_1);
 		
-		@SuppressWarnings("rawtypes")
-		JComboBox comboBox_2_1 = new JComboBox();
-		comboBox_2_1.setEditable(true);
-		comboBox_2_1.setBackground(Color.WHITE);
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(156, 177, 287, 19);
+		panel_3_1.add(textField_4);
 		
-		JLabel lblNewLabel_2_4_1_1_1_3 = new JLabel("Mã Xe");
-		lblNewLabel_2_4_1_1_1_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JPanel panel_7_1_2 = new JPanel();
+		panel_7_1_2.setLayout(null);
+		panel_7_1_2.setBackground(new Color(231, 150, 36));
+		panel_7_1_2.setBounds(464, 142, 548, 88);
+		panel_3_1.add(panel_7_1_2);
+		
+		JButton btnThem_1_1 = new JButton("Thêm");
+		btnThem_1_1.setIcon(new ImageIcon("img1\\add.png"));
+		btnThem_1_1.setToolTipText("");
+		btnThem_1_1.setBackground(new Color(255, 190, 87));
+		btnThem_1_1.setBounds(10, 29, 125, 36);
+		panel_7_1_2.add(btnThem_1_1);
+		
+		JButton btnXoa_1_1 = new JButton("Xóa");
+		btnXoa_1_1.setIcon(new ImageIcon("img1\\Close-2-icon.png"));
+		btnXoa_1_1.setBackground(new Color(255, 190, 87));
+		btnXoa_1_1.setBounds(145, 29, 125, 36);
+		panel_7_1_2.add(btnXoa_1_1);
+		
+		JButton btnCapNhat_1_1 = new JButton("Cập nhật");
+		btnCapNhat_1_1.setIcon(new ImageIcon("img1\\update.png"));
+		btnCapNhat_1_1.setBackground(new Color(255, 190, 87));
+		btnCapNhat_1_1.setBounds(280, 29, 125, 36);
+		panel_7_1_2.add(btnCapNhat_1_1);
+		
+		JButton btnXoaTrang_1_2 = new JButton("Làm mới ");
+		btnXoaTrang_1_2.setIcon(new ImageIcon("img1\\refresh.png"));
+		btnXoaTrang_1_2.setBackground(new Color(255, 190, 87));
+		btnXoaTrang_1_2.setBounds(415, 29, 125, 36);
+		panel_7_1_2.add(btnXoaTrang_1_2);
+		
+		JPanel panel_7_1_1_1 = new JPanel();
+		panel_7_1_1_1.setLayout(null);
+		panel_7_1_1_1.setBackground(new Color(231, 150, 36));
+		panel_7_1_1_1.setBounds(1022, 142, 472, 88);
+		panel_3_1.add(panel_7_1_1_1);
+		
+		JLabel lblNewLabel_3_1_1 = new JLabel("Nhập thông tin cần tìm");
+		lblNewLabel_3_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_3_1_1.setBounds(10, 25, 132, 40);
+		panel_7_1_1_1.add(lblNewLabel_3_1_1);
 		
 		textField_5 = new JTextField();
 		textField_5.setColumns(10);
+		textField_5.setBounds(146, 36, 152, 19);
+		panel_7_1_1_1.add(textField_5);
 		
-		JLabel lblNewLabel_2_4_1_1_1_1_1 = new JLabel("Mã Xe");
-		lblNewLabel_2_4_1_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JButton btnXoaTrang_1_1_1 = new JButton("Tìm ");
+		btnXoaTrang_1_1_1.setIcon(new ImageIcon("img1\\search2.png"));
+		btnXoaTrang_1_1_1.setBackground(new Color(255, 190, 87));
+		btnXoaTrang_1_1_1.setBounds(303, 27, 125, 36);
+		panel_7_1_1_1.add(btnXoaTrang_1_1_1);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(22, 269, 1472, 437);
+		panel_3_1.add(scrollPane_2);
+		
+		table_2 = new JTable();
+		scrollPane_2.setViewportView(table_2);
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"M\u00E3 H\u00E3ng S\u1EA3n Xu\u1EA5t", "T\u00EAn H\u00E3ng S\u1EA3n Xu\u1EA5t", "Qu\u1ED1c Gia"
+			}
+		));
+		
+		JLabel lblNewLabel_2_4_1_5_1_1_1 = new JLabel("Quốc Gia");
+		lblNewLabel_2_4_1_5_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_4_1_5_1_1_1.setBounds(22, 216, 130, 14);
+		panel_3_1.add(lblNewLabel_2_4_1_5_1_1_1);
 		
 		textField_6 = new JTextField();
 		textField_6.setColumns(10);
-		
-		JLabel lblNewLabel_2_4_1_1_1_2_1 = new JLabel("Mã Xe");
-		lblNewLabel_2_4_1_1_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		
-		JLabel lblNewLabel_2_4_1_3 = new JLabel("Mã Xe");
-		lblNewLabel_2_4_1_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		
-		JLabel lblNewLabel_2_4_1_1_2 = new JLabel("Mã Xe");
-		lblNewLabel_2_4_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		
-		JLabel lblNewLabel_2_4_1_2_3 = new JLabel("Mã Xe");
-		lblNewLabel_2_4_1_2_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		@SuppressWarnings("rawtypes")
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setEditable(true);
-		comboBox_3.setBackground(Color.WHITE);
-		
-		JLabel lblNewLabel_2_4_1_2_1_1 = new JLabel("Mã Xe");
-		lblNewLabel_2_4_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		@SuppressWarnings("rawtypes")
-		JComboBox comboBox_1_1 = new JComboBox();
-		comboBox_1_1.setEditable(true);
-		comboBox_1_1.setBackground(Color.WHITE);
-		GroupLayout gl_panel_4_1 = new GroupLayout(panel_4_1);
-		gl_panel_4_1.setHorizontalGroup(
-			gl_panel_4_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 1237, Short.MAX_VALUE)
-				.addGroup(gl_panel_4_1.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_4_1.createSequentialGroup()
-							.addComponent(lblNewLabel_2_4_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_4_1.createSequentialGroup()
-							.addComponent(lblNewLabel_2_4_1_1_1_2_1, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_4_1.createSequentialGroup()
-							.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING, false)
-									.addGroup(gl_panel_4_1.createSequentialGroup()
-										.addComponent(lblNewLabel_2_4_1_3, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(textField_8))
-									.addGroup(gl_panel_4_1.createSequentialGroup()
-										.addComponent(lblNewLabel_2_4_1_1_2, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(gl_panel_4_1.createSequentialGroup()
-									.addComponent(lblNewLabel_2_4_1_1_1_3, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)))
-							.addGap(146)
-							.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_4_1.createSequentialGroup()
-									.addComponent(lblNewLabel_2_4_1_2_2_1, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-									.addGap(10)
-									.addComponent(comboBox_2_1, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel_4_1.createSequentialGroup()
-									.addComponent(lblNewLabel_2_4_1_2_3, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel_4_1.createSequentialGroup()
-									.addComponent(lblNewLabel_2_4_1_2_1_1, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-									.addGap(10)
-									.addComponent(comboBox_1_1, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap(478, Short.MAX_VALUE))
-		);
-		gl_panel_4_1.setVerticalGroup(
-			gl_panel_4_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 195, Short.MAX_VALUE)
-				.addGroup(gl_panel_4_1.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblNewLabel_2_4_1_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(gl_panel_4_1.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblNewLabel_2_4_1_2_3, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-							.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_4_1.createSequentialGroup()
-							.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblNewLabel_2_4_1_1_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_panel_4_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_2_4_1_1_1_3, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_panel_4_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel_2_4_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel_2_4_1_1_1_2_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_panel_4_1.createSequentialGroup()
-							.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel_2_4_1_2_1_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboBox_1_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_panel_4_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel_2_4_1_2_2_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboBox_2_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)))))
-		);
-		panel_4_1.setLayout(gl_panel_4_1);
-		GroupLayout gl_panel_2_1 = new GroupLayout(panel_2_1);
-		gl_panel_2_1.setHorizontalGroup(
-			gl_panel_2_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 1237, Short.MAX_VALUE)
-				.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 1237, Short.MAX_VALUE)
-				.addComponent(panel_1_1, GroupLayout.DEFAULT_SIZE, 1237, Short.MAX_VALUE)
-				.addComponent(panel_4_1, GroupLayout.DEFAULT_SIZE, 1237, Short.MAX_VALUE)
-		);
-		gl_panel_2_1.setVerticalGroup(
-			gl_panel_2_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 685, Short.MAX_VALUE)
-				.addGroup(gl_panel_2_1.createSequentialGroup()
-					.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(2)
-					.addComponent(panel_4_1, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(359, Short.MAX_VALUE))
-		);
-		panel_2_1.setLayout(gl_panel_2_1);
-		contentPane.add(tabbedPane);
+		textField_6.setBounds(156, 214, 287, 19);
+		panel_3_1.add(textField_6);
 	}
 //Hàm load database
 		private void loadXe() throws SQLException {
@@ -886,7 +928,9 @@ public class UI_QuanLyXe extends JFrame {
 //Tìm xe theo tên và mã 
 		private void timXe() throws SQLException{
 			Dao_QuanLyXe dao_qlXe= new Dao_QuanLyXe();
-			tableModel = dao_qlXe.timKiem(txtTim.getText());
+			tableModel = dao_qlXe.timKiem("%"+txtTim.getText()+"%");
 			table.setModel(tableModel);
 		}
-}
+	
+}
+

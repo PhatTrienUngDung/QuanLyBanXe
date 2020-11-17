@@ -193,15 +193,19 @@ public class Dao_QuanLyXe {
 	}
 //Hiển thị danh sách xe
 	public DefaultTableModel getAllXe() throws SQLException {
-		String[] header= {"Mã Xe","Tên Xe", "Loại Xe","Màu xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
+		String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Số lượng","Giá nhập","Ngày nhập","Trạng thái","Chú thích", "Tổng tiền"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
-		String sql = "select *from Xe";
+		String sql = "SELECT Xe.maXe, Xe.tenXe, Xe.mauXe, LoaiXe.tenLoaiXe, HangSanXuat.tenHangSanXuat, NhaCungCap.tenNhaCungCap, HangSanXuat.quocGia, Xe.phanKhoi, Xe.soLuong, Xe.giaNhap, Xe.ngayNhap, Xe.trangThai, Xe.chuThich,giaNhap*soLuong\r\n"
+				+ "FROM     Xe INNER JOIN\r\n"
+				+ "                  NhaCungCap ON Xe.maNhaCungCap = NhaCungCap.maNhaCungCap INNER JOIN\r\n"
+				+ "                  LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe INNER JOIN\r\n"
+				+ "                  HangSanXuat ON Xe.maHangSanXuat = HangSanXuat.maHangSanXuat";
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
 		while (rs.next()) {
-			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11),rs.getString(12)};
+			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11),rs.getString(12),rs.getString(13),rs.getString(14)};
 			tableModel.addRow(o);
 		}
 		return tableModel;
@@ -291,16 +295,19 @@ public class Dao_QuanLyXe {
 	}
 //Tìm xe
 		public DefaultTableModel timKiem(String search) throws SQLException {
-			String[] header= {"Mã Xe","Tên Xe", "Loại Xe","Màu xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
+			String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Số lượng","Giá nhập","Ngày nhập","Trạng thái","Chú thích", "Tổng tiền"};
 			DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "select *from xe where maXe='" + search + "' or tenXe='"+search+"' ";
+			String sql = "SELECT Xe.maXe, Xe.tenXe, Xe.mauXe, LoaiXe.tenLoaiXe, HangSanXuat.tenHangSanXuat, NhaCungCap.tenNhaCungCap, HangSanXuat.quocGia, Xe.phanKhoi, Xe.soLuong, Xe.giaNhap, Xe.ngayNhap, Xe.trangThai, Xe.chuThich,giaNhap*soLuong\r\n"
+					+ "FROM     Xe INNER JOIN\r\n"
+					+ "                  NhaCungCap ON Xe.maNhaCungCap = NhaCungCap.maNhaCungCap INNER JOIN\r\n"
+					+ "                  LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe INNER JOIN\r\n"
+					+ "                  HangSanXuat ON Xe.maHangSanXuat = HangSanXuat.maHangSanXuat where maXe like'" + search + "' or tenXe like'"+search+"' ";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
-			
 			while (rs.next()) {
-				Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11),rs.getString(12)};
+				Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11),rs.getString(12),rs.getString(13),rs.getString(14)};
 				tableModel.addRow(o);
 			}
 			return tableModel;
