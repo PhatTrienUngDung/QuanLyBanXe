@@ -16,30 +16,15 @@ public class NhaCungCap {
 		this.soDienThoai = soDienThoai;
 		this.email= email;
 	}
-	
-<<<<<<< .mine
-	
-	public NhaCungCap(String maNhaCungCap, String tenNhaCungCap) {
-		super();
-		this.maNhaCungCap = maNhaCungCap;
-		this.tenNhaCungCap = tenNhaCungCap;
-	}
-
-
-||||||| .r23
-=======
 	public NhaCungCap(String maNhaCungCap) {
 		super();
 		this.maNhaCungCap = maNhaCungCap;
 	}
-
 	public NhaCungCap(String maNhaCungCap, String tenNhaCungCap) {
 		super();
 		this.maNhaCungCap = maNhaCungCap;
 		this.tenNhaCungCap = tenNhaCungCap;
 	}
-
->>>>>>> .r45
 	public NhaCungCap() {
 		super();
 	}
