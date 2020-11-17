@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.BorderLayout;
 
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -11,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -31,9 +34,11 @@ import connect.ConnectDB;
 import dao.Dao_HopDong;
 import dao.Dao_NhaCungCap;
 import dao.Dao_NhanVien;
+import dao.Dao_QuanLyXe;
 import entity.HopDong;
 import entity.NhanVien;
 import entity.KhachHang;
+import entity.LoaiXe;
 import entity.Xe;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -51,6 +56,8 @@ public class UI_HopDong extends JFrame {
 	private JTextField txtmaKH,txtmaNV,txtmaXe,txtTGBH,txtngayLap;
 	private DefaultTableModel tableModel;
 	private JDateChooser datengayLap;
+	private Dao_HopDong dao_hd = new Dao_HopDong();
+	private Dao_QuanLyXe dao_qlXe = new Dao_QuanLyXe();
 
 	/**
 	 * Launch the application.
@@ -78,7 +85,7 @@ public class UI_HopDong extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-getContentPane().setLayout(null);
+		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -110,71 +117,6 @@ getContentPane().setLayout(null);
 		panel_4.setBackground(new Color(255, 140, 0));
 		panel_4.setLayout(null);
 		
-		JButton btnThem = new JButton("Thêm");
-		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
-		btnThem.setBounds(61, 27, 129, 21);
-		panel_4.add(btnThem);
-		
-		JButton btnXoa = new JButton("Xóa");
-		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
-		btnXoa.setBounds(61, 86, 129, 21);
-		panel_4.add(btnXoa);
-		
-		JButton btnSua = new JButton("Sửa");
-		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSua.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Settings-icon.png")));
-		btnSua.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int row=table.getSelectedRow();
-				try {
-					if(row!=-1) {
-						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
-						if(hoi==JOptionPane.YES_OPTION) {
-							String maHD= txtmaHD.getText();
-							String maKH =txtmaKH.getText();
-							String maNV =txtmaNV.getText();
-							String maXe =txtmaXe.getText();
-							Date ngayLap = datengayLap.getDate();
-						
-							String tgbh = txtTGBH.getText();
-							
-							
-							HopDong hd= new HopDong(maHD, new KhachHang(maKH), new NhanVien(maNV), new Xe(maXe), ngayLap, tgbh);
-							tableModel.addRow(new Object[] {hd.getMaHD(),hd.getKhachHang(),hd.getNhanVien(),hd.getXe(),hd.getNgayLap(),hd.getTGBH()});
-							try {
-								loadHD();
-							} catch (Exception e2) {
-								// TODO: handle exception
-								e2.printStackTrace();
-							}
-						}
-					}
-					else
-						JOptionPane.showMessageDialog(null, "Vu lòng chọn nhà cung cấp để xóa");
-				} catch (Exception e2) {
-					// TODO: handle exception
-				}
-			}
-		});
-		
-		
-		btnSua.setBounds(277, 27, 129, 21);
-		panel_4.add(btnSua);
-		
-		JButton btnNew = new JButton("Làm mới");
-		btnNew.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnNew.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
-		btnNew.setBounds(277, 86, 129, 21);
-		panel_4.add(btnNew);
-		
-		JLabel lblChucNang = new JLabel("Chức năng");
-		lblChucNang.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblChucNang.setBounds(253, 23, 131, 13);
-		panel_6.add(lblChucNang);
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBackground(new Color(255, 215, 0));
@@ -235,9 +177,9 @@ getContentPane().setLayout(null);
 		lblmaNV.setBounds(10, 161, 101, 13);
 		panel_2.add(lblmaNV);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(143, 161, 96, 21);
-		panel_2.add(comboBox_2);
+		JComboBox cbmaNV = new JComboBox();
+		cbmaNV.setBounds(143, 161, 96, 21);
+		panel_2.add(cbmaNV);
 		
 		JLabel lbltenNV = new JLabel("Tên Nhân Viên");
 		lbltenNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -250,25 +192,26 @@ getContentPane().setLayout(null);
 		
 		JLabel lblLoaiXe = new JLabel("Loại Xe");
 		lblLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblLoaiXe.setBounds(395, 52, 74, 13);
+		lblLoaiXe.setBounds(395, 90, 74, 13);
 		panel_2.add(lblLoaiXe);
 		
+		ArrayList<LoaiXe> dsLoai= dao_qlXe.getAllLoaiXe();
 		JComboBox cbloaiXe = new JComboBox();
-		cbloaiXe.setBounds(526, 48, 94, 21);
+		cbloaiXe.setBounds(526, 88, 94, 21);
 		panel_2.add(cbloaiXe);
 		
 		JLabel lblMauXe = new JLabel("Màu Xe");
 		lblMauXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblMauXe.setBounds(395, 92, 94, 13);
+		lblMauXe.setBounds(395, 127, 94, 13);
 		panel_2.add(lblMauXe);
 		
 		JComboBox cbmauXe = new JComboBox();
-		cbmauXe.setBounds(526, 88, 94, 21);
+		cbmauXe.setBounds(526, 125, 94, 21);
 		panel_2.add(cbmauXe);
 		
 		JLabel lblNgayLap = new JLabel("Ngày Lập");
 		lblNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNgayLap.setBounds(395, 129, 74, 13);
+		lblNgayLap.setBounds(395, 161, 74, 13);
 		panel_2.add(lblNgayLap);
 		
 		datengayLap= new JDateChooser();
@@ -276,8 +219,144 @@ getContentPane().setLayout(null);
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		 datengayLap.setBounds(526, 127, 94, 19);
+		 datengayLap.setBounds(526, 155, 94, 19);
 		panel_2.add( datengayLap);
+		
+		JLabel lblmaXe = new JLabel("Mã Xe");
+		lblmaXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblmaXe.setBounds(395, 52, 74, 13);
+		panel_2.add(lblmaXe);
+		ArrayList<Xe> dsmaXe = dao_qlXe.getInfoXe(getName());
+		@SuppressWarnings("rawtypes")
+		JComboBox cbmaXe = new JComboBox();
+		cbmaXe.setBounds(526, 48, 94, 21);
+		panel_2.add(cbmaXe);
+		
+		JButton btnThem = new JButton("Thêm");
+		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
+		btnThem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					String maHD= txtmaHD.getText();
+					String maKH =txtmaKH.getText();
+					String maNV =txtmaNV.getText();
+					String maXe =txtmaXe.getText();
+					Date ngayLap = datengayLap.getDate();
+					String tgbh = txtTGBH.getText();
+					
+					HopDong hd= new HopDong(maHD, new KhachHang(maKH), new NhanVien(maNV), new Xe(maXe), ngayLap, tgbh);
+					tableModel.addRow(new Object[] {hd.getMaHD(),hd.getKhachHang(),hd.getNhanVien(),hd.getXe(),hd.getNgayLap(),hd.getTGBH()});
+					dao_hd.themHD(hd);
+					JFrame f= new JFrame();
+					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+				
+				} catch (Exception s) {
+					s.getMessage();
+				}
+				
+			}
+		});
+		btnThem.setBounds(61, 27, 129, 21);
+		panel_4.add(btnThem);
+		
+		JButton btnXoa = new JButton("Xóa");
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
+		btnXoa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row=table.getSelectedRow();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Hợp đồng sẽ bị xóa","Chú ý",JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+							int r= table.getSelectedRow();
+							tableModel.removeRow(r);
+							xoaHD();
+							
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vu lòng chọn hợp đồng để xóa");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
+		btnXoa.setBounds(61, 86, 129, 21);
+		panel_4.add(btnXoa);
+		
+		JButton btnSua = new JButton("Sửa");
+		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnSua.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Settings-icon.png")));
+		btnSua.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row=table.getSelectedRow();
+				String date2  = ((JTextField)datengayLap.getDateEditor().getUiComponent()).getText();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+						
+							String maHD= txtmaHD.getText();
+							String maKH = (String) cbmaKH.getSelectedItem();
+							String maNV = (String) cbmaNV.getSelectedItem();
+							String maXe = (String) cbmaXe.getSelectedItem();
+							
+					//		Date ngayLap =Date.valueOf(LocalDate.parse(date2));
+							String tgbh = txtTGBH.getText();
+							
+							
+					//		HopDong hd= new HopDong(maHD, new KhachHang(maKH), new NhanVien(maNV), new Xe(maXe), ngayLap, tgbh);
+					//		tableModel.addRow(new Object[] {hd.getMaHD(),hd.getKhachHang(),hd.getNhanVien(),hd.getXe(),hd.getNgayLap(),hd.getTGBH()});
+						//	dao_hd.update(hd);
+							try {
+								loadHD();
+							} catch (Exception e2) {
+								// TODO: handle exception
+								e2.printStackTrace();
+							}
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vu lòng chọn nhà cung cấp để xóa");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
+		
+		
+		btnSua.setBounds(277, 27, 129, 21);
+		panel_4.add(btnSua);
+		
+		JButton btnNew = new JButton("Làm mới");
+		btnNew.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNew.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
+		btnNew.setBounds(277, 86, 129, 21);
+		panel_4.add(btnNew);
+		btnNew.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtmaNV.setText("");
+				txtmaHD.setText("");
+				txtmaKH.setText("");
+				txtmaXe.setText("");
+				datengayLap.setDate(null);
+			}
+		});
+		
+		JLabel lblChucNang = new JLabel("Chức năng");
+		lblChucNang.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblChucNang.setBounds(253, 23, 131, 13);
+		panel_6.add(lblChucNang);
+		
+		
 		
 		
 		
@@ -325,16 +404,16 @@ getContentPane().setLayout(null);
 		panel_3.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 		
-		JButton btnTmKim = new JButton("Tìm Kiếm");
-		btnTmKim.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnTmKim.setBounds(437, 19, 100, 21);
-		panel_3.add(btnTmKim);
+		JButton btnTimKiem = new JButton("Tìm Kiếm");
+		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnTimKiem.setBounds(437, 19, 100, 21);
+		panel_3.add(btnTimKiem);
 		
 	}
 	//Hàm Load
 		private void loadHD() throws SQLException {
-			Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
-			tableModel = dao_ncc.getAllNCC();
+			Dao_HopDong dao_hd = new Dao_HopDong();
+			tableModel = dao_hd.getAllHD();
 			table.setModel(tableModel);
 		}
 		//Hàm Xóa
@@ -349,21 +428,7 @@ getContentPane().setLayout(null);
 				tableModel = dao_hd.timKiem(txtTimKiem.getText());
 				table.setModel(tableModel);
 			}
-			public void dem() {
-				try {
-					ConnectDB.getInstance();
-					Connection con = ConnectDB.getCon();
-					String sql = "select count(maNhaCungCap) from nhaCungCap ";
-					PreparedStatement pst=con.prepareStatement(sql);
-					ResultSet rs = pst.executeQuery();
-					if(rs.next()) {
-						String count=rs.getString(1);
-					
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-			}
+
 }
 
 
