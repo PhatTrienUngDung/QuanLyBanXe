@@ -7,19 +7,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import entity.ChucVu;
 import entity.NhaCungCap;
 import entity.NhanVien;
+import entity.TaiKhoan;
 
 public class Dao_NhanVien {
 	private int n;
-	public Dao_NhanVien() {}
+	private ArrayList<NhanVien> listNhanVien;
+	public Dao_NhanVien() {
 		
 	}
+		
+
+	
 //Load data
 		public DefaultTableModel getAllNV() throws SQLException {
 			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên", "Địa Chỉ", "Email", "Số Điện Thoại","Giới tính","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};
@@ -36,13 +43,7 @@ public class Dao_NhanVien {
 			return tableModel;
 		}
 		
-<<<<<<< .mine
 
-||||||| .r33
-	}
-=======
-	
->>>>>>> .r45
 //Tìm
 	public DefaultTableModel timKiem(String maNV) throws SQLException {
 		String[] header= {"Mã Nhân Viên","Tên Nhân Viên", "Địa Chỉ", "Email","Giới tính", "Số Điện Thoại","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};

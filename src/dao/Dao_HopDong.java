@@ -20,7 +20,7 @@ public class Dao_HopDong {
 	public Dao_HopDong() {}
 		//Load data
 				public DefaultTableModel getAllHD() throws SQLException {
-					String[] header=  {"Mã Hợp Đồng","Mã Khách Hàng","Tên Khách Hàng","Mã Nhân Viên","Tên Nhân Viên","Mã Xe","Tên Xe","Ngày Lập","Chú Thích"};
+					String[] header=  {"Mã Hợp Đồng","Mã Khách Hàng","Mã Nhân Viên","Mã Xe","Ngày Lập","Thời gian bảo hành"};
 					DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 					ConnectDB.getInstance();
 					Connection con = ConnectDB.getCon();
@@ -33,11 +33,35 @@ public class Dao_HopDong {
 					}
 					return tableModel;
 				}
-				
+				public boolean themHD(HopDong hd) {
+					ConnectDB.getInstance();
+					Connection con = ConnectDB.getCon();
+					PreparedStatement stmt = null;
+					int n = 0;
+					try {
+						stmt = con.prepareStatement("insert into HopDong values(?,?,?,?,?,?,?,?,?)");
+						stmt.setString(1, hd.getMaHD());
+						stmt.setString(2, hd.getKhachHang().getMaKhachHang());
+						stmt.setString(3, hd.getNhanVien().getMaNhanVien());
+						stmt.setString(4, hd.getXe().getMaXe());
+						stmt.setString(5, hd.getTGBH());
+						stmt.setDate(6, (Date) hd.getNgayLap());
+						n = stmt.executeUpdate();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} finally {
+						try {
+							stmt.close();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					return n > 0;
+				}
 			
 		//Tìm
 			public DefaultTableModel timKiem(String maHD) throws SQLException {
-				String[] header= {"Mã Hợp Đồng","Mã Khách Hàng","Tên Khách Hàng","Mã Nhân Viên","Tên Nhân Viên","Mã Xe","Tên Xe","Ngày Lập","Chú Thích"};
+				String[] header= {"Mã Hợp Đồng","Mã Khách Hàng","Mã Nhân Viên","Mã Xe","Ngày Lập","Thời gian bảo hành"};
 				DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 				ConnectDB.getInstance();
 				Connection con = ConnectDB.getCon();
@@ -51,31 +75,7 @@ public class Dao_HopDong {
 				return tableModel;
 			}
 		//Thêm
-			public boolean themNV(HopDong hd) {
-				ConnectDB.getInstance();
-				Connection con = ConnectDB.getCon();
-				PreparedStatement stmt = null;
-				int n = 0;
-				try {
-					stmt = con.prepareStatement("insert into HopDong values(?,?,?,?,?,?,?,?,?)");
-					stmt.setString(1, hd.getMaHD());
-					stmt.setString(2, hd.getKhachHang().getMaKhachHang());
-					stmt.setString(3, hd.getNhanVien().getMaNhanVien());
-					stmt.setString(4, hd.getXe().getMaXe());
-					stmt.setString(5, hd.getTGBH());
-					stmt.setDate(6, (Date) hd.getNgayLap());
-					n = stmt.executeUpdate();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						stmt.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				return n > 0;
-			}
+			
 			//Xóa dữ liệu khỏi bảng
 				public void xoaHD(String maHD) throws SQLException {
 					Connection a = ConnectDB.getCon();// Tao Ket Noi
@@ -94,14 +94,14 @@ public class Dao_HopDong {
 					try {
 						
 						stmt = con.prepareStatement(
-								"update nhanVien set maNhanVien=?,tenNhanVien=?,diaChi=?,email=?,soDienThoai=?,gioiTinh=?,maChucVu=?,ngayVaoLam=? where maNhanVien=?");
+								"update HopDong set maHopDong=?,maKhachHang=?,maNhanVien=?,maXe=?,ngayLap=?,thoiGianBH=? where maHopDong=?");
 						stmt.setString(1, hd.getMaHD());
 						stmt.setString(2, hd.getKhachHang().getMaKhachHang());
 						stmt.setString(3, hd.getNhanVien().getMaNhanVien());
 						stmt.setString(4, hd.getXe().getMaXe());
 						stmt.setString(5, hd.getTGBH());
 						stmt.setDate(6, (Date) hd.getNgayLap());
-						stmt.setDate(9, (Date) hd.getNgayLap());
+						
 						n = stmt.executeUpdate();
 					} catch (SQLException e) {
 						e.printStackTrace();
@@ -114,6 +114,7 @@ public class Dao_HopDong {
 					}
 					return n > 0;
 				}
+				
 				
 	
 }
