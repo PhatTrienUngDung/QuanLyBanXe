@@ -57,6 +57,7 @@ public class HopDong {
 		this.ngayLap = ngayLap;
 		TGBH = tGBH;
 	}
+	
 	@Override
 	public String toString() {
 		return "HopDong [maHD=" + maHD + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", xe=" + xe
