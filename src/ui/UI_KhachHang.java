@@ -108,25 +108,25 @@ public class UI_KhachHang extends JFrame {
 		contentPane.add(panelTimkiem);
 		panelTimkiem.setLayout(null);
 		
-<<<<<<< .mine
+
 		JLabel lbltimKiem = new JLabel("Nhập mã khách hàng cần tìm\r\n");
 		lbltimKiem.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lbltimKiem.setForeground(new Color(0, 0, 0));
 		lbltimKiem.setBounds(36, 16, 190, 26);
 		panelTimkiem.add(lbltimKiem);
-||||||| .r33
+
 		JLabel lblNewLabel = new JLabel("Nhập mã khách hàng cần tìm\r\n");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setBounds(36, 16, 190, 26);
 		panelTimkiem.add(lblNewLabel);
-=======
+
 		JLabel lblNewLabel = new JLabel("Nháº­p mÃ£ khÃ¡ch hÃ ng cáº§n tÃ¬m\r\n");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setBounds(36, 16, 190, 26);
 		panelTimkiem.add(lblNewLabel);
->>>>>>> .r45
+
 		
 		JButton btnTmKiem = new JButton("TÃ¬m Kiáº¿m");
 		btnTmKiem.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/search1.png")));
@@ -164,67 +164,61 @@ public class UI_KhachHang extends JFrame {
 		contentPane.add(panelthongTin);
 		panelthongTin.setLayout(null);
 		
-<<<<<<< .mine
+
 		JLabel lbltenKh = new JLabel("Tên Khách Hàng");
 		lbltenKh.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbltenKh.setBounds(315, 27, 104, 19);
 		panelthongTin.add(lbltenKh);
-||||||| .r33
+
 		JLabel lblTnKhchHang = new JLabel("Tên Khách Hàng");
 		lblTnKhchHang.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTnKhchHang.setBounds(315, 27, 104, 19);
 		panelthongTin.add(lblTnKhchHang);
-=======
+
 		JLabel lblTnKhchHang = new JLabel("TÃªn KhÃ¡ch HÃ ng");
 		lblTnKhchHang.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTnKhchHang.setBounds(315, 27, 104, 19);
 		panelthongTin.add(lblTnKhchHang);
->>>>>>> .r45
-		
-<<<<<<< .mine
+
 		JLabel lblgioiTinh = new JLabel("Giới Tính");
 		lblgioiTinh.setBackground(new Color(255, 248, 220));
 		lblgioiTinh.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblgioiTinh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblgioiTinh.setBounds(20, 56, 75, 19);
 		panelthongTin.add(lblgioiTinh);
-||||||| .r33
+
 		JLabel lblGiiTnh = new JLabel("Giới Tính");
 		lblGiiTnh.setBackground(new Color(255, 248, 220));
 		lblGiiTnh.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblGiiTnh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGiiTnh.setBounds(20, 56, 75, 19);
 		panelthongTin.add(lblGiiTnh);
-=======
+
 		JLabel lblGiiTnh = new JLabel("Giá»›i TÃ­nh");
 		lblGiiTnh.setBackground(new Color(255, 248, 220));
 		lblGiiTnh.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblGiiTnh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGiiTnh.setBounds(20, 56, 75, 19);
 		panelthongTin.add(lblGiiTnh);
->>>>>>> .r45
-		
-<<<<<<< .mine
+
 		JLabel lblngaySinh = new JLabel("Ngày Sinh");
 		lblngaySinh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblngaySinh.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblngaySinh.setBounds(20, 115, 75, 17);
 		panelthongTin.add(lblngaySinh);
-||||||| .r33
+
 		JLabel lblNewLabel_3 = new JLabel("Ngày Sinh");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_3.setBounds(20, 115, 75, 17);
 		panelthongTin.add(lblNewLabel_3);
-=======
+
 		JLabel lblNewLabel_3 = new JLabel("NgÃ y Sinh");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_3.setBounds(20, 115, 75, 17);
 		panelthongTin.add(lblNewLabel_3);
->>>>>>> .r45
-		
-<<<<<<< .mine
+
 		JLabel lbldiaChi = new JLabel("Địa Chỉ");
 		lbldiaChi.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbldiaChi.setBounds(315, 56, 63, 19);
