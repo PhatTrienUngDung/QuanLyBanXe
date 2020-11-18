@@ -44,6 +44,8 @@ public class Menu extends JFrame {
 	private JPanel panelMain;
 	private JPanel panel_1;
 	private JPanel panel_2;
+	private UI_QuanLyXe ui_QuanLyXe;
+	private UI_NhaCungCap ui_NhaCungCap;
 	/**
 	 * Launch the application.
 	 */
@@ -68,6 +70,8 @@ public class Menu extends JFrame {
 	 * Create the frame.
 	 */
 	public Menu() {
+		ui_QuanLyXe= new UI_QuanLyXe();
+		ui_NhaCungCap = new UI_NhaCungCap();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(100, 100, screen.width, screen.height);
 		
@@ -86,11 +90,19 @@ public class Menu extends JFrame {
 		panel_1 = new JPanel();
 		panelMain.add(panel_1, "name_7046289087700");
 		panel_1.setLayout(null);
+		ui_QuanLyXe.setVisible(true);
+		panel_1.add(ui_QuanLyXe.getContentPane());
+		ui_QuanLyXe.setVisible(false);
+		
 		
 		
 		panel_2 = new JPanel();
 		panelMain.add(panel_2, "name_7054596857300");
 		panel_2.setLayout(null);
+		ui_NhaCungCap.setVisible(true);
+		panel_2.add(ui_NhaCungCap.getContentPane());
+		ui_NhaCungCap.setVisible(false);
+	
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(43,87,154));
 		splitPane.setLeftComponent(panel);
@@ -119,6 +131,10 @@ public class Menu extends JFrame {
 				btnThongKe.setForeground(Color.white);
 				btnQLHoaDon.setForeground(Color.white);
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
 		});
 		
 		btnQLKho = new JButton("Quản Lý Kho Hàng");
@@ -144,13 +160,13 @@ public class Menu extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				UI_QuanLyXe ui_QuanLyXe= new UI_QuanLyXe();
-				panel.add(ui_QuanLyXe.getContentPane());
+				panel_1.setVisible(true);
+				panel_2.setVisible(false);
 			}
 		});
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		btnQLKho.setForeground(Color.WHITE);
-		btnQLKho.setBackground(new Color(43,87,154));
+		btnQLKho.setForeground(Color.black);
+		btnQLKho.setBackground(Color.white);
 		btnQLKho.setBorderPainted(false);
 		
 		panel.add(btnQLKho);
@@ -229,6 +245,11 @@ public class Menu extends JFrame {
 				btnQLHoaDon.setForeground(Color.white);
 				btnThongKe.setForeground(Color.white);
 				btnQLNV.setForeground(Color.white);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				panel_2.setVisible(true);
+				panel_1.setVisible(false);
 			}
 		});
 		btnQuanLyNCC.setForeground(Color.WHITE);
