@@ -184,7 +184,7 @@ public class UI_NhaCungCap extends JFrame {
 		txtChuThich.setLineWrap(true);
 		txtChuThich.setWrapStyleWord(true);
 		
-		JLabel lblSo = new JLabel("Sá»‘ Ä�iá»‡n Thoáº¡i");
+		JLabel lblSo = new JLabel("Số điện thoại");
 		lblSo.setBounds(10, 72, 123, 21);
 		lblSo.setForeground(Color.BLACK);
 		lblSo.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -361,7 +361,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_6.setBounds(10, 363, 1482, 384);
 		panel_4.add(panel_6);
 		panel_6.setLayout(null);
-		String[] header= {"MÃ£ NhÃ  Cung Cáº¥p","TÃªn NhÃ  Cung Cáº¥p", "Ä�á»‹a Chá»‰", "Email", "Sá»‘ Ä�iá»‡n Thoáº¡i","Ghi ChÃº"};
+		String[] header= {"Mã Nhà Cung Cấp","Tên Nhà Cung Cấp", "Địa Chỉ", "Email", "Số Điện Thoại","Ghi Chú"};
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setToolTipText("");
@@ -395,7 +395,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
 		
-		JLabel lblNewLabel_4 = new JLabel("Nháº­p mÃ£ nhÃ  cung cáº¥p cáº§n tÃ¬m");
+		JLabel lblNewLabel_4 = new JLabel("Nhập mã nhà cung cấp cần tìm");
 		lblNewLabel_4.setForeground(new Color(0, 128, 0));
 		
 		JLabel lblNewLabel_5 = new JLabel("Nhập mã nhà cung cấp cần tìm");
@@ -430,7 +430,7 @@ public class UI_NhaCungCap extends JFrame {
 		btnNewButton_4.setBounds(468, 11, 118, 39);
 		panel_7.add(btnNewButton_4);
 		
-		JButton btnShow = new JButton("Hiá»ƒn thá»‹ táº¥t cáº£");
+		JButton btnShow = new JButton("Hiển Thị Tất Cả");
 		btnShow.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -452,7 +452,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_4.add(panel_8);
 		panel_8.setLayout(null);
 		
-		JLabel lblNewLabel_7= new JLabel("Sá»‘ lÆ°á»£ng nhÃ  cung cáº¥p :");
+		JLabel lblNewLabel_7= new JLabel("Số lượng nhà cung cấp :");
 		lblNewLabel_7.setForeground(new Color(0, 128, 0));
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel_7.setBounds(47, 10, 154, 40);

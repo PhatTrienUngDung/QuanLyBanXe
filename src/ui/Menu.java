@@ -13,12 +13,16 @@ import entity.HoaDon;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import connect.ConnectDB;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.awt.CardLayout;
 import javax.swing.JSplitPane;
 import javax.swing.JDesktopPane;
@@ -160,6 +164,12 @@ public class Menu extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				try {
+					ConnectDB.getInstance().connect();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				panel_1.setVisible(true);
 				panel_2.setVisible(false);
 			}
