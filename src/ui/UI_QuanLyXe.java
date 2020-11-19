@@ -18,6 +18,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+import org.jfree.util.SortedConfigurationWriter;
 import org.jfree.util.TableOrder;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -36,6 +37,7 @@ import com.toedter.calendar.JDateChooser;
 
 import connect.ConnectDB;
 import dao.Dao_LoaiXe;
+import dao.Dao_NhaCungCap;
 import dao.Dao_QuanLyXe;
 import entity.HangSanXuat;
 import entity.LoaiXe;
@@ -52,8 +54,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.awt.CardLayout;
 import javax.swing.border.MatteBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.AncestorEvent;
 
 public class UI_QuanLyXe extends JFrame {
 
@@ -116,6 +134,7 @@ public class UI_QuanLyXe extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		Dao_NhaCungCap dao_Ncc = new Dao_NhaCungCap();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(100, 100, screen.width, (screen.height-50));
@@ -190,12 +209,33 @@ public class UI_QuanLyXe extends JFrame {
 		
 		ArrayList<NhaCungCap> listNCC= dao_qlXe.getAllNCC();
 		@SuppressWarnings("rawtypes")
-		JComboBox cbNhaCC = new JComboBox();
+		JComboBox cbNhaCC = new JComboBox(dao_Ncc.getListSuppilerName().toArray());
+		
+		panel_4.addAncestorListener(new AncestorListener() {
+			public void ancestorAdded(AncestorEvent event) {
+				List<String> listSupplierName = dao_Ncc.getListSuppilerName();
+				int soLuongCBB = cbNhaCC.getItemCount();
+				int soLuongListSupperlier  = listSupplierName.size();
+				if (soLuongCBB < soLuongListSupperlier)
+					cbNhaCC.addItem(listSupplierName.get(soLuongListSupperlier-1));
+				else if (soLuongCBB > soLuongListSupperlier) {
+					cbNhaCC.removeAllItems();
+					Collections.sort(listSupplierName);
+					for(String ncc : listSupplierName)
+						cbNhaCC.addItem(ncc);
+				}
+			}
+			public void ancestorMoved(AncestorEvent event) {
+			}
+			public void ancestorRemoved(AncestorEvent event) {
+			}
+		});
+		
 		cbNhaCC.setBounds(557, 13, 206, 19);
 		cbNhaCC.setEditable(true);
-		for (NhaCungCap nhaCungCap : listNCC) {
+		/*for (NhaCungCap nhaCungCap : listNCC) {
 			cbNhaCC.addItem(nhaCungCap.getTenNhaCungCap());
-		}
+		}*/
 		
 		JLabel lblNewLabel_2_4_1_2_1 = new JLabel("Hãng sản xuất");
 		lblNewLabel_2_4_1_2_1.setBounds(417, 43, 130, 19);

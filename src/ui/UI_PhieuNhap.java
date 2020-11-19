@@ -22,6 +22,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 
+import connect.ConnectDB;
+import dao.Dao_NhaCungCap;
+import dao.Dao_NhanVien;
 import dao.Dao_PhieuNhap;
 import entity.PhieuNhap;
 
@@ -31,7 +34,9 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
@@ -85,6 +90,13 @@ public class UI_PhieuNhap extends JFrame implements ActionListener,MouseListener
 	 * Create the frame.
 	 */
 	public UI_PhieuNhap() {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Dao_NhaCungCap dao_Ncc = new Dao_NhaCungCap();
 		setBackground(new Color(240, 240, 240));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(UI_PhieuNhap.class.getResource("/image/truck-icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -185,8 +197,14 @@ public class UI_PhieuNhap extends JFrame implements ActionListener,MouseListener
 		txtchuThich.setBounds(531, 129, 244, 50);
 		panelthongTin.add(txtchuThich);
 		
-		cbtenNhacc = new JComboBox();
-		cbtenNhacc.setModel(new DefaultComboBoxModel(new String[] {"", "Công Ty TNHH Thương Mại Ngọc Hoa", "Công Ty TNHH KBK Việt Nam Bearing", "CÔNG TY TNHH SẢN XUẤT VÀ THƯƠNG MẠI TIẾN LỘC"}));
+		cbtenNhacc = new JComboBox(dao_Ncc.getListSuppilerName().toArray());
+		cbtenNhacc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		//cbtenNhacc.setModel(dao_Ncc.getListSuppilerName().toArray())
+		//cbtenNhacc.setModel(new DefaultComboBoxModel(new String[] {"", "Công Ty TNHH Thương Mại Ngọc Hoa", "Công Ty TNHH KBK Việt Nam Bearing", "CÔNG TY TNHH SẢN XUẤT VÀ THƯƠNG MẠI TIẾN LỘC"}));
 		cbtenNhacc.setBounds(128, 64, 276, 20);
 		panelthongTin.add(cbtenNhacc);
 		
@@ -387,7 +405,7 @@ public class UI_PhieuNhap extends JFrame implements ActionListener,MouseListener
 		});
 	}
 	public void docDuLieuTuSQLVaoTable() {
-		DefaultTableModel<PhieuNhap> pn = pn_dao.getAllPN();
+		//DefaultTableModel<PhieuNhap> pn = pn_dao.getAllPN();
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {

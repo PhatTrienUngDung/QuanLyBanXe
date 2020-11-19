@@ -95,7 +95,6 @@ public class UI_NhaCungCap extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(100, 100, screen.width, screen.height);

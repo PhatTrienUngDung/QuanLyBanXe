@@ -20,19 +20,8 @@ import entity.TaiKhoan;
 
 public class Dao_NhanVien {
 	private int n;
-<<<<<<< .mine
 
-	public Dao_NhanVien() {
 
-||||||| .r48
-	public Dao_NhanVien() {}
-		
-=======
-	private ArrayList<NhanVien> listNhanVien;
-	public Dao_NhanVien() {
-		
->>>>>>> .r60
-	}
 		
 
 	

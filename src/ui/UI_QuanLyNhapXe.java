@@ -6,7 +6,12 @@
 package ui;
 
 import java.awt.EventQueue;
+import java.sql.SQLException;
+
 import javax.swing.JFrame;
+
+import connect.ConnectDB;
+import dao.Dao_NhaCungCap;
 
 /**
  *
@@ -29,6 +34,13 @@ public class UI_QuanLyNhapXe extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Dao_NhaCungCap dao_Ncc = new Dao_NhaCungCap();
 
         jtab1 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();

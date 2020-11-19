@@ -24,15 +24,16 @@ public class Dao_NhaCungCap {
 		listSupplierName = new ArrayList<String>();
 	}
 	
-	private ArrayList<String> getListSuppilerName() {
+	public ArrayList<String> getListSuppilerName() {
 		try {
+			listSupplierName.clear();
 			Connection con = ConnectDB.getInstance().getCon();
-			String sql = "Select tenNhaCungCap from NhaCungCap";
+			String sql = "select maNhaCungCap, tenNhaCungCap from NhaCungCap order by maNhaCungCap";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				String tenNhaCungCap;
-				tenNhaCungCap = rs.getString(1);
+				tenNhaCungCap = rs.getString(2);
 				listSupplierName.add(tenNhaCungCap);
 			}
 		}catch (SQLException e) { 
