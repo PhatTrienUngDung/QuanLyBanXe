@@ -6,18 +6,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.KhachHang;
+import entity.NhanVien;
+import entity.TaiKhoan;
 
 
 public class Dao_KhachHang {
 	private int n;
+	private ArrayList<String> list_CMND;
 	public Dao_KhachHang() {
+		list_CMND = new ArrayList<String>();
 	}
+	
+//Đọc dữ liệu lên bảng
+		public ArrayList<String> getListCMND(){
+			try {
+				Connection con = ConnectDB.getInstance().getCon();
+				String sql = "Select CMND from KhachHang";
+				Statement statement = con.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+				while (rs.next()) {
+					String CMND;
+					CMND = rs.getString(1);
+					list_CMND.add(CMND);
+				}
+			}catch (SQLException e) { 
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return list_CMND;
+		}
 //Đọc dữ liệu lên bảng
 	public DefaultTableModel getAllNCC() throws SQLException {
 		String[] header= {"Mã Khách Hàng","Tên Khách Hàng", "Giới Tính", "Ngày Sinh", "Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};
