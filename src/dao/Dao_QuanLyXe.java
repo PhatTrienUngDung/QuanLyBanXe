@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,9 +21,29 @@ import entity.Xe;
 
 public class Dao_QuanLyXe {
 	private static final String String = null;
+	private ArrayList<String> listColor;
 	public Dao_QuanLyXe() {
 		// TODO Auto-generated constructor stub
+		listColor = new ArrayList<String>();
 	}
+	
+//Đọc dữ liệu lên bảng
+		public void getListColor(String tenXe, String hangSanXuat, JComboBox comboBox){
+			Connection con = ConnectDB.getCon();
+			String sql = "select mauXe from xe, HangSanXuat where Xe.maHangSanXuat=HangSanXuat.maHangSanXuat and HangSanXuat.tenHangSanXuat = ? and tenXe = ?";
+			try {
+				PreparedStatement pst = con.prepareStatement(sql);
+				pst.setString(1, hangSanXuat);
+				pst.setString(2, tenXe);
+				ResultSet rs = pst.executeQuery();
+				while(rs.next()) {
+					comboBox.addItem(rs.getString(1));
+				}
+			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(null, e1);
+				e1.printStackTrace();
+			}
+		}
 // Lấy toàn bộ nhà cung cấp 
 	public ArrayList<NhaCungCap> getAllNCC(){
 		ArrayList<NhaCungCap> dsNCC=new ArrayList<NhaCungCap>();

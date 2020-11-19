@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -18,7 +19,27 @@ import entity.NhaCungCap;
 
 public class Dao_NhaCungCap {
 	private int n;
+	private ArrayList<String> listSupplierName;
 	public Dao_NhaCungCap() {
+		listSupplierName = new ArrayList<String>();
+	}
+	
+	private ArrayList<String> getListSuppilerName() {
+		try {
+			Connection con = ConnectDB.getInstance().getCon();
+			String sql = "Select tenNhaCungCap from NhaCungCap";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String tenNhaCungCap;
+				tenNhaCungCap = rs.getString(1);
+				listSupplierName.add(tenNhaCungCap);
+			}
+		}catch (SQLException e) { 
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return listSupplierName;
 	}
 //Đọc dữ liệu lên bảng
 	public DefaultTableModel getAllNCC() throws SQLException {

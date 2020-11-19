@@ -39,12 +39,14 @@ public class Dao_TaiKhoan {
 					NhanVien nhanVien;
 					String matKhau;
 					String quyen;
+					String chuThich;
 					
 					nhanVien = new NhanVien(rs.getString(1));
 					matKhau = rs.getString(2);
 					quyen = rs.getString(3);
+					chuThich = rs.getString(4);
 					
-					TaiKhoan tk = new TaiKhoan(nhanVien, matKhau, quyen);
+					TaiKhoan tk = new TaiKhoan(nhanVien, matKhau, quyen, chuThich);
 					listTaiKhoan.add(tk);
 				}
 			}catch (SQLException e) { 
@@ -55,7 +57,6 @@ public class Dao_TaiKhoan {
 		}
 		
 		public DefaultTableModel getAllAccount(String[] header, DefaultTableModel tableModel) throws SQLException {
-			int stt = 1;
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
 			String sql = "select ROW_NUMBER() OVER (ORDER BY TaiKhoan.maNhanVien), TaiKhoan.*, tenNhanVien"
@@ -64,7 +65,7 @@ public class Dao_TaiKhoan {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				Object[] o = {rs.getString(1), rs.getString(2), rs.getString(5), rs.getString(3), rs.getString(4)};
+				Object[] o = {rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), rs.getString(4), rs.getString(5)};
 				tableModel.addRow(o);
 			}
 			return tableModel;
@@ -75,10 +76,11 @@ public class Dao_TaiKhoan {
 			PreparedStatement stmt = null;
 			int n= 0;
 			try {
-				stmt = con.prepareStatement("insert into Users values (?,?,?)");
+				stmt = con.prepareStatement("insert into TaiKhoan values (?,?,?,?)");
 				stmt.setString(1, tk.getNhanVien().getMaNhanVien());
 				stmt.setString(2, tk.getMatKhau());
 				stmt.setString(3, tk.getQuyen());
+				stmt.setString(4, tk.getChuThich());
 				n=stmt.executeUpdate();
 			}catch(SQLException e) {
 				e.printStackTrace();
@@ -87,7 +89,7 @@ public class Dao_TaiKhoan {
 		}
 		
 		public boolean delete(String ID){
-	        Connection con= ConnectDB.getInstance().getCon();
+	       Connection con= ConnectDB.getInstance().getCon();
 	       PreparedStatement stmt = null;
 	       int n=0;
 	       try{
@@ -99,4 +101,19 @@ public class Dao_TaiKhoan {
 	       }
 	       return n>0;
 	   }
+		
+		public boolean Update (String maNhanVien) {
+			Connection con= ConnectDB.getInstance().getCon();
+		    PreparedStatement stmt = null;
+		    int n = 0;
+		    try {
+		    	stmt = con.prepareStatement("update TaiKhoan set matKhau = '123456' where maNhanVien = ?");
+		    	stmt.setString(1, maNhanVien);
+		    	n = stmt.executeUpdate();
+		    } catch (Exception e) {
+				// TODO: handle exception
+		    	e.printStackTrace();
+			}
+		    return n>0;
+		}
 }
