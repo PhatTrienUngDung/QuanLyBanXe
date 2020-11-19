@@ -14,6 +14,24 @@ public class KhachHang {
 	public KhachHang() {
 		super();
 	}
+	
+	public KhachHang(String maKhachHang) {
+		super();
+		this.maKhachHang = maKhachHang;
+	}
+
+	public KhachHang(String maKhachHang, String tenKhachHang, String gioiTinh, Date ngaySinh, String diaChi,
+			String email, String soDienThoai, String chuThich) {
+		super();
+		this.maKhachHang = maKhachHang;
+		this.tenKhachHang = tenKhachHang;
+		this.gioiTinh = gioiTinh;
+		this.ngaySinh = ngaySinh;
+		this.diaChi = diaChi;
+		this.email = email;
+		this.soDienThoai = soDienThoai;
+		this.chuThich = chuThich;
+	}
 
 	public String getMaKhachHang() {
 		return maKhachHang;
@@ -68,10 +86,6 @@ public class KhachHang {
 		return "KhachHang [maKhachHang=" + maKhachHang + ", tenKhachHang=" + tenKhachHang + ", gioiTinh=" + gioiTinh
 				+ ", ngaySinh=" + ngaySinh + ", diaChi=" + diaChi + ", email=" + email + ", soDienThoai=" + soDienThoai
 				+ ", chuThich=" + chuThich + "]";
-	}
-	public KhachHang(String maKhachHang) {
-		super();
-		this.maKhachHang = maKhachHang;
 	}
 	
 	
