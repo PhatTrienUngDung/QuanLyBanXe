@@ -15,7 +15,7 @@ public class Test {
 		
 		Menu m= new Menu();
 		for (int i = 0; i < 101; i++) {
-			Thread.sleep(60);
+			Thread.sleep(5);
 			slScreen.lbLoad.setText("Đang tải "+Integer.toString(i)+"%");
 			slScreen.progressBar.setValue(i);
 			  

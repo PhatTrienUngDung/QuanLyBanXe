@@ -31,7 +31,10 @@ public class CustomCombo extends PlainDocument{
 
             Object item = lookupItem(getText(0, getLength()));
             setSelectedItem(item);
-            setText(item.toString());
+            if (item == null)
+            	setText(getText(0, getLength()));
+            else
+            	setText(item.toString());
             highlightCompletedText(offs + str.length());
         } catch (Exception e) {
             e.printStackTrace();

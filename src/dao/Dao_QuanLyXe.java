@@ -1,5 +1,6 @@
 package dao;
 
+import java.awt.TextField;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -27,23 +28,59 @@ public class Dao_QuanLyXe {
 		listColor = new ArrayList<String>();
 	}
 	
-//Đọc dữ liệu lên bảng
-		public void getListColor(String tenXe, String hangSanXuat, JComboBox comboBox){
-			Connection con = ConnectDB.getCon();
-			String sql = "select mauXe from xe, HangSanXuat where Xe.maHangSanXuat=HangSanXuat.maHangSanXuat and HangSanXuat.tenHangSanXuat = ? and tenXe = ?";
-			try {
-				PreparedStatement pst = con.prepareStatement(sql);
-				pst.setString(1, hangSanXuat);
-				pst.setString(2, tenXe);
-				ResultSet rs = pst.executeQuery();
-				while(rs.next()) {
-					comboBox.addItem(rs.getString(1));
-				}
-			} catch (SQLException e1) {
-				JOptionPane.showMessageDialog(null, e1);
-				e1.printStackTrace();
+	public int getAmountByVehicleID(String maXe) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select soLuong from Xe where maXe = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, maXe);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1);
 			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
 		}
+		return -1;
+	}
+	
+	public void getVehicleNum_Bill (String tenXe, String hangSanXuat, String mauXe, String nhaCungCap, TextField txtF) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select maXe from Xe, NhaCungCap, HangSanXuat where Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and Xe.maHangSanXuat = HangSanXuat.maHangSanXuat and tenXe = ? and HangSanXuat.tenHangSanXuat = ? and mauXe = ? and NhaCungCap.tenNhaCungCap = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, tenXe);
+			pst.setString(2, hangSanXuat);
+			pst.setString(3, mauXe);
+			pst.setString(4, nhaCungCap);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				txtF.setText(rs.getString(1));
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+	}
+	
+//Đọc dữ liệu lên bảng
+	public void getListColor(String tenXe, String hangSanXuat, JComboBox comboBox){
+		Connection con = ConnectDB.getCon();
+		String sql = "select distinct mauXe from xe, HangSanXuat where Xe.maHangSanXuat=HangSanXuat.maHangSanXuat and HangSanXuat.tenHangSanXuat = ? and tenXe = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, hangSanXuat);
+			pst.setString(2, tenXe);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				comboBox.addItem(rs.getString(1));
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+	}
 // Lấy toàn bộ nhà cung cấp 
 	public ArrayList<NhaCungCap> getAllNCC(){
 		ArrayList<NhaCungCap> dsNCC=new ArrayList<NhaCungCap>();

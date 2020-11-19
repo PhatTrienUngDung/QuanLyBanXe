@@ -24,6 +24,7 @@ import connect.ConnectDB;
 import dao.Dao_HangSanXuat;
 import dao.Dao_HoaDon;
 import dao.Dao_KhachHang;
+import dao.Dao_NhaCungCap;
 import dao.Dao_QuanLyXe;
 import dao.Dao_TaiKhoan;
 
@@ -80,6 +81,7 @@ public class UI_HoaDon extends JFrame {
 		}
 		Dao_KhachHang dao_kh = new Dao_KhachHang();
 		Dao_QuanLyXe dao_Xe = new Dao_QuanLyXe();
+		Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
 		List<String> list_CMND = dao_kh.getListCMND();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -241,7 +243,7 @@ public class UI_HoaDon extends JFrame {
 		lblVehicleNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		pAddVehicle_Bill.add(lblVehicleNum_Bill);
 		
-		JLabel lblVehicleName_Bill = new JLabel("T\u00EAn Xe");
+		JLabel lblVehicleName_Bill = new JLabel("Tên Xe");
 		lblVehicleName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblVehicleName_Bill.setBounds(405, 12, 60, 21);
 		pAddVehicle_Bill.add(lblVehicleName_Bill);
@@ -251,12 +253,13 @@ public class UI_HoaDon extends JFrame {
 		cbbVehicleColor_Bill.setBounds(570, 53, 132, 25);
 		pAddVehicle_Bill.add(cbbVehicleColor_Bill);
 		
-		JLabel lblVehicleColor_Bill = new JLabel("M\u00E0u Xe");
+		JLabel lblVehicleColor_Bill = new JLabel("Màu Xe");
 		lblVehicleColor_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblVehicleColor_Bill.setBounds(405, 55, 68, 21);
 		pAddVehicle_Bill.add(lblVehicleColor_Bill);
 		
 		TextField txtVehicleNum_Bill = new TextField();
+		txtVehicleNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtVehicleNum_Bill.setEditable(false);
 		txtVehicleNum_Bill.setEnabled(false);
 		txtVehicleNum_Bill.setBounds(100, 10, 251, 25);
@@ -272,36 +275,34 @@ public class UI_HoaDon extends JFrame {
 		cbbManufacturer.setBounds(100, 53, 132, 25);
 		pAddVehicle_Bill.add(cbbManufacturer);
 		
-		JLabel lblAmountVehicle_Bill = new JLabel("S\u1ED1 l\u01B0\u1EE3ng");
+		JLabel lblAmountVehicle_Bill = new JLabel("Số Lượng");
 		lblAmountVehicle_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblAmountVehicle_Bill.setBounds(405, 98, 70, 21);
 		pAddVehicle_Bill.add(lblAmountVehicle_Bill);
 		
-		TextField textField = new TextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textField.setBounds(570, 96, 132, 21);
-		pAddVehicle_Bill.add(textField);
+		TextField txtAmount = new TextField();
+		txtAmount.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtAmount.setBounds(570, 96, 132, 21);
+		pAddVehicle_Bill.add(txtAmount);
 		
 		JLabel lblSupplier_Bill = new JLabel("NCC");
 		lblSupplier_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblSupplier_Bill.setBounds(10, 98, 44, 21);
 		pAddVehicle_Bill.add(lblSupplier_Bill);
 		
-		JComboBox cbbVehicleName_Bill = new JComboBox();
+		JComboBox cbbSupplier = new JComboBox();
+		cbbSupplier.setBounds(100, 98, 132, 25);
+		pAddVehicle_Bill.add(cbbSupplier);
 		
+		JComboBox cbbVehicleName_Bill = new JComboBox();
 		cbbVehicleName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbbVehicleName_Bill.setBackground(Color.WHITE);
-		cbbVehicleName_Bill.setEditable(true);
 		cbbVehicleName_Bill.setBounds(570, 10, 327, 25);
 		pAddVehicle_Bill.add(cbbVehicleName_Bill);
 		
 		FillCombo combo = new FillCombo();
 		try {
 			combo.fill("select DISTINCT tenXe from Xe" , cbbVehicleName_Bill, "tenXe");
-			
-			JComboBox cbbSupplier = new JComboBox();
-			cbbSupplier.setBounds(100, 98, 132, 25);
-			pAddVehicle_Bill.add(cbbSupplier);
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -313,7 +314,7 @@ public class UI_HoaDon extends JFrame {
 		contentPane.add(pBillDetailsList);
 		pBillDetailsList.setLayout(null);
 		
-		JLabel lblBillDetailsList = new JLabel("Danh s\u00E1ch xe b\u00E1n");
+		JLabel lblBillDetailsList = new JLabel("Danh sách xe bán");
 		lblBillDetailsList.setBounds(10, 5, 114, 16);
 		lblBillDetailsList.setFont(new Font("Tahoma", Font.BOLD, 13));
 		pBillDetailsList.add(lblBillDetailsList);
@@ -340,7 +341,7 @@ public class UI_HoaDon extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblTotalBill = new JLabel("T\u1ED5ng ti\u1EC1n");
+		JLabel lblTotalBill = new JLabel("Tổng Tiền");
 		lblTotalBill.setBounds(10, 18, 115, 25);
 		lblTotalBill.setForeground(new Color(255, 0, 0));
 		lblTotalBill.setFont(new Font("Tahoma", Font.BOLD, 22));
@@ -358,21 +359,21 @@ public class UI_HoaDon extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JButton btnAddCustomer_Bill = new JButton("Th\u00EAm M\u1EDBi KH");
+		JButton btnAddCustomer_Bill = new JButton("Thêm Mới KH");
 		btnAddCustomer_Bill.setBackground(new Color(50, 205, 50));
 		btnAddCustomer_Bill.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Add-group-icon.png")));
 		btnAddCustomer_Bill.setBounds(10, 6, 191, 51);
 		btnAddCustomer_Bill.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_1.add(btnAddCustomer_Bill);
 		
-		JButton btnNewButton = new JButton("H\u1EE7y CTHD");
+		JButton btnNewButton = new JButton("Hủy CTHD");
 		btnNewButton.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Status-dialog-error-icon.png")));
 		btnNewButton.setBackground(Color.RED);
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton.setBounds(211, 6, 175, 51);
 		panel_1.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Thanh To\u00E1n");
+		JButton btnNewButton_1 = new JButton("Thanh Toán");
 		btnNewButton_1.setBackground(Color.ORANGE);
 		btnNewButton_1.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/coin-icon.png")));
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -388,7 +389,7 @@ public class UI_HoaDon extends JFrame {
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JButton btnEmptyDelete_Bill = new JButton("X\u00F3a Tr\u1EAFng");
+		JButton btnEmptyDelete_Bill = new JButton("Xóa Trống");
 		btnEmptyDelete_Bill.setBackground(new Color(135, 206, 250));
 		btnEmptyDelete_Bill.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Recycle-Bin-Full-icon.png")));
 		btnEmptyDelete_Bill.setBounds(26, 18, 160, 51);
@@ -455,17 +456,105 @@ public class UI_HoaDon extends JFrame {
 		Dao_HangSanXuat dao_Hsx = new Dao_HangSanXuat();
 		cbbVehicleName_Bill.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cbbManufacturer.removeAllItems();
-				dao_Hsx.getListHSX(cbbVehicleName_Bill.getSelectedItem().toString(), cbbManufacturer);
+				if (cbbManufacturer.getItemCount() > 0)
+					cbbManufacturer.removeAllItems();
+				String tenXe;
+				if (cbbVehicleName_Bill.getSelectedItem().toString().equalsIgnoreCase(""))
+					tenXe = "";
+				else
+					tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
+				dao_Hsx.getListHSX(tenXe, cbbManufacturer);
 			}
 		});
 		
 		cbbManufacturer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cbbVehicleColor_Bill.removeAllItems();
-				dao_Xe.getListColor(cbbVehicleName_Bill.getSelectedItem().toString(), cbbManufacturer.getSelectedItem().toString(), cbbVehicleColor_Bill);
+				if (cbbVehicleColor_Bill.getItemCount() > 0)
+					cbbVehicleColor_Bill.removeAllItems();
+				String tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
+				String hangSanXuat;
+				if (cbbManufacturer.getItemCount()==0) 
+					hangSanXuat = "";
+				else
+					hangSanXuat  = cbbManufacturer.getSelectedItem().toString();
+				dao_Xe.getListColor(tenXe, hangSanXuat, cbbVehicleColor_Bill);
 			}
 			
 		});
+		
+		cbbVehicleColor_Bill.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (cbbSupplier.getItemCount() > 0)
+					cbbSupplier.removeAllItems();
+				String tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
+				String hangSanXuat;
+				String mauXe ;
+				if (cbbVehicleColor_Bill.getItemCount()==0) 
+					mauXe = "";
+				else
+					mauXe = cbbVehicleColor_Bill.getSelectedItem().toString();
+				if (cbbManufacturer.getItemCount()==0) 
+					hangSanXuat = "";
+				else
+					hangSanXuat  = cbbManufacturer.getSelectedItem().toString();
+				dao_ncc.getListSupplierName_Bill(tenXe, hangSanXuat, mauXe, cbbSupplier);
+			}
+		});
+		
+		
+		cbbSupplier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String tenXe, hangSanXuat, mauXe, nhaCungCap;
+				if (cbbVehicleName_Bill.getSelectedItem().toString().equalsIgnoreCase(""))
+					tenXe = "";
+				else
+					tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
+				if (cbbManufacturer.getItemCount()==0) 
+					hangSanXuat = "";
+				else
+					hangSanXuat  = cbbManufacturer.getSelectedItem().toString();
+				if (cbbVehicleColor_Bill.getItemCount()==0) 
+					mauXe = "";
+				else
+					mauXe = cbbVehicleColor_Bill.getSelectedItem().toString();
+				if (cbbSupplier.getItemCount()==0) 
+					nhaCungCap = "";
+				else
+					nhaCungCap = cbbSupplier.getSelectedItem().toString();
+				dao_Xe.getVehicleNum_Bill(tenXe, hangSanXuat, mauXe, nhaCungCap, txtVehicleNum_Bill);
+			}
+		});
+		
+		btnAddVehicle_Bill.addMouseListener(new MouseAdapter() {
+			public String CheckValueVehicle() {
+				if (cbbVehicleName_Bill.getSelectedItem() == null) {
+					return "Bạn chưa chọn Tên Xe";}
+				else if (cbbManufacturer.getSelectedItem() == null)
+					return "Bạn chưa chọn Hãng Sản Xuất";
+				else if (cbbVehicleColor_Bill.getSelectedItem() == null)
+					return "Bạn chưa chọn Màu Xe";
+				else if (cbbSupplier.getSelectedItem() == null)
+					return "Bạn chưa chọn Nhà Cung Cấp";
+				else if (txtAmount.getText().equalsIgnoreCase(""))
+					return "Bạn chưa nhập Số Lượng";
+				else
+					return null;
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (CheckValueVehicle()!= null)
+					JOptionPane.showMessageDialog(null, CheckValueVehicle());
+				else {
+					int soLuong = Integer.parseInt(txtAmount.getText());
+					int soLuongTon = dao_Xe.getAmountByVehicleID(txtVehicleNum_Bill.getText());
+					if(soLuong > soLuongTon)
+							JOptionPane.showMessageDialog(null, "Số lượng không hợp lệ, giá trị lớn nhất là " + soLuongTon);
+					else
+						JOptionPane.showMessageDialog(null, "Xử lý đổ dữ liệu là ok");
+				}
+			}
+		});
+		
+		
 	}
 }

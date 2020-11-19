@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,6 +23,24 @@ public class Dao_NhaCungCap {
 	private ArrayList<String> listSupplierName;
 	public Dao_NhaCungCap() {
 		listSupplierName = new ArrayList<String>();
+	}
+	
+	public void getListSupplierName_Bill(String tenXe, String hangSanXuat, String mauXe, JComboBox comboBox) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select distinct tenNhaCungCap from Xe, NhaCungCap, HangSanXuat where Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and Xe.maHangSanXuat = HangSanXuat.maHangSanXuat and Xe.tenXe = ? and tenHangSanXuat = ? and Xe.mauXe = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, tenXe);
+			pst.setString(2, hangSanXuat);
+			pst.setString(3, mauXe);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				comboBox.addItem(rs.getString(1));
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
 	}
 	
 	public ArrayList<String> getListSuppilerName() {
