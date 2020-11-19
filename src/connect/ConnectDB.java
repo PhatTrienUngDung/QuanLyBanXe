@@ -2,11 +2,15 @@ package connect;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ConnectDB {
 	public static  Connection con= null;
     private static  ConnectDB instance= new ConnectDB();
+    public Statement stm;
+    public ResultSet rs;
 
     public static Connection getCon() {
         return con;
@@ -37,4 +41,13 @@ public class ConnectDB {
             e.printStackTrace();
         }
     }
+    public void executaSQL(String SQL) {
+        try {
+            stm = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = stm.executeQuery(SQL);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }
+
 }
