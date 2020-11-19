@@ -21,13 +21,41 @@ import entity.TaiKhoan;
 public class Dao_NhanVien {
 	private int n;
 
+<<<<<<< .mine
+	private ArrayList<NhanVien> listNhanVien;
 
+
+	public Dao_NhanVien() {
+||||||| .r74
+	public Dao_NhanVien() {
+=======
+>>>>>>> .r80
+
+<<<<<<< .mine
+
+	
+
+	}
 		
+||||||| .r74
+||||||| .r48
+	public Dao_NhanVien() {}
+		
+=======
+	private ArrayList<NhanVien> listNhanVien;
+	public Dao_NhanVien() {
+		
+>>>>>>> .r60
+	}
+		
+=======
+		
+>>>>>>> .r80
 
 	
 //Load data
 		public DefaultTableModel getAllNV() throws SQLException {
-			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên", "Địa Chỉ", "Email", "Số Điện Thoại","Giới tính","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};
+			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND" ,"Giới tính","Địa Chỉ", "Email", "Số Điện Thoại","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};
 			DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();

@@ -19,10 +19,20 @@ public class Xe {
 	private String img2;
 	private String img3;
 	
-	public Xe(String maXe, String tenXe) {
+
+
+	
+
+	
+
+	public Xe(String maXe, String tenXe,String mauXe, int phanKhoi,double giaNhap) {
 		super();
 		this.maXe = maXe;
 		this.tenXe = tenXe;
+	//	this.loaiXe = loaiXe;
+		this.phanKhoi = phanKhoi;
+		this.mauXe = mauXe;
+		this.giaNhap = giaNhap;
 	}
 
 	public Xe(String maXe, String tenXe, String mauXe, int phanKhoi, int soLuong, double giaNhap, LoaiXe loaiXe,
@@ -208,5 +218,10 @@ public class Xe {
 			String img12, String img22, String img32) {
 		// TODO Auto-generated constructor stub
 	}
+
+	
+
+	
+	
 	
 }

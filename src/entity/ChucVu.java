@@ -4,6 +4,11 @@ package entity;
 public class ChucVu {
 	private String maChucVu;
 	private String tenChucVu;
+	
+	public ChucVu(String maChucVu) {
+		super();
+		this.maChucVu = maChucVu;
+	}
 	public String getMaChucVu() {
 		return maChucVu;
 	}

@@ -95,10 +95,16 @@ public class NhanVien {
 			java.sql.Date ngaySinh2, java.sql.Date ngayVaoLam2, String gioiTinh2) {
 		// TODO Auto-generated constructor stub
 	}
+	public NhanVien(String maNhanVien,String tenNhanVien) {
+		super();
+		this.maNhanVien = maNhanVien;
+		this.tenNhanVien = tenNhanVien;
+	}
 	public NhanVien(String maNhanVien) {
 		super();
 		this.maNhanVien = maNhanVien;
 	}
+	
 	
 	
 }

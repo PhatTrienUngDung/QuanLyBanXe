@@ -1,34 +1,48 @@
 package dao;
 
+import java.lang.reflect.Array;
 import java.sql.Connection;
+
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import entity.ChiTietHoaDon;
 import entity.HopDong;
+import entity.KhachHang;
+import entity.NhaCungCap;
 import entity.NhanVien;
+import entity.Xe;
+import entity.LoaiXe;
 
 public class Dao_HopDong {
 	private int n;
 	public Dao_HopDong() {}
 		//Load data
 				public DefaultTableModel getAllHD() throws SQLException {
-					String[] header=  {"Mã Hợp Đồng","Mã Khách Hàng","Mã Nhân Viên","Mã Xe","Ngày Lập","Thời gian bảo hành"};
+					String[] header=  {"Mã Hợp Đồng","Tên Khách Hàng","CMND","Ngày Sinh","Địa Chỉ","Tên Nhân Viên","Tên Xe","Loại Xe","Màu Xe","Phân Khối","Số Lượng","Gía Nhập","Tổng Tiền","Ngày Lập","Thời gian bảo hành"};
 					DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 					ConnectDB.getInstance();
 					Connection con = ConnectDB.getCon();
-					String sql = "select *from HopDong";
+					String sql = "SELECT  HopDong.maHopDong, KhachHang.tenKhachHang, KhachHang.CMND, KhachHang.ngaySinh, KhachHang.diaChi, NhanVien.tenNhanVien, Xe.tenXe, LoaiXe.tenLoaiXe, Xe.mauXe, Xe.phanKhoi, chiTietHoaDon.soLuong, chiTietHoaDon.donGia, chiTietHoaDon.soLuong*chiTietHoaDon.donGia, HopDong.ngayLap, HopDong.thoiGianBH\r\n" + 
+							"FROM     HopDong INNER JOIN\r\n" + 
+							"                  KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang INNER JOIN\r\n" + 
+							"                  NhanVien ON HopDong.maNhanVien = NhanVien.maNhanVien INNER JOIN\r\n" + 
+							"                  Xe ON HopDong.maXe = Xe.maXe INNER JOIN\r\n" + 
+							"                  LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe INNER JOIN\r\n" + 
+							"                  chiTietHoaDon ON Xe.maXe = chiTietHoaDon.maXe";
 					Statement statement = con.createStatement();
 					ResultSet rs = statement.executeQuery(sql);
 					while (rs.next()) {
-						Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getNString(7),rs.getNString(8) ,rs.getString(9)};
+						Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15)};
 						tableModel.addRow(o);
 					}
 					return tableModel;
@@ -39,11 +53,11 @@ public class Dao_HopDong {
 					PreparedStatement stmt = null;
 					int n = 0;
 					try {
-						stmt = con.prepareStatement("insert into HopDong values(?,?,?,?,?,?,?,?,?)");
+						stmt = con.prepareStatement("insert into HopDong values(?,?,?,?,?,?)");
 						stmt.setString(1, hd.getMaHD());
-						stmt.setString(2, hd.getKhachHang().getMaKhachHang());
-						stmt.setString(3, hd.getNhanVien().getMaNhanVien());
-						stmt.setString(4, hd.getXe().getMaXe());
+						stmt.setString(2, hd.getKhachHang().getTenKhachHang());
+						stmt.setString(3, hd.getNhanVien().getTenNhanVien());
+						stmt.setString(4, hd.getXe().getTenLoaiXe());
 						stmt.setString(5, hd.getTGBH());
 						stmt.setDate(6, (Date) hd.getNgayLap());
 						n = stmt.executeUpdate();
@@ -96,9 +110,9 @@ public class Dao_HopDong {
 						stmt = con.prepareStatement(
 								"update HopDong set maHopDong=?,maKhachHang=?,maNhanVien=?,maXe=?,ngayLap=?,thoiGianBH=? where maHopDong=?");
 						stmt.setString(1, hd.getMaHD());
-						stmt.setString(2, hd.getKhachHang().getMaKhachHang());
-						stmt.setString(3, hd.getNhanVien().getMaNhanVien());
-						stmt.setString(4, hd.getXe().getMaXe());
+						stmt.setString(2, hd.getKhachHang().getTenKhachHang());
+						stmt.setString(3, hd.getNhanVien().getTenNhanVien());
+						stmt.setString(4, hd.getXe().getTenLoaiXe());
 						stmt.setString(5, hd.getTGBH());
 						stmt.setDate(6, (Date) hd.getNgayLap());
 						
@@ -116,5 +130,76 @@ public class Dao_HopDong {
 				}
 				
 				
-	
+				public ArrayList<NhanVien> getAllNV(){
+					ArrayList<NhanVien> dsNV=new ArrayList<NhanVien>();
+					try {
+						ConnectDB.getInstance();
+						Connection con= ConnectDB.getCon();
+						String sql= "select * from NhanVien";
+						Statement statement= con.createStatement();
+						ResultSet rs= statement.executeQuery(sql);
+						
+						while(rs.next()) {
+							String maNV=rs.getString(1);
+							String tenNV=rs.getString(2);
+							NhanVien nv= new NhanVien(maNV,tenNV);
+							dsNV.add(nv);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					return dsNV;
+				}
+				public ArrayList<KhachHang> getAllKH(){
+					ArrayList<KhachHang> dsKH=new ArrayList<KhachHang>();
+					try {
+						ConnectDB.getInstance();
+						Connection con= ConnectDB.getCon();
+						String sql= "select * from KhachHang";
+						Statement statement= con.createStatement();
+						ResultSet rs= statement.executeQuery(sql);
+						
+						while(rs.next()) {
+							String maKH=rs.getString(1);
+							String tenKH=rs.getString(2);
+							String cmnd=rs.getString(3);
+							Date ngaySinh = rs.getDate(5);
+							String diaChi=rs.getString(6);
+							KhachHang kh= new KhachHang(maKH, tenKH, cmnd, ngaySinh, diaChi);
+							dsKH.add(kh);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					return dsKH;
+				}
+				public ArrayList<Xe> getAllXes(){
+					ArrayList<Xe> dsXe=new ArrayList<Xe>();
+					try {
+						ConnectDB.getInstance();
+						Connection con= ConnectDB.getCon();
+						String sql= "select * from Xe";
+						Statement statement= con.createStatement();
+						ResultSet rs= statement.executeQuery(sql);
+						
+						while(rs.next()) {
+							String maXe=rs.getString(1);
+							String tenXe=rs.getString(2);
+				//			String loaiXe = rs.getString(3);
+							String mauXe = rs.getString(4);
+							int phanKhoi = rs.getInt(7);
+							double giaNhap = rs.getDouble(9);
+							Xe xe= new Xe(maXe,tenXe,mauXe,phanKhoi,giaNhap);
+							dsXe.add(xe);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					return dsXe;
+				}
+			
+				
 }

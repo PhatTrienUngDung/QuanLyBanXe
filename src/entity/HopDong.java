@@ -8,10 +8,11 @@ public class HopDong {
 	private KhachHang khachHang;
 	
 	private NhanVien nhanVien;
-	private Xe xe;
+	private LoaiXe loaiXe;
 	
 	private Date ngayLap;
-	private String TGBH;
+	private String tgbh;
+	
 	public String getMaHD() {
 		return maHD;
 	}
@@ -30,11 +31,11 @@ public class HopDong {
 	public void setNhanVien(NhanVien nhanVien) {
 		this.nhanVien = nhanVien;
 	}
-	public Xe getXe() {
-		return xe;
+	public LoaiXe getXe() {
+		return loaiXe;
 	}
-	public void setXe(Xe xe) {
-		this.xe = xe;
+	public void setLoaiXe(LoaiXe loaiXe) {
+		this.loaiXe = loaiXe;
 	}
 	public Date getNgayLap() {
 		return ngayLap;
@@ -43,25 +44,25 @@ public class HopDong {
 		this.ngayLap = ngayLap;
 	}
 	public String getTGBH() {
-		return TGBH;
+		return tgbh;
 	}
-	public void setTGBH(String tGBH) {
-		TGBH = tGBH;
+	public void setTGBH(String tgbh) {
+		tgbh = tgbh;
 	}
-	public HopDong(String maHD, KhachHang khachHang, NhanVien nhanVien, Xe xe, Date ngayLap, String tGBH) {
+	public HopDong(String maHD, KhachHang khachHang, NhanVien nhanVien, LoaiXe loaiXe, Date ngayLap, String tGBH) {
 		super();
 		this.maHD = maHD;
 		this.khachHang = khachHang;
 		this.nhanVien = nhanVien;
-		this.xe = xe;
+		this.loaiXe = loaiXe;
 		this.ngayLap = ngayLap;
-		TGBH = tGBH;
+		tgbh= tgbh;
 	}
 	
 	@Override
 	public String toString() {
-		return "HopDong [maHD=" + maHD + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", xe=" + xe
-				+ ", ngayLap=" + ngayLap + ", TGBH=" + TGBH + "]";
+		return "HopDong [maHD=" + maHD + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", loaiXe=" + loaiXe
+				+ ", ngayLap=" + ngayLap + ", TGBH=" + tgbh + "]";
 	}
 	
 }

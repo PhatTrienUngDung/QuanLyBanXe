@@ -12,6 +12,7 @@ public class LoaiXe {
 		super();
 		this.maLoaiXe = maLoaiXe;
 	}
+	
 	public LoaiXe() {
 		super();
 	}
@@ -31,5 +32,6 @@ public class LoaiXe {
 	public String toString() {
 		return "LoaiXe [maLoaiXe=" + maLoaiXe + ", tenLoaiXe=" + tenLoaiXe + "]";
 	}
+	
 	
 }

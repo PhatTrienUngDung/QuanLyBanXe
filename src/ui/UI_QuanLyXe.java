@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -241,8 +242,8 @@ public class UI_QuanLyXe extends JFrame {
 		lblNewLabel_2_4_1_2_1.setBounds(417, 43, 130, 19);
 		lblNewLabel_2_4_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
-		@SuppressWarnings("rawtypes")
+			ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
+			@SuppressWarnings("rawtypes")
 		JComboBox cbHangSx = new JComboBox();
 		cbHangSx.setBounds(557, 42, 206, 19);
 		cbHangSx.setEditable(true);
