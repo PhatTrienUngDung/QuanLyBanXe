@@ -1,251 +1,325 @@
-﻿create database SQL_QLXe
+﻿Create database SQL_QLXe
 go
 use SQL_QLXe
 go
-create table ChucVu(
-	maChucVu varchar(15) primary key NOT NULL,
-	tenChucVu char(15) NULL
-);
-go
-create table TaiKhoan(
-	maNhanvien varchar(15)  foreign key references NhanVien(maNhanVien),
-	matKhau char(20) NULL,
-	quyen nvarchar(20) NULL
-);
-go
-create table NhanVien(
-	maNhanVien varchar(15) primary key NOT NULL,
-	tenNhanVien nvarchar(50)  NULL,
-	gioiTinh nvarchar(5)  NULL,
-	diaChi nvarchar(50)  NULL,
-	email char(50)  NULL,
-	soDienThoai char(15)  NULL,
-	maChucVu varchar(15) foreign key references ChucVu(maChucVu),
-	ngayVaoLam date  NULL
-);
-go
-create table nhaCungCap(
-	maNhaCungCap varchar(15) primary key NOT NULL,
-	tenNhaCungCap nvarchar(50) NULL,
-	diaChi nvarchar(50) NULL,
-	email nvarchar(50) NULL,
-	soDienThoai	char(10) NULL,
-	chuThich nvarchar(50) NULL
-);
-go
-create table HoaDon(
-	maHoaDon varchar(15) primary key NOT NULL,
-	maKhachHang char(10) NULL,
-	maNhanVien char(12) NULL,
-	ngayLapHoaDon date NULL DEFAULT GETDATE()
-);
-go
-create table chiTietHoaDon(
-	maHoaDon varchar(15) foreign key  references HoaDon(maHoaDon),
-	maXe varchar(15) foreign key references Xe(maXe) NULL,
-	soLuong int NULL,
-	donGia float  NULL
-);
-go
-create table HangSanXuat(
-	maHangSanXuat varchar(15) primary key NOT NULL,
-	tenHangSanXuat nvarchar(50) NULL
-);
-go
-create table LoaiXe(
-	maLoaiXe varchar(15) primary key NOT NULL,
-	tenLoaiXe nvarchar(50) NULL
-);
-go
-create table Xe (
-	maXe varchar(15) primary key NOT NULL,
-	tenXe nvarchar(50) NULL,
-	maLoaiXe varchar(15) foreign key  references LoaiXe(maLoaiXe) NULL, 
-	mauXe nvarchar(50) NULL,
-	maNhaCungCap varchar(15) foreign key  references NhaCungCap(maNhaCungCap) NULL,
-	maHangSanXuat varchar(15) foreign key references HangSanXuat(maHangSanXuat) NULL,
-	phanKhoi int NULL,
-	soLuong int NULL,
-	giaNhap float NULL,
-	ngayNhap date NULL DEFAULT GETDATE(),
-	trangThai int NULL,
-	chuThich nvarchar(50) NULL,
-	img1 nvarchar(200) null,
-	img2 nvarchar(200) null,
-	img3 nvarchar(200) null
-);
-go
-create table KhachHang(
-	maKhachHang varchar(15) primary key not null,
-	tenKhachHang nvarchar(50) NULL,
-	gioiTinh nvarchar(5) NULL,
-	ngaySinh date NULL,
-	diaChi nvarchar(50) NULL,
-	email char(50) NULL,
-	soDienThoai char(11) NULL,
-	chuThich nvarchar(50) NULL
-);
-go
-create table HopDong(
-	maHopDong varchar(15) primary key NOT NULL,
-	maKhachHang varchar(15) foreign key references KhachHang(maKhachHang) NULL,
-	maNhanVien varchar(15) foreign key references NhanVien(maNhanVien) NULL,
-	maXe varchar(15) foreign key references Xe(maXe),
-	ngayLap	date NULL DEFAULT GETDATE(),
-	thoiGianBH int NULL
-);
-go
-create table PhieuNhap(
-	maPhieuNhap varchar(15) primary key NOT NULL,
-	maNhanVien varchar(15) foreign key references NhanVien(maNhanVien) NULL,
-	maNhaCungCap varchar(15) foreign key references NhaCungCap(maNhaCungCap) NULL,
-	ngayNhap date  NULL DEFAULT GETDATE(),
-	chuThich nvarchar(50) NULL
-);
-go
-create table chiTietPhieuNhap(
-	maPhieuNhap nvarchar(50) primary key NOT NULL,
-	maXe varchar(15) foreign key references Xe(maXe) NULL,
-	soLuong int NULL,
-	donGia float NULL,
-	chuThich nvarchar(50) NULL
-);
 
+--Hang san xuat
+CREATE TABLE [dbo].[HangSanXuat](
+	[maHangSanXuat] [varchar](15) NOT NULL,
+	[tenHangSanXuat] [nvarchar](50) NOT NULL,
+	[quocGia] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maHangSanXuat] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
+--Loai Xe
+CREATE TABLE [dbo].[LoaiXe](
+	[maLoaiXe] [varchar](15) NOT NULL,
+	[tenLoaiXe] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maLoaiXe] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 
+--Nha cung cap
+CREATE TABLE [dbo].[NhaCungCap](
+	[maNhaCungCap] [varchar](25) NOT NULL,
+	[tenNhaCungCap] [nvarchar](50) NOT NULL,
+	[diaChi] [nvarchar](100) NOT NULL,
+	[email] [nvarchar](50) NULL,
+	[soDienThoai] [char](20) NULL,
+	[chuThich] [nvarchar](100) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maNhaCungCap] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 
+--Xe
+CREATE TABLE [dbo].[Xe](
+	[maXe] [varchar](15) NOT NULL,
+	[tenXe] [nvarchar](50) NOT NULL,
+	[maLoaiXe] [varchar](15) NOT NULL,
+	[mauXe] [nvarchar](50) NOT NULL,
+	[maNhaCungCap] [varchar](25) NOT NULL,
+	[maHangSanXuat] [varchar](15) NOT NULL,
+	[phanKhoi] [int] NOT NULL,
+	[soLuong] [int] NOT NULL,
+	[giaNhap] [float] NOT NULL,
+	[ngayNhap] [date] NULL,
+	[trangThai] [nvarchar](50) NULL,
+	[chuThich] [nvarchar](50) NULL,
+	[img1] [nvarchar](200) NULL,
+	[img2] [nvarchar](200) NULL,
+	[img3] [nvarchar](200) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maXe] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
+--Khach hang
+CREATE TABLE [dbo].[KhachHang](
+	[maKhachHang] [varchar](15) NOT NULL,
+	[tenKhachHang] [nvarchar](50) NOT NULL,
+	[CMND] [nvarchar](50) NOT NULL,
+	[gioiTinh] [nvarchar](5) NOT NULL,
+	[ngaySinh] [date] NULL,
+	[diaChi] [nvarchar](50) NULL,
+	[email] [char](50) NULL,
+	[soDienThoai] [char](11) NULL,
+	[chuThich] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maKhachHang] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
+--Hoa Don
+CREATE TABLE [dbo].[HoaDon](
+	[maHoaDon] [varchar](15) NOT NULL,
+	[maKhachHang] [varchar](15) NOT NULL,
+	[maNhanVien] [varchar](15) NOT NULL,
+	[ngayLapHoaDon] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maHoaDon] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
+--Chi tiet phieu nhap
+CREATE TABLE [dbo].[chiTietPhieuNhap](
+	[maPhieuNhap] [nvarchar](50) NOT NULL,
+	[maXe] [varchar](15) NOT NULL,
+	[soLuong] [int] NOT NULL,
+	[donGia] [float] NOT NULL,
+	[chuThich] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maPhieuNhap] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
+--Chi tiet hoa don
+CREATE TABLE [dbo].[chiTietHoaDon](
+	[maHoaDon] [varchar](15) NOT NULL,
+	[maXe] [varchar](15) NOT NULL,
+	[soLuong] [int] NOT NULL,
+	[donGia] [float] NOT NULL
+) ON [PRIMARY]
+GO
 
-go
+--Chuc vu
+CREATE TABLE [dbo].[ChucVu](
+	[maChucVu] [varchar](15) NOT NULL,
+	[tenChucVu] [char](15) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maChucVu] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE001','Vision','LX001','Đỏ','honda','150','20','45000000','2020-10-1','1',' ')
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE002','Vision','LX001','Vàng','honda','150','22','45000000','2020-1-21','1',' ')
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE003','Vision','LX001','Kem','honda','150','10','45000000','2020-10-6','1',' ')
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE004','Wave','LX002','Đỏ','honda','100','21','32000000','2020-5-17','1',' ')
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE005','Wave','LX002','Trắng','honda','100','20','32000000','2020-3-1','1',' ')
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE006','Sirius','LX002','Đen','suzuki','100','0','30000000','2020-10-4','0',' ')
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE007','Sirius','LX002','Trắng','suzuki','100','5','30000000','2020-10-1','1',' ')
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE008','Air Blade','LX001','Đỏ','honda','150','10','48000000','2020-12-12','1',' ')
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE009','Air Blade','LX001','Đen','honda','150','0','48000000','2020-4-1','0',' ')
-insert into Xe (maXe,tenXe,maLoaiXe,mauXe,maNhaCungCap,phanKhoi,soLuong,giaNhap,ngayNhap,trangThai,chuThich) values ('XE010','Air Blade','LX001','Xám','hoda','150','20','48000000','2020-7-1','1',' ')
+--Nhan vien
+CREATE TABLE [dbo].[NhanVien](
+	[maNhanVien] [varchar](15) NOT NULL,
+	[tenNhanVien] [nvarchar](50) NOT NULL,
+	[CMND] [nvarchar](50) NOT NULL,
+	[gioiTinh] [nvarchar](5) NOT NULL,
+	[diaChi] [nvarchar](50) NOT NULL,
+	[email] [char](50) NULL,
+	[soDienThoai] [char](15) NULL,
+	[maChucVu] [varchar](15) NOT NULL,
+	[ngayVaoLam] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maNhanVien] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
+--Tai khoan
+CREATE TABLE [dbo].[TaiKhoan](
+	[maNhanvien] [varchar](15) NOT NULL,
+	[matKhau] [char](20) NULL,
+	[quyen] [nvarchar](20) NULL,
+	[chuThich] [nvarchar](50) NULL
+PRIMARY KEY CLUSTERED 
+(
+	[maNhanVien] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
+--Hop dong
+CREATE TABLE [dbo].[HopDong](
+	[maHopDong] [varchar](15) NOT NULL,
+	[maKhachHang] [varchar](15) NOT NULL,
+	[maNhanVien] [varchar](15) NOT NULL,
+	[maXe] [varchar](15) NOT NULL,
+	[ngayLap] [date] NULL,
+	[thoiGianBH] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maHopDong] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD001','800000000001','102548330000','XE002','Vision','2020-10-1','1')
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD002','800000000002','102548340000','XE003','Vision','2020-10-2','1')
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD003','800000000003','102548010000','XE002','Vision','2020-8-15','1')
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD004','800000000004','102548010000','XE005','Wave','2020-10-2','1')
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD005','800000000005','102548340000','XE002','Vision','2020-10-2','1')
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD006','800000000006','102548440000','XE005','Wave','2020-1-2','1')
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD007','800000000007','102548010000','XE006','Sirius','2020-10-2','1')
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD008','800000000008','102548550000','XE008','Air Blade','2020-10-9','1')
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD009','800000000009','102548010000','XE008','Air Blade','2020-6-2','1')
-insert into HopDong (maHopDong,maKhachHang,maNhanVien,maXe,ngayLap,thoiGianBH) values('HD010','800000000010','102548550000','XE009','Air Blade','2020-10-2','1 ')
+--Phieu nhap
+CREATE TABLE [dbo].[PhieuNhap](
+	[maPhieuNhap] [varchar](15) NOT NULL,
+	[maNhanVien] [varchar](15) NULL,
+	[maNhaCungCap] [varchar](25) NULL,
+	[ngayNhap] [date] NULL,
+	[chuThich] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[maPhieuNhap] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
+ALTER TABLE [dbo].[PhieuNhap] ADD CONSTRAINT [DF_PhieuNhap_NgayNhap] DEFAULT (getdate()) FOR [ngayNhap]
+GO
 
+ALTER TABLE [dbo].[Xe] ADD CONSTRAINT [DF_Xe_NgayNhap] DEFAULT (getdate()) FOR [ngayNhap]
+GO
 
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN001','XE002','10','450000000',' ')
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN002','XE003','20','900000000',' ')
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN003','XE001','5','225000000',' ')
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN004','XE008','2','96000000',' ')
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN005','XE006','6','360000000',' ')
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN006','XE007','9','270000000',' ')
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN007','XE002','2','90000000',' ')
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN008','XE005','8','256000000',' ')
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN009','XE009','25','1200000000',' ')
-insert into chiTietPhieuNhap (maPhieuNhap,maXe,soLuong,donGia,chuThich) values('CTPN010','XE010','5','24000000',' ')
+ALTER TABLE [dbo].[HoaDon] ADD CONSTRAINT [DF_HoaDon_NgayLHD] DEFAULT (getdate()) FOR [ngayLapHoaDon]
+GO
 
-	
+ALTER TABLE [dbo].[HopDong] ADD CONSTRAINT [DF_HopDong_NgayLap] DEFAULT (getdate()) FOR [ngayLap]
+GO
 
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN001','102548260000','HSX001','2020-3-12',' ')
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN002','102548330000','HSX001 ','2020-4-13',' ')
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN003','102548440000','HSX002 ','2020-3-12',' ')
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN004','102548550000','HSX001 ','2020-5-12',' ')
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN005','102548550000','HSX003','2020-7-18',' ')
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN006','102548010000','HSX002','2020-4-12',' ')
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN007','102548340000','HSX001','2020-3-25',' ')
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN008','102548960000','HSX003 ','2020-9-12',' ')
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN009','102548010000','HSX001 ','2020-12-27',' ')
-insert into PhieuNhap (maPhieuNhap,maNhanVien,maNhaCungCap,ngayNhap,chuThich) values('PN010','102548340000','HSX002','2020-8-21',' ')
+ALTER TABLE [dbo].[PhieuNhap]  WITH CHECK ADD FOREIGN KEY([maNhanVien])
+REFERENCES [dbo].[NhanVien] ([maNhanVien])
+GO
 
+ALTER TABLE [dbo].[PhieuNhap]  WITH CHECK ADD FOREIGN KEY([maNhaCungCap])
+REFERENCES [dbo].[nhaCungCap] ([maNhaCungCap])
+GO
 
+ALTER TABLE [dbo].[Xe]  WITH CHECK ADD FOREIGN KEY([maHangSanXuat])
+REFERENCES [dbo].[HangSanXuat] ([maHangSanXuat])
+GO
 
-insert into HangSanXuat (maHangSanXuat,tenHangSanXuat)values('HSX001','Honda')
-insert into HangSanXuat (maHangSanXuat,tenHangSanXuat)values('HSX002','Kawasaki ')
-insert into HangSanXuat (maHangSanXuat,tenHangSanXuat)values('HSX003','Yamaha')
-insert into HangSanXuat (maHangSanXuat,tenHangSanXuat)values('HSX004','Piaggio ')
-insert into HangSanXuat (maHangSanXuat,tenHangSanXuat)values('HSX005','Suzuki ')
+ALTER TABLE [dbo].[Xe]  WITH CHECK ADD FOREIGN KEY([maLoaiXe])
+REFERENCES [dbo].[LoaiXe] ([maLoaiXe])
+GO
 
+ALTER TABLE [dbo].[Xe]  WITH CHECK ADD FOREIGN KEY([maNhaCungCap])
+REFERENCES [dbo].[nhaCungCap] ([maNhaCungCap])
+GO
 
-insert into LoaiXe (maLoaiXe,tenLoaiXe) values('LX001','Xe ga')
-insert into LoaiXe (maLoaiXe,tenLoaiXe) values('LX002','Xe số ')
+ALTER TABLE [dbo].[chiTietPhieuNhap]  WITH CHECK ADD FOREIGN KEY([maXe])
+REFERENCES [dbo].[Xe] ([maXe])
+GO
 
+ALTER TABLE [dbo].[chiTietHoaDon]  WITH CHECK ADD FOREIGN KEY([maHoaDon])
+REFERENCES [dbo].[HoaDon] ([maHoaDon])
+GO
 
+ALTER TABLE [dbo].[chiTietHoaDon]  WITH CHECK ADD FOREIGN KEY([maXe])
+REFERENCES [dbo].[Xe] ([maXe])
+GO
 
-insert into nhaCungCap(maNhaCungCap,tenNhaCungCap,diaChi,email,soDienThoai,chuThich) values ('NCC001','motobikeSG','5 Hai Bà Trưng DaKao quận 1','motobkileSG@gmail.com','0909341238',' ')
-insert into nhaCungCap(maNhaCungCap,tenNhaCungCap,diaChi,email,soDienThoai,chuThich) values ('NCC002','xemayVN','248 Phạm Ngũ Lão quận 5','xemayVN@gmail.com','0364258416',' ')
-insert into nhaCungCap(maNhaCungCap,tenNhaCungCap,diaChi,email,soDienThoai,chuThich) values ('NCC003','Nicksan','500 Quang Trung quận Gò Vấp','nicksan@gmail.com','0232256158',' ')
+ALTER TABLE [dbo].[NhanVien]  WITH CHECK ADD FOREIGN KEY([maChucVu])
+REFERENCES [dbo].[ChucVu] ([maChucVu])
+GO
 
+ALTER TABLE [dbo].[TaiKhoan]  WITH CHECK ADD FOREIGN KEY([maNhanvien])
+REFERENCES [dbo].[NhanVien] ([maNhanVien])
+GO
 
+ALTER TABLE [dbo].[HopDong]  WITH CHECK ADD FOREIGN KEY([maKhachHang])
+REFERENCES [dbo].[KhachHang] ([maKhachHang])
+GO
 
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548260000','NV_1','Nhân Viên')
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548330000','NV_2','Nhân Viên')
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548440000','NV_3','Nhân Viên')
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548550000','NV_4','Nhân Viên')
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548660000','NV_7','Nhân Viên')
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548770000','NV_8','Nhân Viên')
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548000000','NV_10','Nhân Viên')
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548340000','NV_11','Nhân Viên')
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548960000','NV_12','Nhân Viên')
-insert into TaiKhoan (maNhanvien,matKhau,quyen) values ('102548010000','NV_13','Quản Lí')
+ALTER TABLE [dbo].[HopDong]  WITH CHECK ADD FOREIGN KEY([maNhanVien])
+REFERENCES [dbo].[NhanVien] ([maNhanVien])
+GO
 
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548260000','Trần Mỹ Lệ','Nữ','87 Huỳnh Khương An, phường 5,Gò Vấp,Hồ Chí Minh','myle1988@gmail.com','0936064271','Nhân viên bán hàng','2015-6-8')
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548330000','Bùi Thành Nam','Nam','448/6 Phan Huy Ích','thanhna_1990@gmail.com','0905135431','Nhân viên bán hàng','2015-6-8')
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548440000','Nguyễn Long Thành ','Nam','97 Nguyễn Thị Đinh, Quận 4,Hồ Chí Minh','Thanh_1996@gmail.com','0937065271','Nhân viên bán hàng','2016-6-8')
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548550000','Vương Anh Toàn ','Nam','82 Nguyễn Văn Bảo, phường 4,Gò Vấp,Hồ Chí Minh','anhtoan_1988@gmail.com','0967064271','Nhân viên bán hàng','2017-1-7')
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548660000','Võ Thị Bích Loan ','Nữ','19 Phan Văn Trị , phường 5,Gò Vấp,Hồ Chí Minh','bichloan_1990@gmail.com','0905882651','Nhân viên bán hàng','2017-6-8')
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548770000','Trần Thị Bưởi','Nữ','84 Phan Xào Nam,Quận 5,Hồ Chí Minh','thibuoi_1986@gmail.com','0967886793','Nhân viên bán hàng','2014-6-8')
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548000000','Bạch Phương Mai ','Nữ','123 Toàn Thắng, quận 11,Hồ Chí Minh','phuongmai_1987@gmail.com','0933806521','Nhân viên bán hàng','2018-7-15')
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548340000','Đoàn Văn Vĩnh ','Nam','44/4 hẻm 8 Cách Mạng Tháng 8,Hồ Chí Minh','vanvinh_1992@gmail.com','0905778521','Nhân viên bán hàng','2016-6-12')
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548960000','Nguyễn Thị Linh','Nữ','55/8 Phan Văn Trị,Gò Vấp,Hồ Chí Minh','thilinh_1996@gmail.com','093658824','Nhân viên bán hàng','2019-6-1')
-insert into NhanVien(maNhanVien,tenNhanVien,gioiTinh,diaChi,email,soDienThoai,chucVu,ngayVaoLam) values ('102548010000','Vương Tư Thông','Nam','121 Nguyễn Oanh,phường 5,Gò Vấp,Hồ Chí Minh','tuthong_2000@gmail.com','0987064271','Quản lí','2017-12-8')
+ALTER TABLE [dbo].[HopDong]  WITH CHECK ADD FOREIGN KEY([maXe])
+REFERENCES [dbo].[Xe] ([maXe])
+GO
 
-insert into ChucVu(maChucVu,tenChucVu) values('NVBH','Nhân viên bán hàng')
-insert into ChucVu(maChucVu,tenChucVu) values('NVQL','Nhân viên quản lý')
+ALTER TABLE[dbo].[HoaDon]  WITH CHECK ADD FOREIGN KEY([maKhachHang])
+REFERENCES [dbo].[KhachHang] ([maKhachHang])
+GO
 
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD001','800000000001','102548660000','2019-5-12')
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD002','800000000003','102548770000','2019-5-12')
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD003','800000000005','102548330000','2020-5-2')
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD004','800000000009','102548330000','2019-6-1')
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD005','800000000010','102548660000','2019-5-12')
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD006','800000000006','102548770000','2020-5-12')
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD007','800000000002','102548960000','2019-5-12')
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD008','800000000004','102548340000','2020-8-1')
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD009','800000000008','102548440000','2019-12-12')
-insert into HoaDon(maHoaDon,maKhachHang,maNhanVien,ngayLapHoaDon) values('HD010','800000000007','102548550000','2019-7-1')
+INSERT INTO HangSanXuat values(N'HSX001',N'Yamaha',N'Nhật Bản'),
+							  (N'HSX002',N'Vinfast',N'Việt Nam'),
+							  (N'HSX003',N'Honda',N'Nhật Bản')
+GO
 
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD001','XE001',1,'45000000')
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD002','XE004',2,'64000000')
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD001','XE002',1,'45000000')
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD001','XE007',1,'30000000')
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD001','XE003',2,'45000000')
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD001','XE006',1,'30000000')
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD001','XE005',1,'32000000')
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD001','XE008',1,'48000000')
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD001','XE009',1,'48000000')
-insert into ChiTietHoaDon(maHoaDon,maXe,soLuong,donGia) values('CTHD001','XE010',1,'48000000')
+INSERT INTO LoaiXe values(N'LX001',N'Xe số'),
+						 (N'LX002',N'Xe tay ga'),
+						 (N'LX003',N'Xe tay côn')
+GO
 
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000001','Đoàn Văn Nghĩa','Nam','1985-12-4','123 Phạm Ngũ Lão, Quận 1,Hồ Chí Minh','vannghia_1985@gmail.com','0965426513','')
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000002','Nguyễn Khương Toàn','Nam','1985-12-4','87 Phan Văn Trị,phường 5,quận Gò Vấp,Hồ Chí Minh','khuongtoan_1980@gmail.com','097836952','')
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000003','Đỗ Thị Minh Tuyết','Nữ','1965-3-4','15 Nguyễn Văn Bảo,phường 4,quận Gò Vấp,Hồ Chí Minh','minhtuyet_1990@gmail.com','0946123456','')
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000004','Ngô Thị Thúy Hằng','Nữ','1985-2-4','13 Yersin,quận 5, thành phố Hồ Chí Minh','thuyhang_1996@gmail.com','0912886537','')
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000005','Nguyễn Tuấn Hải','Nam','1975-1-4','97 Nguyễn Thị Định,quận Bình Chánh','tuanhai_1964@gmail.com','0905446778','')
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000006','Trần Thị Bích Chiêu','Nữ','1955-9-1','57 Trần Kiên,quận Phú Nhuận,Hồ Chí Minh','bichchieu_1970@gmail.com','0963056513','')
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000007','Vương Gia Thịnh','Nam','1965-6-14','69 Đào Thị Nguyệt, quận 6, Hồ Chí Minh','giathinh_1975@gmail.com','01233503472','')
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000008','Nguyễn Chí Hòa','Nam','1981-12-5','523/4  Nguyễn Tri Phương, quận 10, Hồ Chí Minh.','chihoa_1992@gmail.com','0986225630','')
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000009','Trần Đức Huy','Nam','1980-2-4','12 Lê Văn Sỹ, Quận 3, Hồ Chí Minh','duchuy_1995@gmail.com','0965426563','')
-insert into KhachHang(maKhachHang,tenKhachHang,gioiTinh,ngaySinh,diaChi,email,soDienThoai,chuThich) values('800000000010','Nguyễn Mỹ Hảo','Nữ','1985-1-3','62 Trần Não, phường Bình An, quận 2, Hồ Chí Minh','myhao_1989@gmail.com','0965123456','')
+INSERT INTO NhaCungCap values(N'NCC001',N'Công Ty TNHH Thương Mại Ngọc Hoa',N'138-140 Hoàng Diệu, P. 9, Q. 4, Tp. Hồ Chí Minh',N'ngochoacty138@yahoo.com.vn',N'0839400925',N'Không'),
+							 (N'NCC002',N'Công Ty TNHH KBK Việt Nam Bearing',N'278 Trần Văn Kiểu, P. 11, Q. 6, Tp. Hồ Chí Minh',N'bearings_duyentran@yahoo.com',N'0837558396',N'Không'),
+							 (N'NCC003',N'CÔNG TY TNHH SẢN XUẤT VÀ THƯƠNG MẠI TIẾN LỘC',N' 27 Nguyễn Trung Trực, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh ',N'tienlocco@hcm.vnn.vn',N'0835210350',N'Không')			 
+GO
 
+INSERT INTO Xe values(N'X001',N'Exciter 150 RC',N'LX002',N'Đen',N'NCC001',N'HSX001',150,20,200000000,CAST(N'2020-11-11' AS DATE),N'Còn hàng',N'Không','','',''),
+					 (N'X002',N'Exciter 150 CC',N'LX002',N'Đen',N'NCC001',N'HSX001',150,20,250000000,CAST(N'2020-11-11' AS DATE),N'Còn hàng',N'Không','','',''),
+					 (N'X003',N'Jupiter 150',N'LX002',N'Đỏ',N'NCC001',N'HSX001',150,20,350000000,CAST(N'2020-11-11' AS DATE),N'Còn hàng',N'Không','','','')
+GO
+
+INSERT INTO KhachHang values(N'KH001',N'Lê Tuấn Khang',N'312439087',N'Nam',CAST(N'2000-3-9'AS DATE),N'Gò Vấp',N'Khangletuan098@gmail.com',N'0987654321',N'Không'),
+							(N'KH002',N'Nguyễn Thanh Hoài',N'312239087',N'Nam',CAST(N'2000-4-9' AS DATE),N'Gò Vấp',N'Nguyenthanhhoai@gmail.com',N'0987654321',N'Không'),
+							(N'KH003',N'Nguyễn Trần Nhật Hưng',N'312239087',N'Nam',CAST(N'2000-2-9' AS DATE),N'Gò Vấp',N'Nhathung@gmail.com',N'0937832233',N'Không'),
+							(N'KH004',N'Bùi Thành Nam',N'312239087',N'Nam',CAST(N'2000-7-7' AS DATE),N'Gò Vấp',N'Nambui@gmail.com',N'0987654321',N'Không')
+							
+GO
+
+INSERT INTO HoaDon values(N'HD001',N'KH001',N'NV001',CAST(N'2020-4-3' AS DATE)),
+						(N'HD002',N'KH002',N'NV002',CAST(N'2020-6-14' AS DATE)),
+						(N'HD003',N'KH003',N'NV003',CAST(N'2020-1-8' AS DATE)),
+						(N'HD004',N'KH004',N'NV004',CAST(N'2020-9-26' AS DATE))
+GO
+
+INSERT INTO chiTietPhieuNhap values(N'MPN001',N'X001',20,20000000,N'Không'),
+									(N'MPN002',N'X002',14,25000000,N'Không'),
+									(N'MPN003',N'X003',10,35000000,N'Không')
+
+GO
+
+INSERT INTO chiTietHoaDon values(N'HD001',N'X001',2,20000000),
+								(N'HD002',N'X002',1,25000000),
+								(N'HD003',N'X003',1,35000000)
+GO
+
+INSERT INTO ChucVu values(N'CV001',N'QuanLy'),
+						(N'CV002',N'NhanVien')
+			
+GO
+
+INSERT INTO NhanVien values(N'NV001',N'Bùi Thành Nam', '651452874961', N'Nam',N'448 Phan Huy ích Gò Vấp',N'thanhnam@gmail.com',N'0012467424',N'CV001',CAST(N'2016-5-3' AS DATE)),
+							(N'NV002',N'Trần Nhật Hưng', '784256341', N'Nam',N'12 Huỳnh Khương An Gò Vấp',N'Hung123@gmail.com',N'0253565748',N'CV002',CAST(N'2017-2-1' AS DATE)),
+							(N'NV003',N'Nguyễn Tứng Khang', '324947512', N'Nam',N'54 Huỳnh Khương An Gò Vấp',N'TungKhang@gmail.com',N'0111112346',N'CV002',CAST(N'2017-4-4' AS DATE)),
+							(N'NV004',N'Nguyễn Thanh Hoài', '371955531', N'Nam',N'165 Phạm Văn Đồng Gò Vấp',N'Hoaibitly@gmail.com',N'0549621564',N'CV002',CAST(N'2017-8-6' AS DATE))
+GO
+
+INSERT INTO TaiKhoan values(N'NV001',N'111111',N'Nhân Viên', N'Nhân viên thực tập'),
+							(N'NV002',N'222222',N'Quản Lý', N'Nhân viên chính thức')
+GO
+
+INSERT INTO HopDong values(N'HPD001',N'KH001',N'NV001',N'X001',CAST(N'2020-1-4' AS DATE),1),
+							(N'HPD002',N'KH002',N'NV002',N'X002',CAST(N'2020-4-3'AS DATE),1),
+							(N'HPD003',N'KH003',N'NV002',N'X003',CAST(N'2020-6-4' AS DATE),1)
+GO
+
+INSERT INTO PhieuNhap values(N'MPN001',N'NV001',N'NCC001',CAST(N'2020-1-1' AS DATE),''),
+							(N'MPN002', N'NV002',N'NCC002',CAST(N'2020-3-6' AS DATE),''),
+							(N'MPN003',N'NV003',N'NCC003',CAST(N'2020-8-7' AS DATE),'')
+GO
