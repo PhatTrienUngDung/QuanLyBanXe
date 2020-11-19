@@ -179,7 +179,17 @@ public class UI_KhachHang extends JFrame {
 		lblTnKhchHang.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTnKhchHang.setBounds(315, 27, 104, 19);
 		panelthongTin.add(lblTnKhchHang);
+<<<<<<< .mine
 
+		
+
+||||||| .r48
+>>>>>>> .r45
+		
+<<<<<<< .mine
+=======
+
+>>>>>>> .r60
 		JLabel lblgioiTinh = new JLabel("Giới Tính");
 		lblgioiTinh.setBackground(new Color(255, 248, 220));
 		lblgioiTinh.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -200,7 +210,16 @@ public class UI_KhachHang extends JFrame {
 		lblGiiTnh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGiiTnh.setBounds(20, 56, 75, 19);
 		panelthongTin.add(lblGiiTnh);
+<<<<<<< .mine
 
+
+||||||| .r48
+>>>>>>> .r45
+		
+<<<<<<< .mine
+=======
+
+>>>>>>> .r60
 		JLabel lblngaySinh = new JLabel("Ngày Sinh");
 		lblngaySinh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblngaySinh.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -218,61 +237,71 @@ public class UI_KhachHang extends JFrame {
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_3.setBounds(20, 115, 75, 17);
 		panelthongTin.add(lblNewLabel_3);
+<<<<<<< .mine
 
+		
+
+||||||| .r48
+>>>>>>> .r45
+		
+<<<<<<< .mine
+=======
+
+>>>>>>> .r60
 		JLabel lbldiaChi = new JLabel("Địa Chỉ");
 		lbldiaChi.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbldiaChi.setBounds(315, 56, 63, 19);
 		panelthongTin.add(lbldiaChi);
-||||||| .r33
+
 		JLabel lblNewLabel_4 = new JLabel("Địa Chỉ");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_4.setBounds(315, 65, 63, 19);
 		panelthongTin.add(lblNewLabel_4);
-=======
+
 		JLabel lblNewLabel_4 = new JLabel("Ä�á»‹a Chá»‰");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_4.setBounds(315, 65, 63, 19);
 		panelthongTin.add(lblNewLabel_4);
->>>>>>> .r45
+
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEmail.setBounds(315, 86, 63, 17);
 		panelthongTin.add(lblEmail);
 		
-<<<<<<< .mine
+
 		JLabel lblsoDt = new JLabel("Số Điện Thoại");
 		lblsoDt.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblsoDt.setBounds(20, 85, 88, 19);
 		panelthongTin.add(lblsoDt);
-||||||| .r33
+
 		JLabel lblNewLabel_5 = new JLabel("Số Điện Thoại");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_5.setBounds(20, 85, 88, 19);
 		panelthongTin.add(lblNewLabel_5);
-=======
+
 		JLabel lblNewLabel_5 = new JLabel("Sá»‘ Ä�iá»‡n Thoáº¡i");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_5.setBounds(20, 85, 88, 19);
 		panelthongTin.add(lblNewLabel_5);
->>>>>>> .r45
+
 		
-<<<<<<< .mine
+
 		JLabel lblchuThich = new JLabel("Chú Thích");
 		lblchuThich.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblchuThich.setBounds(315, 114, 57, 19);
 		panelthongTin.add(lblchuThich);
-||||||| .r33
+
 		JLabel lblChThch = new JLabel("Chú Thích");
 		lblChThch.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblChThch.setBounds(315, 123, 57, 19);
 		panelthongTin.add(lblChThch);
-=======
+
 		JLabel lblChThch = new JLabel("ChÃº ThÃ­ch");
 		lblChThch.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblChThch.setBounds(315, 123, 57, 19);
 		panelthongTin.add(lblChThch);
->>>>>>> .r45
+
 		
 		txtmaKh = new JTextField();
 		txtmaKh.setBounds(137, 26, 155, 20);

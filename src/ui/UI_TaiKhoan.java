@@ -3,12 +3,15 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -44,10 +47,15 @@ import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class UI_TaiKhoan extends JFrame {
 
@@ -94,6 +102,9 @@ public class UI_TaiKhoan extends JFrame {
 		setContentPane(pAccount);
 		pAccount.setLayout(null);
 		
+		Dao_TaiKhoan dao_tk = new Dao_TaiKhoan();
+		List<TaiKhoan> list_tk = dao_tk.docTuBang();
+		
 		JLabel lblAccountName = new JLabel("TÀI KHOẢN");
 		lblAccountName.setBounds(534, 10, 367, 35);
 		lblAccountName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -125,6 +136,7 @@ public class UI_TaiKhoan extends JFrame {
 		lblEmployeeName_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		TextField txtEmployeeNum_Acc = new TextField();
+		txtEmployeeNum_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtEmployeeNum_Acc.setBounds(148, 10, 220, 23);
 		pAccountInfoDetails.add(txtEmployeeNum_Acc);
 		
@@ -134,6 +146,7 @@ public class UI_TaiKhoan extends JFrame {
 		pAccountInfoDetails.add(lblNewLabel);
 		
 		TextField txtEmployeeName_Acc = new TextField();
+		txtEmployeeName_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtEmployeeName_Acc.setEditable(false);
 		txtEmployeeName_Acc.setBounds(535, 10, 362, 25);
 		pAccountInfoDetails.add(txtEmployeeName_Acc);
@@ -145,6 +158,7 @@ public class UI_TaiKhoan extends JFrame {
 		
 		TextField txtPassword_Acc = new TextField();
 		txtPassword_Acc.setBounds(148, 48, 220, 25);
+		txtPassword_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		pAccountInfoDetails.add(txtPassword_Acc);
 		
 		JLabel lblPower_Acc = new JLabel("Quyền");
@@ -152,19 +166,21 @@ public class UI_TaiKhoan extends JFrame {
 		lblPower_Acc.setBounds(17, 90, 103, 21);
 		pAccountInfoDetails.add(lblPower_Acc);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Quản Lý", "Nhân Viên"}));
-		comboBox.setBounds(148, 88, 220, 25);
-		pAccountInfoDetails.add(comboBox);
+		JComboBox cbbQuyen = new JComboBox();
+		cbbQuyen.setBackground(Color.WHITE);
+		cbbQuyen.setModel(new DefaultComboBoxModel(new String[] {"Quản Lý", "Nhân Viên"}));
+		cbbQuyen.setBounds(148, 88, 220, 25);
+		pAccountInfoDetails.add(cbbQuyen);
 		
 		JLabel lblNote_Acc = new JLabel("Chú Thích");
 		lblNote_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNote_Acc.setBounds(400, 50, 103, 21);
 		pAccountInfoDetails.add(lblNote_Acc);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(535, 48, 362, 65);
-		pAccountInfoDetails.add(textArea);
+		JTextArea txtChuThich = new JTextArea();
+		txtChuThich.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtChuThich.setBounds(535, 48, 362, 65);
+		pAccountInfoDetails.add(txtChuThich);
 		
 		JPanel pAccountList = new JPanel();
 		pAccountList.setBounds(5, 209, 1525, 592);
@@ -172,7 +188,7 @@ public class UI_TaiKhoan extends JFrame {
 		pAccountList.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(1, 1, 1523, 581);
+		scrollPane.setBounds(0, 0, 1525, 591);
 		pAccountList.add(scrollPane);
 		
 		String[] header = {"STT", "Mã Nhân Viên", "Tên Nhân Viên", "Mật Khẩu", "Quyền", "Chú Thích"};
@@ -181,7 +197,6 @@ public class UI_TaiKhoan extends JFrame {
 		//table.setColumnSelectionAllowed(true);
 		table.setForeground(Color.BLACK);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Dao_TaiKhoan dao_tk = new Dao_TaiKhoan();
 		scrollPane.setViewportView(table);
 		table.setModel(dao_tk.getAllAccount(header, tableModel));
 		table.setRowHeight(25);
@@ -252,6 +267,98 @@ public class UI_TaiKhoan extends JFrame {
 		btnAdd_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/add-user-icon.png")));
 		
 		JButton btnDelete_Acc = new JButton("Xóa Tài Khoản");
+		btnDelete_Acc.setBackground(new Color(255, 0, 0));
+		btnDelete_Acc.setBounds(20, 55, 193, 40);
+		pAccountFunction.add(btnDelete_Acc);
+		btnDelete_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnDelete_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/remove-user-icon.png")));
+		
+		JButton btnResetPassword_Acc = new JButton("Đặt Lại Mật Khẩu");
+		btnResetPassword_Acc.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();				
+				String maNhanVien = table.getValueAt(row, 1).toString();
+				if(dao_tk.Update(maNhanVien)) {
+					txtPassword_Acc.setText("12346");
+					table.setValueAt("123456", row, 3);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Đặt lại mật khẩu không thành công!");
+				}
+			}
+		});
+		btnResetPassword_Acc.setBackground(new Color(30, 144, 255));
+		btnResetPassword_Acc.setBounds(20, 100, 193, 40);
+		pAccountFunction.add(btnResetPassword_Acc);
+		btnResetPassword_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnResetPassword_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/Reset-icon.png")));
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int viTriDongVuaBam = table.getSelectedRow();
+				txtEmployeeNum_Acc.setText(table.getValueAt(viTriDongVuaBam, 1).toString());
+				txtEmployeeName_Acc.setText(table.getValueAt(viTriDongVuaBam, 2).toString());
+				txtPassword_Acc.setText(table.getValueAt(viTriDongVuaBam, 3).toString());
+				txtChuThich.setText(table.getValueAt(viTriDongVuaBam, 5).toString());
+				String item = table.getValueAt(viTriDongVuaBam, 4).toString();
+				int i;
+				if (item.equalsIgnoreCase("Quản Lý"))
+					i = 0;
+				else 
+					i = 1;
+				cbbQuyen.setSelectedIndex(i);
+			}
+		});
+		
+		txtEmployeeNum_Acc.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Connection con = ConnectDB.getCon();
+				String sql = "select * from NhanVien where maNhanVien = ?";
+				try {
+					PreparedStatement pst = con.prepareStatement(sql);
+					pst.setString(1, txtEmployeeNum_Acc.getText());
+					ResultSet rs = pst.executeQuery();
+					if(rs.next()) {
+						txtEmployeeName_Acc.setText(rs.getString("tenNhanVien"));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1);
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		btnAdd_Acc.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String maNhanVien = txtEmployeeNum_Acc.getText();
+				String matKhau = txtPassword_Acc.getText();
+				if (matKhau.equalsIgnoreCase(""))
+					matKhau = "123456";
+				String quyen = cbbQuyen.getSelectedItem().toString();
+				String chuThich = txtChuThich.getText();
+				TaiKhoan taiKhoan = new TaiKhoan(new entity.NhanVien(maNhanVien), matKhau, quyen, chuThich);
+				String tenNhanVien = txtEmployeeName_Acc.getText();
+				int stt = dao_tk.docTuBang().size();
+				try {
+					if(dao_tk.create(taiKhoan)) {
+						tableModel.addRow(new Object[] {stt+"",taiKhoan.getNhanVien().getMaNhanVien(), tenNhanVien, taiKhoan.getMatKhau(), taiKhoan.getQuyen(), taiKhoan.getChuThich()});
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Nhân viên này đã có tài khoản");
+					}
+				} catch(Exception e1) {
+					//JOptionPane.showMessageDialog(this, "Trung");
+					System.out.println("Wrong!");
+				}
+			}
+		});
+		
 		btnDelete_Acc.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -265,17 +372,5 @@ public class UI_TaiKhoan extends JFrame {
 				}
 			}
 		});
-		btnDelete_Acc.setBackground(new Color(255, 0, 0));
-		btnDelete_Acc.setBounds(20, 55, 193, 40);
-		pAccountFunction.add(btnDelete_Acc);
-		btnDelete_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
-		btnDelete_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/remove-user-icon.png")));
-		
-		JButton btnResetPassword_Acc = new JButton("Đặt Lại Mật Khẩu");
-		btnResetPassword_Acc.setBackground(new Color(30, 144, 255));
-		btnResetPassword_Acc.setBounds(20, 100, 193, 40);
-		pAccountFunction.add(btnResetPassword_Acc);
-		btnResetPassword_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
-		btnResetPassword_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/Reset-icon.png")));
 	}
 }
