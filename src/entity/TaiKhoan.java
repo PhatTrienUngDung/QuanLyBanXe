@@ -5,17 +5,19 @@ public class TaiKhoan {
 	private NhanVien nhanVien;
 	private String matKhau;
 	private String quyen;
+	private String chuThich;
 	
 	public TaiKhoan() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public TaiKhoan(NhanVien nhanVien, String matKhau, String quyen) {
+	public TaiKhoan(NhanVien nhanVien, String matKhau, String quyen, String chuThich) {
 		super();
 		this.nhanVien = nhanVien;
 		this.matKhau = matKhau;
 		this.quyen = quyen;
+		this.chuThich = chuThich;
 	}
 
 	public NhanVien getNhanVien() {
@@ -42,10 +44,19 @@ public class TaiKhoan {
 		this.quyen = quyen;
 	}
 
+	public String getChuThich() {
+		return chuThich;
+	}
+
+	public void setChuThich(String chuThich) {
+		this.chuThich = chuThich;
+	}
+
 	@Override
 	public String toString() {
-		return "TaiKhoan [nhanVien=" + nhanVien + ", matKhau=" + matKhau + ", quyen=" + quyen + "]";
+		return "TaiKhoan [nhanVien=" + nhanVien + ", matKhau=" + matKhau + ", quyen=" + quyen + ", chuThich=" + chuThich
+				+ "]";
 	}
-	
+
 	
 }
