@@ -20,18 +20,10 @@ import entity.TaiKhoan;
 
 public class Dao_NhanVien {
 	private int n;
-
-
-	
-
-
-	
-		
-
 	private ArrayList<NhanVien> listNhanVien;
-	public Dao_NhanVien() {}
-		
 
+	public Dao_NhanVien() {
+	}
 	
 //Load data
 		public DefaultTableModel getAllNV() throws SQLException {

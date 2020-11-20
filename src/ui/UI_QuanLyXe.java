@@ -62,11 +62,8 @@ import java.util.Collections;
 import java.util.List;
 import java.awt.CardLayout;
 import javax.swing.border.MatteBorder;
-<<<<<<< .mine
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-||||||| .r74
-=======
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -80,7 +77,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
->>>>>>> .r82
 
 public class UI_QuanLyXe extends JFrame {
 

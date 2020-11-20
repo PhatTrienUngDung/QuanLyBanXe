@@ -171,6 +171,7 @@ public class Menu extends JFrame {
 					e1.printStackTrace();
 				}
 				panel_1.setVisible(true);
+				
 				panel_2.setVisible(false);
 			}
 		});
@@ -320,7 +321,6 @@ public class Menu extends JFrame {
 		panel.add(btnThongKe);
 		
 		
-		UI_HoaDon ui_HoaDon= new UI_HoaDon();
 		//panel.setLayout(new UI_HoaDon().setVisible(true));
 		
 	}

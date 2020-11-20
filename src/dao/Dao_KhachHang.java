@@ -23,13 +23,6 @@ public class Dao_KhachHang {
 	public Dao_KhachHang() {
 		list_CMND = new ArrayList<String>();
 	}
-	
-//Đọc dữ liệu lên bảng
-<<<<<<< .mine
-	public DefaultTableModel getAllKH() throws SQLException {
-||||||| .r59
-	public DefaultTableModel getAllNCC() throws SQLException {
-=======
 		public ArrayList<String> getListCMND(){
 			try {
 				Connection con = ConnectDB.getInstance().getCon();
@@ -48,8 +41,7 @@ public class Dao_KhachHang {
 			return list_CMND;
 		}
 //Đọc dữ liệu lên bảng
-	public DefaultTableModel getAllNCC() throws SQLException {
->>>>>>> .r74
+	public DefaultTableModel getAllKH() throws SQLException {
 		String[] header= {"Mã Khách Hàng","Tên Khách Hàng", "Giới Tính", "Ngày Sinh", "Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();

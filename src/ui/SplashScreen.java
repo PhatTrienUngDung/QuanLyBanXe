@@ -41,9 +41,8 @@ public class SplashScreen extends JFrame {
 	 */
 	public SplashScreen() {
 		setUndecorated(true);
-		setBounds(100, 100, 795, 443);
+		setBounds(100, 100, 795, 443); 
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(0, 100, 0));
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

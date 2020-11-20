@@ -25,7 +25,6 @@ import com.toedter.calendar.JDateChooser;
 import connect.ConnectDB;
 import dao.Dao_NhaCungCap;
 import dao.Dao_NhanVien;
-import dao.Dao_PhieuNhap;
 import entity.PhieuNhap;
 
 import javax.swing.JButton;
@@ -83,7 +82,6 @@ public class UI_PhieuNhap extends JFrame implements ActionListener,MouseListener
 	private JComboBox cbtenNhacc,cbtenXe;
 	private JTextArea txtchuThich;
 	private JDateChooser datengayNhap;
-	private Dao_PhieuNhap pn_dao;
 	
 
 	/**
