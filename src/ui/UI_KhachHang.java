@@ -543,7 +543,7 @@ public class UI_KhachHang extends JFrame {
 	}
 	private void xoaKhachHang() throws SQLException{
 		dao_kh = new Dao_KhachHang();
-		dao_kh.xoakH(txtmaKh.getText());
+		dao_kh.xoaKH(txtmaKh.getText());
 		loadKH();
 	}
 	//Đếm số KhachHang
