@@ -37,10 +37,12 @@ import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
 
 import connect.ConnectDB;
+import dao.Dao_HangSanXuat;
 import dao.Dao_LoaiXe;
 import dao.Dao_NhaCungCap;
 import dao.Dao_QuanLyXe;
 import entity.HangSanXuat;
+import entity.KhachHang;
 import entity.LoaiXe;
 import entity.NhaCungCap;
 import entity.Xe;
@@ -60,6 +62,11 @@ import java.util.Collections;
 import java.util.List;
 import java.awt.CardLayout;
 import javax.swing.border.MatteBorder;
+<<<<<<< .mine
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+||||||| .r74
+=======
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -73,6 +80,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
+>>>>>>> .r82
 
 public class UI_QuanLyXe extends JFrame {
 
@@ -102,11 +110,13 @@ public class UI_QuanLyXe extends JFrame {
 	private JTextField txtTenLoai;
 	private JTable tableLoai;
 	private JTextField txtTim_1;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTable table_2;
-	private JTextField textField_6;
+	private JTextField txtmaHang;
+	private JTextField txttenHang;
+	private JTextField txttimHang;
+	private JTable table_hang;
+	private JTextField txtquocGia;
+	private DefaultTableModel tableModelHang;
+	private Dao_HangSanXuat dao_hsx= new Dao_HangSanXuat();
 	/**
 	 * Launch the application.
 	 */
@@ -920,31 +930,33 @@ public class UI_QuanLyXe extends JFrame {
 		panel_1_2_1.setBounds(0, 10, 1512, 82);
 		panel_3_1.add(panel_1_2_1);
 		
+		//Hãng Sản Xuất
+		
 		JLabel lblNewLabel_1_2_1 = new JLabel("DANH SÁCH HÃNG SẢN XUẤT");
 		lblNewLabel_1_2_1.setForeground(new Color(184, 134, 11));
 		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblNewLabel_1_2_1.setBounds(57, 0, 384, 72);
 		panel_1_2_1.add(lblNewLabel_1_2_1);
 		
-		JLabel lblNewLabel_2_4_1_5_2 = new JLabel("Mã Hãng Sản Xuất");
-		lblNewLabel_2_4_1_5_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_2_4_1_5_2.setBounds(0, 102, 130, 14);
-		panel_3_1.add(lblNewLabel_2_4_1_5_2);
+		JLabel lblmaHang = new JLabel("Mã Hãng Sản Xuất");
+		lblmaHang.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblmaHang.setBounds(0, 102, 130, 14);
+		panel_3_1.add(lblmaHang);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(134, 102, 287, 19);
-		panel_3_1.add(textField_3);
+		txtmaHang = new JTextField();
+		txtmaHang.setColumns(10);
+		txtmaHang.setBounds(134, 102, 287, 19);
+		panel_3_1.add(txtmaHang);
 		
-		JLabel lblNewLabel_2_4_1_5_1_1 = new JLabel("Tên Hãng Sản Xuất");
-		lblNewLabel_2_4_1_5_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_2_4_1_5_1_1.setBounds(0, 139, 130, 14);
-		panel_3_1.add(lblNewLabel_2_4_1_5_1_1);
+		JLabel lbltenHang = new JLabel("Tên Hãng Sản Xuất");
+		lbltenHang.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbltenHang.setBounds(0, 139, 130, 14);
+		panel_3_1.add(lbltenHang);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(134, 137, 287, 19);
-		panel_3_1.add(textField_4);
+		txttenHang = new JTextField();
+		txttenHang.setColumns(10);
+		txttenHang.setBounds(134, 137, 287, 19);
+		panel_3_1.add(txttenHang);
 		
 		JPanel panel_7_1_2 = new JPanel();
 		panel_7_1_2.setLayout(null);
@@ -952,30 +964,109 @@ public class UI_QuanLyXe extends JFrame {
 		panel_7_1_2.setBounds(443, 102, 548, 88);
 		panel_3_1.add(panel_7_1_2);
 		
-		JButton btnThem_1_1 = new JButton("Thêm");
-		btnThem_1_1.setIcon(new ImageIcon("img1\\add.png"));
-		btnThem_1_1.setToolTipText("");
-		btnThem_1_1.setBackground(new Color(255, 190, 87));
-		btnThem_1_1.setBounds(10, 29, 125, 36);
-		panel_7_1_2.add(btnThem_1_1);
+		JButton btnthemHang = new JButton("Thêm");
+		btnthemHang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				 try {
+			    		String maHang = txtmaHang.getText();
+			    		String tenHang = txttenHang.getText();
+			    		String quocGia = txtquocGia.getText();
+			    		HangSanXuat hsx = new HangSanXuat(maHang,tenHang,quocGia);
+			    		dao_hsx.themHSX(hsx);
+			    		JFrame f = new JFrame();
+			    		loadHSX();
+			    		JOptionPane.showMessageDialog(f, "Thêm hãng sản xuất thành công");
+			    	  }catch(SQLException e1) {
+			    		  e1.getMessage();
+			    		  JOptionPane.showConfirmDialog(null, "Thêm không thành công");
+			    	  }
+			}
+		});
+		btnthemHang.setIcon(new ImageIcon("img1\\add.png"));
+		btnthemHang.setToolTipText("");
+		btnthemHang.setBackground(new Color(255, 190, 87));
+		btnthemHang.setBounds(10, 29, 125, 36);
+		panel_7_1_2.add(btnthemHang);
 		
-		JButton btnXoa_1_1 = new JButton("Xóa");
-		btnXoa_1_1.setIcon(new ImageIcon("img1\\Close-2-icon.png"));
-		btnXoa_1_1.setBackground(new Color(255, 190, 87));
-		btnXoa_1_1.setBounds(145, 29, 125, 36);
-		panel_7_1_2.add(btnXoa_1_1);
+		JButton btnxoaHang = new JButton("Xóa");
+		btnxoaHang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table_hang.getSelectedRow();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Hãng sãn xuất này sẽ bị xóa","Chú ý", JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+							int r = table_hang.getSelectedRow();
+							tableModelHang.removeRow(r);
+							xoaHangSX();
+							
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng để xóa");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
+		btnxoaHang.setIcon(new ImageIcon("img1\\Close-2-icon.png"));
+		btnxoaHang.setBackground(new Color(255, 190, 87));
+		btnxoaHang.setBounds(145, 29, 125, 36);
+		panel_7_1_2.add(btnxoaHang);
 		
-		JButton btnCapNhat_1_1 = new JButton("Cập nhật");
-		btnCapNhat_1_1.setIcon(new ImageIcon("img1\\update.png"));
-		btnCapNhat_1_1.setBackground(new Color(255, 190, 87));
-		btnCapNhat_1_1.setBounds(280, 29, 125, 36);
-		panel_7_1_2.add(btnCapNhat_1_1);
+		JButton btncapNhatHang = new JButton("Cập nhật");
+		btncapNhatHang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table_hang.getSelectedRow();
+				try {
+					if(row !=-1) {
+						JFrame f = new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "Hãng Sản Xuất '"+txttenHang.getText()+"' sẽ được cập nhật !!!","Chú ý ",JOptionPane.YES_NO_OPTION);
+						if(hoi==JOptionPane.YES_OPTION) {
+							String maHang = txtmaHang.getText();
+							String tenHang = txttenHang.getText();
+							String quocGia = txtquocGia.getText();
+				    		HangSanXuat hsx = new HangSanXuat(maHang,tenHang,quocGia);
+				    		dao_hsx.update(hsx);
+				    		loadHSX();
+				    		JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!");
+				    		try {
+				    			loadHSX();
+				    		}catch(Exception e2) {
+				    			e2.printStackTrace();
+				    		}
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần cập nhật");
+				}catch(Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		});
+		btncapNhatHang.setIcon(new ImageIcon("img1\\update.png"));
+		btncapNhatHang.setBackground(new Color(255, 190, 87));
+		btncapNhatHang.setBounds(280, 29, 125, 36);
+		panel_7_1_2.add(btncapNhatHang);
 		
-		JButton btnXoaTrang_1_2 = new JButton("Làm mới ");
-		btnXoaTrang_1_2.setIcon(new ImageIcon("img1\\refresh.png"));
-		btnXoaTrang_1_2.setBackground(new Color(255, 190, 87));
-		btnXoaTrang_1_2.setBounds(415, 29, 125, 36);
-		panel_7_1_2.add(btnXoaTrang_1_2);
+		JButton btnlamMoiHang = new JButton("Làm mới ");
+		btnlamMoiHang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtmaHang.setText("");
+				txttenHang.setText("");
+				txtquocGia.setText("");
+				txtmaHang.requestFocus();
+			}
+		});
+		btnlamMoiHang.setIcon(new ImageIcon("img1\\refresh.png"));
+		btnlamMoiHang.setBackground(new Color(255, 190, 87));
+		btnlamMoiHang.setBounds(415, 29, 125, 36);
+		panel_7_1_2.add(btnlamMoiHang);
 		
 		JPanel panel_7_1_1_1 = new JPanel();
 		panel_7_1_1_1.setLayout(null);
@@ -983,45 +1074,100 @@ public class UI_QuanLyXe extends JFrame {
 		panel_7_1_1_1.setBounds(1001, 102, 472, 88);
 		panel_3_1.add(panel_7_1_1_1);
 		
-		JLabel lblNewLabel_3_1_1 = new JLabel("Nhập thông tin cần tìm");
-		lblNewLabel_3_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_3_1_1.setBounds(10, 25, 132, 40);
-		panel_7_1_1_1.add(lblNewLabel_3_1_1);
+		JLabel lbltimHang = new JLabel("Nhập thông tin cần tìm");
+		lbltimHang.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbltimHang.setBounds(10, 25, 132, 40);
+		panel_7_1_1_1.add(lbltimHang);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(146, 36, 152, 19);
-		panel_7_1_1_1.add(textField_5);
+		txttimHang = new JTextField();
+		txttimHang.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(txttimHang.getText().length()==0) {
+					try {
+						loadHSX();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				if(txttimHang.getText().length()>0) {
+					try {
+						timHangSanXuat();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		txttimHang.setColumns(10);
+		txttimHang.setBounds(146, 36, 152, 19);
+		panel_7_1_1_1.add(txttimHang);
 		
-		JButton btnXoaTrang_1_1_1 = new JButton("Tìm ");
-		btnXoaTrang_1_1_1.setIcon(new ImageIcon("img1\\search2.png"));
-		btnXoaTrang_1_1_1.setBackground(new Color(255, 190, 87));
-		btnXoaTrang_1_1_1.setBounds(303, 27, 125, 36);
-		panel_7_1_1_1.add(btnXoaTrang_1_1_1);
+		JButton btnTimHang = new JButton("Tìm ");
+		
+		btnTimHang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(txttimHang.getText().length()>0) {
+					try {
+						timHangSanXuat();
+						//timKhachHang();
+					}catch(SQLException e1) {
+						e1.printStackTrace();
+						
+					}
+				}
+				else {
+						try {
+							loadHSX();
+						}catch(SQLException e1) {
+							e1.printStackTrace();
+						}
+				}
+			}
+		});
+		btnTimHang.setIcon(new ImageIcon("img1\\search2.png"));
+		btnTimHang.setBackground(new Color(255, 190, 87));
+		btnTimHang.setBounds(303, 27, 125, 36);
+		panel_7_1_1_1.add(btnTimHang);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(1, 237, 1472, 437);
+		scrollPane_2.setBounds(1, 237, 1472, 366);
 		panel_3_1.add(scrollPane_2);
+		String [] header_1= {
+				"Mã Hãng Sản Xuất","Tên Hãng Sản Xuất","Quốc Gia"
+		};
+		tableModelHang = new DefaultTableModel(header_1,0);
 		
-		table_2 = new JTable();
-		scrollPane_2.setViewportView(table_2);
-		table_2.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"M\u00E3 H\u00E3ng S\u1EA3n Xu\u1EA5t", "T\u00EAn H\u00E3ng S\u1EA3n Xu\u1EA5t", "Qu\u1ED1c Gia"
+		table_hang = new JTable(tableModelHang);
+		table_hang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i  = table_hang.getSelectedRow();
+				txtmaHang.setText(table_hang.getValueAt(i, 0).toString());
+				txttenHang.setText(table_hang.getValueAt(i, 1).toString());
+				txtquocGia.setText(table_hang.getValueAt(i, 2).toString());
 			}
-		));
+		});
 		
-		JLabel lblNewLabel_2_4_1_5_1_1_1 = new JLabel("Quốc Gia");
-		lblNewLabel_2_4_1_5_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_2_4_1_5_1_1_1.setBounds(0, 176, 130, 14);
-		panel_3_1.add(lblNewLabel_2_4_1_5_1_1_1);
+		scrollPane_2.setViewportView(table_hang);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(134, 174, 287, 19);
-		panel_3_1.add(textField_6);
+		try {
+			loadHSX();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		JLabel lblquocGia = new JLabel("Quốc Gia");
+		lblquocGia.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblquocGia.setBounds(0, 176, 130, 14);
+		panel_3_1.add(lblquocGia);
+		
+		txtquocGia = new JTextField();
+		txtquocGia.setColumns(10);
+		txtquocGia.setBounds(134, 174, 287, 19);
+		panel_3_1.add(txtquocGia);
 		
 		panel_5.add(panelHang, "name_24132267128600");
 		panel_5.add(panelLoai, "name_24132287226400");
@@ -1046,7 +1192,7 @@ public class UI_QuanLyXe extends JFrame {
 		});
 		btnLoai.setBackground(Color.WHITE);
 		btnLoai.setFocusable(false);
-		btnLoai.setIcon(new ImageIcon("G:\\HKI-Nam 3\\QuanLyBanXe\\branches\\Develop\\img1\\motorbikes-icon.png"));
+		btnLoai.setIcon(new ImageIcon("img1\\motorbikes-icon.png"));
 		btnLoai.setBounds(133, 10, 93, 43);
 		btnLoai.setBorderPainted(false);
 		panel.add(btnLoai);
@@ -1063,7 +1209,7 @@ public class UI_QuanLyXe extends JFrame {
 		});
 		btnHang.setBackground(Color.WHITE);
 		btnHang.setFocusable(false);
-		btnHang.setIcon(new ImageIcon("G:\\HKI-Nam 3\\QuanLyBanXe\\branches\\Develop\\img1\\company-building-icon.png"));
+		btnHang.setIcon(new ImageIcon("img1\\company-building-icon.png"));
 		btnHang.setBounds(255, 10, 93, 43);
 		btnHang.setBorderPainted(false);
 		panel.add(btnHang);
@@ -1081,7 +1227,7 @@ public class UI_QuanLyXe extends JFrame {
 		btnXe.setBackground(Color.WHITE);
 		btnXe.setBorderPainted(false);
 		btnXe.setFocusable(false);
-		btnXe.setIcon(new ImageIcon("G:\\HKI-Nam 3\\QuanLyBanXe\\branches\\Develop\\img1\\moto1.png"));
+		btnXe.setIcon(new ImageIcon("img1\\moto1.png"));
 		btnXe.setBounds(10, 10, 93, 43);
 		panel.add(btnXe);
 		
@@ -1173,6 +1319,22 @@ public class UI_QuanLyXe extends JFrame {
 			Dao_LoaiXe dao_loai= new Dao_LoaiXe();
 			tableModelLoai = dao_loai.timKiem("%"+txtTim_1.getText()+"%");
 			tableLoai.setModel(tableModelLoai);
+		}
+		
+		private void loadHSX() throws SQLException {
+			dao_hsx = new Dao_HangSanXuat();
+			tableModelHang=dao_hsx.getAllHSX();
+			table_hang.setModel(tableModelHang);
+		}
+		private void xoaHangSX() throws SQLException {
+			dao_hsx = new Dao_HangSanXuat();
+			dao_hsx.xoaHSX(txtmaHang.getText());
+			loadHSX();
+		}
+		private void timHangSanXuat() throws SQLException{
+			dao_hsx = new Dao_HangSanXuat();
+			tableModelHang = dao_hsx.timKiem("%"+txttimHang.getText()+"%");
+			table_hang.setModel(tableModelHang);
 		}
 }
 
