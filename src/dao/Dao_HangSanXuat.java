@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,8 +10,11 @@ import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import entity.HangSanXuat;
+import entity.KhachHang;
 
 public class Dao_HangSanXuat {
 
@@ -30,4 +34,97 @@ public class Dao_HangSanXuat {
 			e1.printStackTrace();
 		}
 	}
+	//Đọc dữ liệu lên bảng
+		public DefaultTableModel getAllHSX() throws SQLException {
+			String[] header= {"Mã Hãng Sản Xuất","Tên Hãng Sản Xuất","Quốc Gia"};
+			DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			String sql = "select * from HangSanXuat";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3)};
+				tableModel.addRow(o);
+			}
+			return tableModel;
+		}
+		
+		//Tìm
+		public DefaultTableModel timKiem(String mahSX) throws SQLException {
+			String[] header= {"Mã Hãng Sản Xuất","Tên Hãng Sản Xuất","Quốc Gia"};
+			DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			String sql = "select *from HangSanXuat where maHangSanXuat like'" + mahSX + "' or tenHangSanXuat like '"+mahSX+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3)};
+				tableModel.addRow(o);
+			}
+			return tableModel;
+		}
+		
+		//Thêm
+		public boolean themHSX(HangSanXuat hsx) {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			PreparedStatement stmt = null;
+			int n = 0;
+			try {
+				stmt = con.prepareStatement("insert into HangSanXuat values(?,?,?)");
+				stmt.setString(1, hsx.getMaHangSX());
+				stmt.setString(2, hsx.getTenHangSX());
+				stmt.setString(3, hsx.getQuocGia());
+				n = stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					stmt.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return n > 0;
+		}
+		//xóa
+		public void xoaHSX(String mahsx) throws SQLException {
+			Connection a = ConnectDB.getCon();// Tao Ket Noi
+			String sql = "delete HangSanXuat where maHangSanXuat='" + mahsx + "'";
+			PreparedStatement pstm = a.prepareStatement(sql);
+			if (pstm.executeUpdate() > 0) {
+				JOptionPane.showMessageDialog(null, "Xóa thành công hãng sản xuất" + mahsx);
+			}
+		}
+		
+		//Cập nhật dữ liệu
+		public boolean update(HangSanXuat hsx) {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			PreparedStatement stmt = null;
+			int n = 0;
+			try {
+				
+				stmt = con.prepareStatement(
+						"update HangSanXuat set maHangSanXuat=?,tenHangSanXuat=?,quocGia=? where maHangSanXuat=?");
+				stmt.setString(1, hsx.getMaHangSX());
+				stmt.setString(2, hsx.getTenHangSX());
+				stmt.setString(3, hsx.getQuocGia());
+				stmt.setString(4, hsx.getMaHangSX());
+				n = stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					stmt.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return n > 0;
+		}
+	
+	
 }
