@@ -1,6 +1,6 @@
 package entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class HopDong {
 	private String maHD;
@@ -8,11 +8,35 @@ public class HopDong {
 	private KhachHang khachHang;
 	
 	private NhanVien nhanVien;
-	private LoaiXe loaiXe;
-	
+	private Xe xe;
 	private Date ngayLap;
-	private String tgbh;
 	
+	private int thoiGianBaoHanh;
+	
+	public HopDong(String maHD) {
+		super();
+		this.maHD = maHD;
+	}
+	
+	public HopDong(String maHD, KhachHang khachHang, NhanVien nhanVien, Xe xe, Date ngayLap, int thoiGianBaoHanh) {
+		super();
+		this.maHD = maHD;
+		this.khachHang = khachHang;
+		this.nhanVien = nhanVien;
+		this.xe = xe;		
+		this.ngayLap = ngayLap;
+		this.thoiGianBaoHanh = thoiGianBaoHanh;
+	}
+
+	
+
+
+	@Override
+	public String toString() {
+		return "HopDong [maHD=" + maHD + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", xe=" + xe
+				+ ", ngayLap=" + ngayLap + ",  thoiGianBaoHanh=" + thoiGianBaoHanh + "]";
+	}
+
 	public String getMaHD() {
 		return maHD;
 	}
@@ -31,11 +55,11 @@ public class HopDong {
 	public void setNhanVien(NhanVien nhanVien) {
 		this.nhanVien = nhanVien;
 	}
-	public LoaiXe getXe() {
-		return loaiXe;
+	public Xe getXe() {
+		return xe;
 	}
-	public void setLoaiXe(LoaiXe loaiXe) {
-		this.loaiXe = loaiXe;
+	public void setXe(Xe xe) {
+		this.xe = xe;
 	}
 	public Date getNgayLap() {
 		return ngayLap;
@@ -43,26 +67,13 @@ public class HopDong {
 	public void setNgayLap(Date ngayLap) {
 		this.ngayLap = ngayLap;
 	}
-	public String getTGBH() {
-		return tgbh;
+	public int getThoiGianBaoHanh() {
+		return thoiGianBaoHanh;
 	}
-	public void setTGBH(String tgbh) {
-		tgbh = tgbh;
-	}
-	public HopDong(String maHD, KhachHang khachHang, NhanVien nhanVien, LoaiXe loaiXe, Date ngayLap, String tGBH) {
-		super();
-		this.maHD = maHD;
-		this.khachHang = khachHang;
-		this.nhanVien = nhanVien;
-		this.loaiXe = loaiXe;
-		this.ngayLap = ngayLap;
-		tgbh= tgbh;
+	public void setThoiGianBaoHanh(int thoiGianBaoHanh) {
+		this.thoiGianBaoHanh = thoiGianBaoHanh;
 	}
 	
-	@Override
-	public String toString() {
-		return "HopDong [maHD=" + maHD + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", loaiXe=" + loaiXe
-				+ ", ngayLap=" + ngayLap + ", TGBH=" + tgbh + "]";
-	}
+	
 	
 }

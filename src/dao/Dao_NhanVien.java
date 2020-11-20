@@ -21,66 +21,56 @@ import entity.TaiKhoan;
 public class Dao_NhanVien {
 	private int n;
 
-<<<<<<< .mine
-	private ArrayList<NhanVien> listNhanVien;
-
-
-	public Dao_NhanVien() {
-||||||| .r74
-	public Dao_NhanVien() {
-=======
->>>>>>> .r80
-
-<<<<<<< .mine
 
 	
 
-	}
+
+	
 		
-||||||| .r74
-||||||| .r48
+
+	private ArrayList<NhanVien> listNhanVien;
 	public Dao_NhanVien() {}
 		
-=======
-	private ArrayList<NhanVien> listNhanVien;
-	public Dao_NhanVien() {
-		
->>>>>>> .r60
-	}
-		
-=======
-		
->>>>>>> .r80
 
 	
 //Load data
 		public DefaultTableModel getAllNV() throws SQLException {
-			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND" ,"Giới tính","Địa Chỉ", "Email", "Số Điện Thoại","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};
+			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Ngày Vào Làm","Ngay Sinh","Chức Vụ"};
 			DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "select *from nhanVien";
+			String sql = "SELECT NhanVien.maNhanVien, NhanVien.tenNhanVien, NhanVien.CMND, NhanVien.gioiTinh, NhanVien.diaChi, NhanVien.email, NhanVien.soDienThoai, NhanVien.ngayVaoLam, NhanVien.ngaySinh, ChucVu.tenChucVu\r\n" + 
+					"FROM     NhanVien INNER JOIN\r\n" + 
+					"                  ChucVu ON NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND \r\n" + 
+					"                  NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu";
+	                 
+			
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
+			
 			while (rs.next()) {
-				Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getNString(7),rs.getNString(8) };
+				Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10)};
 				tableModel.addRow(o);
 			}
 			return tableModel;
 		}
-		
-
 //Tìm
-	public DefaultTableModel timKiem(String maNV) throws SQLException {
-		String[] header= {"Mã Nhân Viên","Tên Nhân Viên", "Địa Chỉ", "Email","Giới tính", "Số Điện Thoại","Ngày Sinh","Chức Vụ","Ngày Vào Làm"};
+	public DefaultTableModel timKiem(String id) throws SQLException {
+		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Ngày Vào Làm","Ngay Sinh","Chức Vụ"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
-		String sql = "select *from nhanVien where maNhanVien='" + maNV + "'";
+		String sql = "SELECT NhanVien.maNhanVien, NhanVien.tenNhanVien, NhanVien.CMND, NhanVien.gioiTinh, NhanVien.diaChi, NhanVien.email, NhanVien.soDienThoai, NhanVien.ngayVaoLam, NhanVien.ngaySinh, ChucVu.tenChucVu\r\n" + 
+				"FROM     NhanVien INNER JOIN\r\n" + 
+				"                  ChucVu ON NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND \r\n" + 
+				"                  NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu where tenNhanVien like '"+id+"' or sodienThoai like '"+id+"'";
+                 
+		
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
+		
 		while (rs.next()) {
-			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8) };
+			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10)};
 			tableModel.addRow(o);
 		}
 		return tableModel;

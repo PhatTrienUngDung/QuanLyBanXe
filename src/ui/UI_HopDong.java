@@ -3,6 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -32,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
+import java.time.LocalDate;
 
 import connect.ConnectDB;
 import dao.Dao_HopDong;
@@ -58,7 +60,6 @@ public class UI_HopDong extends JFrame {
 	private JTextField textField_2;
 	private JTextField txtTimKiem;
 	private JTextField txtmaHD;
-	private JTextField txttenHD;
 	private JTextField txtmaKH,txtmaNV,txtmaXe,txtngayLap,txtTGBH;
 	private DefaultTableModel tableModel;
 	private JDateChooser datengayLap;
@@ -76,6 +77,7 @@ public class UI_HopDong extends JFrame {
 	private JTextField txttongTien;
 	private JTextField txtTen;
 	private JTextField txtmauXe;
+	private JTextField txtsdt;
 
 	/**
 	 * Launch the application.
@@ -158,16 +160,6 @@ public class UI_HopDong extends JFrame {
 		txtmaHD.setBounds(143, 9, 134, 19);
 		panel_2.add(txtmaHD);
 		txtmaHD.setColumns(10);
-		
-		JLabel lbltenHD= new JLabel("Tên Hợp Đồng");
-		lbltenHD.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbltenHD.setBounds(10, 50, 101, 13);
-		panel_2.add(lbltenHD);
-		
-		txttenHD = new JTextField();
-		txttenHD.setBounds(143, 49, 134, 19);
-		panel_2.add(txttenHD);
-		txttenHD.setColumns(10);
 		
 		JLabel lbltenKH = new JLabel("Khách Hàng");
 		lbltenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -327,7 +319,7 @@ public class UI_HopDong extends JFrame {
 		
 	
 		
-		String[] header=  {"Mã Hợp Đồng","Tên Khách Hàng","CMND","Ngày Sinh","Địa Chỉ","Tên Nhân Viên","Tên Xe","Loại Xe","Màu Xe","Phân Khối","Số Lượng","Đơn Gía","Tổng Tiền","Ngày Lập","Thời gian BH"};
+		String[] header=  {"Mã Hợp Đồng","Tên Khách Hàng","CMND","Ngày Sinh","Địa Chỉ","Số Điện Thoai","Tên Nhân Viên","Tên Xe","Loại Xe","Màu Xe","Phân Khối","Số Lượng","Đơn Gía","Tổng Tiền","Ngày Lập","Thời gian BH"};
 		tableModel = new DefaultTableModel(header, 0);
 		table = new JTable(tableModel);
 		JScrollPane scrollPane = new JScrollPane();
@@ -352,12 +344,12 @@ public class UI_HopDong extends JFrame {
 		btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				try {
-//"Mã Hợp Đồng","Tên Khách Hàng","CMND","Ngày Sinh","Địa Chỉ","Tên Nhân Viên","Tên Xe","Loại Xe","Màu Xe","Phân Khối","Số Lượng","Đơn Gía","Tổng Tiền","Ngày Lập","Thời gian BH"
-//					String maHD= txtmaHD.getText();
+			try {
+				
+					String maHD= txtmaHD.getText();
 					String nv = null;
 					String kh = null;
-//					String xe = null;
+					String xe = null;
 					for (int i = 0; i < dsKH.size(); i++) {
 						if(txtCMND.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
 							kh= dsKH.get(i).getMaKhachHang();
@@ -369,32 +361,24 @@ public class UI_HopDong extends JFrame {
 							nv= dsNV.get(i).getMaNhanVien();
 						}
 					} 
-//					String CMND = txtCMND.getText();
-//					String date  = ((JTextField)datengaySinh.getDateEditor().getUiComponent()).getText();
-//					Date ngaySinh=Date.valueOf(LocalDate.parse(date));
-//					String diaChi = txtdiaChi.getText();
-//					for (int i = 0; i < dsXe.size(); i++) {
-//						if(cbtenXe.getSelectedItem().toString().equalsIgnoreCase(dsXe.get(i).getTenXe())) {
-//							xe= dsXe.get(i).getMaXe();
-//						}
-//					} 
-//					String loaiXe = txtloaiXe.getText();
-//					String mauXe =cbmauXe.getSelectedItem().toString();
-//					int phanKhoi = Integer.parseInt(txtphanKhoi.getText());
-//					int soLuong = Integer.parseInt(txtsoLuong.getText());
-//					double donGia = Float.parseFloat(txtdonGia.getText());
-//					double tongTien = Float.parseFloat(txttongTien.getText());
-//					String date1  = ((JTextField)datengayLap.getDateEditor().getUiComponent()).getText();
-//					Date ngayLap=Date.valueOf(LocalDate.parse(date1));
-//					String tgbh = txtTGBH.getText();
-//					
-//					HopDong hd = new HopDong(maHD, tenHD,new KhachHang(kh),new Khachhang(CMND),new KhachHang(ngaySinh),new KhachHang(diaChi) ,new NhanVien(nv),new Xe(xe), new LoaiXe(loaiXe),new Xe(mauXe),new Xe(phanKhoi),new Xe(soLuong), new Xe(donGia),tongTien, ngayLap, tgbh);
-//					dao_hd.themHD(hd);
-//				
-//				} catch (Exception s) {
-//					s.getMessage();
-//				}
-//				
+					
+					for (int i = 0; i < dsXe.size(); i++) {
+						if(cbtenXe.getSelectedItem().toString().equalsIgnoreCase(dsXe.get(i).getTenXe())) {
+							xe= dsXe.get(i).getMaXe();
+						}
+					} 
+					
+					String date1  = ((JTextField)datengayLap.getDateEditor().getUiComponent()).getText();
+					Date ngayLap=Date.valueOf(LocalDate.parse(date1));
+					String tgbh = txtTGBH.getText();
+					
+					HopDong hd = new HopDong(maHD,new KhachHang(kh), new NhanVien(nv), new Xe(xe), ngayLap, tgbh);
+					dao_hd.themHD(hd);
+				
+				} catch (Exception s) {
+					s.getMessage();
+				}
+				
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -472,34 +456,44 @@ public class UI_HopDong extends JFrame {
 		panel_3.add(btnTimKiem);
 		dateChooser.setDateFormatString("yyy-MM-dd");
 		
+		JLabel lblsdt = new JLabel("Số Điện Thoại");
+		lblsdt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblsdt.setBounds(358, 171, 101, 13);
+		panel_2.add(lblsdt);
+		
+		txtsdt = new JTextField();
+		txtsdt.setBounds(478, 168, 134, 19);
+		panel_2.add(txtsdt);
+		txtsdt.setColumns(10);
+		datengayLap.setDateFormatString("yyy-MM-dd");
 		
 		JButton btnNewButton = new JButton("New button");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-			//	for (int i = 0; i < dsKH.size(); i++) {
-		//			if(txtCMND.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
-	//					txtTen.setText(dsKH.get(i).getTenKhachHang());
-//						txtdiaChi.setText(dsKH.get(i).getDiaChi());
-//						String date  = ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText();
-//						Date ngay= Date.valueOf(LocalDate.parse(date));
-//						dateChooser.setDate(dsKH.get(i).getNgaySinh());
-//					}
-	//			} 
-				for(int j = 0; j <dsXe.size();j++) {
-					if(cbtenXe.getSelectedItem().equals(dsXe.get(j).getTenXe().toString())) {
-						String pk= String.valueOf(dsXe.get(j).getPhanKhoi());
+				for (int i = 0; i < dsKH.size(); i++) {
+					if(txtCMND.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
+						txtTen.setText(dsKH.get(i).getTenKhachHang());
+						txtdiaChi.setText(dsKH.get(i).getDiaChi());
+					//	String date  = ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText();
+					//	Date ngay= Date.valueOf(LocalDate.parse(date));
+						
+						dateChooser.setDate(dsKH.get(i).getNgaySinh());
+					}
+					if(cbtenXe.getSelectedItem().equals(dsXe.get(i).getTenXe().toString())) {
+						String pk= String.valueOf(dsXe.get(i).getPhanKhoi());
 						txtphanKhoi.setText(pk);
-					//	LoaiXe loaiXe = 
-				//		txtloaiXe.setText(dsXe.get(j).getLoaiXe().getTenLoaiXe());
-						txtmauXe.setText(dsXe.get(j).getMauXe());
-						String dg = String.valueOf(dsXe.get(j).getGiaNhap());
+						LoaiXe loai = new LoaiXe();
+					
+					///	loai.setText(dsXe.get(i).getLoaiXe().getTenLoaiXe());
+						txtmauXe.setText(dsXe.get(i).getMauXe());
+						String dg = String.valueOf(dsXe.get(i).getGiaNhap());
 						txtdonGia.setText(dg);
 					}
-				}
-				
-				
+					datengayLap.setDate(Date.valueOf(LocalDate.now()));
+				} 
+
 			}
 		});
 		btnNewButton.setBounds(752, 69, 85, 21);
@@ -507,10 +501,16 @@ public class UI_HopDong extends JFrame {
 		btnNew.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtmaHD.setText("");
-				txttenHD.setText("");
+				txtmaHD.setText("");		
 				cbmaNV.setSelectedIndex(-1);
-				txtTen.setText("");;
+				txtCMND.setText("");
+				txtsdt.setText("");
+				txtphanKhoi.setText("");
+				txtsoLuong.setText("");
+				txttongTien.setText("");
+				txtTen.setText("");
+				txtloaiXe.setText("");
+				txtmauXe.setText("");
 				cbtenXe.setSelectedIndex(-1);
 				txtCMND.setText("");
 				txtdiaChi.setText("");

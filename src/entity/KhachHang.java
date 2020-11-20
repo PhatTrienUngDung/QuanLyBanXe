@@ -17,6 +17,11 @@ public class KhachHang {
 		super();
 	}
 	
+	public KhachHang(String maKhachHang) {
+		super();
+		this.maKhachHang = maKhachHang;
+	}
+
 	public KhachHang(String maKhachHang, String tenKhachHang, String cMND, Date ngaySinh, String diaChi) {
 		super();
 		this.maKhachHang = maKhachHang;

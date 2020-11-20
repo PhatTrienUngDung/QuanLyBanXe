@@ -41,6 +41,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -60,6 +61,8 @@ import entity.NhanVien;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class UI_NhanVien extends JFrame {
@@ -75,7 +78,6 @@ public class UI_NhanVien extends JFrame {
 	private JTextField txtngaySinh;
 	private JTextField txtchucVu;
 	private JTextField txtTimKiem;
-	private JTextField textField;
 	private DefaultTableModel tableModel;
 	private Dao_NhanVien dao_nv = new Dao_NhanVien();
 	private JTextField textField_1;
@@ -87,6 +89,8 @@ public class UI_NhanVien extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	private JTextField txtSdt;
+	private JTextField txtGioiTinh;
 	
 
 	
@@ -114,10 +118,11 @@ public class UI_NhanVien extends JFrame {
 	public UI_NhanVien() throws SQLException {
 		try {
 			ConnectDB.getInstance().connect();
-		} catch (SQLException e1) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	//	setBounds(100, 100, 1296, 732);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -140,38 +145,38 @@ public class UI_NhanVien extends JFrame {
 		lblQunLNhn.setBounds(603, 10, 192, 30);
 		lblQunLNhn.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 434, 1492, 241);
-		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setLayout(null);
 		
+		
+//		table = new JTable();
+//		table.setBackground(new Color(255, 255, 255));
+//		scrollPane.setViewportView(table);
+//		table.setModel(new DefaultTableModel(
+//			new Object[][] {
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//				{null, null, null, null, null, null, null, null, null},
+//			},
+//			new String[] {
+//				"M\u00E3 nh\u00E2n vi\u00EAn", "T\u00EAn nh\u00E2n vi\u00EAn", "Ng\u00E0y sinh", "Gi\u1EDBi sinh", "Email", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", "\u0110\u1ECBa ch\u1EC9", "Ch\u1EE9c v\u1EE5", "Ng\u00E0y v\u00E0o l\u00E0m"
+//			}
+//		));
+		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Chức vụ","Ngày Vào Làm"};
+		tableModel = new DefaultTableModel(header, 0);
+		table = new JTable(tableModel);
+		loadNV();
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 0, 1468, 221);
-		panel_2.add(scrollPane);
-		
-		table = new JTable();
-		table.setBackground(new Color(255, 255, 255));
+		scrollPane.setBounds(10, 514, 1482, 159);
+		panel.add(scrollPane);
 		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 nh\u00E2n vi\u00EAn", "T\u00EAn nh\u00E2n vi\u00EAn", "Ng\u00E0y sinh", "Gi\u1EDBi sinh", "Email", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", "\u0110\u1ECBa ch\u1EC9", "Ch\u1EE9c v\u1EE5", "Ng\u00E0y v\u00E0o l\u00E0m"
-			}
-		));
-		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(732, 70, 770, 268);
 		panel_5.setBackground(new Color(255, 215, 0));
@@ -227,41 +232,61 @@ public class UI_NhanVien extends JFrame {
 		
 		JLabel lbldiaChi = new JLabel("Địa chỉ");
 		lbldiaChi.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbldiaChi.setBounds(357, 23, 68, 13);
+		lbldiaChi.setBounds(357, 63, 68, 13);
 		panel_6.add(lbldiaChi);
 		
 		txtdiaChi = new JTextField();
-		txtdiaChi.setBounds(474, 20, 96, 19);
+		txtdiaChi.setBounds(474, 62, 96, 19);
 		panel_6.add(txtdiaChi);
 		txtdiaChi.setColumns(10);
 		
 		JLabel lblemail = new JLabel("Email");
 		lblemail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblemail.setBounds(357, 63, 46, 13);
+		lblemail.setBounds(359, 113, 46, 13);
 		panel_6.add(lblemail);
 		
 		txtEmail = new JTextField();
-		txtEmail.setBounds(474, 60, 96, 19);
+		txtEmail.setBounds(474, 112, 96, 19);
 		panel_6.add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		JLabel lblchucVu = new JLabel("Chức vụ");
 		lblchucVu.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblchucVu.setBounds(357, 113, 68, 13);
+		lblchucVu.setBounds(357, 153, 68, 13);
 		panel_6.add(lblchucVu);
 		
 		JComboBox cbchucVu = new JComboBox();
-		cbchucVu.setBounds(474, 109, 96, 21);
+		cbchucVu.setBounds(474, 151, 96, 21);
 		panel_6.add(cbchucVu);
 		
 		JLabel lblngayVaoLam = new JLabel("Ngày Vào Làm");
 		lblngayVaoLam.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblngayVaoLam.setBounds(357, 157, 107, 13);
+		lblngayVaoLam.setBounds(357, 188, 107, 13);
 		panel_6.add(lblngayVaoLam);
 		
 		JDateChooser datengayVaoLam = new JDateChooser();
-		datengayVaoLam.setBounds(474, 153, 98, 19);
+		datengayVaoLam.setBounds(472, 182, 98, 19);
 		panel_6.add(datengayVaoLam);
+		
+		JLabel lblsdt = new JLabel("Số Điện Thoại");
+		lblsdt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblsdt.setBounds(10, 188, 96, 13);
+		panel_6.add(lblsdt);
+		
+		txtSdt = new JTextField();
+		txtSdt.setBounds(139, 187, 96, 19);
+		panel_6.add(txtSdt);
+		txtSdt.setColumns(10);
+		
+		JLabel lblCmnd = new JLabel("CMND");
+		lblCmnd.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCmnd.setBounds(359, 23, 46, 13);
+		panel_6.add(lblCmnd);
+		
+		txtGioiTinh = new JTextField();
+		txtGioiTinh.setBounds(474, 20, 96, 19);
+		panel_6.add(txtGioiTinh);
+		txtGioiTinh.setColumns(10);
 		
 		
 		
@@ -408,12 +433,33 @@ public class UI_NhanVien extends JFrame {
 		panel_8.setBounds(18, 356, 688, 50);
 		panel_8.setBackground(new Color(255, 255, 255));
 		
-		JLabel lblNhpThngTin = new JLabel("Nhập mã nhân viên");
-		lblNhpThngTin.setBounds(10, 10, 140, 30);
+		JLabel lblNhpThngTin = new JLabel("Nhập Thông Tin Nhân Viên");
+		lblNhpThngTin.setBounds(10, 10, 176, 30);
 		lblNhpThngTin.setBackground(new Color(255, 228, 225));
 		lblNhpThngTin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		txtTimKiem = new JTextField();
+		txtTimKiem.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(txtTimKiem.getText().length()==0) {
+					try {
+						loadNV();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				if(txtTimKiem.getText().length()>0) {
+					try {
+						timNV();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		txtTimKiem.setBounds(196, 18, 246, 19);
 		txtTimKiem.setColumns(10);
 		
@@ -424,36 +470,12 @@ public class UI_NhanVien extends JFrame {
 		
 		JLabel lblNewLabel_9 = new JLabel("");
 		lblNewLabel_9.setBounds(446, 21, 46, 13);
-	
-		JPanel panel_7 = new JPanel();
-		panel_7.setBounds(724, 356, 778, 50);
-		panel_7.setBackground(new Color(255, 255, 255));
 		panel_3.setLayout(null);
-		
-		
-		
-
-		
-		
-		
-		
-		JLabel lblnhapSDT = new JLabel("Nhập số điện thoại nhân viên");
-		lblnhapSDT.setBounds(10, 10, 186, 30);
-		lblnhapSDT.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblnhapSDT.setBackground(new Color(255, 228, 225));
-		
-		textField = new JTextField();
-		textField.setBounds(214, 18, 305, 19);
-		textField.setColumns(10);
-		
-		JButton btnTimKiem_1 = new JButton("Tìm kiếm");
-		btnTimKiem_1.setBounds(576, 13, 125, 25);
-		btnTimKiem_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		
 		//panel_4.setLayout(gl_panel_4);
 		panel.setLayout(null);
-		panel.add(panel_2);
+	//	panel.add(panel_2);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		panel_1.add(lblQunLNhn);
@@ -478,11 +500,6 @@ public class UI_NhanVien extends JFrame {
 		panel_8.add(txtTimKiem);
 		panel_8.add(lblNewLabel_9);
 		panel_8.add(btnTimKiem);
-		panel.add(panel_7);
-		panel_7.setLayout(null);
-		panel_7.add(lblnhapSDT);
-		panel_7.add(textField);
-		panel_7.add(btnTimKiem_1);
 	}
 	//Hàm Load
 	private void loadNV() throws SQLException {
@@ -499,7 +516,7 @@ public class UI_NhanVien extends JFrame {
 	//Tìm kiếm
 		private void timNV() throws SQLException{
 			Dao_NhanVien dao_nv= new Dao_NhanVien();
-			tableModel = dao_nv.timKiem(txtTimKiem.getText());
+			tableModel = dao_nv.timKiem("%"+txtTimKiem.getText()+"%");
 			table.setModel(tableModel);
 		}
 }

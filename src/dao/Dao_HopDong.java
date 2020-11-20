@@ -1,6 +1,7 @@
 package dao;
 
 import java.lang.reflect.Array;
+
 import java.sql.Connection;
 
 
@@ -28,11 +29,11 @@ public class Dao_HopDong {
 	public Dao_HopDong() {}
 		//Load data
 				public DefaultTableModel getAllHD() throws SQLException {
-					String[] header=  {"Mã Hợp Đồng","Tên Khách Hàng","CMND","Ngày Sinh","Địa Chỉ","Tên Nhân Viên","Tên Xe","Loại Xe","Màu Xe","Phân Khối","Số Lượng","Gía Nhập","Tổng Tiền","Ngày Lập","Thời gian bảo hành"};
+					String[] header=  {"Mã Hợp Đồng","Tên Khách Hàng","CMND","Ngày Sinh","Địa Chỉ","Số Điện Thoại","Tên Nhân Viên","Tên Xe","Loại Xe","Màu Xe","Phân Khối","Số Lượng","Gía Nhập","Tổng Tiền","Ngày Lập","Thời gian bảo hành"};
 					DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 					ConnectDB.getInstance();
 					Connection con = ConnectDB.getCon();
-					String sql = "SELECT  HopDong.maHopDong, KhachHang.tenKhachHang, KhachHang.CMND, KhachHang.ngaySinh, KhachHang.diaChi, NhanVien.tenNhanVien, Xe.tenXe, LoaiXe.tenLoaiXe, Xe.mauXe, Xe.phanKhoi, chiTietHoaDon.soLuong, chiTietHoaDon.donGia, chiTietHoaDon.soLuong*chiTietHoaDon.donGia, HopDong.ngayLap, HopDong.thoiGianBH\r\n" + 
+					String sql = "SELECT  HopDong.maHopDong, KhachHang.tenKhachHang, KhachHang.CMND, KhachHang.ngaySinh, KhachHang.diaChi,KhachHang.soDienThoai, NhanVien.tenNhanVien, Xe.tenXe, LoaiXe.tenLoaiXe, Xe.mauXe, Xe.phanKhoi, chiTietHoaDon.soLuong, chiTietHoaDon.donGia, chiTietHoaDon.soLuong*chiTietHoaDon.donGia, HopDong.ngayLap, HopDong.thoiGianBH\r\n" + 
 							"FROM     HopDong INNER JOIN\r\n" + 
 							"                  KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang INNER JOIN\r\n" + 
 							"                  NhanVien ON HopDong.maNhanVien = NhanVien.maNhanVien INNER JOIN\r\n" + 
@@ -42,11 +43,12 @@ public class Dao_HopDong {
 					Statement statement = con.createStatement();
 					ResultSet rs = statement.executeQuery(sql);
 					while (rs.next()) {
-						Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15)};
+						Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15),rs.getString(16)};
 						tableModel.addRow(o);
 					}
 					return tableModel;
 				}
+				
 				public boolean themHD(HopDong hd) {
 					ConnectDB.getInstance();
 					Connection con = ConnectDB.getCon();
@@ -55,11 +57,13 @@ public class Dao_HopDong {
 					try {
 						stmt = con.prepareStatement("insert into HopDong values(?,?,?,?,?,?)");
 						stmt.setString(1, hd.getMaHD());
-						stmt.setString(2, hd.getKhachHang().getTenKhachHang());
-						stmt.setString(3, hd.getNhanVien().getTenNhanVien());
-						stmt.setString(4, hd.getXe().getTenLoaiXe());
-						stmt.setString(5, hd.getTGBH());
-						stmt.setDate(6, (Date) hd.getNgayLap());
+						stmt.setString(2,hd.getKhachHang().getMaKhachHang());
+						stmt.setString(3, hd.getNhanVien().getMaNhanVien());
+						stmt.setString(4, hd.getXe().getMaXe());
+						
+						stmt.setDate(5, hd.getNgayLap());
+						stmt.setInt(6, hd.getThoiGianBaoHanh());
+					
 						n = stmt.executeUpdate();
 					} catch (SQLException e) {
 						e.printStackTrace();
@@ -100,34 +104,34 @@ public class Dao_HopDong {
 					}
 				}
 			//Cập nhật dữ liệu
-				public boolean update(HopDong hd) {
-					ConnectDB.getInstance();
-					Connection con = ConnectDB.getCon();
-					PreparedStatement stmt = null;
-					int n = 0;
-					try {
-						
-						stmt = con.prepareStatement(
-								"update HopDong set maHopDong=?,maKhachHang=?,maNhanVien=?,maXe=?,ngayLap=?,thoiGianBH=? where maHopDong=?");
-						stmt.setString(1, hd.getMaHD());
-						stmt.setString(2, hd.getKhachHang().getTenKhachHang());
-						stmt.setString(3, hd.getNhanVien().getTenNhanVien());
-						stmt.setString(4, hd.getXe().getTenLoaiXe());
-						stmt.setString(5, hd.getTGBH());
-						stmt.setDate(6, (Date) hd.getNgayLap());
-						
-						n = stmt.executeUpdate();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} finally {
-						try {
-							stmt.close();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					return n > 0;
-				}
+//				public boolean update(HopDong hd) {
+//					ConnectDB.getInstance();
+//					Connection con = ConnectDB.getCon();
+//					PreparedStatement stmt = null;
+//					int n = 0;
+//					try {
+//						
+//						stmt = con.prepareStatement(
+//								"update HopDong set maHopDong=?,maKhachHang=?,maNhanVien=?,maXe=?,ngayLap=?,thoiGianBH=? where maHopDong=?");
+//						stmt.setString(1, hd.getMaHD());
+//						stmt.setString(2, hd.getKhachHang().getTenKhachHang());
+//						stmt.setString(3, hd.getNhanVien().getTenNhanVien());
+//						stmt.setString(4, hd.getXe().getTenLoaiXe());
+//						stmt.setString(5, hd.getTGBH());
+//						stmt.setDate(6, (Date) hd.getNgayLap());
+//						
+//						n = stmt.executeUpdate();
+//					} catch (SQLException e) {
+//						e.printStackTrace();
+//					} finally {
+//						try {
+//							stmt.close();
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//						}
+//					}
+//					return n > 0;
+//				}
 				
 				
 				public ArrayList<NhanVien> getAllNV(){
