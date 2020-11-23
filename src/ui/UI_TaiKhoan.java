@@ -37,6 +37,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import dao.Dao_NhanVien;
 import dao.Dao_TaiKhoan;
 import entity.TaiKhoan;
 
@@ -102,6 +103,8 @@ public class UI_TaiKhoan extends JFrame {
 		setContentPane(pAccount);
 		pAccount.setLayout(null);
 		
+		Dao_NhanVien dao_nv = new Dao_NhanVien();
+		List<String> list_MaNV = dao_nv.getListMaNV();
 		Dao_TaiKhoan dao_tk = new Dao_TaiKhoan();
 		List<TaiKhoan> list_tk = dao_tk.docTuBang();
 		
@@ -318,6 +321,35 @@ public class UI_TaiKhoan extends JFrame {
 		txtEmployeeNum_Acc.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
+		        {
+		           
+		        }
+		        else
+		        {   
+		            String to_check=txtEmployeeNum_Acc.getText();
+		            int to_check_len=to_check.length();
+		            for(String data:list_MaNV)
+		            {
+		                String check_from_data="";
+		                for(int i=0;i<to_check_len;i++)
+		                {
+		                    if(to_check_len<=data.length())
+		                    {
+		                        check_from_data = check_from_data+data.charAt(i);
+		                    }
+		                }
+		                //System.out.print(check_from_data);
+		                if(check_from_data.equals(to_check))
+		                {
+		                    //System.out.print("Found");
+		                	txtEmployeeNum_Acc.setText(data);
+		                	txtEmployeeNum_Acc.setSelectionStart(to_check_len);
+		                	txtEmployeeNum_Acc.setSelectionEnd(data.length());
+		                    break;
+		                }
+		            }
+		        }
 				Connection con = ConnectDB.getCon();
 				String sql = "select * from NhanVien where maNhanVien = ?";
 				try {

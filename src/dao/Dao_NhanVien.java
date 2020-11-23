@@ -21,10 +21,28 @@ import entity.TaiKhoan;
 public class Dao_NhanVien {
 	private int n;
 	private ArrayList<NhanVien> listNhanVien;
-
+	private ArrayList<String> list_MaNV;
 	public Dao_NhanVien() {
+		list_MaNV = new ArrayList<String>();
 	}
 	
+	public ArrayList<String> getListMaNV(){	
+		try {
+			Connection con = ConnectDB.getInstance().getCon();
+			String sql = "Select maNhanVien from NhanVien";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String maNhanVien;
+				maNhanVien = rs.getString(1);
+				list_MaNV.add(maNhanVien);
+			}
+		}catch (SQLException e) { 
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return list_MaNV;
+	}
 //Load data
 		public DefaultTableModel getAllNV() throws SQLException {
 			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Ngày Vào Làm","Ngay Sinh","Chức Vụ"};
