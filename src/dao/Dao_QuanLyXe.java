@@ -382,8 +382,11 @@ public class Dao_QuanLyXe {
 		public boolean getImage(JLabel label, String ID) {
 			BufferedImage img = null;
 			Xe xe_i = getInfoXe(ID);
-			if (xe_i.getImg1().equalsIgnoreCase(""))
+			if (xe_i.getImg1().equalsIgnoreCase("")) {
+				label.setVisible(false);
 				return false;
+			}
+			label.setVisible(true);
 			String img1= xe_i.getImg1();
 			try {
 			    img = ImageIO.read(new File(img1));

@@ -25,6 +25,8 @@ import java.awt.TextField;
 import java.awt.Label;
 import javax.swing.JComboBox;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+
 import java.awt.Component;
 import java.awt.Choice;
 import javax.swing.DefaultComboBoxModel;
@@ -138,7 +140,7 @@ public class UI_TaiKhoan extends JFrame {
 		lblEmployeeName_Acc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEmployeeName_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		TextField txtEmployeeNum_Acc = new TextField();
+		JTextField txtEmployeeNum_Acc = new JTextField();
 		txtEmployeeNum_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtEmployeeNum_Acc.setBounds(148, 10, 220, 23);
 		pAccountInfoDetails.add(txtEmployeeNum_Acc);
@@ -148,7 +150,7 @@ public class UI_TaiKhoan extends JFrame {
 		lblNewLabel.setBounds(396, 10, 120, 20);
 		pAccountInfoDetails.add(lblNewLabel);
 		
-		TextField txtEmployeeName_Acc = new TextField();
+		JTextField txtEmployeeName_Acc = new JTextField();
 		txtEmployeeName_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtEmployeeName_Acc.setEditable(false);
 		txtEmployeeName_Acc.setBounds(535, 10, 362, 25);
@@ -159,7 +161,7 @@ public class UI_TaiKhoan extends JFrame {
 		lblPassword_Acc.setBounds(15, 50, 93, 21);
 		pAccountInfoDetails.add(lblPassword_Acc);
 		
-		TextField txtPassword_Acc = new TextField();
+		JTextField txtPassword_Acc = new JTextField();
 		txtPassword_Acc.setBounds(148, 48, 220, 25);
 		txtPassword_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		pAccountInfoDetails.add(txtPassword_Acc);
@@ -229,8 +231,11 @@ public class UI_TaiKhoan extends JFrame {
 		pSearchAccount.add(panel_1);
 		panel_1.setLayout(null);
 		
+		ButtonGroup group = new ButtonGroup();
+		
 		JRadioButton radEmployeeNumSearch = new JRadioButton("Mã Nhân Viên");
 		radEmployeeNumSearch.setBounds(16, 6, 123, 25);
+		group.add(radEmployeeNumSearch);
 		panel_1.add(radEmployeeNumSearch);
 		radEmployeeNumSearch.setSelected(true);
 		radEmployeeNumSearch.setBackground(new Color(230, 230, 250));
@@ -238,6 +243,7 @@ public class UI_TaiKhoan extends JFrame {
 		
 		JRadioButton radEmpployeeNameSearch = new JRadioButton("Tên Nhân Viên");
 		radEmpployeeNameSearch.setBounds(183, 8, 148, 25);
+		group.add(radEmpployeeNameSearch);
 		panel_1.add(radEmpployeeNameSearch);
 		radEmpployeeNameSearch.setBackground(new Color(230, 230, 250));
 		radEmpployeeNameSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -248,16 +254,9 @@ public class UI_TaiKhoan extends JFrame {
 		lblSearch_Acc.setForeground(new Color(0, 128, 128));
 		lblSearch_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		TextField txtSearch_Acc = new TextField();
-		txtSearch_Acc.setBounds(16, 75, 308, 25);
+		JTextField txtSearch_Acc = new JTextField();
+		txtSearch_Acc.setBounds(16, 75, 339, 25);
 		panel_1.add(txtSearch_Acc);
-		
-		JButton btnSearchAccount = new JButton("");
-		btnSearchAccount.setBounds(324, 75, 25, 25);
-		panel_1.add(btnSearchAccount);
-		btnSearchAccount.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/search-icon.png")));
-		btnSearchAccount.setBackground(new Color(255, 215, 0));
-		btnSearchAccount.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
 		JPanel pAccountFunction = new JPanel();
 		pAccountFunction.setBackground(new Color(211, 211, 211));
@@ -319,52 +318,35 @@ public class UI_TaiKhoan extends JFrame {
 		});
 		
 		txtEmployeeNum_Acc.addKeyListener(new KeyAdapter() {
+			public boolean isNumeric(String str) {
+				  return str.matches("^[N][V]\\d+");  //match a number with optional '-' and decimal. "-?\\d+(\\.\\d+)?"
+				}
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
-		        {
-		           
-		        }
-		        else
-		        {   
-		            String to_check=txtEmployeeNum_Acc.getText();
-		            int to_check_len=to_check.length();
-		            for(String data:list_MaNV)
-		            {
-		                String check_from_data="";
-		                for(int i=0;i<to_check_len;i++)
-		                {
-		                    if(to_check_len<=data.length())
-		                    {
-		                        check_from_data = check_from_data+data.charAt(i);
-		                    }
-		                }
-		                //System.out.print(check_from_data);
-		                if(check_from_data.equals(to_check))
-		                {
-		                    //System.out.print("Found");
-		                	txtEmployeeNum_Acc.setText(data);
-		                	txtEmployeeNum_Acc.setSelectionStart(to_check_len);
-		                	txtEmployeeNum_Acc.setSelectionEnd(data.length());
-		                    break;
-		                }
-		            }
-		        }
-				Connection con = ConnectDB.getCon();
-				String sql = "select * from NhanVien where maNhanVien = ?";
-				try {
-					PreparedStatement pst = con.prepareStatement(sql);
-					pst.setString(1, txtEmployeeNum_Acc.getText());
-					ResultSet rs = pst.executeQuery();
-					if(rs.next()) {
-						txtEmployeeName_Acc.setText(rs.getString("tenNhanVien"));
+				//char temp =  Character.toUpperCase(e.getKeyChar());
+				//String employeeNum = txtEmployeeNum_Acc.getText() + temp;
+				//txtEmployeeNum_Acc.setText(employeeNum);
+				//txtEmployeeNum_Acc.setText(txtEmployeeNum_Acc.getText().toUpperCase());
+				if (isNumeric(txtEmployeeNum_Acc.getText())) {
+					txtEmployeeNum_Acc.setForeground(Color.black);
+					Connection con = ConnectDB.getCon();
+					String sql = "select * from NhanVien where maNhanVien = ?";
+					try {
+						PreparedStatement pst = con.prepareStatement(sql);
+						pst.setString(1, txtEmployeeNum_Acc.getText());
+						ResultSet rs = pst.executeQuery();
+						if(rs.next()) {
+							txtEmployeeName_Acc.setText(rs.getString("tenNhanVien"));
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e1);
+						e1.printStackTrace();
 					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, e1);
-					e1.printStackTrace();
 				}
-				
+				else {
+					txtEmployeeNum_Acc.setForeground(Color.red);
+				}				
 			}
 		});
 		
@@ -411,5 +393,41 @@ public class UI_TaiKhoan extends JFrame {
 				}
 			}
 		});
+		
+		txtSearch_Acc.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(txtSearch_Acc.getText().equalsIgnoreCase(""))
+					try {
+						tableModel.getDataVector().removeAllElements();
+						tableModel.fireTableDataChanged();
+						table.setModel(dao_tk.getAllAccount(header, tableModel));
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				else if (radEmployeeNumSearch.isSelected()) {
+					tableModel.getDataVector().removeAllElements();
+					tableModel.fireTableDataChanged();
+					try {
+						table.setModel(dao_tk.getAccountById(header, tableModel, txtSearch_Acc.getText()));
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else {
+					tableModel.getDataVector().removeAllElements();
+					tableModel.fireTableDataChanged();
+					try {
+						table.setModel(dao_tk.getAccountByName(header, tableModel, txtSearch_Acc.getText()));
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		
 	}
 }

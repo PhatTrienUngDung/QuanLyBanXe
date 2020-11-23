@@ -55,6 +55,34 @@ public class Dao_TaiKhoan {
 			}
 			return listTaiKhoan;
 		}
+		public DefaultTableModel getAccountByName(String[] header, DefaultTableModel tableModel, String tenNhanVien) throws SQLException {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			String sql = "select ROW_NUMBER() OVER (ORDER BY TaiKhoan.maNhanVien), TaiKhoan.*, tenNhanVien"
+					+ " from TaiKhoan, NhanVien"
+					+ " where TaiKhoan.maNhanvien = NhanVien.maNhanVien and NhanVien.tenNhanVien like N'%"+tenNhanVien+"%'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Object[] o = {rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), rs.getString(4), rs.getString(5)};
+				tableModel.addRow(o);
+			}
+			return tableModel;
+		}
+		public DefaultTableModel getAccountById(String[] header, DefaultTableModel tableModel, String maNhanVien) throws SQLException {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			String sql = "select ROW_NUMBER() OVER (ORDER BY TaiKhoan.maNhanVien), TaiKhoan.*, tenNhanVien"
+					+ " from TaiKhoan, NhanVien"
+					+ " where TaiKhoan.maNhanvien = NhanVien.maNhanVien and TaiKhoan.maNhanVien like '%"+maNhanVien+"%'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Object[] o = {rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), rs.getString(4), rs.getString(5)};
+				tableModel.addRow(o);
+			}
+			return tableModel;
+		}
 		
 		public DefaultTableModel getAllAccount(String[] header, DefaultTableModel tableModel) throws SQLException {
 			ConnectDB.getInstance();
@@ -83,7 +111,7 @@ public class Dao_TaiKhoan {
 				stmt.setString(4, tk.getChuThich());
 				n=stmt.executeUpdate();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 					return n > 0;
 		}

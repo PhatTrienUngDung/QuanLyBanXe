@@ -25,6 +25,23 @@ public class Dao_NhaCungCap {
 		listSupplierName = new ArrayList<String>();
 	}
 	
+	public NhaCungCap getTenNhaCCById(String ID) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select * from NhaCungCap where maNhaCungCap = '" + ID + "'";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				NhaCungCap ncc = new NhaCungCap(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(6), rs.getString(5), rs.getString(4));
+				return ncc;
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
+	}
+	
 	public void getListSupplierName_Bill(String tenXe, String hangSanXuat, String mauXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
 		String sql = "select distinct tenNhaCungCap from Xe, NhaCungCap, HangSanXuat where Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and Xe.maHangSanXuat = HangSanXuat.maHangSanXuat and Xe.tenXe = ? and tenHangSanXuat = ? and Xe.mauXe = ?";
