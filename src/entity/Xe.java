@@ -23,17 +23,25 @@ public class Xe {
 
 	
 
-	
+	public Xe(String maXe) {
+		super();
+		this.maXe = maXe;
+	}
 
-	public Xe(String maXe, String tenXe,String mauXe, int phanKhoi,double giaNhap) {
+
+
+	public Xe(String maXe, String tenXe,  LoaiXe loaiXe,String mauXe, int phanKhoi, double giaNhap) {
 		super();
 		this.maXe = maXe;
 		this.tenXe = tenXe;
-	//	this.loaiXe = loaiXe;
-		this.phanKhoi = phanKhoi;
 		this.mauXe = mauXe;
+		this.phanKhoi = phanKhoi;
+	//	this.soLuong = soLuong;
 		this.giaNhap = giaNhap;
+		this.loaiXe = loaiXe;
 	}
+
+
 
 	public Xe(String maXe, String tenXe, String mauXe, int phanKhoi, int soLuong, double giaNhap, LoaiXe loaiXe,
 			NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, String trangThai, String chuThich, String img1, String img2,
@@ -233,10 +241,7 @@ public class Xe {
 				+ chuThich + ", img1=" + img1 + ", img2=" + img2 + ", img3=" + img3 + "]";
 	}
 
-	public Xe(String maXe) {
-		super();
-		this.maXe = maXe;
-	}
+
 
 	public Xe(String ma, String ten, String mau, int phanKhoi2, int soLuong2, double giaNhap2, LoaiXe loaiXe2,
 			NhaCungCap nhaCungCap2, HangSanXuat hangSanXuat2, java.util.Date parse, String trangThai2, String chuThich2,

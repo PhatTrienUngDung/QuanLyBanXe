@@ -22,13 +22,17 @@ public class KhachHang {
 		this.maKhachHang = maKhachHang;
 	}
 
-	public KhachHang(String maKhachHang, String tenKhachHang, String cMND, Date ngaySinh, String diaChi) {
+
+
+	public KhachHang(String maKhachHang, String tenKhachHang, String cMND, Date ngaySinh, String diaChi,
+			String soDienThoai) {
 		super();
 		this.maKhachHang = maKhachHang;
 		this.tenKhachHang = tenKhachHang;
 		CMND = cMND;
 		this.ngaySinh = ngaySinh;
 		this.diaChi = diaChi;
+		this.soDienThoai = soDienThoai;
 	}
 
 	public KhachHang(String maKhachHang, String tenKhachHang, String cMND, String gioiTinh, Date ngaySinh,

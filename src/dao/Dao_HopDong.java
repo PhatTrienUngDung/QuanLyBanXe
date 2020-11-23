@@ -12,11 +12,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.ChiTietHoaDon;
+import entity.ChucVu;
 import entity.HopDong;
 import entity.KhachHang;
 import entity.NhaCungCap;
@@ -59,8 +61,7 @@ public class Dao_HopDong {
 						stmt.setString(1, hd.getMaHD());
 						stmt.setString(2,hd.getKhachHang().getMaKhachHang());
 						stmt.setString(3, hd.getNhanVien().getMaNhanVien());
-						stmt.setString(4, hd.getXe().getMaXe());
-						
+						stmt.setString(4, hd.getXe().getMaXe());						
 						stmt.setDate(5, hd.getNgayLap());
 						stmt.setInt(6, hd.getThoiGianBaoHanh());
 					
@@ -103,35 +104,49 @@ public class Dao_HopDong {
 						JOptionPane.showMessageDialog(null, "Xóa thành công hợp đồng " + maHD);
 					}
 				}
-			//Cập nhật dữ liệu
-//				public boolean update(HopDong hd) {
-//					ConnectDB.getInstance();
-//					Connection con = ConnectDB.getCon();
-//					PreparedStatement stmt = null;
-//					int n = 0;
-//					try {
-//						
-//						stmt = con.prepareStatement(
-//								"update HopDong set maHopDong=?,maKhachHang=?,maNhanVien=?,maXe=?,ngayLap=?,thoiGianBH=? where maHopDong=?");
-//						stmt.setString(1, hd.getMaHD());
-//						stmt.setString(2, hd.getKhachHang().getTenKhachHang());
-//						stmt.setString(3, hd.getNhanVien().getTenNhanVien());
-//						stmt.setString(4, hd.getXe().getTenLoaiXe());
-//						stmt.setString(5, hd.getTGBH());
-//						stmt.setDate(6, (Date) hd.getNgayLap());
-//						
-//						n = stmt.executeUpdate();
-//					} catch (SQLException e) {
-//						e.printStackTrace();
-//					} finally {
-//						try {
-//							stmt.close();
-//						} catch (Exception e) {
-//							e.printStackTrace();
-//						}
-//					}
-//					return n > 0;
-//				}
+		//	Cập nhật dữ liệu
+				public boolean update(HopDong hd) {
+					ConnectDB.getInstance();
+					Connection con = ConnectDB.getCon();
+					PreparedStatement stmt = null;
+					int n = 0;
+					try {
+						
+						stmt = con.prepareStatement(
+								"update HopDong set maHopDong=?,maKhachHang=?,maNhanVien=?,maXe=?,ngayLap=?,thoiGianBH=? where maHopDong=?");
+						stmt.setString(1, hd.getMaHD());
+						stmt.setString(2, hd.getKhachHang().getMaKhachHang());
+					//	stmt.setString(3, hd.getKhachHang().getCMND());
+					//	stmt.setDate(4, hd.getKhachHang().getNgaySinh());
+						
+					//	stmt.setString(4, hd.getKhachHang().getDiaChi());
+					//	stmt.setString(5, hd.getKhachHang().getSoDienThoai());
+						stmt.setString(3, hd.getNhanVien().getMaNhanVien());
+						stmt.setString(4, hd.getXe().getMaXe());
+					//	stmt.setString(8, hd.getXe().getLoaiXe().getTenLoaiXe());
+					//	stmt.setString(9, hd.getXe().getMauXe());
+					//	stmt.setInt(10, hd.getXe().getPhanKhoi());
+					//	stmt.setInt(11, hd.getXe().getSoLuong());
+					//	stmt.setDouble(12, hd.getXe().getGiaNhap());
+					
+						
+						
+						stmt.setDate(5, hd.getNgayLap());
+					
+						stmt.setInt(6, hd.getThoiGianBaoHanh());
+						stmt.setString(7, hd.getMaHD());
+						n = stmt.executeUpdate();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} finally {
+						try {
+							stmt.close();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					return n > 0;
+				}
 				
 				
 				public ArrayList<NhanVien> getAllNV(){
@@ -170,7 +185,9 @@ public class Dao_HopDong {
 							String cmnd=rs.getString(3);
 							Date ngaySinh = rs.getDate(5);
 							String diaChi=rs.getString(6);
-							KhachHang kh= new KhachHang(maKH, tenKH, cmnd, ngaySinh, diaChi);
+							String sdt = rs.getString(8);
+							
+							KhachHang kh= new KhachHang(maKH, tenKH, cmnd, ngaySinh, diaChi,sdt);
 							dsKH.add(kh);
 						}
 					} catch (Exception e) {
@@ -191,11 +208,11 @@ public class Dao_HopDong {
 						while(rs.next()) {
 							String maXe=rs.getString(1);
 							String tenXe=rs.getString(2);
-				//			String loaiXe = rs.getString(3);
+							String loaiXe = rs.getString(3);
 							String mauXe = rs.getString(4);
 							int phanKhoi = rs.getInt(7);
 							double giaNhap = rs.getDouble(9);
-							Xe xe= new Xe(maXe,tenXe,mauXe,phanKhoi,giaNhap);
+							Xe xe= new Xe(maXe, tenXe,new LoaiXe(loaiXe), mauXe, phanKhoi, giaNhap);
 							dsXe.add(xe);
 						}
 					} catch (Exception e) {
@@ -204,6 +221,42 @@ public class Dao_HopDong {
 					}
 					return dsXe;
 				}
-			
+				public ArrayList<LoaiXe> getAllLoai(){
+					ArrayList<LoaiXe> dsLXe=new ArrayList<LoaiXe>();
+					try {
+						ConnectDB.getInstance();
+						Connection con= ConnectDB.getCon();
+						String sql= "select * from LoaiXe";
+						Statement statement= con.createStatement();
+						ResultSet rs= statement.executeQuery(sql);
+						
+						while(rs.next()) {
+							String maLX=rs.getString(1);
+							String tenLX=rs.getString(2);
+							
+							LoaiXe lx= new LoaiXe(maLX, tenLX);
+							dsLXe.add(lx);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					return dsLXe;
+				}
+				public void getList(String tenXe, JComboBox comboBox) {
+					Connection con = ConnectDB.getCon();
+					String sql = "select DISTINCT HangSanXuat.tenHangSanXuat from Xe, HangSanXuat where Xe.maHangSanXuat=HangSanXuat.maHangSanXuat and tenXe = ?";
+					try {
+						PreparedStatement pst = con.prepareStatement(sql);
+						pst.setString(1, tenXe);
+						ResultSet rs = pst.executeQuery();
+						while(rs.next()) {
+							comboBox.addItem(rs.getString(1));
+						}
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, e1);
+						e1.printStackTrace();
+					}
+				}
 				
 }

@@ -3,15 +3,16 @@ package entity;
 public class LoaiXe {
 	private String maLoaiXe;
 	private String tenLoaiXe;
+	public LoaiXe(String maLoaiXe) {
+		super();
+		this.maLoaiXe = maLoaiXe;
+	}
 	public LoaiXe(String maLoaiXe, String tenLoaiXe) {
 		super();
 		this.maLoaiXe = maLoaiXe;
 		this.tenLoaiXe = tenLoaiXe;
 	}
-	public LoaiXe(String maLoaiXe) {
-		super();
-		this.maLoaiXe = maLoaiXe;
-	}
+	
 	
 	public LoaiXe() {
 		super();

@@ -18,6 +18,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.OptionPaneUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JComboBox;
@@ -50,6 +53,8 @@ import entity.NhaCungCap;
 import entity.Xe;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class UI_HopDong extends JFrame {
 
@@ -123,7 +128,7 @@ public class UI_HopDong extends JFrame {
 		panel.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 255));
+		panel_1.setBackground(new Color(240, 248, 255));
 		panel_1.setBounds(10, 10, 1482, 50);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
@@ -235,6 +240,89 @@ public class UI_HopDong extends JFrame {
 		ArrayList<Xe> dsXe = dao_hd.getAllXes();
 		@SuppressWarnings("rawtypes")
 		JComboBox cbtenXe = new JComboBox();
+////		cbtenXe.addActionListener(new ActionListener() {
+////			public void actionPerformed(ActionEvent e) {
+////				if(cbtenXe.getItemCount()>0)
+////					cbtenXe.removeAll();
+////				String tenXe = cbtenXe.getSelectedItem().toString();
+////				String loaiXe,mauXe,soLuong,donGia,phanPhoi;
+////				if(txtloaiXe.getText().length()==0)
+////					loaiXe = "";
+////				else
+////					loaiXe = txtloaiXe.getText().toString();
+////				if(txtmauXe.getText().length()==0)
+////					mauXe="";
+////				else
+////					mauXe=txtmauXe.getText().toString();
+////				dao_hd.getAllXes(tenXe,mauXe);
+////				
+////				
+////				
+////				
+////				
+////				
+////			}
+//				int count =0;
+//				String tenXe =(String) cbtenXe.getSelectedItem();
+//				ArrayList<LoaiXe> dsLX = dao_hd.getAllLoai();
+//			//	for (int u = 0; u < tenXe.length();u++) {	
+//			//		if(tenXe.charAt(u)!=' ') {
+//			//			count++;
+//						if(tenXe.length()>0){
+//							for (int i = 0; i < dsXe.size(); i++) {
+//								
+//								if(cbtenXe.getSelectedItem().toString().equalsIgnoreCase(dsXe.get(i).getTenXe())) {
+//									String pk= String.valueOf(dsXe.get(i).getPhanKhoi());
+//									txtphanKhoi.setText(pk);
+//									txtmauXe.setText(dsXe.get(i).getMauXe());
+//									for (int j = 0; j < dsLX.size(); j++) {
+//										if(dsXe.get(i).getLoaiXe().getMaLoaiXe().equalsIgnoreCase(dsLX.get(j).getMaLoaiXe())) {
+//											txtloaiXe.setText(dsLX.get(j).getTenLoaiXe());
+//										}
+//									}
+//									String dg = String.valueOf(dsXe.get(i).getGiaNhap());
+//									txtdonGia.setText(dg);
+//								}
+//								datengayLap.setDate(Date.valueOf(LocalDate.now()));
+//							}
+//						
+//					
+//				
+//	
+//			
+//	});
+		
+		cbtenXe.addKeyListener(new KeyAdapter() {			
+			@Override
+			public void keyPressed(KeyEvent e) {
+			//	int count =0;
+				String tenXe =(String) cbtenXe.getSelectedItem();
+				ArrayList<LoaiXe> dsLX = dao_hd.getAllLoai();
+			//	for (int u = 0; u < tenXe.length();u++) {	
+			//		if(tenXe.charAt(u)!=' ') {
+			//			count++;
+						if(tenXe.length()>0){
+							for (int i = 0; i < dsXe.size(); i++) {
+								
+								if(cbtenXe.getSelectedItem().toString().equalsIgnoreCase(dsXe.get(i).getTenXe())) {
+									String pk= String.valueOf(dsXe.get(i).getPhanKhoi());
+									txtphanKhoi.setText(pk);
+									txtmauXe.setText(dsXe.get(i).getMauXe());
+									for (int j = 0; j < dsLX.size(); j++) {
+										if(dsXe.get(i).getLoaiXe().getMaLoaiXe().equalsIgnoreCase(dsLX.get(j).getMaLoaiXe())) {
+											txtloaiXe.setText(dsLX.get(j).getTenLoaiXe());
+										}
+									}
+									String dg = String.valueOf(dsXe.get(i).getGiaNhap());
+									txtdonGia.setText(dg);
+								}
+								datengayLap.setDate(Date.valueOf(LocalDate.now()));
+							}
+						}
+					
+				
+			}
+		});
 		cbtenXe.setBounds(843, 8, 134, 21);
 		for (Xe xe : dsXe) {
 			cbtenXe.addItem(xe.getTenXe());
@@ -246,7 +334,63 @@ public class UI_HopDong extends JFrame {
 		lblCmnd.setBounds(358, 13, 46, 13);
 		panel_2.add(lblCmnd);
 		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(478, 92, 134, 19);
+		panel_2.add(dateChooser);
+		
 		txtCMND = new JTextField();
+		txtCMND.addKeyListener(new KeyAdapter() {
+	//		@Override
+//			public void keyPressed(KeyEvent e) {
+//				//lam tiep di
+//				if(txtCMND.getText().length()>0) {
+//					for (int i = 0; i < dsKH.size(); i++) {
+//						if(txtCMND.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
+//							txtTen.setText(dsKH.get(i).getTenKhachHang());
+//							txtdiaChi.setText(dsKH.get(i).getDiaChi());
+//						//	String date  = ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText();
+//						//	Date ngay= Date.valueOf(LocalDate.parse(date));
+//							
+//							dateChooser.setDate(dsKH.get(i).getNgaySinh());
+//						}
+//					}
+//				}
+//				if(txtCMND.getText().length()==0) {
+//					txtCMND.setText("");
+//					txtsdt.setText("");
+//					txtTen.setText("");
+//					txtdiaChi.setText("");
+//					dateChooser.setDate(null);
+//				}
+//				
+//			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(txtCMND.getText().length()>0) {
+					for (int i = 0; i < dsKH.size(); i++) {
+						if(txtCMND.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
+							txtTen.setText(dsKH.get(i).getTenKhachHang());
+							txtdiaChi.setText(dsKH.get(i).getDiaChi());
+							txtsdt.setText(dsKH.get(i).getSoDienThoai());
+						//	String date  = ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText();
+						//	Date ngay= Date.valueOf(LocalDate.parse(date));
+							
+							dateChooser.setDate(dsKH.get(i).getNgaySinh());
+						}
+					}
+				}
+				if(txtCMND.getText().length()==0) {
+					txtCMND.setText("");
+					txtsdt.setText("");
+					txtTen.setText("");
+					txtdiaChi.setText("");
+					dateChooser.setDate(null);
+				}
+			}
+		});
+//		Pattern pattern1 = Pattern.compile("\\d{10}");
+//		Matcher matcher1 = pattern1.matcher();
+		
 		txtCMND.setBounds(478, 10, 134, 19);
 		panel_2.add(txtCMND);
 		txtCMND.setColumns(10);
@@ -303,6 +447,30 @@ public class UI_HopDong extends JFrame {
 		panel_2.add(lbltongTien);
 		
 		txttongTien = new JTextField();
+		txttongTien.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(txtsoLuong.getText().length()>0 && txtdonGia.getText().length()>0) {
+					double c = 0;
+					
+					String soLuong =(String) txtsoLuong.getText();
+					String donGia = (String) txtdonGia.getText();
+					int a =Integer.parseInt(soLuong);
+					double b = Double.parseDouble(donGia);
+					c = a*b;
+					
+					
+				
+					txttongTien.setText(String.valueOf(c));
+					
+					
+						
+					}
+			}
+		});
+		
+			
+		
 		txttongTien.setBounds(1300, 49, 134, 19);
 		panel_2.add(txttongTien);
 		txttongTien.setColumns(10);
@@ -312,26 +480,49 @@ public class UI_HopDong extends JFrame {
 		panel_2.add(txtTen);
 		txtTen.setColumns(10);
 		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(478, 92, 134, 19);
-		panel_2.add(dateChooser);
 		
-		
-	
 		
 		String[] header=  {"Mã Hợp Đồng","Tên Khách Hàng","CMND","Ngày Sinh","Địa Chỉ","Số Điện Thoai","Tên Nhân Viên","Tên Xe","Loại Xe","Màu Xe","Phân Khối","Số Lượng","Đơn Gía","Tổng Tiền","Ngày Lập","Thời gian BH"};
 		tableModel = new DefaultTableModel(header, 0);
 		table = new JTable(tableModel);
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 514, 1482, 159);
-		panel.add(scrollPane);
-		scrollPane.setViewportView(table);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i=table.getSelectedRow();
+				txtmaHD.setText(tableModel.getValueAt(i, 0).toString());
+				txtTen.setText(tableModel.getValueAt(i, 1).toString());
+				txtCMND.setText(tableModel.getValueAt(i, 2).toString());
+				dateChooser.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 3).toString())));
+				txtdiaChi.setText(tableModel.getValueAt(i, 4).toString());
+				txtsdt.setText(tableModel.getValueAt(i, 5).toString());
+				
+				
+				cbmaNV.setSelectedItem(tableModel.getValueAt(i, 6));
+				
+				cbtenXe.setSelectedItem(tableModel.getValueAt(i, 7));
+				txtloaiXe.setText(tableModel.getValueAt(i, 8).toString());
+				txtmauXe.setText(tableModel.getValueAt(i, 9).toString());
+				txtphanKhoi.setText(tableModel.getValueAt(i, 10).toString());
+				txtsoLuong.setText(tableModel.getValueAt(i, 11).toString());
+				txtdonGia.setText(tableModel.getValueAt(i, 12).toString());
+				txttongTien.setText(tableModel.getValueAt(i, 13).toString());
+				datengayLap.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 14).toString())));
+				txtTGBH.setText(tableModel.getValueAt(i, 15).toString());
+
+			}
+		});
 		try {
 			loadHD();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		JScrollPane scrollPane = new JScrollPane();
+	
+		scrollPane.setBounds(10, 443, 1482, 230);
+		panel.add(scrollPane);
+		scrollPane.setViewportView(table);
+		
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBounds(10, 317, 1482, 91);
@@ -353,7 +544,6 @@ public class UI_HopDong extends JFrame {
 					for (int i = 0; i < dsKH.size(); i++) {
 						if(txtCMND.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
 							kh= dsKH.get(i).getMaKhachHang();
-							txtTen.setText(dsKH.get(i).getTenKhachHang());
 						}
 					} 
 					for (int i = 0; i < dsNV.size(); i++) {
@@ -371,10 +561,12 @@ public class UI_HopDong extends JFrame {
 					String date1  = ((JTextField)datengayLap.getDateEditor().getUiComponent()).getText();
 					Date ngayLap=Date.valueOf(LocalDate.parse(date1));
 					String tgbh = txtTGBH.getText();
-					
-					HopDong hd = new HopDong(maHD,new KhachHang(kh), new NhanVien(nv), new Xe(xe), ngayLap, tgbh);
+					int tgbaoHanh=Integer.parseInt(tgbh);
+					HopDong hd = new HopDong(maHD,new KhachHang(kh), new NhanVien(nv), new Xe(xe), ngayLap, tgbaoHanh);
 					dao_hd.themHD(hd);
-				
+					JFrame f= new JFrame();
+					loadHD();
+					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
 				} catch (Exception s) {
 					s.getMessage();
 				}
@@ -395,16 +587,16 @@ public class UI_HopDong extends JFrame {
 				try {
 					if(row!=-1) {
 						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "Hợp đồng sẽ bị xóa","Chú ý",JOptionPane.YES_NO_OPTION);
+						int hoi=JOptionPane.showConfirmDialog(f, "Xe "+txtTen.getText()+" sẽ bị xóa","Cảnh báo", JOptionPane.YES_NO_OPTION);
 						if(hoi==JOptionPane.YES_OPTION) {
 							int r= table.getSelectedRow();
 							tableModel.removeRow(r);
 							xoaHD();
-							
+						
 						}
 					}
 					else
-						JOptionPane.showMessageDialog(null, "Vu lòng chọn hợp đồng để xóa");
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn xe để xóa !!!");
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -418,8 +610,59 @@ public class UI_HopDong extends JFrame {
 		
 		JButton btnSua = new JButton("Sửa");
 		btnSua.addMouseListener(new MouseAdapter() {
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				int row=table.getSelectedRow();
+				try {
+					if(row!=-1) {
+						JFrame f= new JFrame();
+						int hoi=JOptionPane.showConfirmDialog(f, "HopDong  sẽ được cập nhật !!!","Chú ý ",JOptionPane.YES_NO_OPTION);
+						String maHD= txtmaHD.getText();
+						String nv = null;
+						String kh = null;
+						String xe = null;
+						for (int i = 0; i < dsKH.size(); i++) {
+							if(txtCMND.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
+								kh= dsKH.get(i).getMaKhachHang();
+							}
+						} 
+						for (int i = 0; i < dsNV.size(); i++) {
+							if(cbmaNV.getSelectedItem().toString().equalsIgnoreCase(dsNV.get(i).getTenNhanVien())) {
+								nv= dsNV.get(i).getMaNhanVien();
+							}
+						} 
+						
+						for (int i = 0; i < dsXe.size(); i++) {
+							if(cbtenXe.getSelectedItem().toString().equalsIgnoreCase(dsXe.get(i).getTenXe())) {
+								xe= dsXe.get(i).getMaXe();
+							}
+						} 
+						
+						String date1  = ((JTextField)datengayLap.getDateEditor().getUiComponent()).getText();
+						Date ngayLap=Date.valueOf(LocalDate.parse(date1));
+						
+						String tgbh = txtTGBH.getText();
+						int tgbaoHanh=Integer.parseInt(tgbh);
+						HopDong hd = new HopDong(maHD,new KhachHang(kh), new NhanVien(nv), new Xe(xe), ngayLap, tgbaoHanh);
+						dao_hd.update(hd);
+						loadHD();
+						
+						JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!");
+							try {
+								loadHD();
+							} catch (Exception e3) {
+								// TODO: handle exception
+								e3
+								.printStackTrace();
+							}
+						}
+					else
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn loại xe cần thay đổi !!!");
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Mã xe không thể thay đổi");
+				}
+			
 				
 			}
 		});
@@ -446,6 +689,12 @@ public class UI_HopDong extends JFrame {
 		panel_3.add(lblNhpMHp);
 		
 		txtTimKiem = new JTextField();
+		txtTimKiem.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+		});
 		txtTimKiem.setBounds(220, 20, 290, 19);
 		panel_3.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
@@ -467,37 +716,43 @@ public class UI_HopDong extends JFrame {
 		txtsdt.setColumns(10);
 		datengayLap.setDateFormatString("yyy-MM-dd");
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				for (int i = 0; i < dsKH.size(); i++) {
-					if(txtCMND.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
-						txtTen.setText(dsKH.get(i).getTenKhachHang());
-						txtdiaChi.setText(dsKH.get(i).getDiaChi());
-					//	String date  = ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText();
-					//	Date ngay= Date.valueOf(LocalDate.parse(date));
-						
-						dateChooser.setDate(dsKH.get(i).getNgaySinh());
-					}
-					if(cbtenXe.getSelectedItem().equals(dsXe.get(i).getTenXe().toString())) {
-						String pk= String.valueOf(dsXe.get(i).getPhanKhoi());
-						txtphanKhoi.setText(pk);
-						LoaiXe loai = new LoaiXe();
-					
-					///	loai.setText(dsXe.get(i).getLoaiXe().getTenLoaiXe());
-						txtmauXe.setText(dsXe.get(i).getMauXe());
-						String dg = String.valueOf(dsXe.get(i).getGiaNhap());
-						txtdonGia.setText(dg);
-					}
-					datengayLap.setDate(Date.valueOf(LocalDate.now()));
-				} 
-
-			}
-		});
-		btnNewButton.setBounds(752, 69, 85, 21);
-		panel_4.add(btnNewButton);
+//		JButton btnNewButton = new JButton("New button");
+//		btnNewButton.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				
+//				for (int i = 0; i < dsKH.size(); i++) {
+//					if(txtCMND.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
+//						txtTen.setText(dsKH.get(i).getTenKhachHang());
+//						txtdiaChi.setText(dsKH.get(i).getDiaChi());
+//					//	String date  = ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText();
+//					//	Date ngay= Date.valueOf(LocalDate.parse(date));
+//						
+//						dateChooser.setDate(dsKH.get(i).getNgaySinh());
+//					}
+//				}
+//				//dóng coi
+//				for (int i = 0; i < dsXe.size(); i++) {
+//					ArrayList<LoaiXe> dsLX = dao_hd.getAllLoai();
+//					if(cbtenXe.getSelectedItem().toString().equalsIgnoreCase(dsXe.get(i).getTenXe())) {
+//						String pk= String.valueOf(dsXe.get(i).getPhanKhoi());
+//						txtphanKhoi.setText(pk);
+//						txtmauXe.setText(dsXe.get(i).getMauXe());
+//						for (int j = 0; j < dsLX.size(); j++) {
+//							if(dsXe.get(i).getLoaiXe().getMaLoaiXe().equalsIgnoreCase(dsLX.get(j).getMaLoaiXe())) {
+//								txtloaiXe.setText(dsLX.get(j).getTenLoaiXe());
+//							}
+//						}
+//						String dg = String.valueOf(dsXe.get(i).getGiaNhap());
+//						txtdonGia.setText(dg);
+//					}
+//					datengayLap.setDate(Date.valueOf(LocalDate.now()));
+//				}
+//			}
+//		});
+//		btnNewButton.setBounds(752, 69, 85, 21);
+//		panel_4.add(btnNewButton);
+		
 		btnNew.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

@@ -12,6 +12,11 @@ public class NhanVien {
 	private ChucVu chucVu;
 	private String sdt;
 	private Date ngayVaoLam;
+	
+	public NhanVien(String maNhanVien) {
+		super();
+		this.maNhanVien = maNhanVien;
+	}
 	public String getMaNhanVien() {
 		return maNhanVien;
 	}
@@ -100,10 +105,7 @@ public class NhanVien {
 		this.maNhanVien = maNhanVien;
 		this.tenNhanVien = tenNhanVien;
 	}
-	public NhanVien(String maNhanVien) {
-		super();
-		this.maNhanVien = maNhanVien;
-	}
+
 	
 	
 	

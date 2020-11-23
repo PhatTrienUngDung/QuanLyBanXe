@@ -66,7 +66,7 @@ public class Dao_NhanVien {
 		}
 //Tìm
 	public DefaultTableModel timKiem(String id) throws SQLException {
-		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Ngày Vào Làm","Ngay Sinh","Chức Vụ"};
+		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Chức vụ","Ngày Vào Làm"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
@@ -154,5 +154,26 @@ public class Dao_NhanVien {
 			}
 			return n > 0;
 		}
-		
+		public ArrayList<ChucVu> getAllChucVus(){
+			ArrayList<ChucVu> dsCV=new ArrayList<ChucVu>();
+			try {
+				ConnectDB.getInstance();
+				Connection con= ConnectDB.getCon();
+				String sql= "select * from ChucVu";
+				Statement statement= con.createStatement();
+				ResultSet rs= statement.executeQuery(sql);
+				
+				while(rs.next()) {
+					String maCV=rs.getString(1);
+					String tenCV=rs.getString(2);
+					
+					ChucVu cv= new ChucVu(maCV, tenCV);
+					dsCV.add(cv);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return dsCV;
+		}
 }
