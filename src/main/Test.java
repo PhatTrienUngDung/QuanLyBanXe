@@ -1,5 +1,6 @@
 package main;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import javax.swing.JFrame;
@@ -8,7 +9,7 @@ import ui.Menu;
 import ui.SplashScreen;
 
 public class Test {
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, SQLException {
 		SplashScreen slScreen= new SplashScreen();
 		slScreen.setVisible(true);
 		slScreen.setLocationRelativeTo(null);

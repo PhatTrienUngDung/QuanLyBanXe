@@ -3,13 +3,20 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.SwingConstants;
 import javax.swing.JProgressBar;
 import javax.swing.border.LineBorder;
@@ -43,21 +50,12 @@ public class SplashScreen extends JFrame {
 		setUndecorated(true);
 		setBounds(100, 100, 795, 443); 
 		contentPane = new JPanel();
+		
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Quản Lý Cửa Hàng Xe Máy Thành Nam");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 26));
-		lblNewLabel.setBounds(60, 104, 567, 66);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("CopyRigth 2020");
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_1.setBounds(531, 281, 194, 23);
-		contentPane.add(lblNewLabel_1);
+	
 		
 		lbLoad = new JLabel("...");
 		lbLoad.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -73,5 +71,22 @@ public class SplashScreen extends JFrame {
 		progressBar.setBounds(0, 385, 795, 21);
 		progressBar.setBorder(BorderFactory.createLineBorder(Color.black));
 		contentPane.add(progressBar);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(0, 0, 795, 443);
+		BufferedImage img = null;
+		String img1="img/Main.png";
+		try {
+		    img = ImageIO.read(new File(img1));
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		Image dimg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(),
+		        Image.SCALE_SMOOTH);
+		ImageIcon imageIcon = new ImageIcon(dimg);
+		lblNewLabel.setIcon(imageIcon);
+		contentPane.add(lblNewLabel);
+		
+		
 	}
 }

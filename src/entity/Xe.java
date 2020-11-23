@@ -28,7 +28,11 @@ public class Xe {
 		this.maXe = maXe;
 	}
 
-
+	public Xe(String maXe, String tenXe) {
+		super();
+		this.maXe = maXe;
+		this.tenXe = tenXe;
+	}
 
 	public Xe(String maXe, String tenXe,  LoaiXe loaiXe,String mauXe, int phanKhoi, double giaNhap) {
 		super();

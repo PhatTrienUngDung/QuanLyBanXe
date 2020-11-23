@@ -46,10 +46,22 @@ public class Menu extends JFrame {
 	private JButton btnThongKe;
 	private JButton btnQLHoaDon;
 	private JPanel panelMain;
-	private JPanel panel_1;
-	private JPanel panel_2;
+	private JPanel pnQuanLyKho;
+	private JPanel pnQuanLyNCC;
 	private UI_QuanLyXe ui_QuanLyXe;
 	private UI_NhaCungCap ui_NhaCungCap;
+	private UI_KhachHang ui_KhachHang;
+	private UI_HoaDon ui_HoaDon;
+	private UI_HopDong ui_HopDong;
+	private UI_NhanVien ui_NhanVien;
+	private UI_TaiKhoan ui_TaiKhoan;
+	private JPanel pnQuanLyKH;
+	private JPanel pnQuanLyNV;
+	private JPanel pnQLHoaDon;
+	private JPanel pnQuanLyHopDong;
+	private JPanel pnThongKe;
+	private JButton btnTrangChu;
+	private JPanel pnTrangChu;
 	/**
 	 * Launch the application.
 	 */
@@ -72,10 +84,16 @@ public class Menu extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public Menu() {
+	public Menu() throws SQLException {
 		ui_QuanLyXe= new UI_QuanLyXe();
 		ui_NhaCungCap = new UI_NhaCungCap();
+		ui_KhachHang= new UI_KhachHang();
+		ui_HoaDon =new UI_HoaDon();
+		ui_HopDong= new UI_HopDong();
+		ui_NhanVien= new UI_NhanVien();
+		ui_TaiKhoan= new UI_TaiKhoan();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(100, 100, screen.width, screen.height);
 		
@@ -91,21 +109,60 @@ public class Menu extends JFrame {
 		splitPane.setRightComponent(panelMain);
 		panelMain.setLayout(new CardLayout(0, 0));
 		
-		panel_1 = new JPanel();
-		panelMain.add(panel_1, "name_7046289087700");
-		panel_1.setLayout(null);
+		//Giao Dien Quan Ly Kho
+		pnQuanLyKho = new JPanel();
+		panelMain.add(pnQuanLyKho, "name_7046289087700");
+		pnQuanLyKho.setLayout(null);
 		ui_QuanLyXe.setVisible(true);
-		panel_1.add(ui_QuanLyXe.getContentPane());
+		pnQuanLyKho.add(ui_QuanLyXe.getContentPane());
 		ui_QuanLyXe.setVisible(false);
 		
-		
-		
-		panel_2 = new JPanel();
-		panelMain.add(panel_2, "name_7054596857300");
-		panel_2.setLayout(null);
+		//Giao Dien Quan Ly Nha Cung Cap
+		pnQuanLyNCC = new JPanel();
+		panelMain.add(pnQuanLyNCC, "name_7054596857300");
+		pnQuanLyNCC.setLayout(null);
 		ui_NhaCungCap.setVisible(true);
-		panel_2.add(ui_NhaCungCap.getContentPane());
+		pnQuanLyNCC.add(ui_NhaCungCap.getContentPane());
 		ui_NhaCungCap.setVisible(false);
+		
+		//Giao Dien Quan Ly Khach Hang
+		pnQuanLyKH = new JPanel();
+		panelMain.add(pnQuanLyKH, "name_3755726204700");
+		pnQuanLyKH.setLayout(null);
+		ui_KhachHang.setVisible(true);
+		pnQuanLyKH.add(ui_KhachHang.getContentPane());
+		ui_KhachHang.setVisible(false);
+		
+		//Giao Dien Quan Ly Nhan Vien
+		pnQuanLyNV = new JPanel();
+		panelMain.add(pnQuanLyNV, "name_3759579047400");
+		pnQuanLyNV.setLayout(null);
+		ui_NhanVien.setVisible(true);
+		pnQuanLyNV.add(ui_NhanVien.getContentPane());
+		ui_NhanVien.setVisible(false);
+		
+		//Giao Dien Quan Ly Hoa Don
+		pnQLHoaDon = new JPanel();
+		panelMain.add(pnQLHoaDon, "name_3761516368600");
+		pnQLHoaDon.setLayout(null);
+		ui_HoaDon.setVisible(true);
+		pnQLHoaDon.add(ui_HoaDon.getContentPane());
+		ui_HoaDon.setVisible(false);
+		
+		pnQuanLyHopDong = new JPanel();
+		panelMain.add(pnQuanLyHopDong, "name_3763305576000");
+		pnQuanLyHopDong.setLayout(null);
+		ui_HopDong.setVisible(true);
+		pnQuanLyHopDong.add(ui_HopDong.getContentPane());
+		ui_HopDong.setVisible(false);
+		
+		pnThongKe = new JPanel();
+		panelMain.add(pnThongKe, "name_3836959492400");
+
+		
+		pnTrangChu = new JPanel();
+		panelMain.add(pnTrangChu, "name_3887874348900");
+
 	
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(43,87,154));
@@ -134,10 +191,19 @@ public class Menu extends JFrame {
 				btnQuanLyNCC.setForeground(Color.white);
 				btnThongKe.setForeground(Color.white);
 				btnQLHoaDon.setForeground(Color.white);
+				btnTrangChu.setBackground(new Color(43, 87, 154));
+				btnTrangChu.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				pnQuanLyKho.setVisible(false);
+				pnQLHoaDon.setVisible(false);
+				pnQuanLyNCC.setVisible(false);
+				pnQuanLyKH.setVisible(true);
+				pnQuanLyHopDong.setVisible(false);
+				pnQuanLyNV.setVisible(false);
+				pnThongKe.setVisible(false);
+				pnTrangChu.setVisible(false);
 			}
 		});
 		
@@ -161,6 +227,8 @@ public class Menu extends JFrame {
 				btnQuanLyNCC.setForeground(Color.white);
 				btnThongKe.setForeground(Color.white);
 				btnQLHoaDon.setForeground(Color.white);
+				btnTrangChu.setBackground(new Color(43, 87, 154));
+				btnTrangChu.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -170,26 +238,35 @@ public class Menu extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				panel_1.setVisible(true);
-				
-				panel_2.setVisible(false);
+				pnQuanLyKho.setVisible(true);
+				pnQLHoaDon.setVisible(false);
+				pnQuanLyNCC.setVisible(false);
+				pnQuanLyKH.setVisible(false);
+				pnQuanLyHopDong.setVisible(false);
+				pnQuanLyNV.setVisible(false);
+				pnThongKe.setVisible(false);
+				pnTrangChu.setVisible(false);
 			}
 		});
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		btnQLKho.setForeground(Color.black);
-		btnQLKho.setBackground(Color.white);
-		btnQLKho.setBorderPainted(false);
 		
-		panel.add(btnQLKho);
-		panel.add(btnQLKH);
-		
-		btnQLNV = new JButton("Quản Lý Nhân Viên");
-		btnQLNV.setFocusable(false);
-		btnQLNV.addMouseListener(new MouseAdapter() {
+		btnTrangChu = new JButton("Trang Chủ");
+		btnTrangChu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pnQuanLyKho.setVisible(false);
+				pnQLHoaDon.setVisible(false);
+				pnQuanLyNCC.setVisible(false);
+				pnQuanLyKH.setVisible(false);
+				pnQuanLyHopDong.setVisible(false);
+				pnQuanLyNV.setVisible(false);
+				pnThongKe.setVisible(false);
+				pnTrangChu.setVisible(true);
+			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				btnQLNV.setBackground(Color.white);
-				btnQLNV.setForeground(Color.black);
+				btnTrangChu.setBackground(Color.white);
+				btnTrangChu.setForeground(Color.black);
 				btnQLHD.setBackground(new Color(43, 87, 154));
 				btnQLKho.setBackground(new Color(43, 87, 154));
 				btnQLKH.setBackground(new Color(43, 87, 154));
@@ -202,6 +279,56 @@ public class Menu extends JFrame {
 				btnQuanLyNCC.setForeground(Color.white);
 				btnThongKe.setForeground(Color.white);
 				btnQLHoaDon.setForeground(Color.white);
+				btnQLNV.setBackground(new Color(43, 87, 154));
+				btnQLNV.setForeground(Color.white);
+				
+				
+			}
+		});
+		btnTrangChu.setForeground(Color.WHITE);
+		btnTrangChu.setFocusable(false);
+		btnTrangChu.setBorderPainted(false);
+		btnTrangChu.setBackground(new Color(43, 87, 154));
+		panel.add(btnTrangChu);
+		btnQLKho.setForeground(Color.white);
+		btnQLKho.setBackground(new Color(43, 87, 154));
+		btnQLKho.setBorderPainted(false);
+		
+		panel.add(btnQLKho);
+		panel.add(btnQLKH);
+		
+		btnQLNV = new JButton("Quản Lý Nhân Viên");
+		btnQLNV.setFocusable(false);
+		btnQLNV.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				btnQLNV.setBackground(Color.white);
+				btnQLNV.setForeground(Color.black);
+				btnTrangChu.setBackground(new Color(43, 87, 154));
+				btnTrangChu.setForeground(Color.white);
+				btnQLHD.setBackground(new Color(43, 87, 154));
+				btnQLKho.setBackground(new Color(43, 87, 154));
+				btnQLKH.setBackground(new Color(43, 87, 154));
+				btnQuanLyNCC.setBackground(new Color(43, 87, 154));
+				btnThongKe.setBackground(new Color(43, 87, 154));
+				btnQLHoaDon.setBackground(new Color(43, 87, 154));
+				btnQLHD.setForeground(Color.white);
+				btnQLKho.setForeground(Color.white);
+				btnQLKH.setForeground(Color.white);
+				btnQuanLyNCC.setForeground(Color.white);
+				btnThongKe.setForeground(Color.white);
+				btnQLHoaDon.setForeground(Color.white);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pnQuanLyKho.setVisible(false);
+				pnQLHoaDon.setVisible(false);
+				pnQuanLyNCC.setVisible(false);
+				pnQuanLyKH.setVisible(false);
+				pnQuanLyHopDong.setVisible(false);
+				pnQuanLyNV.setVisible(true);
+				pnThongKe.setVisible(false);
+				pnTrangChu.setVisible(false);
 			}
 		});
 		btnQLNV.setForeground(Color.WHITE);
@@ -229,44 +356,26 @@ public class Menu extends JFrame {
 				btnQuanLyNCC.setForeground(Color.white);
 				btnThongKe.setForeground(Color.white);
 				btnQLNV.setForeground(Color.white);
+				btnTrangChu.setBackground(new Color(43, 87, 154));
+				btnTrangChu.setForeground(Color.white);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pnQuanLyKho.setVisible(false);
+				pnQuanLyNCC.setVisible(false);
+				pnQuanLyKH.setVisible(false);
+				pnQuanLyHopDong.setVisible(false);
+				pnQuanLyNV.setVisible(false);
+				pnThongKe.setVisible(false);
+				pnTrangChu.setVisible(false);
+				pnQLHoaDon.setVisible(true);
+				
 			}
 		});
 		btnQLHoaDon.setForeground(Color.WHITE);
 		btnQLHoaDon.setBorderPainted(false);
 		btnQLHoaDon.setBackground(new Color(43, 87, 154));
 		panel.add(btnQLHoaDon);
-		
-
-		btnQuanLyNCC = new JButton("Quản Lý Nhà Cung Cấp");
-		btnQuanLyNCC.setFocusable(false);
-		btnQuanLyNCC.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				btnQuanLyNCC.setBackground(Color.white);
-				btnQuanLyNCC.setForeground(Color.black);
-				btnQLHoaDon.setBackground(new Color(43, 87, 154));
-				btnQLKho.setBackground(new Color(43, 87, 154));
-				btnQLKH.setBackground(new Color(43, 87, 154));
-				btnQLHD.setBackground(new Color(43, 87, 154));
-				btnThongKe.setBackground(new Color(43, 87, 154));
-				btnQLNV.setBackground(new Color(43, 87, 154));
-				btnQLHD.setForeground(Color.white);
-				btnQLKho.setForeground(Color.white);
-				btnQLKH.setForeground(Color.white);
-				btnQLHoaDon.setForeground(Color.white);
-				btnThongKe.setForeground(Color.white);
-				btnQLNV.setForeground(Color.white);
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				panel_2.setVisible(true);
-				panel_1.setVisible(false);
-			}
-		});
-		btnQuanLyNCC.setForeground(Color.WHITE);
-		btnQuanLyNCC.setBorderPainted(false);
-		btnQuanLyNCC.setBackground(new Color(43, 87, 154));
-		panel.add(btnQuanLyNCC);
 		
 		btnQLHD = new JButton("Quản Lý Hợp Đồng");
 		btnQLHD.setFocusable(false);
@@ -287,6 +396,19 @@ public class Menu extends JFrame {
 				btnQLHoaDon.setForeground(Color.white);
 				btnThongKe.setForeground(Color.white);
 				btnQLNV.setForeground(Color.white);
+				btnTrangChu.setBackground(new Color(43, 87, 154));
+				btnTrangChu.setForeground(Color.white);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pnQuanLyKho.setVisible(false);
+				pnQLHoaDon.setVisible(false);
+				pnQuanLyNCC.setVisible(false);
+				pnQuanLyKH.setVisible(false);
+				pnQuanLyHopDong.setVisible(true);
+				pnQuanLyNV.setVisible(false);
+				pnThongKe.setVisible(false);
+				pnTrangChu.setVisible(false);
 			}
 		});
 		btnQLHD.setForeground(Color.WHITE);
@@ -313,8 +435,55 @@ public class Menu extends JFrame {
 				btnQLHoaDon.setForeground(Color.white);
 				btnQLNV.setForeground(Color.white);
 				btnQLHD.setForeground(Color.white);
+				btnTrangChu.setBackground(new Color(43, 87, 154));
+				btnTrangChu.setForeground(Color.white);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pnQuanLyKho.setVisible(false);
+				pnQLHoaDon.setVisible(false);
+				pnQuanLyNCC.setVisible(false);
+				pnQuanLyKH.setVisible(false);
+				pnQuanLyHopDong.setVisible(false);
+				pnQuanLyNV.setVisible(false);
+				pnThongKe.setVisible(true);
+				pnTrangChu.setVisible(false);
 			}
 		});
+		
+
+		btnQuanLyNCC = new JButton("Quản Lý Nhà Cung Cấp");
+		btnQuanLyNCC.setFocusable(false);
+		btnQuanLyNCC.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				btnQuanLyNCC.setBackground(Color.white);
+				btnQuanLyNCC.setForeground(Color.black);
+				btnQLHoaDon.setBackground(new Color(43, 87, 154));
+				btnQLKho.setBackground(new Color(43, 87, 154));
+				btnQLKH.setBackground(new Color(43, 87, 154));
+				btnQLHD.setBackground(new Color(43, 87, 154));
+				btnThongKe.setBackground(new Color(43, 87, 154));
+				btnQLNV.setBackground(new Color(43, 87, 154));
+				btnQLHD.setForeground(Color.white);
+				btnQLKho.setForeground(Color.white);
+				btnQLKH.setForeground(Color.white);
+				btnQLHoaDon.setForeground(Color.white);
+				btnThongKe.setForeground(Color.white);
+				btnQLNV.setForeground(Color.white);
+				btnTrangChu.setBackground(new Color(43, 87, 154));
+				btnTrangChu.setForeground(Color.white);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pnQuanLyNCC.setVisible(true);
+				pnQuanLyKho.setVisible(false);
+			}
+		});
+		btnQuanLyNCC.setForeground(Color.WHITE);
+		btnQuanLyNCC.setBorderPainted(false);
+		btnQuanLyNCC.setBackground(new Color(43, 87, 154));
+		panel.add(btnQuanLyNCC);
 		btnThongKe.setForeground(Color.WHITE);
 		btnThongKe.setBorderPainted(false);
 		btnThongKe.setBackground(new Color(43, 87, 154));

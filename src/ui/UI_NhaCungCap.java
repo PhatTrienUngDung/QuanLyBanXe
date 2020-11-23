@@ -47,6 +47,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.TitledBorder;
 
 
 public class UI_NhaCungCap extends JFrame {
@@ -106,23 +107,23 @@ public class UI_NhaCungCap extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBackground(UIManager.getColor("window"));
-		panel_4.setBounds(0, 10, 1522, 757);
+		panel_4.setBackground(SystemColor.control);
+		panel_4.setBounds(10, 10, 1534, 767);
 		contentPane.add(panel_4);
 		panel_4.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 116, 1100, 167);
+		panel.setBounds(10, 174, 1100, 167);
 		panel_4.add(panel);
 		panel.setForeground(UIManager.getColor("CheckBox.focus"));
-		panel.setBackground(new Color(220, 220, 220));
-		panel.setBorder(new LineBorder(new Color(130, 135, 144)));
+		panel.setBackground(SystemColor.control);
+		panel.setBorder(new TitledBorder(null, "Th\u00F4ng Tin Nh\u00E0 Cung C\u1EA5p", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setLayout(null);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_3.setBackground(new Color(245, 245, 245));
-		panel_3.setBounds(0, 38, 1100, 129);
+		panel_3.setBorder(null);
+		panel_3.setBackground(SystemColor.control);
+		panel_3.setBounds(10, 38, 1080, 119);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
 		
@@ -194,13 +195,8 @@ public class UI_NhaCungCap extends JFrame {
 		txtSDT.setColumns(10);
 		panel_3.add(txtSDT);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thông Tin Nhà Cung Cấp ");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2.setBounds(10, 0, 425, 39);
-		panel.add(lblNewLabel_2);
-		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(1134, 116, 358, 167);
+		panel_1.setBounds(1134, 174, 358, 167);
 		panel_4.add(panel_1);
 		panel_1.setBackground(new Color(255, 147, 0));
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -341,30 +337,16 @@ public class UI_NhaCungCap extends JFrame {
 		btnXoaTrang.setBounds(199, 110, 142, 36);
 		panel_1.add(btnXoaTrang);
 		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBackground(Color.WHITE);
-		panel_5.setBounds(0, 10, 1522, 72);
-		panel_4.add(panel_5);
-		panel_5.setLayout(null);
-		
-		JLabel lblNewLabel_3 = new JLabel("QU\u1EA2N L\u00DD NH\u00C0 CUNG C\u1EA4P");
-		lblNewLabel_3.setForeground(new Color(218, 165, 32));
-		lblNewLabel_3.setBackground(new Color(255, 255, 255));
-		lblNewLabel_3.setIcon(new ImageIcon("img1/Generate-tables-icon.png"));
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblNewLabel_3.setBounds(43, 0, 455, 72);
-		panel_5.add(lblNewLabel_3);
-		
 		JPanel panel_6 = new JPanel();
-		panel_6.setBackground(Color.WHITE);
-		panel_6.setBounds(10, 363, 1482, 384);
+		panel_6.setBackground(SystemColor.control);
+		panel_6.setBounds(10, 421, 1482, 313);
 		panel_4.add(panel_6);
 		panel_6.setLayout(null);
 		String[] header= {"Mã Nhà Cung Cấp","Tên Nhà Cung Cấp", "Địa Chỉ", "Email", "Số Điện Thoại","Ghi Chú"};
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setToolTipText("");
-		scrollPane.setBounds(0, 0, 1483, 378);
+		scrollPane.setBounds(0, 0, 1483, 303);
 		panel_6.add(scrollPane);
 		table_1 = new JTable(tableModel);
 		table_1.addMouseListener(new MouseAdapter() {
@@ -390,7 +372,7 @@ public class UI_NhaCungCap extends JFrame {
 		}
 		JPanel panel_7 = new JPanel();
 		panel_7.setBackground(Color.WHITE);
-		panel_7.setBounds(10, 293, 1100, 60);
+		panel_7.setBounds(10, 351, 1100, 60);
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
 		
@@ -447,7 +429,7 @@ public class UI_NhaCungCap extends JFrame {
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBackground(Color.WHITE);
-		panel_8.setBounds(1134, 293, 358, 60);
+		panel_8.setBounds(1134, 351, 358, 60);
 		panel_4.add(panel_8);
 		panel_8.setLayout(null);
 		
@@ -467,6 +449,18 @@ public class UI_NhaCungCap extends JFrame {
 		txtDem.setBounds(211, 18, 79, 28);
 		panel_8.add(txtDem);
 		txtDem.setColumns(10);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setBounds(0, 0, 1535, 78);
+		panel_4.add(panel_2);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("QUẢN LÝ THÔNG TIN NHÀ CUNG CẤP");
+		lblNewLabel_1_1.setForeground(new Color(184, 134, 11));
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel_1_1.setBounds(10, 88, 497, 72);
+		panel_4.add(lblNewLabel_1_1);
 		dem();
 		table = new JTable();
 	

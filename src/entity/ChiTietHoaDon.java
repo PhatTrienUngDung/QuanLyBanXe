@@ -12,6 +12,13 @@ public class ChiTietHoaDon {
 		// TODO Auto-generated constructor stub
 	}
 
+	public ChiTietHoaDon(Xe sanPham, int soLuong, double donGia) {
+		super();
+		this.sanPham = sanPham;
+		this.soLuong = soLuong;
+		this.donGia = donGia;
+	}
+
 	public ChiTietHoaDon(HoaDon hoaDon, Xe sanPham, int soLuong, double donGia) {
 		super();
 		this.hoaDon = hoaDon;

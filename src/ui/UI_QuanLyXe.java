@@ -159,14 +159,6 @@ public class UI_QuanLyXe extends JFrame {
 		
 		panel_5.add(panelXe, "name_24132246182000");
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 10, 1512, 82);
-		
-		JLabel lblNewLabel_1 = new JLabel("DANH SÁCH XE NHẬP");
-		lblNewLabel_1.setBounds(57, 0, 329, 72);
-		lblNewLabel_1.setForeground(new Color(184, 134, 11));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBounds(0, 102, 1502, 195);
 		panel_4.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -318,9 +310,6 @@ public class UI_QuanLyXe extends JFrame {
 		txtImg1.setBounds(964, 42, 170, 19);
 		txtImg1.setColumns(10);
 		panelXe.setLayout(null);
-		panelXe.add(panel_1);
-		panel_1.setLayout(null);
-		panel_1.add(lblNewLabel_1);
 		panelXe.add(panel_4);
 		panel_4.setLayout(null);
 		panel_4.add(lblNewLabel_2_4_1);
@@ -531,7 +520,7 @@ public class UI_QuanLyXe extends JFrame {
 			}
 		});
 		btnTimKiem.setIcon(new ImageIcon("img1\\search2.png"));
-		btnTimKiem.setBackground(Color.ORANGE);
+		btnTimKiem.setBackground(new Color(255,190,87));
 		btnTimKiem.setBounds(507, 27, 118, 40);
 		panel_6.add(btnTimKiem);
 		
@@ -721,6 +710,12 @@ public class UI_QuanLyXe extends JFrame {
 		btnTT.setBackground(new Color(255, 190, 87));
 		btnTT.setBounds(642, 28, 125, 36);
 		panel_7.add(btnTT);
+		
+		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ KHO XE");
+		lblNewLabel_1.setBounds(0, 0, 391, 72);
+		panelXe.add(lblNewLabel_1);
+		lblNewLabel_1.setForeground(new Color(184, 134, 11));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 		
 		JPanel panelLoai = new JPanel();
 

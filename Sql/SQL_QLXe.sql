@@ -86,6 +86,7 @@ CREATE TABLE [dbo].[HoaDon](
 	[maKhachHang] [varchar](15) NOT NULL,
 	[maNhanVien] [varchar](15) NOT NULL,
 	[ngayLapHoaDon] [date] NULL,
+	[thueVAT] [float] not null,
 PRIMARY KEY CLUSTERED 
 (
 	[maHoaDon] ASC
@@ -138,6 +139,7 @@ CREATE TABLE [dbo].[NhanVien](
 	[soDienThoai] [char](15) NULL,
 	[maChucVu] [varchar](15) NOT NULL,
 	[ngayVaoLam] [date] NULL,
+	[ngaySinh] [date] not null
 PRIMARY KEY CLUSTERED 
 (
 	[maNhanVien] ASC
@@ -282,10 +284,10 @@ INSERT INTO KhachHang values(N'KH001',N'Lê Tuấn Khang',N'312439087',N'Nam',CA
 							
 GO
 
-INSERT INTO HoaDon values(N'HD001',N'KH001',N'NV001',CAST(N'2020-4-3' AS DATE)),
-						(N'HD002',N'KH002',N'NV002',CAST(N'2020-6-14' AS DATE)),
-						(N'HD003',N'KH003',N'NV003',CAST(N'2020-1-8' AS DATE)),
-						(N'HD004',N'KH004',N'NV004',CAST(N'2020-9-26' AS DATE))
+INSERT INTO HoaDon values(N'HD001',N'KH001',N'NV001',CAST(N'2020-4-3' AS DATE),0.1),
+						(N'HD002',N'KH002',N'NV002',CAST(N'2020-6-14' AS DATE),0.1),
+						(N'HD003',N'KH003',N'NV003',CAST(N'2020-1-8' AS DATE),0.1),
+						(N'HD004',N'KH004',N'NV004',CAST(N'2020-9-26' AS DATE),0.1)
 GO
 
 INSERT INTO chiTietPhieuNhap values(N'MPN001',N'X001',20,20000000,N'Không'),
@@ -304,10 +306,10 @@ INSERT INTO ChucVu values(N'CV001',N'QuanLy'),
 			
 GO
 
-INSERT INTO NhanVien values(N'NV001',N'Bùi Thành Nam', '651452874961', N'Nam',N'448 Phan Huy ích Gò Vấp',N'thanhnam@gmail.com',N'0012467424',N'CV001',CAST(N'2016-5-3' AS DATE)),
-							(N'NV002',N'Trần Nhật Hưng', '784256341', N'Nam',N'12 Huỳnh Khương An Gò Vấp',N'Hung123@gmail.com',N'0253565748',N'CV002',CAST(N'2017-2-1' AS DATE)),
-							(N'NV003',N'Nguyễn Tứng Khang', '324947512', N'Nam',N'54 Huỳnh Khương An Gò Vấp',N'TungKhang@gmail.com',N'0111112346',N'CV002',CAST(N'2017-4-4' AS DATE)),
-							(N'NV004',N'Nguyễn Thanh Hoài', '371955531', N'Nam',N'165 Phạm Văn Đồng Gò Vấp',N'Hoaibitly@gmail.com',N'0549621564',N'CV002',CAST(N'2017-8-6' AS DATE))
+INSERT INTO NhanVien values(N'NV001',N'Bùi Thành Nam', '651452874961', N'Nam',N'448 Phan Huy ích Gò Vấp',N'thanhnam@gmail.com',N'0012467424',N'CV001',CAST(N'2016-5-3' AS DATE),CAST(N'2000-5-3' AS DATE)),
+							(N'NV002',N'Trần Nhật Hưng', '784256341', N'Nam',N'12 Huỳnh Khương An Gò Vấp',N'Hung123@gmail.com',N'0253565748',N'CV002',CAST(N'2017-2-1' AS DATE),CAST(N'2000-5-3' AS DATE)),
+							(N'NV003',N'Nguyễn Tứng Khang', '324947512', N'Nam',N'54 Huỳnh Khương An Gò Vấp',N'TungKhang@gmail.com',N'0111112346',N'CV002',CAST(N'2017-4-4' AS DATE),CAST(N'2000-5-3' AS DATE)),
+							(N'NV004',N'Nguyễn Thanh Hoài', '371955531', N'Nam',N'165 Phạm Văn Đồng Gò Vấp',N'Hoaibitly@gmail.com',N'0549621564',N'CV002',CAST(N'2017-8-6' AS DATE),CAST(N'2000-5-3' AS DATE))
 GO
 
 INSERT INTO TaiKhoan values(N'NV001',N'111111',N'Nhân Viên', N'Nhân viên thực tập'),

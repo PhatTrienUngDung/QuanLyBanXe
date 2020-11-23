@@ -55,6 +55,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.SystemColor;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.EtchedBorder;
 
 public class UI_HopDong extends JFrame {
 
@@ -122,96 +126,80 @@ public class UI_HopDong extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(10, 10, 1502, 685);
+		panel.setBackground(SystemColor.control);
+		panel.setBounds(0, 0, 1512, 695);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(240, 248, 255));
-		panel_1.setBounds(10, 10, 1482, 50);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JLabel lblQunLHp = new JLabel("Quản lý hợp đồng");
-		lblQunLHp.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblQunLHp.setBackground(new Color(255, 69, 0));
-		lblQunLHp.setBounds(539, 10, 159, 35);
-		panel_1.add(lblQunLHp);
-		
 		
 		JPanel panel_7 = new JPanel();
-		panel_7.setBackground(new Color(255, 215, 0));
-		panel_7.setBounds(10, 70, 1482, 250);
+		panel_7.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng Tin H\u1EE3p \u0110\u1ED3ng", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		panel_7.setBackground(SystemColor.control);
+		panel_7.setBounds(10, 170, 1482, 192);
 		panel.add(panel_7);
 		panel_7.setLayout(null);
 		
-		JLabel lblTTHD = new JLabel("Thông tin hợp đồng");
-		lblTTHD.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTTHD.setBounds(63, 10, 185, 24);
-		panel_7.add(lblTTHD);
-		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 36, 1462, 204);
+		panel_2.setBounds(10, 20, 1452, 166);
 		panel_7.add(panel_2);
 		panel_2.setLayout(null);
 		
 		JLabel lblmaHD = new JLabel("Mã Hợp Đồng");
-		lblmaHD.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblmaHD.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblmaHD.setBounds(10, 10, 101, 13);
 		panel_2.add(lblmaHD);
 		
 		txtmaHD = new JTextField();
-		txtmaHD.setBounds(143, 9, 134, 19);
+		txtmaHD.setBounds(121, 10, 166, 19);
 		panel_2.add(txtmaHD);
 		txtmaHD.setColumns(10);
 		
 		JLabel lbltenKH = new JLabel("Khách Hàng");
-		lbltenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbltenKH.setBounds(358, 50, 129, 18);
+		lbltenKH.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbltenKH.setBounds(10, 97, 129, 18);
 		panel_2.add(lbltenKH);
 		
 		ArrayList<KhachHang> dsKH = dao_hd.getAllKH();
 		
 		JLabel lblmaNV = new JLabel("Nhân Viên");
-		lblmaNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblmaNV.setBounds(10, 92, 101, 13);
+		lblmaNV.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblmaNV.setBounds(10, 40, 101, 13);
 		panel_2.add(lblmaNV);
 		
 		ArrayList<NhanVien> dsNV = dao_hd.getAllNV();
 		@SuppressWarnings("rawtypes")
 		JComboBox cbmaNV = new JComboBox();
-		cbmaNV.setBounds(143, 90, 134, 21);
+		cbmaNV.setBounds(121, 39, 166, 21);
 		for (NhanVien nv : dsNV) {
 			cbmaNV.addItem(nv.getTenNhanVien());
 		}
 		panel_2.add(cbmaNV);
 		
 		JLabel lblLoaiXe = new JLabel("Loại Xe");
-		lblLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblLoaiXe.setBounds(711, 50, 74, 13);
+		lblLoaiXe.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblLoaiXe.setBounds(739, 10, 74, 13);
 		panel_2.add(lblLoaiXe);
 		
 		txtloaiXe = new JTextField();
-		txtloaiXe.setBounds(843, 49, 134, 19);
+		txtloaiXe.setBounds(843, 10, 189, 19);
 		panel_2.add(txtloaiXe);
 		txtloaiXe.setColumns(10);
 		
 		
 		
 		JLabel lblMauXe = new JLabel("Màu Xe");
-		lblMauXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblMauXe.setBounds(711, 92, 94, 13);
+		lblMauXe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMauXe.setBounds(739, 40, 94, 13);
 		panel_2.add(lblMauXe);
 		
 		txtmauXe = new JTextField();
-		txtmauXe.setBounds(843, 91, 134, 19);
+		txtmauXe.setBounds(843, 40, 189, 19);
 		panel_2.add(txtmauXe);
 		txtmauXe.setColumns(10);
 		
 		JLabel lblNgayLap = new JLabel("Ngày Lập");
-		lblNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNgayLap.setBounds(1121, 96, 74, 13);
+		lblNgayLap.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNgayLap.setBounds(1120, 68, 74, 19);
 		panel_2.add(lblNgayLap);
 		
 		datengayLap= new JDateChooser();
@@ -219,22 +207,22 @@ public class UI_HopDong extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		 datengayLap.setBounds(1300, 96, 134, 19);
+		 datengayLap.setBounds(1253, 68, 183, 19);
 		panel_2.add( datengayLap);
 		
 		JLabel lblTGBH = new JLabel("Thời gian bảo hành");
-		lblTGBH.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTGBH.setBounds(1118, 132, 123, 13);
+		lblTGBH.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblTGBH.setBounds(1120, 97, 123, 19);
 		panel_2.add(lblTGBH);
 		
 		txtTGBH = new JTextField();
-		txtTGBH.setBounds(1300, 131, 134, 19);
+		txtTGBH.setBounds(1253, 99, 183, 19);
 		panel_2.add(txtTGBH);
 		txtTGBH.setColumns(10);
 		
 		JLabel lbltennXe = new JLabel("Tên Xe");
-		lbltennXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbltennXe.setBounds(707, 10, 46, 13);
+		lbltennXe.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lbltennXe.setBounds(360, 103, 56, 13);
 		panel_2.add(lbltennXe);
 		
 		ArrayList<Xe> dsXe = dao_hd.getAllXes();
@@ -323,19 +311,19 @@ public class UI_HopDong extends JFrame {
 				
 			}
 		});
-		cbtenXe.setBounds(843, 8, 134, 21);
+		cbtenXe.setBounds(478, 98, 176, 21);
 		for (Xe xe : dsXe) {
 			cbtenXe.addItem(xe.getTenXe());
 		}
 		panel_2.add(cbtenXe);
 		
 		JLabel lblCmnd = new JLabel("CMND");
-		lblCmnd.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCmnd.setBounds(358, 13, 46, 13);
+		lblCmnd.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblCmnd.setBounds(10, 72, 46, 13);
 		panel_2.add(lblCmnd);
 		
 		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(478, 92, 134, 19);
+		dateChooser.setBounds(478, 10, 176, 19);
 		panel_2.add(dateChooser);
 		
 		txtCMND = new JTextField();
@@ -391,59 +379,59 @@ public class UI_HopDong extends JFrame {
 //		Pattern pattern1 = Pattern.compile("\\d{10}");
 //		Matcher matcher1 = pattern1.matcher();
 		
-		txtCMND.setBounds(478, 10, 134, 19);
+		txtCMND.setBounds(121, 70, 166, 19);
 		panel_2.add(txtCMND);
 		txtCMND.setColumns(10);
 		
 		JLabel lblngaySinh = new JLabel("Ngày Sinh");
-		lblngaySinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblngaySinh.setBounds(358, 92, 87, 13);
+		lblngaySinh.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblngaySinh.setBounds(360, 5, 87, 23);
 		panel_2.add(lblngaySinh);
 		
 		JLabel lbldiaChi = new JLabel("Địa Chỉ");
-		lbldiaChi.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbldiaChi.setBounds(358, 129, 46, 13);
+		lbldiaChi.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbldiaChi.setBounds(360, 40, 56, 19);
 		panel_2.add(lbldiaChi);
 		
 		txtdiaChi = new JTextField();
-		txtdiaChi.setBounds(478, 131, 135, 19);
+		txtdiaChi.setBounds(478, 42, 176, 19);
 		panel_2.add(txtdiaChi);
 		txtdiaChi.setColumns(10);
 		
 		JLabel lblphanKhoi = new JLabel("Phân Khối");
-		lblphanKhoi.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblphanKhoi.setBounds(711, 132, 74, 13);
+		lblphanKhoi.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblphanKhoi.setBounds(739, 69, 74, 13);
 		panel_2.add(lblphanKhoi);
 		
 		
 		txtphanKhoi = new JTextField();
-		txtphanKhoi.setBounds(843, 131, 134, 19);
+		txtphanKhoi.setBounds(843, 69, 189, 19);
 		panel_2.add(txtphanKhoi);
 		txtphanKhoi.setColumns(10);
 		
 		JLabel lbldonGia = new JLabel("Đơn giá");
-		lbldonGia.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbldonGia.setBounds(1121, 10, 74, 13);
+		lbldonGia.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbldonGia.setBounds(1120, 10, 74, 13);
 		panel_2.add(lbldonGia);
 		
 		txtdonGia = new JTextField();
-		txtdonGia.setBounds(1300, 9, 134, 19);
+		txtdonGia.setBounds(1253, 9, 183, 19);
 		panel_2.add(txtdonGia);
 		txtdonGia.setColumns(10);
 		
 		JLabel lblsoLuong = new JLabel("Số Lượng");
-		lblsoLuong.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblsoLuong.setBounds(711, 169, 74, 13);
+		lblsoLuong.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblsoLuong.setBounds(739, 97, 74, 18);
 		panel_2.add(lblsoLuong);
 		
 		txtsoLuong = new JTextField();
-		txtsoLuong.setBounds(843, 168, 134, 19);
+		txtsoLuong.setBounds(843, 97, 189, 19);
 		panel_2.add(txtsoLuong);
 		txtsoLuong.setColumns(10);
 		
 		JLabel lbltongTien = new JLabel("Tổng Tiền");
-		lbltongTien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbltongTien.setBounds(1121, 52, 74, 13);
+		lbltongTien.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbltongTien.setBounds(1120, 40, 74, 13);
 		panel_2.add(lbltongTien);
 		
 		txttongTien = new JTextField();
@@ -471,12 +459,12 @@ public class UI_HopDong extends JFrame {
 		
 			
 		
-		txttongTien.setBounds(1300, 49, 134, 19);
+		txttongTien.setBounds(1253, 39, 183, 19);
 		panel_2.add(txttongTien);
 		txttongTien.setColumns(10);
 		
 		txtTen = new JTextField();
-		txtTen.setBounds(478, 49, 134, 19);
+		txtTen.setBounds(121, 100, 166, 19);
 		panel_2.add(txtTen);
 		txtTen.setColumns(10);
 		
@@ -519,19 +507,21 @@ public class UI_HopDong extends JFrame {
 		}
 		JScrollPane scrollPane = new JScrollPane();
 	
-		scrollPane.setBounds(10, 443, 1482, 230);
+		scrollPane.setBounds(10, 485, 1482, 200);
 		panel.add(scrollPane);
 		scrollPane.setViewportView(table);
 		
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(10, 317, 1482, 91);
+		panel_4.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Ch\u1EE9c N\u0103ng", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		panel_4.setBounds(10, 361, 1482, 89);
 		panel.add(panel_4);
-		panel_4.setBackground(new Color(255, 140, 0));
+		panel_4.setBackground(SystemColor.control);
 		panel_4.setLayout(null);
 		
 		//Thêm
 		JButton btnThem = new JButton("Thêm");
+		btnThem.setBackground(new Color(255,190,87));
 		btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -573,13 +563,14 @@ public class UI_HopDong extends JFrame {
 				
 			}
 		});
-		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
 		
-		btnThem.setBounds(742, 21, 129, 38);
+		btnThem.setBounds(739, 25, 129, 38);
 		panel_4.add(btnThem);
 		
 		JButton btnXoa = new JButton("Xóa");
+		btnXoa.setBackground(new Color(255,190,87));
 		btnXoa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -602,13 +593,14 @@ public class UI_HopDong extends JFrame {
 				}
 			}
 		});
-		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
 		
-		btnXoa.setBounds(1139, 22, 129, 37);
+		btnXoa.setBounds(1126, 24, 129, 41);
 		panel_4.add(btnXoa);
 		
 		JButton btnSua = new JButton("Sửa");
+		btnSua.setBackground(new Color(255,190,87));
 		btnSua.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -666,26 +658,28 @@ public class UI_HopDong extends JFrame {
 				
 			}
 		});
-		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnSua.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Settings-icon.png")));
 		
 		
-		btnSua.setBounds(937, 21, 129, 38);
+		btnSua.setBounds(936, 25, 129, 38);
 		panel_4.add(btnSua);
 		
 		JButton btnNew = new JButton("Làm mới");
-		btnNew.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNew.setBackground(new Color(255,190,87));
+		btnNew.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnNew.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
-		btnNew.setBounds(1343, 22, 129, 37);
+		btnNew.setBounds(1314, 25, 129, 38);
 		panel_4.add(btnNew);
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(10, 21, 669, 59);
+		panel_3.setBackground(SystemColor.control);
+		panel_3.setBounds(10, 21, 659, 58);
 		panel_4.add(panel_3);
 		panel_3.setLayout(null);
 		
 		JLabel lblNhpMHp = new JLabel("Nhập mã hợp đồng");
 		lblNhpMHp.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNhpMHp.setBounds(10, 21, 175, 13);
+		lblNhpMHp.setBounds(10, 11, 175, 13);
 		panel_3.add(lblNhpMHp);
 		
 		txtTimKiem = new JTextField();
@@ -695,26 +689,39 @@ public class UI_HopDong extends JFrame {
 				
 			}
 		});
-		txtTimKiem.setBounds(220, 20, 290, 19);
+		txtTimKiem.setBounds(220, 10, 290, 19);
 		panel_3.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 		
 		JButton btnTimKiem = new JButton("Tìm Kiếm");
-		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnTimKiem.setBounds(547, 17, 100, 21);
+		btnTimKiem.setBackground(new Color(255,190,87));
+		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnTimKiem.setBounds(537, 4, 100, 35);
 		panel_3.add(btnTimKiem);
 		dateChooser.setDateFormatString("yyy-MM-dd");
 		
 		JLabel lblsdt = new JLabel("Số Điện Thoại");
-		lblsdt.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblsdt.setBounds(358, 171, 101, 13);
+		lblsdt.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblsdt.setBounds(360, 72, 101, 19);
 		panel_2.add(lblsdt);
 		
 		txtsdt = new JTextField();
-		txtsdt.setBounds(478, 168, 134, 19);
+		txtsdt.setBounds(478, 72, 176, 19);
 		panel_2.add(txtsdt);
 		txtsdt.setColumns(10);
 		datengayLap.setDateFormatString("yyy-MM-dd");
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		panel_1.setBackground(Color.WHITE);
+		panel_1.setBounds(0, 0, 1522, 78);
+		panel.add(panel_1);
+		
+		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ THÔNG TIN HỢP ĐỒNG");
+		lblNewLabel_1.setForeground(new Color(184, 134, 11));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel_1.setBounds(10, 88, 439, 72);
+		panel.add(lblNewLabel_1);
 		
 //		JButton btnNewButton = new JButton("New button");
 //		btnNewButton.addMouseListener(new MouseAdapter() {
