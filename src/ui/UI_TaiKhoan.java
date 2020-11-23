@@ -205,6 +205,9 @@ public class UI_TaiKhoan extends JFrame {
 		table.getTableHeader().setBackground(new Color(50,205,50));
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
 		//table.getTableHeader().setForeground(Color.green);
+		//table.setShowHorizontalLines(false);
+		//table.setShowVerticalLines(false);
+		//table.setShowGrid(false);
 		
 		JPanel pSearchAccount = new JPanel();
 		pSearchAccount.setBackground(new Color(211, 211, 211));
@@ -362,13 +365,17 @@ public class UI_TaiKhoan extends JFrame {
 		btnDelete_Acc.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int row = table.getSelectedRow();				
-				String maNhanVien = table.getValueAt(row, 1).toString();
-				if(dao_tk.delete(maNhanVien)) {
-					tableModel.removeRow(row);
-				}
+				int row = table.getSelectedRow();	
+				if (row < 0)
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn Tài Khoản cần xóa!");
 				else {
-					System.out.println("Wrong!");
+					String maNhanVien = table.getValueAt(row, 1).toString();
+					if(dao_tk.delete(maNhanVien)) {
+						tableModel.removeRow(row);
+					}
+					else {
+						System.out.println("Wrong!");
+					}
 				}
 			}
 		});

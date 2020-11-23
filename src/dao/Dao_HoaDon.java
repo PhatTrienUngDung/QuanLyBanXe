@@ -1,5 +1,9 @@
 package dao;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,12 +12,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
+import entity.Xe;
 
 public class Dao_HoaDon {
 
@@ -25,32 +33,5 @@ public class Dao_HoaDon {
 		listBill = new ArrayList<HoaDon>();
 		hd = new HoaDon();
 	}
-	
-//Đọc dữ liệu lên bảng
-		public ArrayList<HoaDon> docTuBang(){
-			try {
-				Connection con = ConnectDB.getInstance().getCon();
-				String sql = "Select * from HoaDon";
-				Statement statement = con.createStatement();
-				ResultSet rs = statement.executeQuery(sql);
-				while (rs.next()) {
-					String maHoaDon;
-					KhachHang khachHang;
-					NhanVien nhanVien;
-					Date ngayLHD;
-					
-					maHoaDon = rs.getString(1);
-					khachHang = new KhachHang(rs.getString(2));
-					nhanVien = new NhanVien(rs.getString(3));
-					ngayLHD = rs.getDate(4);
-					
-					HoaDon hd = new HoaDon(maHoaDon, khachHang, nhanVien, ngayLHD);
-					listBill.add(hd);
-				}
-			}catch (SQLException e) { 
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-			return listBill;
-		}
+
 }

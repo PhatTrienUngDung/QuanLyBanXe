@@ -63,7 +63,7 @@ public class Detail extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		ArrayList<Xe> listXe= dao_qlLyXe.getInfoXe(id);
+		Xe listXe= dao_qlLyXe.getInfoXe(id);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(320, 80, 896, 681);
@@ -76,7 +76,7 @@ public class Detail extends JFrame {
 		JLabel lbImg = new JLabel();
 		lbImg.setBounds(48, 76, 348, 486);
 		BufferedImage img = null;
-		String img1= listXe.get(0).getImg1();
+		String img1= listXe.getImg1();
 		try {
 		    img = ImageIO.read(new File(img1));
 		} catch (IOException e) {
@@ -157,32 +157,32 @@ public class Detail extends JFrame {
 		lbEditten.setBounds(609, 76, 188, 14);
 		contentPane.add(lbEditten);
 		
-		lbEditten.setText(listXe.get(0).getTenXe());
+		lbEditten.setText(listXe.getTenXe());
 		
 		
 		JLabel lbEditMau = new JLabel("...");
 		lbEditMau.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbEditMau.setBounds(609, 115, 188, 19);
 		contentPane.add(lbEditMau);
-		lbEditMau.setText(listXe.get(0).getMauXe());
+		lbEditMau.setText(listXe.getMauXe());
 		
 		JLabel lbEditSl = new JLabel("...");
 		lbEditSl.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbEditSl.setBounds(609, 159, 188, 19);
 		contentPane.add(lbEditSl);
-		String sl= Integer.toString(listXe.get(0).getSoLuong());
+		String sl= Integer.toString(listXe.getSoLuong());
 		lbEditSl.setText(sl);
 		
 		JLabel lbEditPhanKhoi = new JLabel("...");
 		lbEditPhanKhoi.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbEditPhanKhoi.setBounds(609, 205, 188, 19);
 		contentPane.add(lbEditPhanKhoi);
-		String phanKhoi= Integer.toString(listXe.get(0).getPhanKhoi());
+		String phanKhoi= Integer.toString(listXe.getPhanKhoi());
 		lbEditPhanKhoi.setText(phanKhoi);
 		
-		String id1= listXe.get(0).getNhaCungCap().getMaNhaCungCap();
-		String id2=listXe.get(0).getLoaiXe().getMaLoaiXe();
-		String id3=listXe.get(0).getHangSanXuat().getMaHangSX();
+		String id1= listXe.getNhaCungCap().getMaNhaCungCap();
+		String id2=listXe.getLoaiXe().getMaLoaiXe();
+		String id3=listXe.getHangSanXuat().getMaHangSX();
 		ArrayList<LoaiXe> dsLoai= dao_qlLyXe.getAllLoaiXe(id2);
 		ArrayList<NhaCungCap> dsncc= dao_qlLyXe.getAllNCC(id1);
 		ArrayList<HangSanXuat> dshsx= dao_qlLyXe.getAllHangSX(id3);
@@ -216,32 +216,32 @@ public class Detail extends JFrame {
 		lbEditGia.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbEditGia.setBounds(609, 428, 188, 19);
 		contentPane.add(lbEditGia);
-		String gia= Double.toString(listXe.get(0).getGiaNhap());
+		String gia= Double.toString(listXe.getGiaNhap());
 		lbEditGia.setText(gia);
 		
 		JLabel lbeditNgay = new JLabel("...");
 		lbeditNgay.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbeditNgay.setBounds(609, 473, 188, 14);
 		contentPane.add(lbeditNgay);
-		lbeditNgay.setText(listXe.get(0).getNgayNhap().toString());
+		lbeditNgay.setText(listXe.getNgayNhap().toString());
 		
 		JLabel lbEditTt = new JLabel("...");
 		lbEditTt.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbEditTt.setBounds(609, 520, 188, 19);
 		contentPane.add(lbEditTt);
-		lbEditTt.setText(listXe.get(0).getTrangThai());
+		lbEditTt.setText(listXe.getTrangThai());
 		
 		JLabel lbEditChuThich = new JLabel("...");
 		lbEditChuThich.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbEditChuThich.setBounds(609, 560, 188, 19);
 		contentPane.add(lbEditChuThich);
-		lbEditChuThich.setText(listXe.get(0).getChuThich());
+		lbEditChuThich.setText(listXe.getChuThich());
 		
 		JLabel lbeditdetail = new JLabel("...");
 		lbeditdetail.setHorizontalAlignment(SwingConstants.CENTER);
 		lbeditdetail.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lbeditdetail.setBounds(172, 10, 523, 35);
-		lbeditdetail.setText("Thông tin chi tiết xe "+listXe.get(0).getTenXe());
+		lbeditdetail.setText("Thông tin chi tiết xe "+listXe.getTenXe());
 		contentPane.add(lbeditdetail);
 	}
 }

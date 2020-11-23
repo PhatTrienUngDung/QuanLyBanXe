@@ -199,7 +199,32 @@ public class Xe {
 	public void setImg3(String img3) {
 		this.img3 = img3;
 	}
+	
+	public double getDonGia() {
+		if(getGiaNhap() < 20000000)
+			return getGiaNhap() * 110 / 100;
+		else if(getGiaNhap() < 40000000)
+			return getGiaNhap() * 115 / 100;
+		else if(getGiaNhap() < 80000000)
+			return getGiaNhap() * 120 / 100;
+		else if(getGiaNhap() < 1000000000)
+			return getGiaNhap() * 125 / 100;
+		else
+			return getGiaNhap() * 130 / 100;
+	}
 
+	public double getThueVAT() {
+		if(getGiaNhap() < 20000000)
+			return getGiaNhap() * 5 / 100;
+		else if(getGiaNhap() < 40000000)
+			return getGiaNhap() * 8 / 100;
+		else if(getGiaNhap() < 60000000)
+			return getGiaNhap() * 10 / 100;
+		else if(getGiaNhap() < 100000000)
+			return getGiaNhap() * 0.12;
+		else
+			return getGiaNhap() * 15 / 100;
+	}
 	@Override
 	public String toString() {
 		return "Xe [maXe=" + maXe + ", tenXe=" + tenXe + ", mauXe=" + mauXe + ", phanKhoi=" + phanKhoi + ", soLuong="

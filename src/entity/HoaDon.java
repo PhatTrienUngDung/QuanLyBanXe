@@ -9,6 +9,7 @@ public class HoaDon {
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
 	private Date ngayLapHoaDon;
+	private double thueVAT;
 	
 	public HoaDon() {
 		super();
@@ -20,12 +21,13 @@ public class HoaDon {
 		this.maHoaDon = maHoaDon;
 	}
 
-	public HoaDon(String maHoaDon, KhachHang khachHang, NhanVien nhanVien, Date ngayLapHoaDon) {
+	public HoaDon(String maHoaDon, KhachHang khachHang, NhanVien nhanVien, Date ngayLapHoaDon, double thueVAT) {
 		super();
 		this.maHoaDon = maHoaDon;
 		this.khachHang = khachHang;
 		this.nhanVien = nhanVien;
 		this.ngayLapHoaDon = ngayLapHoaDon;
+		this.thueVAT = thueVAT;
 	}
 
 	public String getMaHoaDon() {
@@ -60,11 +62,21 @@ public class HoaDon {
 		this.ngayLapHoaDon = ngayLapHoaDon;
 	}
 
+	public double getThueVAT() {
+		return thueVAT;
+	}
+
+	public void setThueVAT(double thueVAT) {
+		this.thueVAT = thueVAT;
+	}
+
 	@Override
 	public String toString() {
 		return "HoaDon [maHoaDon=" + maHoaDon + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien
-				+ ", ngayLapHoaDon=" + ngayLapHoaDon + "]";
+				+ ", ngayLapHoaDon=" + ngayLapHoaDon + ", thueVAT=" + thueVAT + "]";
 	}
+
+	
 	
 	
 }

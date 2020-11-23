@@ -23,23 +23,41 @@ public class Dao_KhachHang {
 	public Dao_KhachHang() {
 		list_CMND = new ArrayList<String>();
 	}
-		public ArrayList<String> getListCMND(){
-			try {
-				Connection con = ConnectDB.getInstance().getCon();
-				String sql = "Select CMND from KhachHang";
-				Statement statement = con.createStatement();
-				ResultSet rs = statement.executeQuery(sql);
-				while (rs.next()) {
-					String CMND;
-					CMND = rs.getString(1);
-					list_CMND.add(CMND);
-				}
-			}catch (SQLException e) { 
-				// TODO: handle exception
-				e.printStackTrace();
+	public ArrayList<String> getListCMND(){
+		try {
+			Connection con = ConnectDB.getInstance().getCon();
+			String sql = "Select CMND from KhachHang";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String CMND;
+				CMND = rs.getString(1);
+				list_CMND.add(CMND);
 			}
-			return list_CMND;
+		}catch (SQLException e) { 
+			// TODO: handle exception
+			e.printStackTrace();
 		}
+		return list_CMND;
+	}
+	
+	public KhachHang getKhachHangById(String cmnd) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select * from KhachHang where CMND = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, cmnd);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				KhachHang khachHang = new KhachHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getDate(5),rs.getString(6),rs.getString(7),rs.getString(8), rs.getString(9));
+				return khachHang;	
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
+	}
 //Đọc dữ liệu lên bảng
 	public DefaultTableModel getAllKH() throws SQLException {
 		String[] header= {"Mã Khách Hàng","Tên Khách Hàng", "Giới Tính", "Ngày Sinh", "Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};

@@ -1,6 +1,10 @@
 package dao;
 
+import java.awt.Image;
 import java.awt.TextField;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,7 +14,10 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -215,8 +222,9 @@ public class Dao_QuanLyXe {
 		return dsLoaiXe;
 	}
 //Lấy thông tin xe 
-	public ArrayList<Xe> getInfoXe(String id){
-		ArrayList<Xe> dsXe=new ArrayList<Xe>();
+	public Xe getInfoXe(String id){
+		//ArrayList<Xe> dsXe=new ArrayList<Xe>();
+		Xe xe = new Xe();
 		try {
 			ConnectDB.getInstance();
 			Connection con= ConnectDB.getCon();
@@ -240,14 +248,14 @@ public class Dao_QuanLyXe {
 				String img1= rs.getString(13);
 				String img2= rs.getString(14);
 				String img3= rs.getString(15);
-				Xe xe = new Xe(maXe, tenXe, mauXe, phanKhoi, soLuong, giaNhap, new LoaiXe(loaiXe), new NhaCungCap(maNcc), new HangSanXuat(maHangSX),ngay, trangThai, chuThich, img1, img2, img3);
-				dsXe.add(xe);
+				xe = new Xe(maXe, tenXe, mauXe, phanKhoi, soLuong, giaNhap, new LoaiXe(loaiXe), new NhaCungCap(maNcc), new HangSanXuat(maHangSX),ngay, trangThai, chuThich, img1, img2, img3);
+				//dsXe.add(xe);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return dsXe;
+		return xe;
 	}
 //Hiển thị danh sách xe
 	public DefaultTableModel getAllXe() throws SQLException {
@@ -369,5 +377,23 @@ public class Dao_QuanLyXe {
 				tableModel.addRow(o);
 			}
 			return tableModel;
+		}
+		
+		public boolean getImage(JLabel label, String ID) {
+			BufferedImage img = null;
+			Xe xe_i = getInfoXe(ID);
+			if (xe_i.getImg1().equalsIgnoreCase(""))
+				return false;
+			String img1= xe_i.getImg1();
+			try {
+			    img = ImageIO.read(new File(img1));
+			} catch (IOException e1) {
+			    e1.printStackTrace();
+			}
+			Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),
+			        Image.SCALE_SMOOTH);
+			ImageIcon imageIcon = new ImageIcon(dimg);
+			label.setIcon(imageIcon);
+			return true;
 		}
 }
