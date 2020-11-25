@@ -29,6 +29,8 @@ import java.sql.SQLClientInfoException;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.UIManager;
 import javax.swing.JTextArea;
@@ -37,6 +39,7 @@ import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import dao.Dao_HoaDon;
 import dao.Dao_NhaCungCap;
 import entity.NhaCungCap;
 
@@ -67,8 +70,9 @@ public class UI_NhaCungCap extends JFrame {
 	private JTextField txtDem;
 	private DefaultTableModel tableModel;
 	private JTextField txtSDT;
+	private JTextArea txtChuThich;
 	private Dao_NhaCungCap dao_ncc= new Dao_NhaCungCap();
-
+	private ArrayList<String> tenncc;
 	/**
 	 * Launch the application.
 	 */
@@ -108,7 +112,7 @@ public class UI_NhaCungCap extends JFrame {
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(SystemColor.control);
-		panel_4.setBounds(10, 10, 1534, 767);
+		panel_4.setBounds(10, 10, 1600, 767);
 		contentPane.add(panel_4);
 		panel_4.setLayout(null);
 		
@@ -144,8 +148,17 @@ public class UI_NhaCungCap extends JFrame {
 		panel_3.add(lblNewLabel_1);
 		lblNewLabel_1.setForeground(Color.DARK_GRAY);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		
+		Dao_HoaDon dao_hd = new Dao_HoaDon();
+		String maHDTail = dao_hd.getMaHDTail("maNhaCungCap", "NhaCungCap");
+		String[] parts = maHDTail.split("_");
+		int soHD = Integer.parseInt(parts[1]) + 1;
+		String maKH = "NCC_" + String.format("%04d", soHD);
+		
 		txtMaNCC = new JTextField();
 		txtMaNCC.setBounds(146, 11, 294, 19);
+		txtMaNCC.setText(maKH);
+		txtMaNCC.setEditable(false);
 		panel_3.add(txtMaNCC);
 		txtMaNCC.setColumns(10);
 		
@@ -176,7 +189,7 @@ public class UI_NhaCungCap extends JFrame {
 		lblaCh.setForeground(Color.DARK_GRAY);
 		lblaCh.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		JTextArea txtChuThich = new JTextArea();
+		 txtChuThich = new JTextArea();
 		txtChuThich.setBounds(704, 76, 294, 35);
 		panel_3.add(txtChuThich);
 		txtChuThich.setToolTipText("");
@@ -217,6 +230,8 @@ public class UI_NhaCungCap extends JFrame {
 		panel_2_1.add(lblNewLabel_2_1);
 		
 		JButton btnThem = new JButton("Th\u00EAm");
+		
+		// ham them
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -226,22 +241,37 @@ public class UI_NhaCungCap extends JFrame {
 		btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try {
-					String ma= txtMaNCC.getText();
-					String ten=txtTenNCC.getText();
-					String diachi=txtDiaChi.getText();
-					String email= txtEmail.getText();
-					String sodt= txtSDT.getText();
-					String chuThich=txtChuThich.getText();
-					NhaCungCap ncc= new NhaCungCap(ma, ten, diachi, chuThich, sodt, email);
-					tableModel.addRow(new Object[] {ncc.getMaNhaCungCap(),ncc.getTenNhaCungCap(),ncc.getDiaChi(),ncc.getEmail(),ncc.getSoDienThoai(),ncc.getChuThich()});
-					dao_ncc.themNCC(ncc);
-					JFrame f= new JFrame();
-					JOptionPane.showMessageDialog(f, "ThÃªm thÃ nh cÃ´ng !!!");
-					dem();
-				} catch (Exception s) {
-					s.getMessage();
-				}
+			  if(validData() && XetTenNCC(txtTenNCC.getText())==false) {
+				  
+						String ma= txtMaNCC.getText();
+						String ten=txtTenNCC.getText();
+						String diachi=txtDiaChi.getText();
+						String email= txtEmail.getText();
+						String sodt= txtSDT.getText();
+						String chuThich=txtChuThich.getText();
+						NhaCungCap ncc= new NhaCungCap(ma, ten, diachi, chuThich, sodt, email);
+						if(dao_ncc.themNCC(ncc)) {
+							String maHDTail = dao_hd.getMaHDTail("maNhaCungCap", "NhaCungCap");
+				    		String[] parts = maHDTail.split("_");
+				    		int soHD = Integer.parseInt(parts[1]) + 1;
+				    		String maKH = "KH_" + String.format("%04d", soHD);
+				    		JFrame f= new JFrame();
+				    		JOptionPane.showMessageDialog(f, "Thêm hãng sản xuất thành công !!!");
+				    		txtMaNCC.setText("");
+							txtTenNCC.setText("");
+							txtDiaChi.setText("");
+							txtEmail.setText("");
+							txtSDT.setText("");
+							txtChuThich.setText("");
+							txtTenNCC.requestFocus();
+				    		tableModel.addRow(new Object[] {ncc.getMaNhaCungCap(),ncc.getTenNhaCungCap(),ncc.getDiaChi(),ncc.getEmail(),ncc.getSoDienThoai(),ncc.getChuThich()});
+				    		dem();
+						}	
+				
+			  }else {
+				  JOptionPane.showMessageDialog(null, "Đã trùng tên nhà cung cấp");
+			  }
+				
 				
 			}
 		});
@@ -256,6 +286,8 @@ public class UI_NhaCungCap extends JFrame {
 		JButton btnXoa = new JButton("X\u00F3a");
 		btnXoa.setIcon(new ImageIcon("G:\\HKI-Nam 3\\PTUD\\QuanLyBanXe\\branches\\Develop\\img1\\Close-2-icon.png"));
 		
+		
+		// ham xoa
 		btnXoa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -283,37 +315,52 @@ public class UI_NhaCungCap extends JFrame {
 		panel_1.add(btnXoa);
 		
 		JButton btnCapNhat = new JButton("C\u1EADp nh\u1EADt");
+		
+		//ham cap nhat
 		btnCapNhat.setIcon(new ImageIcon("img1/update.png"));
 		btnCapNhat.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row=table_1.getSelectedRow();
-				try {
-					if(row!=-1) {
-						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "NhÃ  cung cáº¥p nÃ y sáº½ Ä‘Æ°á»£c cáº­p nháº­t","ChÃº Ã½",JOptionPane.YES_NO_OPTION);
-						if(hoi==JOptionPane.YES_OPTION) {
-							String ma= txtMaNCC.getText();
-							String ten=txtTenNCC.getText();
-							String diachi=txtDiaChi.getText();
-							String email= txtEmail.getText();
-							String sodt= txtSDT.getText();
-							String chuThich=txtChuThich.getText();
-							NhaCungCap ncc= new NhaCungCap(ma, ten, diachi, chuThich, sodt, email);
-							dao_ncc.update(ncc);
-							try {
-								loadNCC();
-							} catch (Exception e2) {
-								// TODO: handle exception
-								e2.printStackTrace();
+			 if(validData()) {
+				 try {
+						if(row!=-1) {
+							JFrame f= new JFrame();
+							int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp sẽ được cập nhật","",JOptionPane.YES_NO_OPTION);
+							if(hoi==JOptionPane.YES_OPTION) {
+								String ma= txtMaNCC.getText();
+								String ten=txtTenNCC.getText();
+								String diachi=txtDiaChi.getText();
+								String email= txtEmail.getText();
+								String sodt= txtSDT.getText();
+								String chuThich=txtChuThich.getText();
+								NhaCungCap ncc= new NhaCungCap(ma, ten, diachi, chuThich, sodt, email);
+								if(dao_ncc.update(ncc)) {
+									update();
+									JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!");
+								}
+								txtMaNCC.setText("");
+								txtTenNCC.setText("");
+								txtDiaChi.setText("");
+								txtEmail.setText("");
+								txtSDT.setText("");
+								txtChuThich.setText("");
+								txtTenNCC.requestFocus();
+								try {
+									loadNCC();
+								} catch (Exception e2) {
+									// TODO: handle exception
+									e2.printStackTrace();
+								}
 							}
 						}
+						else
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp cần cập nhật");
+					} catch (Exception e2) {
+						// TODO: handle exception
 					}
-					else
-						JOptionPane.showMessageDialog(null, "Vu lÃ²ng chá»�n nhÃ  cung cáº¥p Ä‘á»ƒ xÃ³a");
-				} catch (Exception e2) {
-					// TODO: handle exception
-				}
+			 }
+				
 			}
 		});
 		btnCapNhat.setBackground(Color.ORANGE);
@@ -331,6 +378,7 @@ public class UI_NhaCungCap extends JFrame {
 				txtEmail.setText("");
 				txtSDT.setText("");
 				txtChuThich.setText("");
+				txtTenNCC.requestFocus();
 			}
 		});
 		btnXoaTrang.setBackground(Color.ORANGE);
@@ -479,7 +527,21 @@ public class UI_NhaCungCap extends JFrame {
 	private void xoaNCC() throws SQLException {
 		Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
 		dao_ncc.xoaNCC(txtMaNCC.getText());
-		loadNCC();
+		//loadNCC();
+	}
+	
+	private void update() {
+		for(int i =0 ; i<table.getRowCount();i++) {
+			if(txtMaNCC.getText().equalsIgnoreCase(table.getValueAt(i, 0).toString())) {
+				table.setValueAt(txtTenNCC.getText(),i, 1);
+				table.setValueAt(txtDiaChi.getText(),i, 2);
+				table.setValueAt(txtEmail.getText(),i, 3);
+				table.setValueAt(txtSDT.getText(),i, 4);
+				table.setValueAt(txtChuThich.getText(),i, 5);
+				
+				
+			}
+		}
 	}
 	//TÃ¬m kiáº¿m
 	private void timNCC() throws SQLException{
@@ -501,5 +563,67 @@ public class UI_NhaCungCap extends JFrame {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		
+	}
+	
+	public ArrayList<String> xettenncc() {
+		tenncc = new ArrayList<String>();
+		try {
+			Connection con = ConnectDB.getInstance().getCon();
+			String sql = "Select tenNhaCungCap from NhaCungCap";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String ten;
+				ten = rs.getString(1);
+				tenncc.add(ten);
+			}
+		}catch (SQLException e) { 
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return tenncc;
+	}
+	public boolean XetTenNCC(String ten) {
+		List<String> list = xettenncc();
+		for(String i:list) {
+			if(i.equalsIgnoreCase(ten))
+				return true;
+			
+		}
+		return false;
+	}
+	
+	
+	private boolean validData() {
+		//String mancc = txtMaNCC.getText();
+		String tenncc = txtTenNCC.getText();
+		String sodt = txtSDT.getText();
+		String email = txtEmail.getText();
+		String diaChi = txtDiaChi.getText();
+		String chuThich = txtChuThich.getText();
+		if(!(tenncc.length()>0 && tenncc.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\\\" +\\r\\n\" + \r\n" + 
+				"				\"            \\\"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\\\" +\\r\\n\" + \r\n" + 
+				"				\"            \\\"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\\\\\s/\\\\\\\\.]+$"))) {
+			JOptionPane.showMessageDialog(null, "Tên nhà cung cấp không để trống và không chứa các ký tự đặc biệt và không trùng" );
+			return false;
+		}
+		if(!(sodt.length()>0 && sodt.matches("\\d{10}"))) {
+			JOptionPane.showMessageDialog(null, "Số điện thoại không được trống và phải có 10 số" );
+			return false;
+		}
+		if(!(diaChi.length()>0 && diaChi.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\\\" +\\r\\n\" + \r\n" + 
+				"				\"            \\\"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\\\" +\\r\\n\" + \r\n" + 
+				"				\"            \\\"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\\\\\s/\\\\\\\\.,]+$"))) {
+			JOptionPane.showMessageDialog(null, "Địa chỉ không trống và không chứa kí tự đặc biệt " );
+			return false;
+		}
+		if(!( chuThich.length()>0 &&  chuThich.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\\\" +\\r\\n\" + \r\n" + 
+				"				\"            \\\"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\\\" +\\r\\n\" + \r\n" + 
+				"				\"            \\\"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\\\\\s]+$"))) {
+			JOptionPane.showMessageDialog(null, "Ghi chú không được trống và không chứa kí tự đặc biệt " );
+			return false;
+		}
+		return true;
 	}
 }

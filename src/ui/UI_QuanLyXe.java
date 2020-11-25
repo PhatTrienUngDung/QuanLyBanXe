@@ -39,6 +39,7 @@ import com.toedter.calendar.JDateChooser;
 
 import connect.ConnectDB;
 import dao.Dao_HangSanXuat;
+import dao.Dao_HoaDon;
 import dao.Dao_LoaiXe;
 import dao.Dao_NhaCungCap;
 import dao.Dao_QuanLyXe;
@@ -56,6 +57,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -113,6 +115,7 @@ public class UI_QuanLyXe extends JFrame {
 	private JTable table_hang;
 	private JTextField txtquocGia;
 	private DefaultTableModel tableModelHang;
+	private ArrayList<String> tenHang;
 	private Dao_HangSanXuat dao_hsx= new Dao_HangSanXuat();
 	/**
 	 * Launch the application.
@@ -935,7 +938,16 @@ public class UI_QuanLyXe extends JFrame {
 		lblmaHang.setBounds(0, 102, 130, 14);
 		panel_3_1.add(lblmaHang);
 		
+		
+		Dao_HoaDon dao_hd = new Dao_HoaDon();
+		//
+		String maHDTail = dao_hd.getMaHDTail("maHangSanXuat", "HangSanXuat");
+		String[] parts = maHDTail.split("_");
+		int soHD = Integer.parseInt(parts[1]) + 1;
+		String makh = "HSX_" + String.format("%04d", soHD);
 		txtmaHang = new JTextField();
+		txtmaHang.setText(makh);
+		txtmaHang.setEditable(false);
 		txtmaHang.setColumns(10);
 		txtmaHang.setBounds(134, 102, 287, 19);
 		panel_3_1.add(txtmaHang);
@@ -960,6 +972,7 @@ public class UI_QuanLyXe extends JFrame {
 		btnthemHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+			  if(validData() && xetTenHang(txttenHang.getText())==false) {
 				 try {
 			    		String maHang = txtmaHang.getText();
 			    		String tenHang = txttenHang.getText();
@@ -968,11 +981,26 @@ public class UI_QuanLyXe extends JFrame {
 			    		dao_hsx.themHSX(hsx);
 			    		JFrame f = new JFrame();
 			    		loadHSX();
+			    		Dao_HoaDon dao_hd = new Dao_HoaDon();
+			    		//
+			    		String maHDTail = dao_hd.getMaHDTail("maHangSanXuat", "HangSanXuat");
+			    		String[] parts = maHDTail.split("_");
+			    		int soHD = Integer.parseInt(parts[1]) + 1;
+			    		String makh = "HSX_" + String.format("%04d", soHD);
+			    		txtmaHang.setText(makh);
 			    		JOptionPane.showMessageDialog(f, "Thêm hãng sản xuất thành công");
+			  
+						txttenHang.setText("");
+						txtquocGia.setText("");
+						txttenHang.requestFocus();
 			    	  }catch(SQLException e1) {
 			    		  e1.getMessage();
 			    		  JOptionPane.showConfirmDialog(null, "Thêm không thành công");
 			    	  }
+			  }
+			  else {
+				  JOptionPane.showMessageDialog(null, "Tên hãng không được trùng");
+			  }
 			}
 		});
 		btnthemHang.setIcon(new ImageIcon("img1\\add.png"));
@@ -1013,31 +1041,37 @@ public class UI_QuanLyXe extends JFrame {
 		btncapNhatHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int row = table_hang.getSelectedRow();
-				try {
-					if(row !=-1) {
-						JFrame f = new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "Hãng Sản Xuất '"+txttenHang.getText()+"' sẽ được cập nhật !!!","Chú ý ",JOptionPane.YES_NO_OPTION);
-						if(hoi==JOptionPane.YES_OPTION) {
-							String maHang = txtmaHang.getText();
-							String tenHang = txttenHang.getText();
-							String quocGia = txtquocGia.getText();
-				    		HangSanXuat hsx = new HangSanXuat(maHang,tenHang,quocGia);
-				    		dao_hsx.update(hsx);
-				    		loadHSX();
-				    		JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!");
-				    		try {
-				    			loadHSX();
-				    		}catch(Exception e2) {
-				    			e2.printStackTrace();
-				    		}
+			 if(validData()) {
+				 int row = table_hang.getSelectedRow();
+					try {
+						if(row !=-1) {
+							JFrame f = new JFrame();
+							int hoi=JOptionPane.showConfirmDialog(f, "Hãng Sản Xuất '"+txttenHang.getText()+"' sẽ được cập nhật !!!","Chú ý ",JOptionPane.YES_NO_OPTION);
+							if(hoi==JOptionPane.YES_OPTION) {
+								String maHang = txtmaHang.getText();
+								String tenHang = txttenHang.getText();
+								String quocGia = txtquocGia.getText();
+					    		HangSanXuat hsx = new HangSanXuat(maHang,tenHang,quocGia);
+					    		dao_hsx.update(hsx);
+					    		loadHSX();
+					    		JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!"); 		
+								txttenHang.setText("");
+								txtquocGia.setText("");
+								txttenHang.requestFocus();
+					    		try {
+					    			loadHSX();
+					    		}catch(Exception e2) {
+					    			e2.printStackTrace();
+					    		}
+							}
 						}
+						else
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần cập nhật");
+					}catch(Exception e2) {
+						e2.printStackTrace();
 					}
-					else
-						JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần cập nhật");
-				}catch(Exception e2) {
-					e2.printStackTrace();
-				}
+			 }
+				
 			}
 		});
 		btncapNhatHang.setIcon(new ImageIcon("img1\\update.png"));
@@ -1052,7 +1086,7 @@ public class UI_QuanLyXe extends JFrame {
 				txtmaHang.setText("");
 				txttenHang.setText("");
 				txtquocGia.setText("");
-				txtmaHang.requestFocus();
+				txttenHang.requestFocus();
 			}
 		});
 		btnlamMoiHang.setIcon(new ImageIcon("img1\\refresh.png"));
@@ -1074,21 +1108,25 @@ public class UI_QuanLyXe extends JFrame {
 		txttimHang = new JTextField();
 		txttimHang.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyPressed(KeyEvent arg0) {
+				
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {
 				if(txttimHang.getText().length()==0) {
 					try {
 						loadHSX();
-					} catch (SQLException e1) {
+					} catch (SQLException e) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						e.printStackTrace();
 					}
 				}
 				if(txttimHang.getText().length()>0) {
 					try {
 						timHangSanXuat();
-					} catch (SQLException e1) {
+					} catch (SQLException e) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						e.printStackTrace();
 					}
 				}
 			}
@@ -1327,6 +1365,50 @@ public class UI_QuanLyXe extends JFrame {
 			dao_hsx = new Dao_HangSanXuat();
 			tableModelHang = dao_hsx.timKiem("%"+txttimHang.getText()+"%");
 			table_hang.setModel(tableModelHang);
+		}
+		private boolean validData() {
+			//String maHang = txtmaHang.getText();
+			String tenHang = txttenHang.getText();
+			String quocGia = txtquocGia.getText();
+			if(!(tenHang.length()>0 && tenHang.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
+					"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
+					"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$"))) {
+				JOptionPane.showMessageDialog(null, "Tên hãng không trống và không chứa kí tự đặc biệt " );
+				return false;
+			}
+			if(!(quocGia.length()>0 && quocGia.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
+					"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
+					"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$"))) {
+				JOptionPane.showMessageDialog(null, "Quốc gia không trống và không chứa kí tự đặc biệt " );
+				return false;
+			}
+			return true;
+		}
+		public ArrayList<String> xettenHang() {
+			tenHang = new ArrayList<String>();
+			try {
+				Connection con = ConnectDB.getInstance().getCon();
+				String sql = "Select tenHangSanXuat from HangSanXuat";
+				Statement statement = con.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+				while (rs.next()) {
+					String ten;
+					ten = rs.getString(1);
+					tenHang.add(ten);
+				}
+			}catch (SQLException e) { 
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return tenHang;
+		}
+		public boolean xetTenHang(String ten) {
+			List<String> list = xettenHang();
+			for(String i:list) {
+				if(i.equalsIgnoreCase(ten))
+					return true;	
+			}
+			return false;
 		}
 }
 
