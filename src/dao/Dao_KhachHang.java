@@ -60,7 +60,7 @@ public class Dao_KhachHang {
 	}
 //Đọc dữ liệu lên bảng
 	public DefaultTableModel getAllKH() throws SQLException {
-		String[] header= {"Mã Khách Hàng","Tên Khách Hàng", "Giới Tính", "Ngày Sinh", "Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};
+		String[] header= {"Mã Khách Hàng","Tên Khách Hàng","cmnd" ,"Giới Tính", "Ngày Sinh", "Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
@@ -68,7 +68,7 @@ public class Dao_KhachHang {
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
 		while (rs.next()) {
-			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7),rs.getString(8)};
+			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9)};
 			tableModel.addRow(o);
 		}
 		return tableModel;
@@ -76,15 +76,15 @@ public class Dao_KhachHang {
 	
 	//Tìm
 	public DefaultTableModel timKiem(String maKh) throws SQLException {
-		String[] header= {"Mã Khách Hàng", "Tên Khách Hàng", "Giới Tính", "Ngày Sinh","Địa Chỉ","Email","Số Điện Thoại","Chú Thích"};
+		String[] header= {"Mã Khách Hàng", "Tên Khách Hàng","CMND" ,"Giới Tính", "Ngày Sinh","Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
-		String sql = "select *from KhachHang where maKhachHang='" + maKh + "'";
+		String sql = "select * from KhachHang where maKhachHang='" + maKh + "'";
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
 		while (rs.next()) {
-			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8)};
+			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9)};
 			tableModel.addRow(o);
 		}
 		return tableModel;
@@ -100,12 +100,13 @@ public class Dao_KhachHang {
 			stmt = con.prepareStatement("insert into KhachHang values(?,?,?,?,?,?,?,?,?)");
 			stmt.setString(1, kh.getMaKhachHang());
 			stmt.setString(2, kh.getTenKhachHang());
-			stmt.setString(3, kh.getGioiTinh());
-			stmt.setDate(4, (Date) kh.getNgaySinh());
-			stmt.setString(5, kh.getDiaChi());
-			stmt.setString(6, kh.getEmail());
-			stmt.setString(7, kh.getSoDienThoai());
-			stmt.setString(8, kh.getChuThich());
+			stmt.setString(3, kh.getCMND());
+			stmt.setString(4, kh.getGioiTinh());
+			stmt.setDate(5, (Date) kh.getNgaySinh());
+			stmt.setString(6, kh.getDiaChi());
+			stmt.setString(7, kh.getEmail());
+			stmt.setString(8, kh.getSoDienThoai());
+			stmt.setString(9, kh.getChuThich());
 			
 			
 			n = stmt.executeUpdate();
@@ -123,10 +124,10 @@ public class Dao_KhachHang {
 	//xóa
 	public void xoaKH(String maKH) throws SQLException {
 		Connection a = ConnectDB.getCon();// Tao Ket Noi
-		String sql = "delete nhanVien where maKhachHang='" + maKH + "'";
+		String sql = "delete KhachHang where maKhachHang='" + maKH + "'";
 		PreparedStatement pstm = a.prepareStatement(sql);
 		if (pstm.executeUpdate() > 0) {
-			JOptionPane.showMessageDialog(null, "Xóa thành công nhân viên " + maKH);
+			JOptionPane.showMessageDialog(null, "Xóa thành công khách hàng " + maKH);
 		}
 	}
 	
@@ -137,17 +138,19 @@ public class Dao_KhachHang {
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			
+			//"Mã Khách Hàng", "Tên Khách Hàng", "Giới Tính", "Ngày Sinh","Địa Chỉ","Email","Số Điện Thoại","Chú Thích"							
 			stmt = con.prepareStatement(
-					"update nhanVien set maNhanVien=?,tenNhanVien=?,diaChi=?,email=?,soDienThoai=?,gioiTinh=?,maChucVu=?,ngayVaoLam=? where maNhanVien=?");
+					"update KhachHang set maKhachHang=?,tenKhachHang=?,cmnd=?,gioiTinh=?,ngaySinh=?,diaChi=?,email=?,sodienThoai=?,chuThich=? where maKhachHang=?");
 			stmt.setString(1, kh.getMaKhachHang());
 			stmt.setString(2, kh.getTenKhachHang());
-			stmt.setString(3, kh.getGioiTinh());
-			stmt.setDate(4, (Date) kh.getNgaySinh());
-			stmt.setString(5, kh.getDiaChi());
-			stmt.setString(6, kh.getEmail());
-			stmt.setString(7, kh.getSoDienThoai());
-			stmt.setString(8, kh.getChuThich());
+			stmt.setString(3, kh.getCMND());
+			stmt.setString(4, kh.getGioiTinh());
+			stmt.setDate(5, (Date) kh.getNgaySinh());
+			stmt.setString(6, kh.getDiaChi());
+			stmt.setString(7, kh.getEmail());
+			stmt.setString(8, kh.getSoDienThoai());
+			stmt.setString(9, kh.getChuThich());
+			stmt.setString(10, kh.getMaKhachHang());
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
