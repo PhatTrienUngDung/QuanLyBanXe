@@ -42,6 +42,7 @@ import connect.ConnectDB;
 import dao.Dao_NhanVien;
 import dao.Dao_TaiKhoan;
 import entity.TaiKhoan;
+import entity.NhanVien;
 
 import javax.swing.JScrollPane;
 import java.awt.TextArea;
@@ -319,7 +320,7 @@ public class UI_TaiKhoan extends JFrame {
 		
 		txtEmployeeNum_Acc.addKeyListener(new KeyAdapter() {
 			public boolean isNumeric(String str) {
-				  return str.matches("^[N][V]\\d+");  //match a number with optional '-' and decimal. "-?\\d+(\\.\\d+)?"
+				  return str.matches("^[N][V]_\\d+");  //match a number with optional '-' and decimal. "-?\\d+(\\.\\d+)?"
 				}
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -350,6 +351,8 @@ public class UI_TaiKhoan extends JFrame {
 			}
 		});
 		
+		// Thêm Tài Khoản
+		
 		btnAdd_Acc.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -359,7 +362,7 @@ public class UI_TaiKhoan extends JFrame {
 					matKhau = "123456";
 				String quyen = cbbQuyen.getSelectedItem().toString();
 				String chuThich = txtChuThich.getText();
-				TaiKhoan taiKhoan = new TaiKhoan(new entity.NhanVien(maNhanVien), matKhau, quyen, chuThich);
+				TaiKhoan taiKhoan = new TaiKhoan(new NhanVien(maNhanVien), matKhau, quyen, chuThich);
 				String tenNhanVien = txtEmployeeName_Acc.getText();
 				int stt = dao_tk.docTuBang().size();
 				try {
@@ -376,6 +379,8 @@ public class UI_TaiKhoan extends JFrame {
 			}
 		});
 		
+		
+		//Xóa tài khoản
 		btnDelete_Acc.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -393,6 +398,8 @@ public class UI_TaiKhoan extends JFrame {
 				}
 			}
 		});
+		
+		//Tìm kiếm
 		
 		txtSearch_Acc.addKeyListener(new KeyAdapter() {
 			@Override

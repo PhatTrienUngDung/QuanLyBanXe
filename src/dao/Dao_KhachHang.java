@@ -41,12 +41,12 @@ public class Dao_KhachHang {
 		return list_CMND;
 	}
 	
-	public KhachHang getKhachHangById(String cmnd) {
+	public KhachHang getKhachHangById(String properties, String ID) {
 		Connection con = ConnectDB.getCon();
-		String sql = "select * from KhachHang where CMND = ?";
+		String sql = "select * from KhachHang where " + properties + " = ?";
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, cmnd);
+			pst.setString(1, ID);
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()) {
 				KhachHang khachHang = new KhachHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getDate(5),rs.getString(6),rs.getString(7),rs.getString(8), rs.getString(9));

@@ -20,9 +20,11 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import entity.ChiTietHoaDon;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
+import entity.TaiKhoan;
 import entity.Xe;
 
 public class Dao_HoaDon {
@@ -53,5 +55,41 @@ public class Dao_HoaDon {
 		}
 		return null;
 	}
+	
+	public boolean createHD (HoaDon hd) {
+		Connection con = ConnectDB.getInstance().getCon();
+		PreparedStatement stmt = null;
+		int n= 0;
+		try {
+			stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?)");
+			stmt.setString(1, hd.getMaHoaDon());
+			stmt.setString(2, hd.getKhachHang().getMaKhachHang());
+			stmt.setString(3, hd.getNhanVien().getMaNhanVien());
+			stmt.setDate(4, hd.getNgayLapHoaDon());
+			n=stmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+				return n > 0;
+	}
+	
+	public boolean createCTHD (ChiTietHoaDon cthd) {
+		Connection con = ConnectDB.getInstance().getCon();
+		PreparedStatement stmt = null;
+		int n= 0;
+		try {
+			stmt = con.prepareStatement("insert into ChiTietHoaDon values (?,?,?,?,?)");
+			stmt.setString(1, cthd.getHoaDon().getMaHoaDon());
+			stmt.setString(2, cthd.getSanPham().getMaXe());
+			stmt.setInt(3, cthd.getSoLuong());
+			stmt.setDouble(4, cthd.getDonGia());
+			stmt.setDouble(5, cthd.getThueVAT());
+			n=stmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+				return n > 0;
+	}
+	
 
 }

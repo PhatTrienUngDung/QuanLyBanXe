@@ -1,15 +1,16 @@
 package entity;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.sql.Date;
 
 public class HoaDon {
-
+	
 	private String maHoaDon;
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
 	private Date ngayLapHoaDon;
-	private double thueVAT;
+
+	//private 
 	
 	public HoaDon() {
 		super();
@@ -21,13 +22,12 @@ public class HoaDon {
 		this.maHoaDon = maHoaDon;
 	}
 
-	public HoaDon(String maHoaDon, KhachHang khachHang, NhanVien nhanVien, Date ngayLapHoaDon, double thueVAT) {
+	public HoaDon(String maHoaDon, KhachHang khachHang, NhanVien nhanVien, Date ngayLapHoaDon) {
 		super();
 		this.maHoaDon = maHoaDon;
 		this.khachHang = khachHang;
 		this.nhanVien = nhanVien;
 		this.ngayLapHoaDon = ngayLapHoaDon;
-		this.thueVAT = thueVAT;
 	}
 
 	public String getMaHoaDon() {
@@ -62,21 +62,13 @@ public class HoaDon {
 		this.ngayLapHoaDon = ngayLapHoaDon;
 	}
 
-	public double getThueVAT() {
-		return thueVAT;
-	}
 
-	public void setThueVAT(double thueVAT) {
-		this.thueVAT = thueVAT;
-	}
 
 	@Override
 	public String toString() {
 		return "HoaDon [maHoaDon=" + maHoaDon + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien
-				+ ", ngayLapHoaDon=" + ngayLapHoaDon + ", thueVAT=" + thueVAT + "]";
+				+ ", ngayLapHoaDon=" + ngayLapHoaDon + "]";
 	}
 
-	
-	
 	
 }

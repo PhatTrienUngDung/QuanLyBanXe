@@ -32,6 +32,7 @@ import dao.Dao_NhaCungCap;
 import dao.Dao_NhanVien;
 import dao.Dao_QuanLyXe;
 import dao.Dao_TaiKhoan;
+import entity.KhachHang;
 import entity.NhaCungCap;
 import entity.Xe;
 
@@ -66,6 +67,8 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import java.awt.SystemColor;
+import java.awt.TextArea;
+
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
@@ -73,8 +76,19 @@ import javax.swing.border.EtchedBorder;
 public class UI_HoaDon extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
+	public static JTable table;
 	public static TextField txtTotal = new TextField();
+	public static TextField txtBillNum;
+	public static String maKhachHang;
+	public static TextField txtEmployeeNum_Bill;
+	public static TextField txtDateBill;
+	public static double thueVAT;
+	public static DefaultTableModel tableModel;
+	public static TextField txtCMND_Bill;
+    public static TextField txtNumPhone_Bill;
+    public static TextField txtCustomerName_Bill;
+    public static JTextArea txtNoteCustomer_Bill;
+    
 
 	/**
 	 * Launch the application.
@@ -141,7 +155,7 @@ public class UI_HoaDon extends JFrame {
 		lblCustomerNum_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
 		pCustomerInfo_Bill.add(lblCustomerNum_Bill);
 		
-		TextField txtCMND_Bill = new TextField();
+		txtCMND_Bill = new TextField();
 		txtCMND_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtCMND_Bill.setBounds(100, 10, 250, 21);
 		pCustomerInfo_Bill.add(txtCMND_Bill);
@@ -151,7 +165,7 @@ public class UI_HoaDon extends JFrame {
 		lblNumPhone_Bill.setBounds(10, 41, 45, 21);
 		pCustomerInfo_Bill.add(lblNumPhone_Bill);
 		
-		TextField txtNumPhone_Bill = new TextField();
+		txtNumPhone_Bill = new TextField();
 		txtNumPhone_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtNumPhone_Bill.setBounds(100, 39, 250, 21);
 		pCustomerInfo_Bill.add(txtNumPhone_Bill);
@@ -161,7 +175,7 @@ public class UI_HoaDon extends JFrame {
 		lblCustomerName_Bill.setBounds(405, 12, 128, 21);
 		pCustomerInfo_Bill.add(lblCustomerName_Bill);
 		
-		TextField txtCustomerName_Bill = new TextField();
+		txtCustomerName_Bill = new TextField();
 		txtCustomerName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtCustomerName_Bill.setBounds(570, 10, 310, 21);
 		pCustomerInfo_Bill.add(txtCustomerName_Bill);
@@ -171,7 +185,7 @@ public class UI_HoaDon extends JFrame {
 		lblNote_Bill.setBounds(405, 43, 87, 21);
 		pCustomerInfo_Bill.add(lblNote_Bill);
 		
-		JTextArea txtNoteCustomer_Bill = new JTextArea();
+		txtNoteCustomer_Bill = new JTextArea();
 		txtNoteCustomer_Bill.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtNoteCustomer_Bill.setBounds(570, 41, 310, 23);
 		pCustomerInfo_Bill.add(txtNoteCustomer_Bill);
@@ -194,9 +208,9 @@ public class UI_HoaDon extends JFrame {
 		lblEmployee_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
 		pEmployeeInfo_Bill.add(lblEmployee_Bill);	
 		
-		TextField txtEmployeeNum_Bill = new TextField();
+		txtEmployeeNum_Bill = new TextField();
 		txtEmployeeNum_Bill.setEnabled(false);
-		//txtEmployeeNum_Bill.setText(Login.txtuser.getText());
+		txtEmployeeNum_Bill.setText(Login.txtuser.getText());
 		txtEmployeeNum_Bill.setBackground(Color.WHITE);
 		txtEmployeeNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtEmployeeNum_Bill.setBounds(140, 10, 168, 21);
@@ -224,7 +238,7 @@ public class UI_HoaDon extends JFrame {
 		int soHD = Integer.parseInt(parts[1]) + 1;
 		String maHD = "HD_" + String.format("%04d", soHD);
 		
-		TextField txtBillNum = new TextField();
+		txtBillNum = new TextField();
 		txtBillNum.setText(maHD);
 		txtBillNum.setBackground(Color.WHITE);
 		txtBillNum.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -238,7 +252,7 @@ public class UI_HoaDon extends JFrame {
 		lblBillDate.setBounds(320, 45, 86, 21);
 		pEmployeeInfo_Bill.add(lblBillDate);
 		
-		TextField txtDateBill = new TextField();
+		txtDateBill = new TextField();
 		txtDateBill.setEditable(false);
 		txtDateBill.setEnabled(false);
 		txtDateBill.setBackground(Color.WHITE);
@@ -348,7 +362,7 @@ public class UI_HoaDon extends JFrame {
 		table = new JTable();
 		scrollPane_1.setViewportView(table);
 		String[] header = {"Mã Xe", "Tên Xe", "Màu xe", "Phân Khối", "Hãng Sản Xuất", "Số Lượng", "Đơn Giá", "Thuế VAT", "Thành tiền"};
-		DefaultTableModel tableModel = new DefaultTableModel(header, 0){
+		tableModel = new DefaultTableModel(header, 0){
 	       @Override
 	       public boolean isCellEditable(int i, int i1) {
 	           return false; //To change body of generated methods, choose Tools | Templates.
@@ -459,7 +473,9 @@ public class UI_HoaDon extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
 		        {
-		           
+		           txtCustomerName_Bill.setText("");
+		           txtNumPhone_Bill.setText("");
+		           txtNoteCustomer_Bill.setText("");
 		        }
 		        else
 		        {   
@@ -673,7 +689,8 @@ public class UI_HoaDon extends JFrame {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn Khách Hàng!");
 					return false;
 				}					
-				else if(dao_kh.getKhachHangById(txtCMND_Bill.getText()) == null) {
+				else if(dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()) == null) {
+					KhachHang kh = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText());
 					JOptionPane.showMessageDialog(null, "Thông tin Khách Hàng không hợp lệ!");
 					return false;
 				}				
@@ -681,6 +698,10 @@ public class UI_HoaDon extends JFrame {
 					JOptionPane.showMessageDialog(null, "Chưa có sản phẩm");
 					return false;
 				}
+				if(txtCMND_Bill.getText().length()==0) 
+					maKhachHang = "";
+				else
+					maKhachHang = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()).getMaKhachHang();
 				return true;
 			}
 			@Override
