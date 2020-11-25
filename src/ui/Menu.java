@@ -96,7 +96,7 @@ public class Menu extends JFrame {
 		ui_TaiKhoan= new UI_TaiKhoan();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(100, 100, screen.width, screen.height);
-		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new CardLayout(0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
