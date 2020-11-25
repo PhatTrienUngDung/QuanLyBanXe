@@ -42,7 +42,7 @@ public class Dao_QuanLyXe {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, maXe);
 			ResultSet rs = pst.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
 				return rs.getInt(1);
 			}
 		} catch (SQLException e1) {

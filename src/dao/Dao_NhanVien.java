@@ -26,6 +26,24 @@ public class Dao_NhanVien {
 		list_MaNV = new ArrayList<String>();
 	}
 	
+	public String getTenNhanVienById(String ID) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select tenNhanVien from NhanVien where maNhanVien = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, ID);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				String tenNhanVien = rs.getString(1);
+				return tenNhanVien;
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
+	}
+	
 	public ArrayList<String> getListMaNV(){	
 		try {
 			Connection con = ConnectDB.getInstance().getCon();

@@ -11,7 +11,7 @@ public class TaiKhoan {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public TaiKhoan(NhanVien nhanVien, String matKhau, String quyen, String chuThich) {
 		super();
 		this.nhanVien = nhanVien;

@@ -16,6 +16,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import connect.ConnectDB;
+import dao.Dao_TaiKhoan;
+import entity.TaiKhoan;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -24,7 +29,7 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
-
+import java.sql.SQLException;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -48,7 +53,7 @@ public class Login extends JFrame {
 	private JPanel panelpass;
 	private JLabel imageuser;
 	private JLabel imagepass;
-	private JTextField txtuser;
+	public static JTextField txtuser;
 	private JPasswordField txtpass;
 	private JLabel lblxoauser,lblxoapass;
 	/**
@@ -73,8 +78,15 @@ public class Login extends JFrame {
 	 */
 //	
 	public Login() throws InterruptedException {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		Dao_TaiKhoan dao_tk = new Dao_TaiKhoan();
 		setBounds(-10, 0, 1430, 660);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -157,11 +169,19 @@ public class Login extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				String username = txtuser.getText();
 				String password = txtpass.getText();
-				if(username.contains("NV001") && password.contains("123")) {
-					txtuser.setText("");
-					txtpass.setText("");
+				TaiKhoan tk = dao_tk.Login(username, password);
+				if(tk != null) {
+					//txtuser.setText("");
+					//txtpass.setText("");
 					//close();
-					Menu m = new Menu();
+					Menu m = null;
+					try {
+						m = new Menu();
+						m.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					m.setVisible(true);
 					close();
 				}
@@ -183,11 +203,19 @@ public class Login extends JFrame {
 				if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
 					String username = txtuser.getText();
 					String password = txtpass.getText();
-					if(username.contains("NV001") && password.contains("123")) {
-						txtuser.setText("");
-						txtpass.setText("");
+					TaiKhoan tk = dao_tk.Login(username, password);
+					if(tk != null) {
+						//txtuser.setText("");
+						//txtpass.setText("");
 						//close();
-						Menu m = new Menu();
+						Menu m = null;
+						try {
+							m = new Menu();
+							m.setExtendedState(JFrame.MAXIMIZED_BOTH);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						m.setVisible(true);
 						close();
 					}

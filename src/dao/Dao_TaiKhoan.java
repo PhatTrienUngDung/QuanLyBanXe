@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
@@ -27,7 +28,24 @@ public class Dao_TaiKhoan {
 		listTaiKhoan = new ArrayList<TaiKhoan>();
 		tk = new TaiKhoan();
 	}
-	
+	public TaiKhoan Login(String username, String password) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select * from TaiKhoan where maNhanVien = ? and matKhau = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, username);
+			pst.setString(2, password);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				TaiKhoan tk = new TaiKhoan(new NhanVien(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4));
+				return tk;
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
+	}
 	//Đọc dữ liệu lên bảng
 		public ArrayList<TaiKhoan> docTuBang(){
 			try {
