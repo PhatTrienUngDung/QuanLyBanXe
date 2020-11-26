@@ -211,7 +211,7 @@ public class UI_HoaDon extends JFrame {
 		
 		txtEmployeeNum_Bill = new TextField();
 		txtEmployeeNum_Bill.setEditable(false);
-		txtEmployeeNum_Bill.setText(Login.txtuser.getText());
+		//txtEmployeeNum_Bill.setText(Login.txtuser.getText());
 		txtEmployeeNum_Bill.setBackground(Color.WHITE);
 		txtEmployeeNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtEmployeeNum_Bill.setBounds(140, 10, 168, 21);

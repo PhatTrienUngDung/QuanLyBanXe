@@ -140,7 +140,7 @@ public class UI_HopDong extends JFrame {
 		panel_7.setLayout(null);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 20, 1452, 166);
+		panel_2.setBounds(10, 10, 1452, 176);
 		panel_7.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -188,7 +188,7 @@ public class UI_HopDong extends JFrame {
 		
 		
 		JLabel lblMauXe = new JLabel("Màu Xe");
-		lblMauXe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMauXe.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblMauXe.setBounds(739, 40, 94, 13);
 		panel_2.add(lblMauXe);
 		
@@ -679,7 +679,7 @@ public class UI_HopDong extends JFrame {
 		
 		JLabel lblNhpMHp = new JLabel("Nhập mã hợp đồng");
 		lblNhpMHp.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNhpMHp.setBounds(10, 11, 175, 13);
+		lblNhpMHp.setBounds(10, 11, 175, 18);
 		panel_3.add(lblNhpMHp);
 		
 		txtTimKiem = new JTextField();

@@ -7,11 +7,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,6 +33,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JOptionPane;
@@ -52,6 +55,7 @@ import entity.Xe;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -71,6 +75,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -80,6 +85,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
+import javax.swing.border.TitledBorder;
 
 public class UI_QuanLyXe extends JFrame {
 
@@ -94,13 +100,11 @@ public class UI_QuanLyXe extends JFrame {
 	private JTextField txtSoLuong;
 	private JTextField txtPhanKhoi;
 	private JTextField txtGiaNhap;
-	private JTextField txtImg3;
 	private JTextField txtImg2;
 	private JTextField txtImg1;
 	private JTextField txtTrangThai;
 	private JTable table;
 	private JTextField txtTim;
-	private JTextField txtDem;
 	private DefaultTableModel tableModel;
 	private DefaultTableModel tableModelLoai;
 	private Dao_QuanLyXe dao_qlXe= new Dao_QuanLyXe();
@@ -117,6 +121,7 @@ public class UI_QuanLyXe extends JFrame {
 	private DefaultTableModel tableModelHang;
 	private ArrayList<String> tenHang;
 	private Dao_HangSanXuat dao_hsx= new Dao_HangSanXuat();
+	private JTextField txtPhienBan;
 	/**
 	 * Launch the application.
 	 */
@@ -163,52 +168,52 @@ public class UI_QuanLyXe extends JFrame {
 		panel_5.add(panelXe, "name_24132246182000");
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(0, 102, 1502, 195);
-		panel_4.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_4.setBounds(0, 101, 1502, 195);
+		panel_4.setBorder(new TitledBorder(null, "Th\u00F4ng tin xe", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		JLabel lblNewLabel_2_4_1 = new JLabel("Mã Xe");
-		lblNewLabel_2_4_1.setBounds(10, 13, 130, 14);
-		lblNewLabel_2_4_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbMaXe = new JLabel("Mã Xe");
+		lbMaXe.setBounds(10, 26, 130, 14);
+		lbMaXe.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		txtMa = new JTextField();
-		txtMa.setBounds(144, 11, 208, 19);
+		txtMa.setBounds(144, 24, 208, 19);
 		txtMa.setColumns(10);
 		
-		JLabel lblNewLabel_2_4_1_1 = new JLabel("Tên xe");
-		lblNewLabel_2_4_1_1.setBounds(10, 40, 130, 14);
-		lblNewLabel_2_4_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbTenXe = new JLabel("Tên xe");
+		lbTenXe.setBounds(10, 53, 130, 14);
+		lbTenXe.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		txtTen = new JTextField();
-		txtTen.setBounds(144, 40, 208, 19);
+		txtTen.setBounds(144, 53, 208, 19);
 		txtTen.setColumns(10);
 		
-		JLabel lblNewLabel_2_4_1_1_1 = new JLabel("Màu xe");
-		lblNewLabel_2_4_1_1_1.setBounds(10, 69, 130, 19);
-		lblNewLabel_2_4_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbMau = new JLabel("Màu xe");
+		lbMau.setBounds(10, 82, 130, 19);
+		lbMau.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		txtMau = new JTextField();
-		txtMau.setBounds(144, 69, 208, 19);
+		txtMau.setBounds(144, 82, 208, 19);
 		txtMau.setColumns(10);
 		
 		txtSoLuong = new JTextField();
-		txtSoLuong.setBounds(144, 98, 208, 19);
+		txtSoLuong.setBounds(144, 111, 208, 19);
 		txtSoLuong.setColumns(10);
 		
-		JLabel lblNewLabel_2_4_1_1_1_1 = new JLabel("Số lượng");
-		lblNewLabel_2_4_1_1_1_1.setBounds(10, 98, 130, 19);
-		lblNewLabel_2_4_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbSoLuong = new JLabel("Số lượng");
+		lbSoLuong.setBounds(10, 111, 130, 19);
+		lbSoLuong.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		txtPhanKhoi = new JTextField();
-		txtPhanKhoi.setBounds(144, 127, 208, 19);
+		txtPhanKhoi.setBounds(144, 140, 208, 19);
 		txtPhanKhoi.setColumns(10);
 		
-		JLabel lblNewLabel_2_4_1_1_1_2 = new JLabel("Phân khối");
-		lblNewLabel_2_4_1_1_1_2.setBounds(10, 127, 130, 19);
-		lblNewLabel_2_4_1_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbPhanKhoi = new JLabel("Phân khối");
+		lbPhanKhoi.setBounds(10, 140, 130, 19);
+		lbPhanKhoi.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		JLabel lblNewLabel_2_4_1_2 = new JLabel("Nhà cung cấp");
-		lblNewLabel_2_4_1_2.setBounds(417, 11, 88, 19);
-		lblNewLabel_2_4_1_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbNhaCungCap = new JLabel("Nhà cung cấp");
+		lbNhaCungCap.setBounds(417, 24, 88, 19);
+		lbNhaCungCap.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		ArrayList<NhaCungCap> listNCC= dao_qlXe.getAllNCC();
 		@SuppressWarnings("rawtypes")
@@ -234,219 +239,188 @@ public class UI_QuanLyXe extends JFrame {
 			}
 		});
 		
-		cbNhaCC.setBounds(557, 13, 206, 19);
+		cbNhaCC.setBounds(557, 26, 206, 19);
 		cbNhaCC.setEditable(true);
 		/*for (NhaCungCap nhaCungCap : listNCC) {
 			cbNhaCC.addItem(nhaCungCap.getTenNhaCungCap());
 		}*/
 		
-		JLabel lblNewLabel_2_4_1_2_1 = new JLabel("Hãng sản xuất");
-		lblNewLabel_2_4_1_2_1.setBounds(417, 43, 130, 19);
-		lblNewLabel_2_4_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbHang = new JLabel("Hãng sản xuất");
+		lbHang.setBounds(417, 56, 130, 19);
+		lbHang.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 			ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
 			@SuppressWarnings("rawtypes")
 		JComboBox cbHangSx = new JComboBox();
-		cbHangSx.setBounds(557, 42, 206, 19);
+		cbHangSx.setBounds(557, 55, 206, 19);
 		cbHangSx.setEditable(true);
 		for (HangSanXuat hangSanXuat : listHang) {
 			cbHangSx.addItem(hangSanXuat.getTenHangSX());
 		}
 		
-		JLabel lblNewLabel_2_4_1_2_2 = new JLabel("Loại xe");
-		lblNewLabel_2_4_1_2_2.setBounds(417, 73, 130, 19);
-		lblNewLabel_2_4_1_2_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbLoai = new JLabel("Loại xe");
+		lbLoai.setBounds(417, 86, 130, 19);
+		lbLoai.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		ArrayList<LoaiXe> dsLoai= dao_qlXe.getAllLoaiXe();
 		@SuppressWarnings("rawtypes")
 		JComboBox cbLoaiXe = new JComboBox();
-		cbLoaiXe.setBounds(557, 72, 206, 19);
+		cbLoaiXe.setBounds(557, 85, 206, 19);
 		cbLoaiXe.setEditable(true);
 		for (LoaiXe loaiXe : dsLoai) {
 			cbLoaiXe.addItem(loaiXe.getTenLoaiXe());
 		}
 		
 		txtGiaNhap = new JTextField();
-		txtGiaNhap.setBounds(557, 102, 206, 19);
+		txtGiaNhap.setBounds(557, 115, 206, 19);
 		txtGiaNhap.setColumns(10);
 		
-		JLabel lblNewLabel_2_4_1_2_2_2 = new JLabel("Giá nhập");
-		lblNewLabel_2_4_1_2_2_2.setBounds(417, 102, 130, 19);
-		lblNewLabel_2_4_1_2_2_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbGia = new JLabel("Giá nhập");
+		lbGia.setBounds(417, 115, 130, 19);
+		lbGia.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		JLabel lblNewLabel_2_4_1_2_2_2_1 = new JLabel("Trạng thái");
-		lblNewLabel_2_4_1_2_2_2_1.setBounds(830, 9, 130, 19);
-		lblNewLabel_2_4_1_2_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbTrangThai = new JLabel("Trạng thái");
+		lbTrangThai.setBounds(828, 24, 130, 19);
+		lbTrangThai.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		JLabel lblNewLabel_2_4_1_4 = new JLabel("Ngày nhập");
-		lblNewLabel_2_4_1_4.setBounds(417, 131, 130, 14);
-		lblNewLabel_2_4_1_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbNgay = new JLabel("Ngày nhập");
+		lbNgay.setBounds(417, 144, 130, 14);
+		lbNgay.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		JLabel lblNewLabel_2_4_1_1_3 = new JLabel("Hình ảnh 1");
-		lblNewLabel_2_4_1_1_3.setBounds(830, 42, 130, 14);
-		lblNewLabel_2_4_1_1_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbHinhAnh1 = new JLabel("Hình ảnh 1");
+		lbHinhAnh1.setBounds(828, 80, 130, 14);
+		lbHinhAnh1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		JLabel lblNewLabel_2_4_1_1_1_4 = new JLabel("Hình ảnh 2");
-		lblNewLabel_2_4_1_1_1_4.setBounds(830, 71, 130, 19);
-		lblNewLabel_2_4_1_1_1_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabel lbHinhAnh2 = new JLabel("Hình ảnh 2");
+		lbHinhAnh2.setBounds(828, 113, 130, 19);
+		lbHinhAnh2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		JLabel lblNewLabel_2_4_1_1_1_1_2 = new JLabel("Hình ảnh 3");
-		lblNewLabel_2_4_1_1_1_1_2.setBounds(830, 100, 130, 19);
-		lblNewLabel_2_4_1_1_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		JLabel lblNewLabel_2_4_1_1_1_2_2 = new JLabel("Chú thích");
-		lblNewLabel_2_4_1_1_1_2_2.setBounds(830, 129, 130, 19);
-		lblNewLabel_2_4_1_1_1_2_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		txtImg3 = new JTextField();
-		txtImg3.setEditable(false);
-		txtImg3.setBounds(964, 100, 170, 19);
-		txtImg3.setColumns(10);
+		JLabel lbChuThich = new JLabel("Chú thích");
+		lbChuThich.setBounds(828, 144, 130, 19);
+		lbChuThich.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		txtImg2 = new JTextField();
 		txtImg2.setEditable(false);
-		txtImg2.setBounds(964, 71, 170, 19);
+		txtImg2.setBounds(962, 113, 170, 19);
 		txtImg2.setColumns(10);
 		
 		txtImg1 = new JTextField();
 		txtImg1.setEditable(false);
-		txtImg1.setBounds(964, 42, 170, 19);
+		txtImg1.setBounds(962, 82, 170, 19);
 		txtImg1.setColumns(10);
 		panelXe.setLayout(null);
 		panelXe.add(panel_4);
 		panel_4.setLayout(null);
-		panel_4.add(lblNewLabel_2_4_1);
+		
+		JLabel lblAnh = new JLabel("Chưa có hình ảnh");
+		lblAnh.setBackground(Color.WHITE);
+		lblAnh.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAnh.setBounds(1202, 10, 291, 175);
+		panel_4.add(lblAnh);
+		panel_4.add(lbMaXe);
 		panel_4.add(txtMa);
-		panel_4.add(lblNewLabel_2_4_1_1);
+		panel_4.add(lbTenXe);
 		panel_4.add(txtTen);
-		panel_4.add(lblNewLabel_2_4_1_1_1);
+		panel_4.add(lbMau);
 		panel_4.add(txtMau);
-		panel_4.add(lblNewLabel_2_4_1_1_1_1);
+		panel_4.add(lbSoLuong);
 		panel_4.add(txtSoLuong);
-		panel_4.add(lblNewLabel_2_4_1_1_1_2);
+		panel_4.add(lbPhanKhoi);
 		panel_4.add(txtPhanKhoi);
-		panel_4.add(lblNewLabel_2_4_1_2_2_2_1);
-		panel_4.add(lblNewLabel_2_4_1_2_2_2);
-		panel_4.add(lblNewLabel_2_4_1_2_2);
+		panel_4.add(lbTrangThai);
+		panel_4.add(lbGia);
+		panel_4.add(lbLoai);
 		panel_4.add(txtGiaNhap);
 		panel_4.add(cbLoaiXe);
-		panel_4.add(lblNewLabel_2_4_1_2_1);
+		panel_4.add(lbHang);
 		panel_4.add(cbHangSx);
-		panel_4.add(lblNewLabel_2_4_1_2);
+		panel_4.add(lbNhaCungCap);
 		panel_4.add(cbNhaCC);
-		panel_4.add(lblNewLabel_2_4_1_4);
-		panel_4.add(lblNewLabel_2_4_1_1_3);
+		panel_4.add(lbNgay);
+		panel_4.add(lbHinhAnh1);
 		panel_4.add(txtImg1);
-		panel_4.add(lblNewLabel_2_4_1_1_1_4);
+		panel_4.add(lbHinhAnh2);
 		panel_4.add(txtImg2);
-		panel_4.add(lblNewLabel_2_4_1_1_1_1_2);
-		panel_4.add(txtImg3);
-		panel_4.add(lblNewLabel_2_4_1_1_1_2_2);
+		panel_4.add(lbChuThich);
 		
 		txtTrangThai = new JTextField();
 		txtTrangThai.setEditable(false);
 		txtTrangThai.setText("Còn hàng");
 		txtTrangThai.setColumns(10);
-		txtTrangThai.setBounds(964, 11, 208, 19);
+		txtTrangThai.setBounds(962, 24, 208, 19);
 		panel_4.add(txtTrangThai);
-		
-		JPanel panel_8 = new JPanel();
-		panel_8.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_8.setBackground(new Color(231,150,36));
-		panel_8.setBounds(1219, 0, 283, 195);
-		panel_4.add(panel_8);
-		panel_8.setLayout(null);
-		
-		JLabel lblNewLabel_4 = new JLabel("Tổng Số Lượng Xe");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_4.setBounds(0, 10, 283, 37);
-		panel_8.add(lblNewLabel_4);
-		
-		txtDem = new JTextField();
-		txtDem.setFont(new Font("Tahoma", Font.BOLD, 20));
-		txtDem.setForeground(Color.BLACK);
-		txtDem.setHorizontalAlignment(SwingConstants.CENTER);
-		txtDem.setText("1");
-		txtDem.setEnabled(false);
-		txtDem.setEditable(false);
-		txtDem.setBounds(10, 52, 263, 133);
-		panel_8.add(txtDem);
-		txtDem.setColumns(10);
-		dem();
 		JTextArea txtCt = new JTextArea();
-		txtCt.setBounds(964, 134, 208, 51);
+		txtCt.setBounds(962, 149, 208, 34);
 		panel_4.add(txtCt);
-		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (InstantiationException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (IllegalAccessException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		JButton btnImg1 = new JButton("...");
 		btnImg1.setBackground(Color.LIGHT_GRAY);
 		btnImg1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
+				JFileChooser fileChooser = new JFileChooser("G:\\HKI-Nam 3\\QuanLyBanXe\\branches\\Develop\\HinhAnhXe");
 				fileChooser.setBackground(Color.gray);
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(".png .jpg", "png","jpg", "Img");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(".png .jpg","png","jpg","Img");
 				fileChooser.setFileFilter(filter);
-				
 		        int result=fileChooser.showSaveDialog(getParent());
+		        
 		        if(result==JFileChooser.APPROVE_OPTION) {
 		        	File selectFile=fileChooser.getSelectedFile();
-		        	if(selectFile==null) {
-		        		JOptionPane.showConfirmDialog(null, "Vui lòng chọn hình ảnh !!!");
-		        	}
-		        	txtImg1.setText(selectFile.getAbsolutePath());
+		        	String file =selectFile.toString();
+		        	String[] link=file.split("(?=HinhAnhXe)");
+					txtImg1.setText(link[1]);
+					BufferedImage img = null;
+					try {
+					    img = ImageIO.read(new File(txtImg1.getText()));
+					} catch (IOException e1) {
+					    e1.printStackTrace();
+					}
+					Image dimg = img.getScaledInstance(lblAnh.getWidth(), lblAnh.getHeight(),
+					        Image.SCALE_SMOOTH);
+					ImageIcon imageIcon = new ImageIcon(dimg);
+					lblAnh.setIcon(imageIcon);
 		        }
 			}
 		});
-		btnImg1.setBounds(1138, 40, 34, 22);
+		btnImg1.setBounds(1136, 80, 34, 22);
 		panel_4.add(btnImg1);
-		
 		JButton btnImg2 = new JButton("...");
 		btnImg2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setBackground(Color.gray);
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(".png .jpg", "png","jpg", "Img");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(".png ", "png", "Img");
 				fileChooser.setFileFilter(filter);
 		        int result=fileChooser.showSaveDialog(getParent());
 		        if(result==JFileChooser.APPROVE_OPTION) {
 		        	File selectFile=fileChooser.getSelectedFile();
-		        	if(selectFile==null) {
-		        		JOptionPane.showConfirmDialog(null, "Vui lòng chọn hình ảnh !!!");
-		        	}
-		        	txtImg2.setText(selectFile.getAbsolutePath());
+		        	String file =selectFile.toString();
+		        	String[] link=file.split("(?=HinhAnhXe)");
+					txtImg2.setText(link[1]);
 		        }
 			}
 		});
 		btnImg2.setBackground(Color.LIGHT_GRAY);
-		btnImg2.setBounds(1138, 67, 34, 25);
+		btnImg2.setBounds(1136, 109, 34, 25);
 		panel_4.add(btnImg2);
 		
-		JButton btnImg3 = new JButton("...");
-		btnImg3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setBackground(Color.gray);
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(".png .jpg", "png","jpg", "Img");
-				fileChooser.setFileFilter(filter);
-		        int result=fileChooser.showSaveDialog(getParent());
-		        if(result==JFileChooser.APPROVE_OPTION) {
-		        	File selectFile=fileChooser.getSelectedFile();
-		        	if(selectFile==null) {
-		        		JOptionPane.showConfirmDialog(null, "Vui lòng chọn hình ảnh !!!");
-		        	}
-		        	txtImg3.setText(selectFile.getAbsolutePath());
-		        }
-			}
-		});
-		btnImg3.setBackground(Color.LIGHT_GRAY);
-		btnImg3.setBounds(1138, 97, 34, 22);
-		panel_4.add(btnImg3);
-		
 		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setBounds(557, 127, 206, 19);
+		dateChooser_1.setBounds(557, 140, 206, 19);
 		panel_4.add(dateChooser_1);
 		dateChooser_1.setDate(Date.valueOf(LocalDate.now()));
 		String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Số lượng","Giá nhập","Ngày nhập","Trạng thái","Chú thích", "Tổng tiền"};
@@ -475,6 +449,18 @@ public class UI_QuanLyXe extends JFrame {
 				dateChooser_1.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 10).toString())));
 				txtTrangThai.setText(tableModel.getValueAt(i, 11).toString());
 				txtCt.setText(tableModel.getValueAt(i, 12).toString());
+				txtPhienBan.setText(tableModel.getValueAt(i, 14).toString());
+				txtImg1.setText(tableModel.getValueAt(i, 15).toString());
+				BufferedImage img = null;
+				try {
+				    img = ImageIO.read(new File(txtImg1.getText()));
+				} catch (IOException e1) {
+				    e1.printStackTrace();
+				}
+				Image dimg = img.getScaledInstance(lblAnh.getWidth(), lblAnh.getHeight(),
+				        Image.SCALE_SMOOTH);
+				ImageIcon imageIcon = new ImageIcon(dimg);
+				lblAnh.setIcon(imageIcon);
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -496,15 +482,10 @@ public class UI_QuanLyXe extends JFrame {
 		panel_6.add(lblNewLabel_3);
 		
 		txtTim = new JTextField();
-		txtTim.setBounds(151, 38, 321, 19);
-		panel_6.add(txtTim);
-		txtTim.setColumns(10);
-		
-		JButton btnTimKiem = new JButton("Tìm Kiếm");
-		btnTimKiem.addMouseListener(new MouseAdapter() {
+		txtTim.addKeyListener(new KeyAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(txtTim.getText().length()>0) {
+			public void keyReleased(KeyEvent e) {
+				if(txtTim.getText().length()>=1) {
 					try {
 						timXe();
 					} catch (SQLException e1) {
@@ -512,7 +493,7 @@ public class UI_QuanLyXe extends JFrame {
 						e1.printStackTrace();
 					}
 				}
-				else {
+				if(txtTim.getText().length()<1) {
 					try {
 						loadXe();
 					} catch (SQLException e1) {
@@ -522,10 +503,9 @@ public class UI_QuanLyXe extends JFrame {
 				}
 			}
 		});
-		btnTimKiem.setIcon(new ImageIcon("img1\\search2.png"));
-		btnTimKiem.setBackground(new Color(255,190,87));
-		btnTimKiem.setBounds(507, 27, 118, 40);
-		panel_6.add(btnTimKiem);
+		txtTim.setBounds(151, 38, 321, 19);
+		panel_6.add(txtTim);
+		txtTim.setColumns(10);
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBackground(new Color(231,150,36));
@@ -534,6 +514,16 @@ public class UI_QuanLyXe extends JFrame {
 		panel_7.setLayout(null);
 		JButton btnThem = new JButton("Thêm");
 		dateChooser_1.setDateFormatString("yyy-MM-dd");
+		
+		txtPhienBan = new JTextField();
+		txtPhienBan.setColumns(10);
+		txtPhienBan.setBounds(962, 51, 208, 19);
+		panel_4.add(txtPhienBan);
+		
+		JLabel lbPhienBan = new JLabel("Phiên Bản");
+		lbPhienBan.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbPhienBan.setBounds(828, 51, 130, 19);
+		panel_4.add(lbPhienBan);
 		btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -570,14 +560,13 @@ public class UI_QuanLyXe extends JFrame {
 					String chuThich=txtCt.getText();
 					String img1=txtImg1.getText();
 					String img2=txtImg2.getText();
-					String img3=txtImg3.getText();
-					Xe xe= new Xe(ma, ten, mau, phanKhoi, soLuong, giaNhap, new LoaiXe(loai), new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2, img3);
+					String phienBan=txtPhienBan.getText();
+					Xe xe= new Xe(ma, ten, new LoaiXe(loai), phienBan, mau, phanKhoi, soLuong, giaNhap, new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2);
 					//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
 					dao_qlXe.themXe(xe);
 					JFrame f= new JFrame();
 					loadXe();
 					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
-					dem();
 					
 				} catch (Exception s) {
 					s.getMessage();
@@ -604,7 +593,7 @@ public class UI_QuanLyXe extends JFrame {
 							int r= table.getSelectedRow();
 							tableModel.removeRow(r);
 							xoaXe();
-							dem();
+					
 						}
 					}
 					else
@@ -659,10 +648,13 @@ public class UI_QuanLyXe extends JFrame {
 							String chuThich=txtCt.getText();
 							String img1=txtImg1.getText();
 							String img2=txtImg2.getText();
-							String img3=txtImg3.getText();
-							Xe xe= new Xe(ma, ten, mau, phanKhoi, soLuong, giaNhap, new LoaiXe(loai), new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2, img3);
-							//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
+				
+							String phienBan=txtPhienBan.getText();
+							Xe xe= new Xe(ma, ten, new LoaiXe(loai), phienBan, mau, phanKhoi, soLuong, giaNhap, new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2);
 							
+//							Xe xe= new Xe(ma, ten, mau, phanKhoi, soLuong, giaNhap, new LoaiXe(loai), new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2, img3);
+//							//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
+//							
 							dao_qlXe.update(xe);
 							loadXe();
 							JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!");
@@ -1189,6 +1181,9 @@ public class UI_QuanLyXe extends JFrame {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
+		JLabel label = new JLabel("New label");
+		panel_5.add(label, "name_10324158553300");
 		JLabel lblquocGia = new JLabel("Quốc Gia");
 		lblquocGia.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblquocGia.setBounds(0, 176, 130, 14);
@@ -1313,21 +1308,7 @@ public class UI_QuanLyXe extends JFrame {
 			tableLoai.setModel(tableModelLoai);
 		}
 //Đếm số lượng xe 
-		public void dem() {
-			try {
-				ConnectDB.getInstance();
-				Connection con = ConnectDB.getCon();
-				String sql = "select count(maXe) from Xe ";
-				PreparedStatement pst=con.prepareStatement(sql);
-				ResultSet rs = pst.executeQuery();
-				if(rs.next()) {
-					String count=rs.getString(1);
-					txtDem.setText(count);
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}
+		
 //Xóa xe
 		private void xoaXe() throws SQLException {
 			Dao_QuanLyXe dao_qlXe = new Dao_QuanLyXe();

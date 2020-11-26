@@ -6,38 +6,28 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
-import entity.HoaDon;
-
-import javax.swing.BorderFactory;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
 import connect.ConnectDB;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.awt.CardLayout;
 import javax.swing.JSplitPane;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
+import java.awt.Font;
 
 public class Menu extends JFrame {
+	/**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = 1L;
 	private JButton btnQLKho;
 	private JButton btnQLKH;
 	private JButton btnQLNV;
@@ -55,6 +45,7 @@ public class Menu extends JFrame {
 	private UI_HopDong ui_HopDong;
 	private UI_NhanVien ui_NhanVien;
 	private UI_TaiKhoan ui_TaiKhoan;
+	private UI_ThongKe1 ui_ThongKe1;
 	private JPanel pnQuanLyKH;
 	private JPanel pnQuanLyNV;
 	private JPanel pnQLHoaDon;
@@ -62,6 +53,8 @@ public class Menu extends JFrame {
 	private JPanel pnThongKe;
 	private JButton btnTrangChu;
 	private JPanel pnTrangChu;
+	private JButton btnQuanLyTaiKhoan;
+	private JPanel pnTaiKhoan;
 	/**
 	 * Launch the application.
 	 */
@@ -87,7 +80,21 @@ public class Menu extends JFrame {
 	 * @throws SQLException 
 	 */
 	public Menu() throws SQLException {
-		super("Phần Mềm Quản Lý Bán Xe Máy Thành Nam");
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (InstantiationException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (IllegalAccessException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		ui_QuanLyXe= new UI_QuanLyXe();
 		ui_NhaCungCap = new UI_NhaCungCap();
 		ui_KhachHang= new UI_KhachHang();
@@ -95,6 +102,7 @@ public class Menu extends JFrame {
 		ui_HopDong= new UI_HopDong();
 		ui_NhanVien= new UI_NhanVien();
 		ui_TaiKhoan= new UI_TaiKhoan();
+		ui_ThongKe1= new UI_ThongKe1();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(100, 100, screen.width, screen.height);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -159,17 +167,28 @@ public class Menu extends JFrame {
 		
 		pnThongKe = new JPanel();
 		panelMain.add(pnThongKe, "name_3836959492400");
-
+		pnThongKe.setLayout(null);
+		ui_ThongKe1.setVisible(true);
+		pnThongKe.add(ui_ThongKe1.getContentPane());
+		ui_ThongKe1.setVisible(false);
 		
 		pnTrangChu = new JPanel();
 		panelMain.add(pnTrangChu, "name_3887874348900");
-
+		
+		//Giao diện quản lý tài khoản
+		pnTaiKhoan = new JPanel();
+		panelMain.add(pnTaiKhoan, "name_1832465809800");
+		pnTaiKhoan.setLayout(null);
+		ui_TaiKhoan.setVisible(true);
+		pnTaiKhoan.add(ui_TaiKhoan.getContentPane());
+		ui_TaiKhoan.setVisible(false);
 	
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(43,87,154));
 		splitPane.setLeftComponent(panel);
 		
 		btnQLKH = new JButton("Quản Lý Khách Hàng");
+		btnQLKH.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnQLKH.setForeground(Color.WHITE);
 		btnQLKH.setBorderPainted(false);
 		btnQLKH.setBackground(new Color(43, 87, 154));
@@ -194,21 +213,26 @@ public class Menu extends JFrame {
 				btnQLHoaDon.setForeground(Color.white);
 				btnTrangChu.setBackground(new Color(43, 87, 154));
 				btnTrangChu.setForeground(Color.white);
+				btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
+				btnQuanLyTaiKhoan.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				pnTaiKhoan.setVisible(false);
 				pnQuanLyKho.setVisible(false);
 				pnQLHoaDon.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
-				pnQuanLyKH.setVisible(true);
 				pnQuanLyHopDong.setVisible(false);
 				pnQuanLyNV.setVisible(false);
 				pnThongKe.setVisible(false);
 				pnTrangChu.setVisible(false);
+				pnQuanLyKH.setVisible(true);
+				
 			}
 		});
 		
 		btnQLKho = new JButton("Quản Lý Kho Hàng");
+		btnQLKho.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnQLKho.setFocusable(false);
 		btnQLKho.addMouseListener(new MouseAdapter() {
 			@Override
@@ -230,6 +254,8 @@ public class Menu extends JFrame {
 				btnQLHoaDon.setForeground(Color.white);
 				btnTrangChu.setBackground(new Color(43, 87, 154));
 				btnTrangChu.setForeground(Color.white);
+				btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
+				btnQuanLyTaiKhoan.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -239,7 +265,7 @@ public class Menu extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				pnQuanLyKho.setVisible(true);
+				pnTaiKhoan.setVisible(false);
 				pnQLHoaDon.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
 				pnQuanLyKH.setVisible(false);
@@ -247,14 +273,17 @@ public class Menu extends JFrame {
 				pnQuanLyNV.setVisible(false);
 				pnThongKe.setVisible(false);
 				pnTrangChu.setVisible(false);
+				pnQuanLyKho.setVisible(true);
 			}
 		});
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		
 		btnTrangChu = new JButton("Trang Chủ");
+		btnTrangChu.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnTrangChu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				pnTaiKhoan.setVisible(false);
 				pnQuanLyKho.setVisible(false);
 				pnQLHoaDon.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
@@ -282,7 +311,8 @@ public class Menu extends JFrame {
 				btnQLHoaDon.setForeground(Color.white);
 				btnQLNV.setBackground(new Color(43, 87, 154));
 				btnQLNV.setForeground(Color.white);
-				
+				btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
+				btnQuanLyTaiKhoan.setForeground(Color.white);
 				
 			}
 		});
@@ -299,6 +329,7 @@ public class Menu extends JFrame {
 		panel.add(btnQLKH);
 		
 		btnQLNV = new JButton("Quản Lý Nhân Viên");
+		btnQLNV.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnQLNV.setFocusable(false);
 		btnQLNV.addMouseListener(new MouseAdapter() {
 			@Override
@@ -319,17 +350,20 @@ public class Menu extends JFrame {
 				btnQuanLyNCC.setForeground(Color.white);
 				btnThongKe.setForeground(Color.white);
 				btnQLHoaDon.setForeground(Color.white);
+				btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
+				btnQuanLyTaiKhoan.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				pnTaiKhoan.setVisible(false);
 				pnQuanLyKho.setVisible(false);
 				pnQLHoaDon.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
 				pnQuanLyKH.setVisible(false);
 				pnQuanLyHopDong.setVisible(false);
-				pnQuanLyNV.setVisible(true);
 				pnThongKe.setVisible(false);
 				pnTrangChu.setVisible(false);
+				pnQuanLyNV.setVisible(true);
 			}
 		});
 		btnQLNV.setForeground(Color.WHITE);
@@ -339,6 +373,7 @@ public class Menu extends JFrame {
 		panel.add(btnQLNV);
 
 		btnQLHoaDon = new JButton("Quản Lý Hóa Đơn");
+		btnQLHoaDon.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnQLHoaDon.setFocusable(false);
 		btnQLHoaDon.addMouseListener(new MouseAdapter() {
 			@Override
@@ -359,9 +394,12 @@ public class Menu extends JFrame {
 				btnQLNV.setForeground(Color.white);
 				btnTrangChu.setBackground(new Color(43, 87, 154));
 				btnTrangChu.setForeground(Color.white);
+				btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
+				btnQuanLyTaiKhoan.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				pnTaiKhoan.setVisible(false);
 				pnQuanLyKho.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
 				pnQuanLyKH.setVisible(false);
@@ -379,6 +417,7 @@ public class Menu extends JFrame {
 		panel.add(btnQLHoaDon);
 		
 		btnQLHD = new JButton("Quản Lý Hợp Đồng");
+		btnQLHD.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnQLHD.setFocusable(false);
 		btnQLHD.addMouseListener(new MouseAdapter() {
 			@Override
@@ -399,17 +438,20 @@ public class Menu extends JFrame {
 				btnQLNV.setForeground(Color.white);
 				btnTrangChu.setBackground(new Color(43, 87, 154));
 				btnTrangChu.setForeground(Color.white);
+				btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
+				btnQuanLyTaiKhoan.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				pnTaiKhoan.setVisible(false);
 				pnQuanLyKho.setVisible(false);
 				pnQLHoaDon.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
 				pnQuanLyKH.setVisible(false);
-				pnQuanLyHopDong.setVisible(true);
 				pnQuanLyNV.setVisible(false);
 				pnThongKe.setVisible(false);
 				pnTrangChu.setVisible(false);
+				pnQuanLyHopDong.setVisible(true);
 			}
 		});
 		btnQLHD.setForeground(Color.WHITE);
@@ -418,6 +460,7 @@ public class Menu extends JFrame {
 		panel.add(btnQLHD);
 		
 		btnThongKe = new JButton("Thống Kê");
+		btnThongKe.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnThongKe.setFocusable(false);
 		btnThongKe.addMouseListener(new MouseAdapter() {
 			@Override
@@ -438,22 +481,26 @@ public class Menu extends JFrame {
 				btnQLHD.setForeground(Color.white);
 				btnTrangChu.setBackground(new Color(43, 87, 154));
 				btnTrangChu.setForeground(Color.white);
+				btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
+				btnQuanLyTaiKhoan.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				pnTaiKhoan.setVisible(false);
 				pnQuanLyKho.setVisible(false);
 				pnQLHoaDon.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
 				pnQuanLyKH.setVisible(false);
 				pnQuanLyHopDong.setVisible(false);
 				pnQuanLyNV.setVisible(false);
-				pnThongKe.setVisible(true);
 				pnTrangChu.setVisible(false);
+				pnThongKe.setVisible(true);
 			}
 		});
 		
 
 		btnQuanLyNCC = new JButton("Quản Lý Nhà Cung Cấp");
+		btnQuanLyNCC.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnQuanLyNCC.setFocusable(false);
 		btnQuanLyNCC.addMouseListener(new MouseAdapter() {
 			@Override
@@ -474,11 +521,21 @@ public class Menu extends JFrame {
 				btnQLNV.setForeground(Color.white);
 				btnTrangChu.setBackground(new Color(43, 87, 154));
 				btnTrangChu.setForeground(Color.white);
+				btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
+				btnQuanLyTaiKhoan.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				pnQuanLyNCC.setVisible(true);
+				
 				pnQuanLyKho.setVisible(false);
+				pnQLHoaDon.setVisible(false);
+				pnQuanLyKH.setVisible(false);
+				pnQuanLyHopDong.setVisible(false);
+				pnQuanLyNV.setVisible(false);
+				pnTrangChu.setVisible(false);
+				pnThongKe.setVisible(false);
+				pnQuanLyNCC.setVisible(true);
+				
 			}
 		});
 		btnQuanLyNCC.setForeground(Color.WHITE);
@@ -490,25 +547,51 @@ public class Menu extends JFrame {
 		btnThongKe.setBackground(new Color(43, 87, 154));
 		panel.add(btnThongKe);
 		
+		btnQuanLyTaiKhoan = new JButton("Quản Lý Tài Khoản");
+		btnQuanLyTaiKhoan.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnQuanLyTaiKhoan.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				btnQuanLyTaiKhoan.setBackground(Color.white);
+				btnQuanLyTaiKhoan.setForeground(Color.black);
+				btnQLHoaDon.setBackground(new Color(43, 87, 154));
+				btnQLKho.setBackground(new Color(43, 87, 154));
+				btnQLKH.setBackground(new Color(43, 87, 154));
+				btnQLHD.setBackground(new Color(43, 87, 154));
+				btnThongKe.setBackground(new Color(43, 87, 154));
+				btnQLNV.setBackground(new Color(43, 87, 154));
+				btnQLHD.setForeground(Color.white);
+				btnQLKho.setForeground(Color.white);
+				btnQLKH.setForeground(Color.white);
+				btnQLHoaDon.setForeground(Color.white);
+				btnThongKe.setForeground(Color.white);
+				btnQLNV.setForeground(Color.white);
+				btnTrangChu.setBackground(new Color(43, 87, 154));
+				btnQuanLyNCC.setForeground(Color.white);
+				btnQuanLyNCC.setBackground(new Color(43, 87, 154));
+				
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pnQuanLyKho.setVisible(false);
+				pnQLHoaDon.setVisible(false);
+				pnQuanLyKH.setVisible(false);
+				pnQuanLyHopDong.setVisible(false);
+				pnQuanLyNV.setVisible(false);
+				pnTrangChu.setVisible(false);
+				pnThongKe.setVisible(false);
+				pnQuanLyNCC.setVisible(false);
+				pnTaiKhoan.setVisible(true);
+			}
+		});
+		btnQuanLyTaiKhoan.setForeground(Color.WHITE);
+		btnQuanLyTaiKhoan.setFocusable(false);
+		btnQuanLyTaiKhoan.setBorderPainted(false);
+		btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
+		panel.add(btnQuanLyTaiKhoan);
+		
 		
 		//panel.setLayout(new UI_HoaDon().setVisible(true));
 		
-	}
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
 	}
 }

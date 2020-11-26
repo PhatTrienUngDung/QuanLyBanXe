@@ -1,6 +1,4 @@
 package entity;
-
-import java.io.ObjectInputStream.GetField;
 import java.sql.Date;
 
 public class KhachHang {

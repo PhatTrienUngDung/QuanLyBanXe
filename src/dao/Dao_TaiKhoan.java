@@ -1,13 +1,12 @@
 package dao;
 
-import java.io.ObjectInputStream.GetField;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +14,6 @@ import javax.swing.table.DefaultTableModel;
 import connect.ConnectDB;
 import entity.NhanVien;
 import entity.TaiKhoan;
-import ui.UI_TaiKhoan;
 
 public class Dao_TaiKhoan {
 	
@@ -49,7 +47,8 @@ public class Dao_TaiKhoan {
 	//Đọc dữ liệu lên bảng
 		public ArrayList<TaiKhoan> docTuBang(){
 			try {
-				Connection con = ConnectDB.getInstance().getCon();
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
 				String sql = "Select * from TaiKhoan";
 				Statement statement = con.createStatement();
 				ResultSet rs = statement.executeQuery(sql);
@@ -118,7 +117,8 @@ public class Dao_TaiKhoan {
 		}
 		
 		public boolean create (TaiKhoan tk) {
-			Connection con = ConnectDB.getInstance().getCon();
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
 			PreparedStatement stmt = null;
 			int n= 0;
 			try {
@@ -135,7 +135,8 @@ public class Dao_TaiKhoan {
 		}
 		
 		public boolean delete(String ID){
-	       Connection con= ConnectDB.getInstance().getCon();
+	       ConnectDB.getInstance();
+	       Connection con= ConnectDB.getCon();
 	       PreparedStatement stmt = null;
 	       int n=0;
 	       try{
@@ -149,7 +150,8 @@ public class Dao_TaiKhoan {
 	   }
 		
 		public boolean Update (String maNhanVien) {
-			Connection con= ConnectDB.getInstance().getCon();
+			ConnectDB.getInstance();
+			Connection con= ConnectDB.getCon();
 		    PreparedStatement stmt = null;
 		    int n = 0;
 		    try {

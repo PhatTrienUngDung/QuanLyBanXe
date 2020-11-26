@@ -1,14 +1,12 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -18,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import connect.ConnectDB;
-import dao.Dao_NhaCungCap;
 import dao.Dao_QuanLyXe;
 import entity.HangSanXuat;
 import entity.LoaiXe;
@@ -26,7 +23,6 @@ import entity.NhaCungCap;
 import entity.Xe;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import java.awt.Font;
@@ -216,7 +212,8 @@ public class Detail extends JFrame {
 		lbEditGia.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbEditGia.setBounds(609, 428, 188, 19);
 		contentPane.add(lbEditGia);
-		String gia= Double.toString(listXe.getGiaNhap());
+		DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
+		String gia= df.format(listXe.getGiaNhap());
 		lbEditGia.setText(gia);
 		
 		JLabel lbeditNgay = new JLabel("...");

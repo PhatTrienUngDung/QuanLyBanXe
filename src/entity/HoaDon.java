@@ -1,6 +1,5 @@
 package entity;
 
-import java.time.LocalDate;
 import java.sql.Date;
 
 public class HoaDon {

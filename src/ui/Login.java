@@ -9,7 +9,6 @@ package ui;
 
 
 import java.awt.EventQueue;
-import java.awt.Image;
 import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
@@ -36,7 +35,7 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.SystemColor;
+
 
 
 
@@ -44,6 +43,10 @@ import java.awt.SystemColor;
 
 public class Login extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane; 
 	private JLabel lblAnh;
 	private JLabel lbltieuDe;
@@ -168,6 +171,7 @@ public class Login extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				String username = txtuser.getText();
+				@SuppressWarnings("deprecation")
 				String password = txtpass.getText();
 				TaiKhoan tk = dao_tk.Login(username, password);
 				if(tk != null) {
@@ -202,6 +206,7 @@ public class Login extends JFrame {
 			public void keyPressed(KeyEvent evt) {
 				if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
 					String username = txtuser.getText();
+					@SuppressWarnings("deprecation")
 					String password = txtpass.getText();
 					TaiKhoan tk = dao_tk.Login(username, password);
 					if(tk != null) {
@@ -224,6 +229,7 @@ public class Login extends JFrame {
 					}
 				}
 			}
+			@SuppressWarnings("deprecation")
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(txtpass.getText().length()>0) {

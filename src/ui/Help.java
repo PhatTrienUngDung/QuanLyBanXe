@@ -1,6 +1,9 @@
 package ui;
 
 import javax.swing.*;
+
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
 import java.awt.event.*;
 import java.sql.SQLException;
 public class Help {
@@ -8,7 +11,7 @@ public class Help {
 	JFrame f = new JFrame("Menu");
 	f.setVisible(true);
 	f.setSize(500, 100);
-	f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);
+	f.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	JMenuBar menuBar = new JMenuBar();
 	f.setJMenuBar(menuBar);	
 	JMenu help = new JMenu("Help");

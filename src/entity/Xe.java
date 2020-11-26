@@ -18,7 +18,6 @@ public class Xe {
 	private String chuThich;
 	private String img1;
 	private String img2;
-	private String img3;
 	
 	public Xe(String maXe) {
 		super();
@@ -45,8 +44,7 @@ public class Xe {
 
 
 	public Xe(String maXe, String tenXe, String mauXe, int phanKhoi, int soLuong, double giaNhap, LoaiXe loaiXe,
-			NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, String trangThai, String chuThich, String img1, String img2,
-			String img3) {
+			NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, String trangThai, String chuThich, String img1, String img2) {
 		super();
 		this.maXe = maXe;
 		this.tenXe = tenXe;
@@ -61,12 +59,11 @@ public class Xe {
 		this.chuThich = chuThich;
 		this.img1 = img1;
 		this.img2 = img2;
-		this.img3 = img3;
 	}
 
 	public Xe(String maXe, String tenXe, String mauXe, int phanKhoi, int soLuong, double giaNhap, LoaiXe loaiXe,
 			NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, Date ngayNhap, String trangThai, String chuThich,
-			String img1, String img2, String img3) {
+			String img1, String img2) {
 		super();
 		this.maXe = maXe;
 		this.tenXe = tenXe;
@@ -82,13 +79,12 @@ public class Xe {
 		this.chuThich = chuThich;
 		this.img1 = img1;
 		this.img2 = img2;
-		this.img3 = img3;
 	}
 
 	//Cái này của bạn Hoài
 	public Xe(String maXe, String tenXe, LoaiXe loaiXe, String phienBan, String mauXe, int phanKhoi, int soLuong,
 			double giaNhap, NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, Date ngayNhap, String trangThai,
-			String chuThich, String img1, String img2, String img3) {
+			String chuThich, String img1, String img2) {
 		super();
 		this.maXe = maXe;
 		this.tenXe = tenXe;
@@ -105,7 +101,6 @@ public class Xe {
 		this.chuThich = chuThich;
 		this.img1 = img1;
 		this.img2 = img2;
-		this.img3 = img3;
 	}
 
 	public Xe() {
@@ -232,14 +227,6 @@ public class Xe {
 		this.img2 = img2;
 	}
 
-	public String getImg3() {
-		return img3;
-	}
-
-	public void setImg3(String img3) {
-		this.img3 = img3;
-	}
-
 	public double getDonGia() {
 		if(getGiaNhap() < 20000000)
 			return getGiaNhap() * 110 / 100;
@@ -273,7 +260,7 @@ public class Xe {
 		return "Xe [maXe=" + maXe + ", tenXe=" + tenXe + ", loaiXe=" + loaiXe + ", phienBan=" + phienBan + ", mauXe="
 				+ mauXe + ", phanKhoi=" + phanKhoi + ", soLuong=" + soLuong + ", giaNhap=" + giaNhap + ", nhaCungCap="
 				+ nhaCungCap + ", hangSanXuat=" + hangSanXuat + ", ngayNhap=" + ngayNhap + ", trangThai=" + trangThai
-				+ ", chuThich=" + chuThich + ", img1=" + img1 + ", img2=" + img2 + ", img3=" + img3 + "]";
+				+ ", chuThich=" + chuThich + ", img1=" + img1 + ", img2=" + img2 + "]";
 	}
 
 	public Xe(String ma, String ten, String mau, int phanKhoi2, int soLuong2, double giaNhap2, LoaiXe loaiXe2,

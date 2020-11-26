@@ -8,7 +8,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -51,18 +53,29 @@ import java.awt.event.MouseEvent;
 
 public class UI_ThongKe1 extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private DefaultTableModel tableModel;
+	@SuppressWarnings("unused")
 	private JTextField txtTen;
+	@SuppressWarnings("unused")
 	private JTextField txtSl;
+	@SuppressWarnings("unused")
 	private JTextField txtTongTien;
 	private JRadioButton rdThang;
 	private JRadioButton rdNgay;
 	private JRadioButton rdNam;
 	private Dao_ThongKe dao_ThongKe = new Dao_ThongKe();
 	private JTable table;
+	private DefaultCategoryDataset dcd;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbNam;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbThang;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -83,6 +96,7 @@ public class UI_ThongKe1 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public UI_ThongKe1() {
 		try {
 			ConnectDB.getInstance().connect();
@@ -148,7 +162,7 @@ public class UI_ThongKe1 extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBounds(25, 88, 314, 176);
+		panel_1.setBounds(25, 88, 337, 176);
 		
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
@@ -158,7 +172,7 @@ public class UI_ThongKe1 extends JFrame {
 		lbThongKeXeMoi.setBackground(Color.BLACK);
 		lbThongKeXeMoi.setForeground(Color.WHITE);
 		
-		lbThongKeXeMoi.setBounds(0, 0, 314, 176);
+		lbThongKeXeMoi.setBounds(0, 0, 337, 176);
 		BufferedImage img = null;
 		String imgURL= "img\\1.png";
 		try {
@@ -174,7 +188,7 @@ public class UI_ThongKe1 extends JFrame {
 		lbTKXM.setForeground(Color.WHITE);
 		lbTKXM.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbTKXM.setHorizontalAlignment(SwingConstants.CENTER);
-		lbTKXM.setBounds(10, 10, 294, 34);
+		lbTKXM.setBounds(10, 10, 317, 34);
 		panel_1.add(lbTKXM);
 		
 		JLabel lbSLXeMoi = new JLabel("...");
@@ -182,19 +196,19 @@ public class UI_ThongKe1 extends JFrame {
 		lbSLXeMoi.setForeground(Color.WHITE);
 		lbSLXeMoi.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSLXeMoi.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lbSLXeMoi.setBounds(74, 46, 167, 63);
+		lbSLXeMoi.setBounds(10, 46, 317, 63);
 		panel_1.add(lbSLXeMoi);
 		lbThongKeXeMoi.setIcon(imageIcon);
 		panel_1.add(lbThongKeXeMoi);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
-		panel_2.setBounds(409, 88, 314, 176);
+		panel_2.setBounds(409, 88, 337, 176);
 		contentPane.add(panel_2);
 		
 		//Thống kê số lượng xe bán
 		JLabel lbThongKeSoLuongXeBan = new JLabel("");
-		lbThongKeSoLuongXeBan.setBounds(0, 0, 314, 176);
+		lbThongKeSoLuongXeBan.setBounds(0, 0, 337, 176);
 		BufferedImage img1 = null;
 		String imgURL1= "img\\2.png";
 		try {
@@ -210,7 +224,7 @@ public class UI_ThongKe1 extends JFrame {
 		lbTKXB.setHorizontalAlignment(SwingConstants.CENTER);
 		lbTKXB.setForeground(Color.WHITE);
 		lbTKXB.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbTKXB.setBounds(10, 0, 294, 34);
+		lbTKXB.setBounds(0, 0, 337, 34);
 		panel_2.add(lbTKXB);
 		
 		JLabel lbSLXeBan = new JLabel("...");
@@ -218,19 +232,19 @@ public class UI_ThongKe1 extends JFrame {
 		lbSLXeBan.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSLXeBan.setForeground(Color.WHITE);
 		lbSLXeBan.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lbSLXeBan.setBounds(77, 46, 167, 63);
+		lbSLXeBan.setBounds(10, 46, 317, 63);
 		panel_2.add(lbSLXeBan);
 		lbThongKeSoLuongXeBan.setIcon(imageIcon1);
 		panel_2.add(lbThongKeSoLuongXeBan);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setLayout(null);
-		panel_3.setBounds(805, 88, 314, 176);
+		panel_3.setBounds(800, 88, 337, 176);
 		contentPane.add(panel_3);
 		
 		//Thống kê doanh thu
 		JLabel lbThongKeSoTienDaBan = new JLabel("");
-		lbThongKeSoTienDaBan.setBounds(0, 0, 314, 176);
+		lbThongKeSoTienDaBan.setBounds(0, 0, 337, 176);
 		BufferedImage img2 = null;
 		String imgURL2= "img\\3.png";
 		try {
@@ -246,26 +260,26 @@ public class UI_ThongKe1 extends JFrame {
 		lbSTDB.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSTDB.setForeground(Color.WHITE);
 		lbSTDB.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbSTDB.setBounds(10, 0, 294, 34);
+		lbSTDB.setBounds(0, 0, 337, 34);
 		panel_3.add(lbSTDB);
 		
 		JLabel lbSLTienBan = new JLabel("...");
 		lbSLTienBan.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSLTienBan.setForeground(Color.WHITE);
 		lbSLTienBan.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lbSLTienBan.setBounds(77, 46, 167, 63);
+		lbSLTienBan.setBounds(0, 47, 337, 63);
 		panel_3.add(lbSLTienBan);
 		lbThongKeSoTienDaBan.setIcon(imageIcon2);
 		panel_3.add(lbThongKeSoTienDaBan);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setLayout(null);
-		panel_4.setBounds(1200, 88, 314, 176);
+		panel_4.setBounds(1189, 88, 323, 176);
 		contentPane.add(panel_4);
 		
 		//Thống kê khách hàng 
 		JLabel lbThongKeKH = new JLabel("");
-		lbThongKeKH.setBounds(0, 0, 314, 176);
+		lbThongKeKH.setBounds(0, 0, 337, 176);
 		BufferedImage img3 = null;
 		String imgURL3= "img\\4.png";
 		try {
@@ -277,7 +291,7 @@ public class UI_ThongKe1 extends JFrame {
 		        Image.SCALE_SMOOTH);
 		ImageIcon imageIcon3 = new ImageIcon(dimg3);
 		
-		JLabel lbSLKH = new JLabel("Tổng Số Lượng Khách Hàng Mới Trong Tháng");
+		JLabel lbSLKH = new JLabel("Tổng Khách Hàng Mới Trong Tháng");
 		lbSLKH.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSLKH.setForeground(Color.WHITE);
 		lbSLKH.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -288,7 +302,7 @@ public class UI_ThongKe1 extends JFrame {
 		lbSLKhachHang.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSLKhachHang.setForeground(Color.WHITE);
 		lbSLKhachHang.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lbSLKhachHang.setBounds(77, 46, 167, 63);
+		lbSLKhachHang.setBounds(0, 46, 323, 63);
 		panel_4.add(lbSLKhachHang);
 		lbThongKeKH.setIcon(imageIcon3);
 		panel_4.add(lbThongKeKH);
@@ -296,24 +310,13 @@ public class UI_ThongKe1 extends JFrame {
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(Color.WHITE);
 		panel_5.setBounds(25, 274, 1492, 493);
-		
-		DefaultCategoryDataset dcd= new DefaultCategoryDataset();
+		//Thống kê bằng biểu đồ
+		dcd= new DefaultCategoryDataset();
 		for (int i = 1; i <= 12; i++) {
-			dcd.addValue(i*10, "Số lượng", "Tháng "+i);
+			dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, LocalDate.now().getYear()), "Số lượng Nhập", "Tháng "+i);
+			dcd.addValue(dao_ThongKe.BieuDoXeBan(i, LocalDate.now().getYear()), "Số lượng Bán", "Tháng "+i);
 		}
-		
-//		dcd.addValue(100, "Số lượng", "Tháng 2");
-//		dcd.addValue(200, "Số lượng", "Tháng 3");
-//		dcd.addValue(14, "Số lượng", "Tháng 4");
-//		dcd.addValue(16, "Số lượng", "Tháng 5");
-//		dcd.addValue(19, "Số lượng", "Tháng 6");
-//		dcd.addValue(29, "Số lượng", "Tháng 7");
-//		dcd.addValue(22, "Số lượng", "Tháng 8");
-//		dcd.addValue(26, "Số lượng", "Tháng 9");
-//		dcd.addValue(23, "Số lượng", "Tháng 10");
-//		dcd.addValue(11, "Số lượng", "Tháng 11");
-//		dcd.addValue(223, "Số lượng", "Tháng 12");
-		
+
 		JFreeChart jchart= ChartFactory.createBarChart("Thống kê số lượng xe bán", "Tháng", "Số lượng", dcd, PlotOrientation.VERTICAL, true, true, false);
 		CategoryPlot plot= jchart.getCategoryPlot();
 		jchart.setBackgroundPaint(Color.white);
@@ -362,11 +365,29 @@ public class UI_ThongKe1 extends JFrame {
 		for (int i = 2019; i <= LocalDate.now().getYear(); i++) {
 			cbNam.addItem(i);
 		}
+		cbNam.setSelectedItem(LocalDate.now().getYear());
+		//Hàm đọc số lượng
 		int t=LocalDate.now().getMonthValue();
 		int n=LocalDate.now().getYear();
-		lbSLXeMoi.setText(dao_ThongKe.SoLuongXeNhapTrongThang(t, n));
-		cbNam.setSelectedItem(LocalDate.now().getYear());
-		lbSLXeBan.setText(dao_ThongKe.SoLuongXeBanTrongThang(t, n));
+		if(dao_ThongKe.SoLuongXeNhapTrongThang(t, n)==null) {
+			lbSLXeMoi.setText("0");
+		}
+		else {
+			lbSLXeMoi.setText(dao_ThongKe.SoLuongXeNhapTrongThang(t, n));
+		}
+		if (dao_ThongKe.SoLuongXeBanTrongThang(t, n)==null) {
+			lbSLXeBan.setText("0");
+		} else {
+			lbSLXeBan.setText(dao_ThongKe.SoLuongXeBanTrongThang(t, n));
+		}
+		if (dao_ThongKe.SoLuongKhachHangTrongThang(t, n)==null) {
+			lbSLKhachHang.setText("0");
+		} else {
+			lbSLKhachHang.setText(dao_ThongKe.SoLuongKhachHangTrongThang(t, n));
+		}
+		DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
+		lbSLTienBan.setText(df.format(dao_ThongKe.TongTienTheoThang(t, n)));
+		System.out.println(df.format(dao_ThongKe.TongTienTheoNam(2020)));
 		panel_6.add(cbNam);
 		
 		JPanel panel_7 = new JPanel();
@@ -429,9 +450,6 @@ public class UI_ThongKe1 extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-		
-		
 		table.setCellSelectionEnabled(true);
 		table.setColumnSelectionAllowed(true);
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -447,17 +465,101 @@ public class UI_ThongKe1 extends JFrame {
 		renderer1.setHorizontalAlignment(SwingConstants.LEFT);
 		table.getTableHeader().setBackground(Color.white);
 		table.setBackground(Color.WHITE);
-		
+		//Bộ lọc quyền năng
 		JButton btnNewButton = new JButton("Lọc");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
+					int t1=(int) cbThang.getSelectedItem();
+					int n1=(int) cbNam.getSelectedItem();
+					DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 					if (rdThang.isSelected()) {
 						loadThongKe();
+						if(dao_ThongKe.SoLuongXeNhapTrongThang(t1, n1)==null) {
+							lbSLXeMoi.setText("0");
+						}
+						else {
+							lbSLXeMoi.setText(dao_ThongKe.SoLuongXeNhapTrongThang(t1, n1));
+						}
+						if (dao_ThongKe.SoLuongXeBanTrongThang(t1, n1)==null) {
+							lbSLXeBan.setText("0");
+						} else {
+							lbSLXeBan.setText(dao_ThongKe.SoLuongXeBanTrongThang(t1, n1));
+						}
+						if (dao_ThongKe.SoLuongKhachHangTrongThang(t1, n1)==null) {
+							lbSLKhachHang.setText("0");
+						} else {
+							lbSLKhachHang.setText(dao_ThongKe.SoLuongKhachHangTrongThang(t1, n1));
+						}
+						lbSLTienBan.setText(df.format(dao_ThongKe.TongTienTheoThang(t, n)));
+						lbTKXB.setText("Tổng Số Lượng Xe Bán Trong Tháng");
+						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Tháng");
+						lbSTDB.setText("Tổng Doanh Thu Trong Tháng");
+						lbSLKH.setText("Tổng Khách Hàng Mới Trong Tháng");
+						//Biểu đồ
+						int t2=(int) cbThang.getSelectedItem();
+						int n2=(int) cbNam.getSelectedItem();
+						Calendar calendar = Calendar.getInstance();
+						calendar.set(n2, t2, 0);
+						int maxDay =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+						System.out.println("dsa"+maxDay);
+						for (int i = 1; i <=maxDay; i++) {
+							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
+							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));
+							System.out.println(dao_ThongKe.BieuDoXeNhap(i, t2,n2));
+						}
+						for (int i = 1; i <=maxDay; i++) {
+							dcd.removeValue("Số lượng Nhập", String.valueOf(i));
+							dcd.removeValue("Số lượng Bán", String.valueOf(i));
+							dcd.removeColumn("Số lượng Nhập");
+							dcd.removeColumn("Số lượng Bán");
+						}
+						for (int i = 1; i <= 12; i++) {
+							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, n2), "Số lượng Nhập", "Tháng "+i);
+							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, n2), "Số lượng Bán", "Tháng "+i);
+						}
+						
 					}
 					if(rdNam.isSelected()) {
+						if(dao_ThongKe.SoLuongXeNhapTrongNam(n1)==null) {
+							lbSLXeMoi.setText("0");
+						}
+						else {
+							lbSLXeMoi.setText(dao_ThongKe.SoLuongXeNhapTrongNam(n1));
+						}
+						lbSLXeBan.setText(String.valueOf(dao_ThongKe.SoLuongXeBanTrongNam(n1)));
+						lbSLKhachHang.setText(String.valueOf(dao_ThongKe.SoLuongKhachHangTrongNam(n1)));				
+						lbSLTienBan.setText(df.format(dao_ThongKe.TongTienTheoNam(n)));
+						System.out.println(df.format(dao_ThongKe.TongTienTheoNam(n)));
+						lbTKXB.setText("Tổng Số Lượng Xe Bán Trong Năm");
+						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Năm");
+						lbSTDB.setText("Tổng Doanh Thu Trong Năm");
+						lbSLKH.setText("Tổng Khách Hàng Mới Trong Năm");
 						loadThongKeThang();
+					}
+					if(rdNgay.isSelected()) {
+						int t2=(int) cbThang.getSelectedItem();
+						int n2=(int) cbNam.getSelectedItem();
+						Calendar calendar = Calendar.getInstance();
+						calendar.set(n2, t2, 0);
+						int maxDay =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+						System.out.println("dsa"+maxDay);
+						for (int i = 1; i <= 12; i++) {
+							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, LocalDate.now().getYear()), "Số lượng Nhập", "Tháng "+i);
+							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, LocalDate.now().getYear()), "Số lượng Bán", "Tháng "+i);
+						}
+						for (int i = 1; i <=12; i++) {
+							dcd.removeValue("Số lượng Nhập", "Tháng "+i);
+							dcd.removeValue("Số lượng Bán", "Tháng "+i);
+							dcd.removeColumn("Số lượng Nhập");
+							dcd.removeColumn("Số lượng Bán");
+						}
+						for (int i = 1; i <=maxDay; i++) {
+							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
+							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));
+							System.out.println(dao_ThongKe.BieuDoXeNhap(i, t2,n2));
+						}
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
