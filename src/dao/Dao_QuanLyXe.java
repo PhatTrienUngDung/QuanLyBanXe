@@ -52,15 +52,11 @@ public class Dao_QuanLyXe {
 		return -1;
 	}
 	
-	public void getVehicleNum_Bill (String tenXe, String hangSanXuat, String mauXe, String nhaCungCap, TextField txtF) {
+	public void getVehicleNum_Bill (String tenXe, String version, String mauXe, String nhaCungCap, TextField txtF) {
 		Connection con = ConnectDB.getCon();
-		String sql = "select maXe from Xe, NhaCungCap, HangSanXuat where Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and Xe.maHangSanXuat = HangSanXuat.maHangSanXuat and tenXe = ? and HangSanXuat.tenHangSanXuat = ? and mauXe = ? and NhaCungCap.tenNhaCungCap = ?";
+		String sql = "SELECT DISTINCT maXe FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '"+tenXe+"' and phienBan = N'"+version+"' and mauXe = N'"+mauXe+"' and tenNhaCungCap = N'"+nhaCungCap+"'";
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, tenXe);
-			pst.setString(2, hangSanXuat);
-			pst.setString(3, mauXe);
-			pst.setString(4, nhaCungCap);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()) {
 				txtF.setText(rs.getString(1));
@@ -71,14 +67,28 @@ public class Dao_QuanLyXe {
 		}
 	}
 	
-//Đọc dữ liệu lên bảng
-	public void getListColor(String tenXe, String hangSanXuat, JComboBox comboBox){
+	public void getListVersion(String tenXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
-		String sql = "select distinct mauXe from xe, HangSanXuat where Xe.maHangSanXuat=HangSanXuat.maHangSanXuat and HangSanXuat.tenHangSanXuat = ? and tenXe = ?";
+		String sql = "SELECT DISTINCT phienBan FROM Xe WHERE tenXe = ?";
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, hangSanXuat);
-			pst.setString(2, tenXe);
+			pst.setString(1, tenXe);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				comboBox.addItem(rs.getString(1));
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+	}
+	
+//Đọc dữ liệu lên bảng
+	public void getListColor(String tenXe, String version, JComboBox comboBox){
+		Connection con = ConnectDB.getCon();
+		String sql = "SELECT DISTINCT mauXe FROM Xe where tenXe = '" + tenXe +"' and phienBan = N'" + version + "'";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()) {
 				comboBox.addItem(rs.getString(1));
@@ -236,19 +246,20 @@ public class Dao_QuanLyXe {
 				String maXe=rs.getString(1);
 				String tenXe=rs.getString(2);
 				String loaiXe= rs.getString(3);
-				String mauXe=rs.getString(4);
-				String maNcc=rs.getString(5);
-				String maHangSX=rs.getString(6);
-				int phanKhoi= rs.getInt(7);
-				int soLuong=rs.getInt(8);
-				double giaNhap=rs.getDouble(9);
-				Date ngay= rs.getDate(10);
-				String trangThai=rs.getString(11);
-				String chuThich=rs.getString(12);
-				String img1= rs.getString(13);
-				String img2= rs.getString(14);
-				String img3= rs.getString(15);
-				xe = new Xe(maXe, tenXe, mauXe, phanKhoi, soLuong, giaNhap, new LoaiXe(loaiXe), new NhaCungCap(maNcc), new HangSanXuat(maHangSX),ngay, trangThai, chuThich, img1, img2, img3);
+				String phienBan = rs.getString(4);
+				String mauXe=rs.getString(5);
+				String maNcc=rs.getString(6);
+				String maHangSX=rs.getString(7);
+				int phanKhoi= rs.getInt(8);
+				int soLuong=rs.getInt(9);
+				double giaNhap=rs.getDouble(10);
+				Date ngay= rs.getDate(11);
+				String trangThai=rs.getString(12);
+				String chuThich=rs.getString(13);
+				String img1= rs.getString(14);
+				String img2= rs.getString(15);
+				String img3= rs.getString(16);
+				xe = new Xe(maXe, tenXe, new LoaiXe(loaiXe), phienBan, mauXe, phanKhoi, soLuong, giaNhap, new NhaCungCap(maNcc), new HangSanXuat(maHangSX), ngay, trangThai, chuThich, img1, img2, img3);
 				//dsXe.add(xe);
 			}
 		} catch (Exception e) {

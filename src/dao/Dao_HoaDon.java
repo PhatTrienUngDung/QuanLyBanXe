@@ -47,7 +47,9 @@ public class Dao_HoaDon {
 			while(rs.next()) {
 				String ma;
 				ma = rs.getString(1);
-				return ma;
+				String[] parts = ma.split("_");
+				int so = Integer.parseInt(parts[1]) + 1;
+				return parts[0] + "_" + String.format("%04d", so);
 			}
 		} catch (SQLException e1) {
 			JOptionPane.showMessageDialog(null, e1);
@@ -61,11 +63,12 @@ public class Dao_HoaDon {
 		PreparedStatement stmt = null;
 		int n= 0;
 		try {
-			stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?)");
+			stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?,?)");
 			stmt.setString(1, hd.getMaHoaDon());
 			stmt.setString(2, hd.getKhachHang().getMaKhachHang());
 			stmt.setString(3, hd.getNhanVien().getMaNhanVien());
 			stmt.setDate(4, hd.getNgayLapHoaDon());
+			stmt.setDouble(5, hd.getTongTien());
 			n=stmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

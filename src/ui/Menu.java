@@ -87,6 +87,7 @@ public class Menu extends JFrame {
 	 * @throws SQLException 
 	 */
 	public Menu() throws SQLException {
+		super("Phần Mềm Quản Lý Bán Xe Máy Thành Nam");
 		ui_QuanLyXe= new UI_QuanLyXe();
 		ui_NhaCungCap = new UI_NhaCungCap();
 		ui_KhachHang= new UI_KhachHang();

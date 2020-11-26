@@ -42,14 +42,11 @@ public class Dao_NhaCungCap {
 		return null;
 	}
 	
-	public void getListSupplierName_Bill(String tenXe, String hangSanXuat, String mauXe, JComboBox comboBox) {
+	public void getListSupplierName_Bill(String tenXe, String version, String mauXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
-		String sql = "select distinct tenNhaCungCap from Xe, NhaCungCap, HangSanXuat where Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and Xe.maHangSanXuat = HangSanXuat.maHangSanXuat and Xe.tenXe = ? and tenHangSanXuat = ? and Xe.mauXe = ?";
+		String sql = "SELECT DISTINCT tenNhaCungCap FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"'";
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, tenXe);
-			pst.setString(2, hangSanXuat);
-			pst.setString(3, mauXe);
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()) {
 				comboBox.addItem(rs.getString(1));

@@ -34,6 +34,26 @@ public class Dao_HangSanXuat {
 			e1.printStackTrace();
 		}
 	}
+	
+	public HangSanXuat getHangSanXuatById(String id) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select * from HangSanXuat where maHangSanXuat = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, id);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				String tenHangSanXuat = rs.getString(2);
+				String quocGia = rs.getString(3);
+				HangSanXuat hsx = new HangSanXuat(id, tenHangSanXuat, quocGia);
+				return hsx;
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
+	}
 	//Đọc dữ liệu lên bảng
 		public DefaultTableModel getAllHSX() throws SQLException {
 			String[] header= {"Mã Hãng Sản Xuất","Tên Hãng Sản Xuất","Quốc Gia"};

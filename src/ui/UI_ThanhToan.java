@@ -247,14 +247,12 @@ public class UI_ThanhToan extends JFrame {
 				String ngay = UI_HoaDon.txtDateBill.getText();
 				Date ngayLHD = Date.valueOf(LocalDate.parse(ngay));
 
+				
 				try {
 					double tongTien = df.parse(UI_HoaDon.txtTotal.getText()).doubleValue();
-					HoaDon hd = new HoaDon(maHoaDon, new KhachHang(maKhachHang), new NhanVien(maNhanVien), ngayLHD);
+					HoaDon hd = new HoaDon(maHoaDon, new KhachHang(maKhachHang), new NhanVien(maNhanVien), ngayLHD, df.parse(txtSumTotal.getText()).doubleValue());
 					if (dao_hd.createHD(hd)) {
-						String maHDTail = dao_hd.getMaHDTail("maHoaDon", "HoaDon");
-						String[] parts = maHDTail.split("_");
-						int soHD = Integer.parseInt(parts[1]) + 1;
-						String maHD = "HD_" + String.format("%04d", soHD);
+						String maHD = dao_hd.getMaHDTail("maHoaDon", "HoaDon");
 						UI_HoaDon.txtBillNum.setText(maHD);
 					}		
 					else 
@@ -276,10 +274,10 @@ public class UI_ThanhToan extends JFrame {
 				int i;
 				for(i = 0; i<tableRowCount; i++) {
 					maXe = UI_HoaDon.table.getValueAt(i, 0).toString();
-					soLuong = Integer.parseInt(UI_HoaDon.table.getValueAt(i, 5).toString());
+					soLuong = Integer.parseInt(UI_HoaDon.table.getValueAt(i, 6).toString());
 					try {
-						donGia = df.parse(UI_HoaDon.table.getValueAt(i, 6).toString()).doubleValue();
-						thueVAT = df.parse(UI_HoaDon.table.getValueAt(i, 7).toString()).doubleValue();
+						donGia = df.parse(UI_HoaDon.table.getValueAt(i, 7).toString()).doubleValue();
+						thueVAT = df.parse(UI_HoaDon.table.getValueAt(i, 8).toString()).doubleValue();
 						cthd = new ChiTietHoaDon(new HoaDon(maHoaDon), new Xe(maXe), soLuong, donGia, thueVAT);
 						if (!dao_hd.createCTHD(cthd))
 							JOptionPane.showMessageDialog(null, "Dòng " + String.valueOf(i) + " bị lỗi!");

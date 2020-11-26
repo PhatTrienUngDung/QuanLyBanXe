@@ -254,10 +254,7 @@ public class UI_KhachHang extends JFrame {
 		panelthongTin.add(lblchuThich);
 		Dao_HoaDon dao_hd = new Dao_HoaDon();
 		//
-		String maHDTail = dao_hd.getMaHDTail("maKhachHang", "KhachHang");
-		String[] parts = maHDTail.split("_");
-		int soHD = Integer.parseInt(parts[1]) + 1;
-		String maKH = "KH_" + String.format("%04d", soHD);
+		String maKH = dao_hd.getMaHDTail("maKhachHang", "KhachHang");
 		txtmaKh = new JTextField();
 		txtmaKh.setText(maKH);
 		txtmaKh.setEditable(false);
@@ -472,12 +469,9 @@ public class UI_KhachHang extends JFrame {
 	    		KhachHang kh = new KhachHang(makH,tenkH,cmnd,gioiTinh,ngay,ngaygiaNhap,diachi,email,sodt,ghiChu);
 	    		if(dao_kh.themKH(kh))
 	    		{
-	    			String maHDTail = dao_hd.getMaHDTail("maKhachHang", "KhachHang");
-		    		String[] parts = maHDTail.split("_");
-		    		int soHD = Integer.parseInt(parts[1]) + 1;
-		    		String maKH = "KH_" + String.format("%04d", soHD);
+	    			String maKH = dao_hd.getMaHDTail("maKhachHang", "KhachHang");
 		    		JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công");
-		    		txtmaKh.setText("");
+		    		txtmaKh.setText(maKH);
 					txtchuThich.setText("");
 					txtdiaChi.setText("");
 					txtEmail.setText("");

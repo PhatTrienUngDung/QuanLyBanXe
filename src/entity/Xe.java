@@ -5,11 +5,12 @@ import java.sql.Date;
 public class Xe {
 	private String maXe;
 	private String tenXe;
+	private LoaiXe loaiXe;
+	private String phienBan;
 	private String mauXe;
 	private int phanKhoi;
 	private int soLuong;
 	private double giaNhap;
-	private LoaiXe loaiXe;
 	private NhaCungCap nhaCungCap;
 	private HangSanXuat hangSanXuat;
 	private Date ngayNhap;
@@ -19,10 +20,6 @@ public class Xe {
 	private String img2;
 	private String img3;
 	
-
-
-	
-
 	public Xe(String maXe) {
 		super();
 		this.maXe = maXe;
@@ -88,10 +85,33 @@ public class Xe {
 		this.img3 = img3;
 	}
 
+	//Cái này của bạn Hoài
+	public Xe(String maXe, String tenXe, LoaiXe loaiXe, String phienBan, String mauXe, int phanKhoi, int soLuong,
+			double giaNhap, NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, Date ngayNhap, String trangThai,
+			String chuThich, String img1, String img2, String img3) {
+		super();
+		this.maXe = maXe;
+		this.tenXe = tenXe;
+		this.loaiXe = loaiXe;
+		this.phienBan = phienBan;
+		this.mauXe = mauXe;
+		this.phanKhoi = phanKhoi;
+		this.soLuong = soLuong;
+		this.giaNhap = giaNhap;
+		this.nhaCungCap = nhaCungCap;
+		this.hangSanXuat = hangSanXuat;
+		this.ngayNhap = ngayNhap;
+		this.trangThai = trangThai;
+		this.chuThich = chuThich;
+		this.img1 = img1;
+		this.img2 = img2;
+		this.img3 = img3;
+	}
+
 	public Xe() {
 		super();
 	}
-
+	
 	public String getMaXe() {
 		return maXe;
 	}
@@ -106,6 +126,22 @@ public class Xe {
 
 	public void setTenXe(String tenXe) {
 		this.tenXe = tenXe;
+	}
+
+	public LoaiXe getLoaiXe() {
+		return loaiXe;
+	}
+
+	public void setLoaiXe(LoaiXe loaiXe) {
+		this.loaiXe = loaiXe;
+	}
+
+	public String getPhienBan() {
+		return phienBan;
+	}
+
+	public void setPhienBan(String phienBan) {
+		this.phienBan = phienBan;
 	}
 
 	public String getMauXe() {
@@ -138,14 +174,6 @@ public class Xe {
 
 	public void setGiaNhap(double giaNhap) {
 		this.giaNhap = giaNhap;
-	}
-
-	public LoaiXe getLoaiXe() {
-		return loaiXe;
-	}
-
-	public void setLoaiXe(LoaiXe loaiXe) {
-		this.loaiXe = loaiXe;
 	}
 
 	public NhaCungCap getNhaCungCap() {
@@ -211,7 +239,7 @@ public class Xe {
 	public void setImg3(String img3) {
 		this.img3 = img3;
 	}
-	
+
 	public double getDonGia() {
 		if(getGiaNhap() < 20000000)
 			return getGiaNhap() * 110 / 100;
@@ -237,15 +265,16 @@ public class Xe {
 		else
 			return getGiaNhap() * 15 / 100;
 	}
+
+
+
 	@Override
 	public String toString() {
-		return "Xe [maXe=" + maXe + ", tenXe=" + tenXe + ", mauXe=" + mauXe + ", phanKhoi=" + phanKhoi + ", soLuong="
-				+ soLuong + ", giaNhap=" + giaNhap + ", loaiXe=" + loaiXe + ", nhaCungCap=" + nhaCungCap
-				+ ", hangSanXuat=" + hangSanXuat + ", ngayNhap=" + ngayNhap + ", trangThai=" + trangThai + ", chuThich="
-				+ chuThich + ", img1=" + img1 + ", img2=" + img2 + ", img3=" + img3 + "]";
+		return "Xe [maXe=" + maXe + ", tenXe=" + tenXe + ", loaiXe=" + loaiXe + ", phienBan=" + phienBan + ", mauXe="
+				+ mauXe + ", phanKhoi=" + phanKhoi + ", soLuong=" + soLuong + ", giaNhap=" + giaNhap + ", nhaCungCap="
+				+ nhaCungCap + ", hangSanXuat=" + hangSanXuat + ", ngayNhap=" + ngayNhap + ", trangThai=" + trangThai
+				+ ", chuThich=" + chuThich + ", img1=" + img1 + ", img2=" + img2 + ", img3=" + img3 + "]";
 	}
-
-
 
 	public Xe(String ma, String ten, String mau, int phanKhoi2, int soLuong2, double giaNhap2, LoaiXe loaiXe2,
 			NhaCungCap nhaCungCap2, HangSanXuat hangSanXuat2, java.util.Date parse, String trangThai2, String chuThich2,
