@@ -31,14 +31,14 @@ public class Dao_ThongKe {
 					+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
 					+ "where MONTH(ngayLapHoaDon)="+thang+"and YEAR(ngayLapHoaDon)="+nam+"\r\n"
 					+ "group by  Xe.maXe, Xe.tenXe\r\n"
-					+ "order by sum(HoaDon.tongTien) desc\r\n"
+					+ "order by sum(chiTietHoaDon.soLuong) desc,sum(HoaDon.tongTien) desc\r\n"
 					+ "";
 			Statement statement= con.createStatement();
 			ResultSet rs= statement.executeQuery(sql);
 			
 			while(rs.next()) {
 				DecimalFormat df = new DecimalFormat("#,###,###,### VNĐ");
-					Object[] o = { rs.getString(1), rs.getString(2),df.format(rs.getString(3))};
+					Object[] o = { rs.getString(1), rs.getString(2),df.format(rs.getInt(3))};
 					tableModel.addRow(o);
 			}
 			return tableModel;
@@ -55,7 +55,7 @@ public class Dao_ThongKe {
 				+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
 				+ "where YEAR(ngayLapHoaDon)="+nam+"\r\n"
 				+ "group by  Xe.maXe, Xe.tenXe\r\n"
-				+ "order by sum(HoaDon.tongTien) desc\r\n"
+				+ "order by sum(chiTietHoaDon.soLuong) desc,sum(HoaDon.tongTien) desc\r\n"
 				+ "";
 		Statement statement= con.createStatement();
 		ResultSet rs= statement.executeQuery(sql);

@@ -56,7 +56,7 @@ public class Dao_QuanLyXe {
 	
 	public void getVehicleNum_Bill (String tenXe, String version, String mauXe, String nhaCungCap, JTextField txtF) {
 		Connection con = ConnectDB.getCon();
-		String sql = "SELECT DISTINCT maXe FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '"+tenXe+"' and phienBan = N'"+version+"' and mauXe = N'"+mauXe+"' and tenNhaCungCap = N'"+nhaCungCap+"'";
+		String sql = "SELECT DISTINCT maXe FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '"+tenXe+"' and phienBan = N'"+version+"' and mauXe = N'"+mauXe+"' and tenNhaCungCap = N'"+nhaCungCap+"' and soLuong > 0";
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
@@ -67,6 +67,26 @@ public class Dao_QuanLyXe {
 			JOptionPane.showMessageDialog(null, e1);
 			e1.printStackTrace();
 		}
+	}
+	
+	public String getMaXeTail() {
+		Connection con = ConnectDB.getCon();
+		String sql = "select Top 1 maXe from Xe order by maXe desc";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				String ma;
+				ma = rs.getString(1);
+				String[] parts = ma.split("_");
+				int so = Integer.parseInt(parts[1]) + 1;
+				return parts[0] + "_" + String.format("%04d", so);
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
 	}
 	
 	public void getListVersion(String tenXe, JComboBox comboBox) {
