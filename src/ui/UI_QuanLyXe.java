@@ -8,8 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.imageio.ImageIO;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
@@ -17,16 +15,11 @@ import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileView;
 import javax.swing.table.DefaultTableModel;
 
-import org.jfree.util.SortedConfigurationWriter;
-import org.jfree.util.TableOrder;
-
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -48,7 +41,6 @@ import dao.Dao_LoaiXe;
 import dao.Dao_NhaCungCap;
 import dao.Dao_QuanLyXe;
 import entity.HangSanXuat;
-import entity.KhachHang;
 import entity.LoaiXe;
 import entity.NhaCungCap;
 import entity.Xe;
@@ -59,13 +51,11 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -75,18 +65,7 @@ import java.awt.CardLayout;
 import javax.swing.border.MatteBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 import javax.swing.border.TitledBorder;
@@ -109,6 +88,12 @@ public class UI_QuanLyXe extends JFrame {
 	private JTextField txtTrangThai;
 	private JTable table;
 	private JTextField txtTim;
+	private JTextField txtPhienBan;
+	private JTextArea txtCt;
+	private JComboBox<String> cbLoaiXe;
+	private JComboBox<String> cbHangSx;
+	private JComboBox<String> cbNhaCC;
+	private JDateChooser dtNgayNhap;
 	private DefaultTableModel tableModel;
 	private DefaultTableModel tableModelLoai;
 	private Dao_QuanLyXe dao_qlXe= new Dao_QuanLyXe();
@@ -125,7 +110,6 @@ public class UI_QuanLyXe extends JFrame {
 	private DefaultTableModel tableModelHang;
 	private ArrayList<String> tenHang;
 	private Dao_HangSanXuat dao_hsx= new Dao_HangSanXuat();
-	private JTextField txtPhienBan;
 	/**
 	 * Launch the application.
 	 */
@@ -146,7 +130,7 @@ public class UI_QuanLyXe extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public UI_QuanLyXe() {
 		try {
 			ConnectDB.getInstance().connect();
@@ -180,15 +164,19 @@ public class UI_QuanLyXe extends JFrame {
 		lbMaXe.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		txtMa = new JTextField();
-		txtMa.setBounds(144, 24, 208, 19);
+		txtMa.setBackground(Color.WHITE);
+		txtMa.setEditable(false);
+		txtMa.setBounds(144, 20, 208, 23);
 		txtMa.setColumns(10);
+		String ma= dao_qlXe.getMaXeTail();
+		txtMa.setText(ma);
 		
 		JLabel lbTenXe = new JLabel("Tên xe");
 		lbTenXe.setBounds(10, 53, 130, 14);
 		lbTenXe.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		txtTen = new JTextField();
-		txtTen.setBounds(144, 53, 208, 19);
+		txtTen.setBounds(144, 51, 208, 23);
 		txtTen.setColumns(10);
 		
 		JLabel lbMau = new JLabel("Màu xe");
@@ -196,11 +184,11 @@ public class UI_QuanLyXe extends JFrame {
 		lbMau.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		txtMau = new JTextField();
-		txtMau.setBounds(144, 82, 208, 19);
+		txtMau.setBounds(144, 82, 208, 23);
 		txtMau.setColumns(10);
 		
 		txtSoLuong = new JTextField();
-		txtSoLuong.setBounds(144, 111, 208, 19);
+		txtSoLuong.setBounds(144, 111, 208, 23);
 		txtSoLuong.setColumns(10);
 		
 		JLabel lbSoLuong = new JLabel("Số lượng");
@@ -208,7 +196,7 @@ public class UI_QuanLyXe extends JFrame {
 		lbSoLuong.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		txtPhanKhoi = new JTextField();
-		txtPhanKhoi.setBounds(144, 140, 208, 19);
+		txtPhanKhoi.setBounds(144, 140, 208, 23);
 		txtPhanKhoi.setColumns(10);
 		
 		JLabel lbPhanKhoi = new JLabel("Phân khối");
@@ -220,8 +208,8 @@ public class UI_QuanLyXe extends JFrame {
 		lbNhaCungCap.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		ArrayList<NhaCungCap> listNCC= dao_qlXe.getAllNCC();
-		@SuppressWarnings("rawtypes")
-		JComboBox cbNhaCC = new JComboBox(dao_Ncc.getListSuppilerName().toArray());
+		cbNhaCC = new JComboBox(dao_Ncc.getListSuppilerName().toArray());
+		cbNhaCC.setBackground(Color.WHITE);
 		
 		panel_4.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
@@ -243,8 +231,7 @@ public class UI_QuanLyXe extends JFrame {
 			}
 		});
 		
-		cbNhaCC.setBounds(557, 26, 206, 19);
-		cbNhaCC.setEditable(true);
+		cbNhaCC.setBounds(557, 22, 206, 23);
 		/*for (NhaCungCap nhaCungCap : listNCC) {
 			cbNhaCC.addItem(nhaCungCap.getTenNhaCungCap());
 		}*/
@@ -253,11 +240,10 @@ public class UI_QuanLyXe extends JFrame {
 		lbHang.setBounds(417, 56, 130, 19);
 		lbHang.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-			ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
-			@SuppressWarnings("rawtypes")
-		JComboBox cbHangSx = new JComboBox();
-		cbHangSx.setBounds(557, 55, 206, 19);
-		cbHangSx.setEditable(true);
+		ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
+		cbHangSx = new JComboBox<String>();
+		cbHangSx.setBackground(Color.WHITE);
+		cbHangSx.setBounds(557, 55, 206, 23);
 		for (HangSanXuat hangSanXuat : listHang) {
 			cbHangSx.addItem(hangSanXuat.getTenHangSX());
 		}
@@ -267,16 +253,15 @@ public class UI_QuanLyXe extends JFrame {
 		lbLoai.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		ArrayList<LoaiXe> dsLoai= dao_qlXe.getAllLoaiXe();
-		@SuppressWarnings("rawtypes")
-		JComboBox cbLoaiXe = new JComboBox();
-		cbLoaiXe.setBounds(557, 85, 206, 19);
-		cbLoaiXe.setEditable(true);
+		cbLoaiXe = new JComboBox<String>();
+		cbLoaiXe.setBackground(Color.WHITE);
+		cbLoaiXe.setBounds(557, 85, 206, 23);
 		for (LoaiXe loaiXe : dsLoai) {
 			cbLoaiXe.addItem(loaiXe.getTenLoaiXe());
 		}
 		
 		txtGiaNhap = new JTextField();
-		txtGiaNhap.setBounds(557, 115, 206, 19);
+		txtGiaNhap.setBounds(557, 115, 206, 23);
 		txtGiaNhap.setColumns(10);
 		
 		JLabel lbGia = new JLabel("Giá nhập");
@@ -303,13 +288,15 @@ public class UI_QuanLyXe extends JFrame {
 		lbChuThich.setBounds(828, 144, 130, 19);
 		lbChuThich.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtImg2 = new JTextField();
-		txtImg2.setEditable(false);
-		txtImg2.setBounds(962, 113, 170, 19);
+		txtImg2.setBackground(Color.WHITE);
+		txtImg2.setEnabled(false);
+		txtImg2.setBounds(962, 113, 170, 25);
 		txtImg2.setColumns(10);
 		
 		txtImg1 = new JTextField();
 		txtImg1.setEditable(false);
-		txtImg1.setBounds(962, 82, 170, 19);
+		txtImg1.setBackground(Color.WHITE);
+		txtImg1.setBounds(962, 82, 170, 23);
 		txtImg1.setColumns(10);
 		panelXe.setLayout(null);
 		panelXe.add(panel_4);
@@ -350,9 +337,9 @@ public class UI_QuanLyXe extends JFrame {
 		txtTrangThai.setEditable(false);
 		txtTrangThai.setText("Còn hàng");
 		txtTrangThai.setColumns(10);
-		txtTrangThai.setBounds(962, 24, 208, 19);
+		txtTrangThai.setBounds(962, 20, 208, 23);
 		panel_4.add(txtTrangThai);
-		JTextArea txtCt = new JTextArea();
+		txtCt = new JTextArea();
 		txtCt.setBounds(962, 149, 208, 34);
 		panel_4.add(txtCt);
 		try {
@@ -399,7 +386,7 @@ public class UI_QuanLyXe extends JFrame {
 		        }
 			}
 		});
-		btnImg1.setBounds(1136, 80, 34, 22);
+		btnImg1.setBounds(1135, 80, 34, 25);
 		panel_4.add(btnImg1);
 		JButton btnImg2 = new JButton("...");
 		btnImg2.addMouseListener(new MouseAdapter() {
@@ -409,6 +396,7 @@ public class UI_QuanLyXe extends JFrame {
 				fileChooser.setBackground(Color.gray);
 				FileNameExtensionFilter filter = new FileNameExtensionFilter(".png ", "png", "Img");
 				fileChooser.setFileFilter(filter);
+				fileChooser.getFileSystemView();
 		        int result=fileChooser.showSaveDialog(getParent());
 		        if(result==JFileChooser.APPROVE_OPTION) {
 		        	File selectFile=fileChooser.getSelectedFile();
@@ -419,13 +407,13 @@ public class UI_QuanLyXe extends JFrame {
 			}
 		});
 		btnImg2.setBackground(Color.LIGHT_GRAY);
-		btnImg2.setBounds(1136, 109, 34, 25);
+		btnImg2.setBounds(1135, 113, 34, 25);
 		panel_4.add(btnImg2);
 		
-		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setBounds(557, 140, 206, 19);
-		panel_4.add(dateChooser_1);
-		dateChooser_1.setDate(Date.valueOf(LocalDate.now()));
+		dtNgayNhap = new JDateChooser();
+		dtNgayNhap.setBounds(557, 143, 206, 19);
+		panel_4.add(dtNgayNhap);
+		dtNgayNhap.setDate(Date.valueOf(LocalDate.now()));
 		String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Số lượng","Giá nhập","Ngày nhập","Trạng thái","Chú thích", "Tổng tiền"};
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
@@ -449,21 +437,27 @@ public class UI_QuanLyXe extends JFrame {
 				txtPhanKhoi.setText(tableModel.getValueAt(i, 7).toString());
 				txtSoLuong.setText(tableModel.getValueAt(i, 8).toString());
 				txtGiaNhap.setText(tableModel.getValueAt(i, 9).toString());
-				dateChooser_1.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 10).toString())));
+				dtNgayNhap.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 10).toString())));
 				txtTrangThai.setText(tableModel.getValueAt(i, 11).toString());
 				txtCt.setText(tableModel.getValueAt(i, 12).toString());
 				txtPhienBan.setText(tableModel.getValueAt(i, 14).toString());
 				txtImg1.setText(tableModel.getValueAt(i, 15).toString());
-				BufferedImage img = null;
-				try {
-				    img = ImageIO.read(new File(txtImg1.getText()));
-				} catch (IOException e1) {
-				    e1.printStackTrace();
+				if (tableModel.getValueAt(i, 15).toString().length()==0) {
+					lblAnh.setIcon(null);
+					lblAnh.setText("Chưa có hình ảnh");;
 				}
-				Image dimg = img.getScaledInstance(lblAnh.getWidth(), lblAnh.getHeight(),
-				        Image.SCALE_SMOOTH);
-				ImageIcon imageIcon = new ImageIcon(dimg);
-				lblAnh.setIcon(imageIcon);
+				else {
+					BufferedImage img = null;
+					try {
+					    img = ImageIO.read(new File(txtImg1.getText()));
+					} catch (IOException e1) {
+					    e1.printStackTrace();
+					}
+					Image dimg = img.getScaledInstance(lblAnh.getWidth(), lblAnh.getHeight(),
+					        Image.SCALE_SMOOTH);
+					ImageIcon imageIcon = new ImageIcon(dimg);
+					lblAnh.setIcon(imageIcon);
+				}
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -516,11 +510,11 @@ public class UI_QuanLyXe extends JFrame {
 		panelXe.add(panel_7);
 		panel_7.setLayout(null);
 		JButton btnThem = new JButton("Thêm");
-		dateChooser_1.setDateFormatString("yyy-MM-dd");
+		dtNgayNhap.setDateFormatString("yyy-MM-dd");
 		
 		txtPhienBan = new JTextField();
 		txtPhienBan.setColumns(10);
-		txtPhienBan.setBounds(962, 51, 208, 19);
+		txtPhienBan.setBounds(962, 51, 208, 23);
 		panel_4.add(txtPhienBan);
 		
 		JLabel lbPhienBan = new JLabel("Phiên Bản");
@@ -557,7 +551,7 @@ public class UI_QuanLyXe extends JFrame {
 					} 
 					int phanKhoi=Integer.parseInt(txtPhanKhoi.getText());
 					double giaNhap=Float.parseFloat(txtGiaNhap.getText());
-					String date  = ((JTextField)dateChooser_1.getDateEditor().getUiComponent()).getText();
+					String date  = ((JTextField)dtNgayNhap.getDateEditor().getUiComponent()).getText();
 					Date ngay=Date.valueOf(LocalDate.parse(date));
 					String trangThai=txtTrangThai.getText();
 					String chuThich=txtCt.getText();
@@ -571,11 +565,12 @@ public class UI_QuanLyXe extends JFrame {
 					}
 					JFrame f= new JFrame();
 					loadXe();
+					Reset();
 					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
 					
 				} catch (Exception s) {
 					s.getMessage();
-					JOptionPane.showConfirmDialog(null, "aaa");
+					JOptionPane.showConfirmDialog(null, "Vui lòng nhập đầy đủ thông tin và chính xác");
 				}
 			}
 		});
@@ -598,7 +593,8 @@ public class UI_QuanLyXe extends JFrame {
 							int r= table.getSelectedRow();						
 							if(xoaXe()) {
 								//cbbVehicleName_Bill.removeAllItems();
-								tableModel.removeRow(r);							
+								tableModel.removeRow(r);	
+								Reset();
 							} else
 								JOptionPane.showMessageDialog(null, "Bạn Không thể xóa xe này!");
 						}
@@ -606,7 +602,7 @@ public class UI_QuanLyXe extends JFrame {
 					else
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn xe để xóa !!!");
 				} catch (Exception e2) {
-					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, "Xe này không thể xóa");
 					//
 				}
 			}
@@ -650,7 +646,7 @@ public class UI_QuanLyXe extends JFrame {
 							} 
 							int phanKhoi=Integer.parseInt(txtPhanKhoi.getText());
 							double giaNhap=Float.parseFloat(txtGiaNhap.getText());
-							String date  = ((JTextField)dateChooser_1.getDateEditor().getUiComponent()).getText();
+							String date  = ((JTextField)dtNgayNhap.getDateEditor().getUiComponent()).getText();
 							Date ngay=Date.valueOf(LocalDate.parse(date));
 							String trangThai=txtTrangThai.getText();
 							String chuThich=txtCt.getText();
@@ -665,6 +661,7 @@ public class UI_QuanLyXe extends JFrame {
 //							
 							dao_qlXe.update(xe);
 							loadXe();
+							Reset();
 							JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!");
 							try {
 								loadXe();
@@ -687,6 +684,13 @@ public class UI_QuanLyXe extends JFrame {
 		panel_7.add(btnCapNhat);
 		
 		JButton btnXoaTrang = new JButton("Làm mới ");
+		btnXoaTrang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Reset();
+			}
+		});
+
 		btnXoaTrang.setIcon(new ImageIcon("img1\\refresh.png"));
 		btnXoaTrang.setBackground(new Color(255,190,87));
 		btnXoaTrang.setBounds(482, 28, 125, 36);
@@ -1026,7 +1030,7 @@ public class UI_QuanLyXe extends JFrame {
 						}
 					}
 					else
-						JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng để xóa");
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn hãng sản xuất để xóa");
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -1066,7 +1070,7 @@ public class UI_QuanLyXe extends JFrame {
 							}
 						}
 						else
-							JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần cập nhật");
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn hãng sản xuất cần cập nhật");
 					}catch(Exception e2) {
 						e2.printStackTrace();
 					}
@@ -1379,7 +1383,8 @@ public class UI_QuanLyXe extends JFrame {
 		public ArrayList<String> xettenHang() {
 			tenHang = new ArrayList<String>();
 			try {
-				Connection con = ConnectDB.getInstance().getCon();
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
 				String sql = "Select tenHangSanXuat from HangSanXuat";
 				Statement statement = con.createStatement();
 				ResultSet rs = statement.executeQuery(sql);
@@ -1402,5 +1407,23 @@ public class UI_QuanLyXe extends JFrame {
 			}
 			return false;
 		}
-}
+		public void Reset() {
+			String s= dao_qlXe.getMaXeTail();
+			txtMa.setText(s);
+			txtTen.setText("");
+			txtMau.setText("");
+			cbLoaiXe.setSelectedIndex(0);
+			cbHangSx.setSelectedIndex(0);
+			cbNhaCC.setSelectedIndex(0);
+			txtPhanKhoi.setText("");
+			txtSoLuong.setText("");
+			txtGiaNhap.setText("");
+			dtNgayNhap.setDate(Date.valueOf(LocalDate.now()));
+			txtTrangThai.setText("");
+			txtCt.setText("");
+			txtPhienBan.setText("");
+			txtImg1.setText("");
+		}
+}
+
 

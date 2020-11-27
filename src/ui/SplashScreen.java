@@ -1,6 +1,6 @@
 package ui;
 
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.imageio.ImageIO;
@@ -8,7 +8,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -23,6 +22,10 @@ import javax.swing.border.LineBorder;
 
 public class SplashScreen extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public JLabel lbLoad;
 	public JProgressBar progressBar;

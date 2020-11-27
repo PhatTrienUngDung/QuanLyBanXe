@@ -3,6 +3,7 @@ package ui;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.desktop.QuitResponse;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -227,7 +228,6 @@ public class Menu extends JFrame {
 				pnThongKe.setVisible(false);
 				pnTrangChu.setVisible(false);
 				pnQuanLyKH.setVisible(true);
-				
 			}
 		});
 		
@@ -266,14 +266,16 @@ public class Menu extends JFrame {
 					e1.printStackTrace();
 				}
 				pnTaiKhoan.setVisible(false);
+				pnQuanLyNV.setVisible(false);
 				pnQLHoaDon.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
 				pnQuanLyKH.setVisible(false);
 				pnQuanLyHopDong.setVisible(false);
-				pnQuanLyNV.setVisible(false);
 				pnThongKe.setVisible(false);
 				pnTrangChu.setVisible(false);
+				pnQuanLyKho.add(ui_QuanLyXe.getContentPane());
 				pnQuanLyKho.setVisible(true);
+				
 			}
 		});
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -363,6 +365,7 @@ public class Menu extends JFrame {
 				pnQuanLyHopDong.setVisible(false);
 				pnThongKe.setVisible(false);
 				pnTrangChu.setVisible(false);
+				pnQuanLyNV.add(ui_NhanVien.getContentPane());
 				pnQuanLyNV.setVisible(true);
 			}
 		});
@@ -401,14 +404,14 @@ public class Menu extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				pnTaiKhoan.setVisible(false);
 				pnQuanLyKho.setVisible(false);
+				pnQuanLyNV.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
 				pnQuanLyKH.setVisible(false);
 				pnQuanLyHopDong.setVisible(false);
-				pnQuanLyNV.setVisible(false);
 				pnThongKe.setVisible(false);
 				pnTrangChu.setVisible(false);
+				pnQLHoaDon.add(ui_HoaDon.getContentPane());
 				pnQLHoaDon.setVisible(true);
-				
 			}
 		});
 		btnQLHoaDon.setForeground(Color.WHITE);
@@ -451,7 +454,9 @@ public class Menu extends JFrame {
 				pnQuanLyNV.setVisible(false);
 				pnThongKe.setVisible(false);
 				pnTrangChu.setVisible(false);
+				pnQuanLyHopDong.add(ui_HopDong.getContentPane());
 				pnQuanLyHopDong.setVisible(true);
+				
 			}
 		});
 		btnQLHD.setForeground(Color.WHITE);
@@ -494,7 +499,9 @@ public class Menu extends JFrame {
 				pnQuanLyHopDong.setVisible(false);
 				pnQuanLyNV.setVisible(false);
 				pnTrangChu.setVisible(false);
+				pnThongKe.add(ui_ThongKe1.getContentPane());
 				pnThongKe.setVisible(true);
+				
 			}
 		});
 		
@@ -534,6 +541,7 @@ public class Menu extends JFrame {
 				pnQuanLyNV.setVisible(false);
 				pnTrangChu.setVisible(false);
 				pnThongKe.setVisible(false);
+				pnQuanLyNCC.add(ui_NhaCungCap.getContentPane());
 				pnQuanLyNCC.setVisible(true);
 				
 			}
@@ -581,7 +589,9 @@ public class Menu extends JFrame {
 				pnTrangChu.setVisible(false);
 				pnThongKe.setVisible(false);
 				pnQuanLyNCC.setVisible(false);
+				pnTaiKhoan.add(ui_TaiKhoan.getContentPane());
 				pnTaiKhoan.setVisible(true);
+				
 			}
 		});
 		btnQuanLyTaiKhoan.setForeground(Color.WHITE);

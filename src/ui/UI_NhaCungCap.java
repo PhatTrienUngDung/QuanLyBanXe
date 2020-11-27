@@ -8,25 +8,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Insets;
 
 import javax.swing.JTextField;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.border.MatteBorder;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLClientInfoException;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -49,7 +42,6 @@ import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.border.TitledBorder;
 
 
@@ -152,28 +144,29 @@ public class UI_NhaCungCap extends JFrame {
 		Dao_HoaDon dao_hd = new Dao_HoaDon();
 		String maHDTail = dao_hd.getMaHDTail("maNhaCungCap", "NhaCungCap");
 		String[] parts = maHDTail.split("_");
-		int soHD = Integer.parseInt(parts[1]) + 1;
+		int soHD = Integer.parseInt(parts[1]);
 		String maKH = "NCC_" + String.format("%04d", soHD);
 		
 		txtMaNCC = new JTextField();
-		txtMaNCC.setBounds(146, 11, 294, 19);
+		txtMaNCC.setBackground(Color.WHITE);
+		txtMaNCC.setBounds(146, 11, 294, 23);
 		txtMaNCC.setText(maKH);
 		txtMaNCC.setEditable(false);
 		panel_3.add(txtMaNCC);
 		txtMaNCC.setColumns(10);
 		
 		txtTenNCC = new JTextField();
-		txtTenNCC.setBounds(146, 42, 294, 19);
+		txtTenNCC.setBounds(146, 42, 294, 23);
 		panel_3.add(txtTenNCC);
 		txtTenNCC.setColumns(10);
 		
 		txtEmail = new JTextField();
-		txtEmail.setBounds(704, 11, 294, 19);
+		txtEmail.setBounds(704, 11, 294, 23);
 		panel_3.add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		txtDiaChi = new JTextField();
-		txtDiaChi.setBounds(704, 42, 294, 19);
+		txtDiaChi.setBounds(704, 42, 294, 23);
 		panel_3.add(txtDiaChi);
 		txtDiaChi.setColumns(10);
 		
@@ -204,7 +197,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_3.add(lblSo);
 		
 		txtSDT = new JTextField();
-		txtSDT.setBounds(146, 73, 294, 19);
+		txtSDT.setBounds(146, 73, 294, 24);
 		txtSDT.setColumns(10);
 		panel_3.add(txtSDT);
 		
@@ -254,7 +247,8 @@ public class UI_NhaCungCap extends JFrame {
 							String maHDTail = dao_hd.getMaHDTail("maNhaCungCap", "NhaCungCap");
 				    		String[] parts = maHDTail.split("_");
 				    		int soHD = Integer.parseInt(parts[1]) + 1;
-				    		String maKH = "KH_" + String.format("%04d", soHD);
+				    		@SuppressWarnings("unused")
+							String maKH = "KH_" + String.format("%04d", soHD);
 				    		JFrame f= new JFrame();
 				    		JOptionPane.showMessageDialog(f, "Thêm hãng sản xuất thành công !!!");
 				    		txtMaNCC.setText("");
@@ -424,8 +418,8 @@ public class UI_NhaCungCap extends JFrame {
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
 		
-		JLabel lblNewLabel_4 = new JLabel("Nhập mã nhà cung cấp cần tìm");
-		lblNewLabel_4.setForeground(new Color(0, 128, 0));
+		JLabel lblNewLabel_4 = new JLabel("Nhập thông tin cần tìm");
+		lblNewLabel_4.setForeground(Color.BLACK);
 		
 		JLabel lblNewLabel_5 = new JLabel("Nhập mã nhà cung cấp cần tìm");
 		lblNewLabel_5.setForeground(new Color(0, 128, 0));
@@ -458,22 +452,6 @@ public class UI_NhaCungCap extends JFrame {
 		btnNewButton_4.setBackground(Color.ORANGE);
 		btnNewButton_4.setBounds(468, 11, 118, 39);
 		panel_7.add(btnNewButton_4);
-		
-		JButton btnShow = new JButton("Hiển Thị Tất Cả");
-		btnShow.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					loadNCC();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnShow.setBackground(Color.ORANGE);
-		btnShow.setBounds(596, 11, 145, 39);
-		panel_7.add(btnShow);
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBackground(Color.WHITE);
@@ -569,7 +547,8 @@ public class UI_NhaCungCap extends JFrame {
 	public ArrayList<String> xettenncc() {
 		tenncc = new ArrayList<String>();
 		try {
-			Connection con = ConnectDB.getInstance().getCon();
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
 			String sql = "Select tenNhaCungCap from NhaCungCap";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
@@ -599,6 +578,7 @@ public class UI_NhaCungCap extends JFrame {
 		//String mancc = txtMaNCC.getText();
 		String tenncc = txtTenNCC.getText();
 		String sodt = txtSDT.getText();
+		@SuppressWarnings("unused")
 		String email = txtEmail.getText();
 		String diaChi = txtDiaChi.getText();
 		String chuThich = txtChuThich.getText();

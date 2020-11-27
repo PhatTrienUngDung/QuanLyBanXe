@@ -72,9 +72,9 @@ public class UI_ThongKe1 extends JFrame {
 	private JTable table;
 	private DefaultCategoryDataset dcd;
 	@SuppressWarnings("rawtypes")
-	private JComboBox cbNam;
+	private JComboBox cbNam= new JComboBox<>();
 	@SuppressWarnings("rawtypes")
-	private JComboBox cbThang;
+	private JComboBox cbThang= new JComboBox<>();;
 	
 	/**
 	 * Launch the application.
@@ -309,7 +309,7 @@ public class UI_ThongKe1 extends JFrame {
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(Color.WHITE);
-		panel_5.setBounds(25, 274, 1492, 493);
+		panel_5.setBounds(25, 400, 1492, 367);
 		//Thống kê bằng biểu đồ
 		dcd= new DefaultCategoryDataset();
 		for (int i = 1; i <= 12; i++) {
@@ -335,37 +335,6 @@ public class UI_ThongKe1 extends JFrame {
 		chartPanel.setLayout(null);
 		panel_6.add(chartPanel);
 		panel_5.add(panel_6, "name_6412416537300");
-		
-		JLabel lblNewLabel = new JLabel("Lọc ");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel.setBounds(10, 15, 42, 24);
-		panel_6.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Tháng");
-		lblNewLabel_1.setBounds(63, 22, 45, 13);
-		panel_6.add(lblNewLabel_1);
-		
-		cbThang = new JComboBox();
-		cbThang.setBackground(Color.WHITE);
-		cbThang.setBorder(new LineBorder(new Color(0, 0, 0), 0));
-		cbThang.setBounds(118, 18, 85, 21);
-		for (int i = 1; i <= 12; i++) {
-			cbThang.addItem(i);
-		}
-		cbThang.setSelectedItem(LocalDate.now().getMonthValue());
-		panel_6.add(cbThang);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("Năm");
-		lblNewLabel_1_1.setBounds(218, 22, 45, 13);
-		panel_6.add(lblNewLabel_1_1);
-		
-		cbNam = new JComboBox();
-		cbNam.setBackground(Color.WHITE);
-		cbNam.setBounds(254, 18, 85, 21);
-		for (int i = 2019; i <= LocalDate.now().getYear(); i++) {
-			cbNam.addItem(i);
-		}
-		cbNam.setSelectedItem(LocalDate.now().getYear());
 		//Hàm đọc số lượng
 		int t=LocalDate.now().getMonthValue();
 		int n=LocalDate.now().getYear();
@@ -388,12 +357,74 @@ public class UI_ThongKe1 extends JFrame {
 		DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 		lbSLTienBan.setText(df.format(dao_ThongKe.TongTienTheoThang(t, n)));
 		System.out.println(df.format(dao_ThongKe.TongTienTheoNam(2020)));
-		panel_6.add(cbNam);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(978, 63, 504, 420);
+		panel_6.add(scrollPane);
+		
+		
+		String header[]= {"Tên Xe","Số Lượng","Tổng tiền thu được"};
+		tableModel= new DefaultTableModel(header,0);
+		table = new JTable(tableModel);
+		try {
+			loadThongKe();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		table.setCellSelectionEnabled(true);
+		table.setColumnSelectionAllowed(true);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(1).setPreferredWidth(5);
+	    table.setRowHeight(30);
+	    table.setShowGrid(false);
+	    table.getColumnModel().getColumn(1).setPreferredWidth(5);
+		scrollPane.setViewportView(table);
+		Border border = new LineBorder(Color.white);
+		scrollPane.setBorder(border);
+		table.getTableHeader().setBorder(border);
+		DefaultTableCellRenderer renderer1 = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
+		renderer1.setHorizontalAlignment(SwingConstants.LEFT);
+		table.getTableHeader().setBackground(Color.white);
+		table.setBackground(Color.WHITE);
+		scrollPane.getViewport().setBackground(Color.WHITE);
+		contentPane.add(panel_5);
+		
+		JLabel lblNewLabel = new JLabel("Lọc ");
+		lblNewLabel.setBounds(25, 274, 42, 24);
+		contentPane.add(lblNewLabel);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		JLabel lblNewLabel_1 = new JLabel("Tháng");
+		lblNewLabel_1.setBounds(78, 281, 45, 13);
+		contentPane.add(lblNewLabel_1);
+		
+		cbThang.setBounds(133, 277, 85, 21);
+		contentPane.add(cbThang);
+		cbThang.setBackground(Color.WHITE);
+		cbThang.setBorder(new LineBorder(new Color(0, 0, 0), 0));
+		cbThang.setSelectedItem(LocalDate.now().getMonthValue());
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Năm");
+		lblNewLabel_1_1.setBounds(233, 281, 45, 13);
+		contentPane.add(lblNewLabel_1_1);
+		
+		cbNam.setBounds(269, 277, 85, 21);
+		contentPane.add(cbNam);
+		cbNam.setBackground(Color.WHITE);
+		cbNam.setSelectedItem(LocalDate.now().getYear());
+		
+		for (int i = 1; i <= 12; i++) {
+			cbThang.addItem(i);
+		}
+		for (int i = 2019; i <= LocalDate.now().getYear(); i++) {
+			cbNam.addItem(i);
+		}
 		
 		JPanel panel_7 = new JPanel();
+		panel_7.setBounds(410, 274, 359, 28);
+		contentPane.add(panel_7);
 		panel_7.setBorder(null);
-		panel_7.setBounds(395, 15, 359, 28);
-		panel_6.add(panel_7);
 		panel_7.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		rdNgay = new JRadioButton("Theo Ngày");
@@ -435,38 +466,10 @@ public class UI_ThongKe1 extends JFrame {
 		});
 		panel_7.add(rdNam);
 		rdNam.setBackground(Color.WHITE);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(978, 63, 504, 420);
-		panel_6.add(scrollPane);
-		
-		
-		String header[]= {"Tên Xe","Số Lượng","Tổng tiền thu được"};
-		tableModel= new DefaultTableModel(header,0);
-		table = new JTable(tableModel);
-		try {
-			loadThongKe();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		table.setCellSelectionEnabled(true);
-		table.setColumnSelectionAllowed(true);
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-	    table.getColumnModel().getColumn(1).setPreferredWidth(5);
-	    table.setRowHeight(30);
-	    table.setShowGrid(false);
-	    table.getColumnModel().getColumn(1).setPreferredWidth(5);
-		scrollPane.setViewportView(table);
-		Border border = new LineBorder(Color.white);
-		scrollPane.setBorder(border);
-		table.getTableHeader().setBorder(border);
-		DefaultTableCellRenderer renderer1 = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
-		renderer1.setHorizontalAlignment(SwingConstants.LEFT);
-		table.getTableHeader().setBackground(Color.white);
-		table.setBackground(Color.WHITE);
 		//Bộ lọc quyền năng
 		JButton btnNewButton = new JButton("Lọc");
+		btnNewButton.setBounds(783, 277, 85, 21);
+		contentPane.add(btnNewButton);
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -567,18 +570,12 @@ public class UI_ThongKe1 extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(768, 18, 85, 21);
-		panel_6.add(btnNewButton);
-		scrollPane.getViewport().setBackground(Color.WHITE);
-		contentPane.add(panel_5);
 		TableCellRenderer baseRenderer = table.getTableHeader().getDefaultRenderer();
 		table.getTableHeader().setDefaultRenderer(new TableHeaderRenderer(baseRenderer));
 	}
 	private void loadThongKe() throws SQLException {
-		int t=(int) cbThang.getSelectedItem();
-		int n=(int) cbNam.getSelectedItem();
 		Dao_ThongKe dao_thongKe= new Dao_ThongKe();
-		tableModel = dao_thongKe.getAllCTHD(t, n);
+		tableModel = dao_thongKe.getAllCTHD(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
 		table.setModel(tableModel);
 	}
 	private void loadThongKeThang() throws SQLException {
