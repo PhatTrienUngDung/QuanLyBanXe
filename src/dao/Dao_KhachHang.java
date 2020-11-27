@@ -58,6 +58,23 @@ public class Dao_KhachHang {
 		}
 		return null;
 	}
+	
+	public KhachHang getKhachHangTail() {
+		Connection con = ConnectDB.getCon();
+		String sql = "select top 1 * from KhachHang order by maKhachHang desc";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				KhachHang khachHang = new KhachHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getDate(5),rs.getDate(6),rs.getString(7),rs.getString(8), rs.getString(9),rs.getString(10));
+				return khachHang;	
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
+	}
 //Đọc dữ liệu lên bảng
 	public DefaultTableModel getAllKH() throws SQLException {
 		String[] header= {"Mã Khách Hàng","Tên Khách Hàng","cmnd" ,"Giới Tính", "Ngày Sinh", "Ngày Gia Nhập","Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};

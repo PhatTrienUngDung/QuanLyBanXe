@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
@@ -53,7 +54,7 @@ public class Dao_QuanLyXe {
 		return -1;
 	}
 	
-	public void getVehicleNum_Bill (String tenXe, String version, String mauXe, String nhaCungCap, TextField txtF) {
+	public void getVehicleNum_Bill (String tenXe, String version, String mauXe, String nhaCungCap, JTextField txtF) {
 		Connection con = ConnectDB.getCon();
 		String sql = "SELECT DISTINCT maXe FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '"+tenXe+"' and phienBan = N'"+version+"' and mauXe = N'"+mauXe+"' and tenNhaCungCap = N'"+nhaCungCap+"'";
 		try {
@@ -366,13 +367,15 @@ public class Dao_QuanLyXe {
 			return n > 0;
 		}
 //Xóa xe
-	public void xoaXe(String maXe) throws SQLException {
+	public boolean xoaXe(String maXe) throws SQLException {
 		Connection a = ConnectDB.getCon();// Tao Ket Noi
 		String sql = "delete Xe where maXe='" + maXe + "'";
 		PreparedStatement pstm = a.prepareStatement(sql);
 		if (pstm.executeUpdate() > 0) {
 			JOptionPane.showMessageDialog(null, "Xóa thành công xe " + maXe);
+			return true;
 		}
+		return false;
 	}
 //Tìm xe
 		public DefaultTableModel timKiem(String search) throws SQLException {

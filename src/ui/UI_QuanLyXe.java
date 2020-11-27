@@ -40,6 +40,7 @@ import javax.swing.JTextArea;
 import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
 
+import autoComplete.FillCombo;
 import connect.ConnectDB;
 import dao.Dao_HangSanXuat;
 import dao.Dao_HoaDon;
@@ -67,6 +68,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import static ui.UI_HoaDon.cbbVehicleName_Bill;
+
 import java.awt.CardLayout;
 import javax.swing.border.MatteBorder;
 import java.awt.event.KeyAdapter;
@@ -298,7 +302,6 @@ public class UI_QuanLyXe extends JFrame {
 		JLabel lbChuThich = new JLabel("Chú thích");
 		lbChuThich.setBounds(828, 144, 130, 19);
 		lbChuThich.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
 		txtImg2 = new JTextField();
 		txtImg2.setEditable(false);
 		txtImg2.setBounds(962, 113, 170, 19);
@@ -563,7 +566,9 @@ public class UI_QuanLyXe extends JFrame {
 					String phienBan=txtPhienBan.getText();
 					Xe xe= new Xe(ma, ten, new LoaiXe(loai), phienBan, mau, phanKhoi, soLuong, giaNhap, new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2);
 					//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
-					dao_qlXe.themXe(xe);
+					if (dao_qlXe.themXe(xe)) {
+						cbbVehicleName_Bill.addItem(xe.getTenXe());
+					}
 					JFrame f= new JFrame();
 					loadXe();
 					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
@@ -590,16 +595,19 @@ public class UI_QuanLyXe extends JFrame {
 						JFrame f= new JFrame();
 						int hoi=JOptionPane.showConfirmDialog(f, "Xe "+txtTen.getText()+" sẽ bị xóa","Cảnh báo", JOptionPane.YES_NO_OPTION);
 						if(hoi==JOptionPane.YES_OPTION) {
-							int r= table.getSelectedRow();
-							tableModel.removeRow(r);
-							xoaXe();
-					
+							int r= table.getSelectedRow();						
+							if(xoaXe()) {
+								//cbbVehicleName_Bill.removeAllItems();
+								tableModel.removeRow(r);							
+							} else
+								JOptionPane.showMessageDialog(null, "Bạn Không thể xóa xe này!");
 						}
 					}
 					else
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn xe để xóa !!!");
 				} catch (Exception e2) {
 					// TODO: handle exception
+					//
 				}
 			}
 		});
@@ -1310,10 +1318,13 @@ public class UI_QuanLyXe extends JFrame {
 //Đếm số lượng xe 
 		
 //Xóa xe
-		private void xoaXe() throws SQLException {
+		private boolean xoaXe() throws SQLException {
 			Dao_QuanLyXe dao_qlXe = new Dao_QuanLyXe();
-			dao_qlXe.xoaXe(txtMa.getText());
-			loadXe();
+			if (dao_qlXe.xoaXe(txtMa.getText())) {
+				//loadXe();
+				return true;
+			}
+			return false;
 		}
 		private void xoaLoaiXe() throws SQLException {
 			Dao_LoaiXe dao_loai = new Dao_LoaiXe();
