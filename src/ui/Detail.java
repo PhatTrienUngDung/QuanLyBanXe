@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import connect.ConnectDB;
 import dao.Dao_QuanLyXe;
@@ -27,6 +26,9 @@ import javax.swing.SwingConstants;
 
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.border.TitledBorder;
 
 public class Detail extends JFrame {
 
@@ -59,14 +61,15 @@ public class Detail extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		setUndecorated(true);
 		Xe listXe= dao_qlLyXe.getInfoXe(id);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(320, 80, 896, 681);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		JLabel lbImg = new JLabel();
@@ -240,5 +243,19 @@ public class Detail extends JFrame {
 		lbeditdetail.setBounds(172, 10, 523, 35);
 		lbeditdetail.setText("Thông tin chi tiết xe "+listXe.getTenXe());
 		contentPane.add(lbeditdetail);
+		
+		JLabel lblNewLabel = new JLabel("X");
+		lblNewLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setBounds(855, 0, 41, 35);
+		contentPane.add(lblNewLabel);
 	}
 }

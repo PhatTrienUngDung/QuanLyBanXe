@@ -104,7 +104,7 @@ public class UI_NhaCungCap extends JFrame {
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(SystemColor.control);
-		panel_4.setBounds(10, 10, 1600, 767);
+		panel_4.setBounds(0, 0, 1610, 777);
 		contentPane.add(panel_4);
 		panel_4.setLayout(null);
 		
@@ -485,7 +485,7 @@ public class UI_NhaCungCap extends JFrame {
 		JLabel lblNewLabel_1_1 = new JLabel("QUẢN LÝ THÔNG TIN NHÀ CUNG CẤP");
 		lblNewLabel_1_1.setForeground(new Color(184, 134, 11));
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblNewLabel_1_1.setBounds(10, 88, 497, 72);
+		lblNewLabel_1_1.setBounds(10, 88, 611, 72);
 		panel_4.add(lblNewLabel_1_1);
 		dem();
 		table = new JTable();

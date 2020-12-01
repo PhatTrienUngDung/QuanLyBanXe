@@ -3,7 +3,6 @@ package ui;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
-import java.awt.desktop.QuitResponse;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

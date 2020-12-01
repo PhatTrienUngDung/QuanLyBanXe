@@ -345,7 +345,7 @@ public class UI_NhanVien extends JFrame {
 		JButton btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(Color.ORANGE);
 		btnTimKiem.setBounds(502, 10, 125, 45);
-		btnTimKiem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/search1.png")));
+		btnTimKiem.setIcon(new ImageIcon("/image/search1.png"));
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		panel_3.setLayout(null);
 		
@@ -373,7 +373,7 @@ public class UI_NhanVien extends JFrame {
 		JButton btnThem = new JButton("Thêm");
 		btnThem.setBackground(new Color(255,190,87));
 		btnThem.setBounds(43, 16, 123, 38);
-		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
+		btnThem.setIcon(new ImageIcon("/image/Button-Add-icon.png"));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnThem.setToolTipText("");
 		btnThem.addMouseListener(new MouseAdapter() {
@@ -401,10 +401,10 @@ public class UI_NhanVien extends JFrame {
 				Date ngaySinh=Date.valueOf(LocalDate.parse(date1));
 				Date ngayVaoLam =Date.valueOf(LocalDate.parse(date2));
 				String gioiTinh = (String) cbgioiTinh.getSelectedItem();
-			//	NhanVien nv = new NhanVien(ma,ten,diachi,email,sodt,new ChucVu(cv),ngaySinh,ngayVaoLam,gioiTinh);
-			//	tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getDiaChi(),nv.getEmail(),nv.getSdt(),nv.getChucVu().getMaChucVu(),nv.getNgaySinh(),nv.getNgayVaoLam()});
+				NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, new ChucVu(chucVu), sodt, ngayVaoLam);
+				tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getDiaChi(),nv.getEmail(),nv.getSdt(),nv.getChucVu().getMaChucVu(),nv.getNgaySinh(),nv.getNgayVaoLam()});						
 				JFrame f= new JFrame();
-			//	dao_nv.themNV(nv);
+				dao_nv.themNV(nv);
 				JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
 			
 			}
@@ -415,7 +415,7 @@ public class UI_NhanVien extends JFrame {
 			JButton btnXoa = new JButton("Xóa");
 			btnXoa.setBackground(new Color(255,190,87));
 			btnXoa.setBounds(217, 16, 123, 38);
-			btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
+			btnXoa.setIcon(new ImageIcon("/image/delete-icon.png"));
 			btnXoa.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -447,7 +447,7 @@ public class UI_NhanVien extends JFrame {
 				}
 			});
 			btnLamMoi.setBounds(555, 16, 123, 38);
-			btnLamMoi.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
+			btnLamMoi.setIcon(new ImageIcon("/image/refresh-icon.png"));
 			btnLamMoi.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -470,7 +470,7 @@ public class UI_NhanVien extends JFrame {
 			JButton btnSua = new JButton("Sửa");
 			btnSua.setBackground(new Color(255,190,87));
 			btnSua.setBounds(389, 16, 123, 38);
-			btnSua.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Settings-icon.png")));
+			btnSua.setIcon(new ImageIcon(("/image/Settings-icon.png")));
 			btnSua.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -483,6 +483,7 @@ public class UI_NhanVien extends JFrame {
 							int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
 							if(hoi==JOptionPane.YES_OPTION) {
 								String ma= txtmaNV.getText();
+								String cmnd = txtcmnd.getText();
 								String ten=txttenNV.getText();
 								String diachi=txtdiaChi.getText();
 								String email= txtEmail.getText();
@@ -491,7 +492,7 @@ public class UI_NhanVien extends JFrame {
 								Date ngaySinh=Date.valueOf(LocalDate.parse(date1));
 								Date ngayVaoLam =Date.valueOf(LocalDate.parse(date2));
 								String gioiTinh = (String) cbgioiTinh.getSelectedItem();
-								NhanVien nv = new NhanVien(ma,ten,diachi,email,sodt, new ChucVu(chucVu),ngaySinh,ngayVaoLam,gioiTinh);
+								NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, new ChucVu(chucVu), sodt, ngayVaoLam);
 								tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getDiaChi(),nv.getEmail(),nv.getSdt(),nv.getChucVu().getMaChucVu(),nv.getNgaySinh(),nv.getNgayVaoLam()});						
 								dao_nv.update(nv);
 								try {

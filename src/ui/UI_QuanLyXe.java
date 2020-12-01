@@ -560,17 +560,16 @@ public class UI_QuanLyXe extends JFrame {
 					String phienBan=txtPhienBan.getText();
 					Xe xe= new Xe(ma, ten, new LoaiXe(loai), phienBan, mau, phanKhoi, soLuong, giaNhap, new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2);
 					//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
-					if (dao_qlXe.themXe(xe)) {
-						cbbVehicleName_Bill.addItem(xe.getTenXe());
-					}
 					JFrame f= new JFrame();
 					loadXe();
 					Reset();
 					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+					if (dao_qlXe.themXe(xe)) {
+						cbbVehicleName_Bill.addItem(xe.getTenXe());
+					}
 					
 				} catch (Exception s) {
 					s.getMessage();
-					JOptionPane.showConfirmDialog(null, "Vui lòng nhập đầy đủ thông tin và chính xác");
 				}
 			}
 		});

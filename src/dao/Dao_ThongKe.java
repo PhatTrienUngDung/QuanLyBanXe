@@ -12,9 +12,6 @@ import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.ChiTietHoaDon;
-import entity.HoaDon;
-import entity.NhaCungCap;
-import entity.Xe;
 
 public class Dao_ThongKe {
 	ArrayList<ChiTietHoaDon> dscthd=new ArrayList<ChiTietHoaDon>();
@@ -30,7 +27,7 @@ public class Dao_ThongKe {
 					+ "                  chiTietHoaDon ON HoaDon.maHoaDon = chiTietHoaDon.maHoaDon INNER JOIN\r\n"
 					+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
 					+ "where MONTH(ngayLapHoaDon)="+thang+"and YEAR(ngayLapHoaDon)="+nam+"\r\n"
-					+ "group by  Xe.maXe, Xe.tenXe\r\n"
+					+ "group by  Xe.tenXe\r\n"
 					+ "order by sum(chiTietHoaDon.soLuong) desc,sum(HoaDon.tongTien) desc\r\n"
 					+ "";
 			Statement statement= con.createStatement();
@@ -54,7 +51,7 @@ public class Dao_ThongKe {
 				+ "                  chiTietHoaDon ON HoaDon.maHoaDon = chiTietHoaDon.maHoaDon INNER JOIN\r\n"
 				+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
 				+ "where YEAR(ngayLapHoaDon)="+nam+"\r\n"
-				+ "group by  Xe.maXe, Xe.tenXe\r\n"
+				+ "group by Xe.tenXe\r\n"
 				+ "order by sum(chiTietHoaDon.soLuong) desc,sum(HoaDon.tongTien) desc\r\n"
 				+ "";
 		Statement statement= con.createStatement();
@@ -68,25 +65,8 @@ public class Dao_ThongKe {
 		}
 		return tableModel;
 }
-	//Thong ke xe nhap trong thang
-	public String SoLuongXeNhapTrongThang(int thang, int nam) {
-		String count =null;
-		try {
-			ConnectDB.getInstance();
-			Connection con = ConnectDB.getCon();
-			String sql = "select sum(soLuong) from Xe where YEAR(ngaynhap)="+nam+" and  Month(ngaynhap)="+thang+"";
-			PreparedStatement pst=con.prepareStatement(sql);
-			ResultSet rs = pst.executeQuery();
-			if(rs.next()) {
-				count=rs.getString(1);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return count;
-	}
-	
-	//Thong ke vao bieu đồ theo tháng
+	//Theo Tháng
+	//1. Thong ke xe nhap bieu đồ theo tháng
 	public int BieuDoXeNhap(int thang, int nam) {
 		int count=0;
 		try {
@@ -103,44 +83,7 @@ public class Dao_ThongKe {
 		}
 		return count;
 	}
-	//Thong ke vao bieu đồ theo tháng
-		public int BieuDoXeNhap(int ngay, int thang, int nam) {
-			int count=0;
-			try {
-				ConnectDB.getInstance();
-				Connection con = ConnectDB.getCon();
-				String sql = "select sum(soLuong) from Xe where day(ngaynhap)="+ngay+" and YEAR(ngaynhap)="+nam+" and  Month(ngaynhap)="+thang+"";
-				PreparedStatement pst=con.prepareStatement(sql);
-				ResultSet rs = pst.executeQuery();
-				if(rs.next()) {
-					count=rs.getInt(1);
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-			return count;
-		}
-	//Thống kê xe bán trong tháng
-	public String SoLuongXeBanTrongThang(int thang, int nam) {
-		String count =null;
-		try {
-			ConnectDB.getInstance();
-			Connection con = ConnectDB.getCon();
-			String sql = "SELECT sum(chiTietHoaDon.soLuong)\r\n"
-					+ "FROM     chiTietHoaDon INNER JOIN\r\n"
-					+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon\r\n"
-					+ "where YEAR(ngayLapHoaDon)="+nam+" and  Month(ngayLapHoaDon)="+thang+"";
-			PreparedStatement pst=con.prepareStatement(sql);
-			ResultSet rs = pst.executeQuery();
-			if(rs.next()) {
-				count=rs.getString(1);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return count;
-	}
-	//Biểu đồ xe bán theo tháng
+	//2. Biểu đồ va thống kê xe bán theo tháng
 	public int BieuDoXeBan(int thang, int nam) {
 		int count=0;
 		try {
@@ -160,7 +103,61 @@ public class Dao_ThongKe {
 		}
 		return count;
 	}
-	//Biểu đồ xe bán theo ngày trong tháng
+	//3. Thống kê số lượng khách hàng theo tháng
+		public int SoLuongKhachHangTrongThang(int thang, int nam) {
+			int count =0;
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql = "select count(maKhachHang) from KhachHang where YEAR(ngayGiaNhap)="+nam+" and  Month(ngayGiaNhap)="+thang+"";
+				PreparedStatement pst=con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()) {
+					count=rs.getInt(1);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return count;
+		}
+
+	//4. Thống kê thu nhập trong tháng
+		public int TongTienTheoThang(int thang, int nam) {
+			int count =0;
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql = "select sum(tongTien) from HoaDon where YEAR(ngayLapHoaDon)="+nam+" and Month(ngayLapHoaDon)="+thang+"";
+				PreparedStatement pst=con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()) {
+					count=rs.getInt(1);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return count;
+		}
+		
+	//-------------------------------------------------------------------------------Theo Ngày---------------------------------------------------------------
+	//1. Thong ke vao bieu đồ theo ngày trong tháng
+		public int BieuDoXeNhap(int ngay, int thang, int nam) {
+			int count=0;
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql = "select sum(soLuong) from Xe where day(ngaynhap)="+ngay+" and YEAR(ngaynhap)="+nam+" and  Month(ngaynhap)="+thang+"";
+				PreparedStatement pst=con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()) {
+					count=rs.getInt(1);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return count;
+		}
+	//2. Biểu đồ xe bán theo ngày trong tháng
 	public int BieuDoXeBan(int ngay, int thang, int nam) {
 		int count=0;
 		try {
@@ -180,23 +177,42 @@ public class Dao_ThongKe {
 		}
 		return count;
 	}
-	//Thống kê số lượng khách hàng theo tháng
-	public String SoLuongKhachHangTrongThang(int thang, int nam) {
-		String count =null;
+	//3. Biểu đồ khách hàng theo ngày 
+	public int BieuDoKhachHangTheoNgay(int ngay ,int thang, int nam) {
+		int count =0;
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "select count(maKhachHang) YEAR(ngayLapHoaDon)="+nam+" and  Month(ngayLapHoaDon)="+thang+"";
+			String sql = "select count(maKhachHang) where day(ngayLapHoaDon)="+ngay+" and YEAR(ngayLapHoaDon)="+nam+" and  Month(ngayLapHoaDon)="+thang+"";
 			PreparedStatement pst=con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()) {
-				count=rs.getString(1);
+				count=rs.getInt(1);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return count;
 	}
+	//4. Biểu đồ xe tổng tiền theo ngày
+	public int TongTienTheoNgay(int ngay,int thang, int nam) {
+		int count =0;
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			String sql = "select sum(tongTien) from HoaDon where day(ngayLapHoaDon) and YEAR(ngayLapHoaDon)="+nam+" and Month(ngayLapHoaDon)="+thang+"";
+			PreparedStatement pst=con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return count;
+	}
+	
+	//---------------------------------------------------------------------Theo Năm-------------------------------------------------------------------------------
 	//Thống kê số lượng xe nhập trong năm
 	public String SoLuongXeNhapTrongNam(int nam) {
 		String count =null;
@@ -252,13 +268,13 @@ public class Dao_ThongKe {
 		return count;
 	}
 
-	//THống kê thu nhập trong tháng
-		public int TongTienTheoThang(int thang, int nam) {
+	//THống kê thu nhập trong nam
+		public int TongTienTheoNam(int nam) {
 			int count =0;
 			try {
 				ConnectDB.getInstance();
 				Connection con = ConnectDB.getCon();
-				String sql = "select sum(tongTien) from HoaDon where YEAR(ngayLapHoaDon)="+nam+" and Month(ngayLapHoaDon)="+thang+"";
+				String sql = "select sum(tongTien) from HoaDon where YEAR(ngayLapHoaDon)="+nam+"";
 				PreparedStatement pst=con.prepareStatement(sql);
 				ResultSet rs = pst.executeQuery();
 				if(rs.next()) {
@@ -269,43 +285,5 @@ public class Dao_ThongKe {
 			}
 			return count;
 		}
-		//THống kê thu nhập trong nam
-				public int TongTienTheoNam(int nam) {
-					int count =0;
-					try {
-						ConnectDB.getInstance();
-						Connection con = ConnectDB.getCon();
-						String sql = "select sum(tongTien) from HoaDon where YEAR(ngayLapHoaDon)="+nam+"";
-						PreparedStatement pst=con.prepareStatement(sql);
-						ResultSet rs = pst.executeQuery();
-						if(rs.next()) {
-							count=rs.getInt(1);
-						}
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-					return count;
-				}
 
-	public ArrayList<Xe> getAllXe(){
-		ArrayList<Xe> dsXe=new ArrayList<Xe>();
-		try {
-			ConnectDB.getInstance();
-			Connection con= ConnectDB.getCon();
-			String sql= "select * from Xe";
-			Statement statement= con.createStatement();
-			ResultSet rs= statement.executeQuery(sql);
-			
-			while(rs.next()) {
-				String maXe=rs.getString(1);
-				String tenXe=rs.getString(2);
-				Xe xe= new Xe(maXe, tenXe);
-				dsXe.add(xe);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return dsXe;
-	}
 }
