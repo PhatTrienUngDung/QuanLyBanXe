@@ -62,7 +62,7 @@ public class Detail extends JFrame {
 			e1.printStackTrace();
 		}
 		setUndecorated(true);
-		Xe listXe= dao_qlLyXe.getInfoXe(id);
+		Xe listXe= dao_qlLyXe.getInfoXe("maXe",id);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(320, 80, 896, 681);

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 
 import connect.ConnectDB;
+import dao.Dao_QuanLyXe;
 
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -18,6 +19,9 @@ import java.awt.CardLayout;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import autoComplete.FillCombo;
+
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import java.awt.Font;
@@ -455,7 +459,6 @@ public class Menu extends JFrame {
 				pnTrangChu.setVisible(false);
 				pnQuanLyHopDong.add(ui_HopDong.getContentPane());
 				pnQuanLyHopDong.setVisible(true);
-				
 			}
 		});
 		btnQLHD.setForeground(Color.WHITE);

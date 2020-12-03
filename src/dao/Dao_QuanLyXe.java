@@ -54,9 +54,24 @@ public class Dao_QuanLyXe {
 		return -1;
 	}
 	
-	public void getVehicleNum_Bill (String tenXe, String version, String mauXe, String nhaCungCap, JTextField txtF) {
+	public void getListTenXe(JComboBox comboBox){
 		Connection con = ConnectDB.getCon();
-		String sql = "SELECT DISTINCT maXe FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '"+tenXe+"' and phienBan = N'"+version+"' and mauXe = N'"+mauXe+"' and tenNhaCungCap = N'"+nhaCungCap+"' and soLuong > 0";
+		String sql = "SELECT DISTINCT tenXe FROM Xe order by tenXe asc";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				comboBox.addItem(rs.getString(1));
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+	}
+	/*
+	public void getVehicleNum_Bill (String soKhung, JTextField txtF) {
+		Connection con = ConnectDB.getCon();
+		String sql = "SELECT maXe FROM Xe WHERE soKhung = '" + soKhung;
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
@@ -67,7 +82,7 @@ public class Dao_QuanLyXe {
 			JOptionPane.showMessageDialog(null, e1);
 			e1.printStackTrace();
 		}
-	}
+	}*/
 	
 	public String getMaXeTail() {
 		Connection con = ConnectDB.getCon();
@@ -104,6 +119,23 @@ public class Dao_QuanLyXe {
 			e1.printStackTrace();
 		}
 	}
+	
+	public void getListChassisNumber(String tenXe, String version, String mauXe, JComboBox comboBox) {
+		Connection con = ConnectDB.getCon();
+		String sql = "SELECT DISTINCT soKhung FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"'";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				comboBox.addItem(rs.getString(1));
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+	}
+	
+	
 	
 //Đọc dữ liệu lên bảng
 	public void getListColor(String tenXe, String version, JComboBox comboBox){
@@ -254,13 +286,13 @@ public class Dao_QuanLyXe {
 		return dsLoaiXe;
 	}
 //Lấy thông tin xe 
-	public Xe getInfoXe(String id){
+	public Xe getInfoXe(String properties, String id){
 		//ArrayList<Xe> dsXe=new ArrayList<Xe>();
 		Xe xe = new Xe();
 		try {
 			ConnectDB.getInstance();
 			Connection con= ConnectDB.getCon();
-			String sql= "select * from Xe where maXe='"+id+"'";
+			String sql= "select * from Xe where " + properties + " ='"+id+"'";
 			Statement statement= con.createStatement();
 			ResultSet rs= statement.executeQuery(sql);
 			
@@ -387,6 +419,29 @@ public class Dao_QuanLyXe {
 			}
 			return n > 0;
 		}
+		
+		public boolean updateTrangThai(String id) {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			PreparedStatement stmt = null;
+			int n = 0;
+			try {
+				//"Mã Xe","Tên Xe", "Loại Xe","Màu xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"
+				stmt = con.prepareStatement(
+						"update Xe set trangThai = N'Hết hàng' where maXe = ?");
+				stmt.setString(1, id);
+				n = stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					stmt.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return n > 0;
+		}
 //Xóa xe
 	public boolean xoaXe(String maXe) throws SQLException {
 		Connection a = ConnectDB.getCon();// Tao Ket Noi
@@ -424,8 +479,8 @@ public class Dao_QuanLyXe {
 		
 		public boolean getImage(JLabel label, String ID) {
 			BufferedImage img = null;
-			Xe xe_i = getInfoXe(ID);
-			if (xe_i.getImg1().equalsIgnoreCase("")) {
+			Xe xe_i = getInfoXe("maXe",ID);
+			if (xe_i.getImg1().length()==0) {
 				label.setVisible(false);
 				return false;
 			}

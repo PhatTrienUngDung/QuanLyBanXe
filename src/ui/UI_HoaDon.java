@@ -27,12 +27,14 @@ import connect.ConnectDB;
 import dao.Dao_HangSanXuat;
 import dao.Dao_HoaDon;
 import dao.Dao_KhachHang;
+import dao.Dao_LoaiXe;
 import dao.Dao_NhaCungCap;
 import dao.Dao_NhanVien;
 import dao.Dao_QuanLyXe;
 import dao.Dao_TaiKhoan;
 import entity.HangSanXuat;
 import entity.KhachHang;
+import entity.LoaiXe;
 import entity.NhaCungCap;
 import entity.Xe;
 
@@ -91,6 +93,7 @@ public class UI_HoaDon extends JFrame {
     public static JTextField txtCustomerName_Bill;
     public static JTextArea txtNoteCustomer_Bill;
     public static JComboBox cbbVehicleName_Bill;
+    private JTextField txtVehicleEngineNum;
     
 
 	/**
@@ -127,6 +130,7 @@ public class UI_HoaDon extends JFrame {
 		Dao_NhaCungCap dao_ncc = new Dao_NhaCungCap();
 		Dao_HoaDon dao_hd = new Dao_HoaDon();
 		Dao_NhanVien dao_nv = new Dao_NhanVien();
+		Dao_LoaiXe dao_lx = new Dao_LoaiXe();
 		List<String> list_CMND = dao_kh.getListCMND();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -213,7 +217,7 @@ public class UI_HoaDon extends JFrame {
 		
 		txtEmployeeNum_Bill = new JTextField();
 		txtEmployeeNum_Bill.setEditable(false);
-		//txtEmployeeNum_Bill.setText(Login.txtuser.getText());
+		txtEmployeeNum_Bill.setText(Login.txtuser.getText());
 		txtEmployeeNum_Bill.setBackground(Color.WHITE);
 		txtEmployeeNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtEmployeeNum_Bill.setBounds(140, 10, 168, 21);
@@ -290,7 +294,7 @@ public class UI_HoaDon extends JFrame {
 		
 		FillCombo combo = new FillCombo();
 		try {
-			combo.fill("select DISTINCT tenXe from Xe where soLuong > 0 order by tenXe" , cbbVehicleName_Bill, "tenXe");	
+			combo.fill("select DISTINCT tenXe from Xe where trangThai = N'Còn hàng' order by tenXe" , cbbVehicleName_Bill, "tenXe");	
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -299,7 +303,7 @@ public class UI_HoaDon extends JFrame {
 		JComboBox cbbVehicleColor_Bill = new JComboBox();
 		cbbVehicleColor_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbbVehicleColor_Bill.setBackground(Color.WHITE);
-		cbbVehicleColor_Bill.setBounds(570, 43, 132, 21);
+		cbbVehicleColor_Bill.setBounds(570, 43, 145, 21);
 		pAddVehicle_Bill.add(cbbVehicleColor_Bill);
 		
 		JLabel lblVehicleColor_Bill = new JLabel("Màu Xe");
@@ -325,26 +329,25 @@ public class UI_HoaDon extends JFrame {
 		cbbVersion.setBounds(115, 41, 203, 21);
 		pAddVehicle_Bill.add(cbbVersion);
 		
-		JLabel lblAmountVehicle_Bill = new JLabel("Số Lượng");
-		lblAmountVehicle_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblAmountVehicle_Bill.setBounds(405, 76, 70, 21);
-		pAddVehicle_Bill.add(lblAmountVehicle_Bill);
+		JLabel lblVehicleEngineNumber = new JLabel("Số Máy");
+		lblVehicleEngineNumber.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblVehicleEngineNumber.setBounds(405, 76, 70, 21);
+		pAddVehicle_Bill.add(lblVehicleEngineNumber);
 		
-		JSpinner txtAmount = new JSpinner();
-		txtAmount.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtAmount.setModel(new SpinnerNumberModel(0, 0, 0, 1));
-		txtAmount.setBounds(570, 74, 132, 21);
-		pAddVehicle_Bill.add(txtAmount);
+		JLabel lblChasisNumber_Bill = new JLabel("Số Khung");
+		lblChasisNumber_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblChasisNumber_Bill.setBounds(10, 74, 95, 21);
+		pAddVehicle_Bill.add(lblChasisNumber_Bill);
 		
-		JLabel lblSupplier_Bill = new JLabel("Nhà Cung Cấp");
-		lblSupplier_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblSupplier_Bill.setBounds(10, 74, 95, 21);
-		pAddVehicle_Bill.add(lblSupplier_Bill);
+		JComboBox cbbChasisNumber = new JComboBox();
+		cbbChasisNumber.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cbbChasisNumber.setBounds(115, 74, 203, 21);
+		pAddVehicle_Bill.add(cbbChasisNumber);
 		
-		JComboBox cbbSupplier = new JComboBox();
-		cbbSupplier.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		cbbSupplier.setBounds(115, 74, 203, 21);
-		pAddVehicle_Bill.add(cbbSupplier);
+		txtVehicleEngineNum = new JTextField();
+		txtVehicleEngineNum.setBounds(570, 74, 145, 21);
+		pAddVehicle_Bill.add(txtVehicleEngineNum);
+		txtVehicleEngineNum.setColumns(10);
 		
 		JPanel pBillDetailsList = new JPanel();
 		pBillDetailsList.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Danh S\u00E1ch Xe B\u00E1n", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
@@ -359,7 +362,7 @@ public class UI_HoaDon extends JFrame {
 		
 		table = new JTable();
 		scrollPane_1.setViewportView(table);
-		String[] header = {"Mã Xe", "Tên Xe", "Phiên Bản", "Màu xe", "Phân Khối", "Hãng Sản Xuất", "Số Lượng", "Đơn Giá", "Thuế VAT", "Thành tiền"};
+		String[] header = {"Mã Xe", "Tên Xe", "Loại Xe", "Phiên Bản", "Màu xe", "Phân Khối", "Hãng Sản Xuất", "Số Khung", "Số Máy", "Đơn Giá", "Thuế VAT", "Thành tiền"};
 		tableModel = new DefaultTableModel(header, 0){
 	       @Override
 	       public boolean isCellEditable(int i, int i1) {
@@ -534,15 +537,17 @@ public class UI_HoaDon extends JFrame {
 		//>>>>>>>>>>> cbb Vehicle Name
 		cbbVehicleName_Bill.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (cbbVersion.getItemCount() > 0)
-					cbbVersion.removeAllItems();
-				String tenXe;
-				if (cbbVehicleName_Bill.getSelectedItem().toString().equalsIgnoreCase(""))
-					tenXe = "";
-				else
-					tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
-				dao_Xe.getListVersion(tenXe, cbbVersion);
-				boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+				if(cbbVehicleName_Bill.getSelectedIndex() != -1) {
+					if (cbbVersion.getItemCount() > 0)
+						cbbVersion.removeAllItems();
+					String tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
+					dao_Xe.getListVersion(tenXe, cbbVersion);
+					boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+				} else {
+					cbbVersion.setSelectedIndex(-1);
+					txtVehicleNum_Bill.setText("");
+					txtVehicleEngineNum.setText("");
+				}
 			}
 		});
 		
@@ -551,14 +556,15 @@ public class UI_HoaDon extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (cbbVehicleColor_Bill.getItemCount() > 0)
 					cbbVehicleColor_Bill.removeAllItems();
-				String tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
-				String version;
-				if (cbbVersion.getItemCount()==0) 
-					version = "";
-				else
+				String tenXe = "";
+				String version = "";
+				if(cbbVehicleName_Bill.getSelectedIndex() != -1) 
+					tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
+				if(cbbVersion.getSelectedIndex() != -1) {
 					version = cbbVersion.getSelectedItem().toString();
-				dao_Xe.getListColor(tenXe, version, cbbVehicleColor_Bill);
-				boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+					dao_Xe.getListColor(tenXe, version, cbbVehicleColor_Bill);
+					boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+				}	
 			}
 			
 		});
@@ -566,50 +572,41 @@ public class UI_HoaDon extends JFrame {
 		//>>>>>>>>>>> cbb  Vehicle Color
 		cbbVehicleColor_Bill.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (cbbSupplier.getItemCount() > 0)
-					cbbSupplier.removeAllItems();
-				String tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
-				String version;
-				String mauXe ;
-				if (cbbVehicleColor_Bill.getItemCount()==0) 
-					mauXe = "";
-				else
-					mauXe = cbbVehicleColor_Bill.getSelectedItem().toString();
-				if (cbbVersion.getItemCount()==0) 
-					version = "";
-				else
-					version  = cbbVersion.getSelectedItem().toString();
-				dao_ncc.getListSupplierName_Bill(tenXe, version, mauXe, cbbSupplier);
-				boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+				if (cbbChasisNumber.getItemCount() > 0)
+					cbbChasisNumber.removeAllItems();
+				String tenXe = "";
+				String version = "";
+				if(cbbVehicleName_Bill.getSelectedIndex() != -1) 
+					tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
+				if(cbbVersion.getSelectedIndex() != -1)
+					version = cbbVersion.getSelectedItem().toString();
+				if (cbbVehicleColor_Bill.getSelectedIndex() != -1) {
+					String mauXe = cbbVehicleColor_Bill.getSelectedItem().toString();
+					dao_Xe.getListChassisNumber(tenXe, version, mauXe, cbbChasisNumber);
+					boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+				}
 			}
 		});
 		
-		//>>>>>>>>>>> cbb Supplier 
-		cbbSupplier.addActionListener(new ActionListener() {
+		//>>>>>>>>>>> cbb Chassis Number
+		cbbChasisNumber.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String tenXe, version, mauXe, nhaCungCap;
-				if (cbbVehicleName_Bill.getSelectedItem().toString().equalsIgnoreCase(""))
-					tenXe = "";
-				else
+				String tenXe, version, mauXe, soKhung;
+				if (cbbVehicleName_Bill.getSelectedIndex() != -1) 	
 					tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
-				if (cbbVersion.getItemCount()==0) 
-					version = "";
-				else
+				if (cbbVersion.getSelectedIndex() != -1)
 					version  = cbbVersion.getSelectedItem().toString();
-				if (cbbVehicleColor_Bill.getItemCount()==0) 
-					mauXe = "";
-				else
+				if (cbbVehicleColor_Bill.getSelectedIndex() != -1)
 					mauXe = cbbVehicleColor_Bill.getSelectedItem().toString();
-				if (cbbSupplier.getItemCount()==0) 
-					nhaCungCap = "";
-				else
-					nhaCungCap = cbbSupplier.getSelectedItem().toString();
-				dao_Xe.getVehicleNum_Bill(tenXe, version, mauXe, nhaCungCap, txtVehicleNum_Bill);
-				int soLuong = dao_Xe.getAmountByVehicleID(txtVehicleNum_Bill.getText());
-				txtAmount.setModel(new SpinnerNumberModel(1, 1, soLuong, 1));
-				boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+				if (cbbChasisNumber.getSelectedIndex() != -1) {
+					soKhung = cbbChasisNumber.getSelectedItem().toString();
+					Xe xe = dao_Xe.getInfoXe("soKhung", soKhung);
+					txtVehicleNum_Bill.setText(xe.getMaXe());
+					txtVehicleEngineNum.setText(xe.getSoMay());		
+					boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+				}
 			}
-		});
+		}); 
 		
 		//>>>>>>>>>>> tbl Table
 		table.addMouseListener(new MouseAdapter() {
@@ -617,7 +614,7 @@ public class UI_HoaDon extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				 int viTriDongVuaBam = table.getSelectedRow();
 				 txtVehicleNum_Bill.setText(table.getValueAt(viTriDongVuaBam, 0).toString());
-				 Xe xe = dao_Xe.getInfoXe(table.getValueAt(viTriDongVuaBam, 0).toString());
+				 Xe xe = dao_Xe.getInfoXe("maXe",table.getValueAt(viTriDongVuaBam, 0).toString());
 			
 				 int sl = cbbVehicleName_Bill.getItemCount();
 				 for (int i = 0; i<sl; i++) {
@@ -644,17 +641,13 @@ public class UI_HoaDon extends JFrame {
 					 }
 				 }
 				 
-				 NhaCungCap ncc = dao_ncc.getTenNhaCCById(xe.getNhaCungCap().getMaNhaCungCap());
-				 
-				 sl = cbbSupplier.getItemCount();
+				 sl = cbbChasisNumber.getItemCount();
 				 for (int i = 0; i<sl; i++) {
-					 if(cbbSupplier.getItemAt(i).toString().equalsIgnoreCase(ncc.getTenNhaCungCap())) {
-						 cbbSupplier.setSelectedIndex(i);
+					 if(cbbChasisNumber.getItemAt(i).toString().equalsIgnoreCase(xe.getSoKhung())) {
+						 cbbChasisNumber.setSelectedIndex(i);
 						 break;
 					 }
 				 }
-				 
-				 txtAmount.setValue(Integer.parseInt(table.getValueAt(viTriDongVuaBam, 6).toString()));
 				 boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
 			}
 		});
@@ -697,71 +690,47 @@ public class UI_HoaDon extends JFrame {
 		
 		
 //====================Xử lý button============================
+		//>>>>>>>>>>> Xóa rỗng
+		btnEmptyDelete_Bill.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				cbbVehicleName_Bill.setSelectedIndex(-1);
+			}
+		});
+		
 		
 		//>>>>>>>>>>> ADD Vehicle
 		btnAddVehicle_Bill.addMouseListener(new MouseAdapter() {
 			public String CheckValueVehicle() {
-				if (cbbVehicleName_Bill.getSelectedItem() == null) {
-					return "Vui lòng chọn Tên Xe";}
-				else if (cbbVersion.getSelectedItem() == null)
-					return "Vui lòng chọn Hãng Sản Xuất";
-				else if (cbbVehicleColor_Bill.getSelectedItem() == null)
-					return "Vui lòng chọn Màu Xe";
-				else if (cbbSupplier.getSelectedItem() == null)
-					return "Vui lòng chọn Nhà Cung Cấp";
-				else if (Integer.parseInt(txtAmount.getValue().toString()) == 0)
-					return "Số lượng phải lớn hơn 0";
-				else
-					return null;
+				if (cbbVehicleName_Bill.getSelectedItem() == null) 
+					return "Vui lòng chọn Tên Xe";
+				int sl = table.getRowCount();
+				if(sl > 0)
+					for(int i = 0; i<sl ; i++)
+						if(txtVehicleNum_Bill.getText().equalsIgnoreCase(table.getValueAt(i, 0).toString()))
+							return "Xe đã tồn tại trong chi tiết hóa đơn!";
+				return null;
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (CheckValueVehicle()!= null)
 					JOptionPane.showMessageDialog(null, CheckValueVehicle());
 				else {
-					int soLuong = Integer.parseInt(txtAmount.getValue().toString());
-					int soLuongTon = dao_Xe.getAmountByVehicleID(txtVehicleNum_Bill.getText());
-					int choose = 0;
-					int i = 0;
-					double dongia = 0;
-					Xe xe = dao_Xe.getInfoXe(txtVehicleNum_Bill.getText());
-					double thanhTien = 0;
-					double total = 0;
-					for (i = 0 ; i<table.getRowCount(); i++) {
-						if(table.getValueAt(i, 0).toString().equalsIgnoreCase(txtVehicleNum_Bill.getText())) {
-							//soLuong += Integer.parseInt(table.getValueAt(i, 5).toString());
-							choose = JOptionPane.showConfirmDialog(null, "Bạn chắc chắn muốn chèn thông tin Xe đã có?");
-							if (choose == 0) {
-								try { 
-									double tien = df.parse(table.getValueAt(i, 9).toString()).doubleValue();
-									table.setValueAt(soLuong, i, 6);
-									thanhTien = (xe.getDonGia() + xe.getThueVAT())*soLuong;
-									table.setValueAt(df.format(thanhTien), i, 9);
-									total = df.parse(txtTotal.getText()).doubleValue();
-									total -= tien;
-									total += thanhTien;
-									//System.out.println(df.format(total));
-								} catch (ParseException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
-							}
-							break;
-						}
-					}
-					if (i == table.getRowCount()) {
-						thanhTien = (xe.getDonGia() + xe.getThueVAT())*soLuong;
+					double total =0;
+					try {
+						total = df.parse(txtTotal.getText()).doubleValue();
+						Xe xe = dao_Xe.getInfoXe("maXe", txtVehicleNum_Bill.getText());
+						LoaiXe lx = dao_lx.getLoaiXeByID(xe.getLoaiXe().getMaLoaiXe());
 						HangSanXuat hsx = dao_Hsx.getHangSanXuatById(xe.getHangSanXuat().getMaHangSX());
-						tableModel.addRow(new Object[] {xe.getMaXe(), xe.getTenXe(), xe.getPhienBan(), xe.getMauXe(), xe.getPhanKhoi(), hsx.getTenHangSX(), txtAmount.getValue().toString(), df.format(xe.getDonGia()), df.format(xe.getThueVAT()), df.format(thanhTien)});
-						try {
-							total = df.parse(txtTotal.getText()).doubleValue();
-							total += thanhTien;
-						} catch (ParseException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}	
-					txtTotal.setText(String.valueOf(df.format(total)));
+						double thanhTien = xe.getDonGia() + xe.getThueVAT();
+						total += thanhTien;
+						tableModel.addRow(new Object[] {xe.getMaXe(), xe.getTenXe(), lx.getTenLoaiXe(), xe.getPhienBan(), xe.getMauXe(), xe.getPhanKhoi()+"", hsx.getTenHangSX(), xe.getSoKhung(), xe.getSoMay(), df.format(xe.getDonGia()), df.format(xe.getThueVAT()), df.format(thanhTien)});
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					txtTotal.setText(df.format(total));
+					cbbVehicleName_Bill.setSelectedIndex(-1);
 				}
 			}
 		});
@@ -773,8 +742,19 @@ public class UI_HoaDon extends JFrame {
 				int row = table.getSelectedRow();
 				if (row < 0)
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn Xe cần xóa khỏi CTHD");
-				else
-					tableModel.removeRow(row);
+				else {
+					double tien;
+					try {
+						tien = df.parse(table.getValueAt(row, 11).toString()).doubleValue();
+						double total = df.parse(txtTotal.getText()).doubleValue();
+						total -= tien;
+						txtTotal.setText(df.format(total));
+						tableModel.removeRow(row);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 		
@@ -784,6 +764,7 @@ public class UI_HoaDon extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				tableModel.getDataVector().removeAllElements();
 				tableModel.fireTableDataChanged();
+				txtTotal.setText(df.format(0));
 			}
 		});
 		

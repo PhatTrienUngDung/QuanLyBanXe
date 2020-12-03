@@ -33,6 +33,7 @@ import javax.swing.JTextArea;
 import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
 
+import autoComplete.CustomCombo;
 import autoComplete.FillCombo;
 import connect.ConnectDB;
 import dao.Dao_HangSanXuat;
@@ -110,6 +111,7 @@ public class UI_QuanLyXe extends JFrame {
 	private DefaultTableModel tableModelHang;
 	private ArrayList<String> tenHang;
 	private Dao_HangSanXuat dao_hsx= new Dao_HangSanXuat();
+	public static int check = 0;
 	/**
 	 * Launch the application.
 	 */
@@ -542,6 +544,7 @@ public class UI_QuanLyXe extends JFrame {
 
 					//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
 					dao_qlXe.themXe(xe);
+					cbbVehicleName_Bill.addItem(xe.getTenXe());
 					JOptionPane.showMessageDialog(null, "Thêm thành công !!!");
 					loadXe();
 					
@@ -574,9 +577,16 @@ public class UI_QuanLyXe extends JFrame {
 						if(hoi==JOptionPane.YES_OPTION) {
 							int r= table.getSelectedRow();						
 							if(xoaXe()) {
-								//cbbVehicleName_Bill.removeAllItems();
 								tableModel.removeRow(r);	
-								Reset();
+								//cbbVehicleName_Bill.removeAllItems();
+								//dao_qlXe.getListTenXe(cbbVehicleName_Bill);		
+								FillCombo combo = new FillCombo();
+								try {
+									combo.fill("select DISTINCT tenXe from Xe where trangThai = N'Còn hàng' order by tenXe" , cbbVehicleName_Bill, "tenXe");	
+								} catch (SQLException e2) {
+									// TODO Auto-generated catch block
+									e2.printStackTrace();
+								}
 							} else
 								JOptionPane.showMessageDialog(null, "Bạn Không thể xóa xe này!");
 						}
@@ -584,7 +594,6 @@ public class UI_QuanLyXe extends JFrame {
 					else
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn xe để xóa !!!");
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null, "Xe này không thể xóa");
 					//
 				}
 			}

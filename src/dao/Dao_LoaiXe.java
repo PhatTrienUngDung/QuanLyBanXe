@@ -5,11 +5,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import connect.ConnectDB;
 import entity.LoaiXe;
 
 public class Dao_LoaiXe {
+	
+	public LoaiXe getLoaiXeByID(String maLoaiXe) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select * from LoaiXe where maLoaiXe = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, maLoaiXe);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				String ma = rs.getString(1);
+				String ten= rs.getString(2);
+				LoaiXe lx = new LoaiXe(ma, ten);
+				return lx;
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
+	}
+	
 	//Đọc dữ liệu lên bảng
 		public DefaultTableModel getAllLX() throws SQLException {
 			String[] header= {"Mã Loại Xe","Tên Loại Xe"};

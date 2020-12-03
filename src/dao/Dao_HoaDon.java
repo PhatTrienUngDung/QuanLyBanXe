@@ -81,12 +81,11 @@ public class Dao_HoaDon {
 		PreparedStatement stmt = null;
 		int n= 0;
 		try {
-			stmt = con.prepareStatement("insert into ChiTietHoaDon values (?,?,?,?,?)");
+			stmt = con.prepareStatement("insert into ChiTietHoaDon values (?,?,?,?)");
 			stmt.setString(1, cthd.getHoaDon().getMaHoaDon());
 			stmt.setString(2, cthd.getSanPham().getMaXe());
-			stmt.setInt(3, cthd.getSoLuong());
-			stmt.setDouble(4, cthd.getDonGia());
-			stmt.setDouble(5, cthd.getThueVAT());
+			stmt.setDouble(3, cthd.getDonGia());
+			stmt.setDouble(4, cthd.getThueVAT());
 			n=stmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

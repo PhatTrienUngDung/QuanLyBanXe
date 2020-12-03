@@ -42,21 +42,6 @@ public class Dao_NhaCungCap {
 		return null;
 	}
 	
-	public void getListSupplierName_Bill(String tenXe, String version, String mauXe, JComboBox comboBox) {
-		Connection con = ConnectDB.getCon();
-		String sql = "SELECT DISTINCT tenNhaCungCap FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"'";
-		try {
-			PreparedStatement pst = con.prepareStatement(sql);
-			ResultSet rs = pst.executeQuery();
-			while(rs.next()) {
-				comboBox.addItem(rs.getString(1));
-			}
-		} catch (SQLException e1) {
-			JOptionPane.showMessageDialog(null, e1);
-			e1.printStackTrace();
-		}
-	}
-	
 	public ArrayList<String> getListSuppilerName() {
 		try {
 			listSupplierName.clear();
