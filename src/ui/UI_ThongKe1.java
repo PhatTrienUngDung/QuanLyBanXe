@@ -199,6 +199,11 @@ public class UI_ThongKe1 extends JFrame {
 		lbSLXeMoi.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lbSLXeMoi.setBounds(10, 46, 317, 63);
 		panel_1.add(lbSLXeMoi);
+		
+		JLabel lbTangGiamXeMoi = new JLabel("ABC");
+		lbTangGiamXeMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lbTangGiamXeMoi.setBounds(54, 122, 202, 13);
+		panel_1.add(lbTangGiamXeMoi);
 		lbThongKeXeMoi.setIcon(imageIcon);
 		panel_1.add(lbThongKeXeMoi);
 		
@@ -318,7 +323,7 @@ public class UI_ThongKe1 extends JFrame {
 			dcd.addValue(dao_ThongKe.BieuDoXeBan(i, LocalDate.now().getYear()), "Số lượng Bán", "Tháng "+i);
 		}
 
-		JFreeChart jchart= ChartFactory.createBarChart("Thống kê số lượng xe bán", "Tháng", "Số lượng", dcd, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart jchart= ChartFactory.createBarChart("Thống kê số lượng xe bán theo tháng", null, "Số lượng", dcd, PlotOrientation.VERTICAL, true, true, false);
 		CategoryPlot plot= jchart.getCategoryPlot();
 		jchart.setBackgroundPaint(Color.white);
 		BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -346,8 +351,6 @@ public class UI_ThongKe1 extends JFrame {
 		lbSLKhachHang.setText(String.valueOf(dao_ThongKe.SoLuongKhachHangTrongThang(t, n)));
 		DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 		lbSLTienBan.setText(df.format(dao_ThongKe.TongTienTheoThang(t, n)));
-		System.out.println(df.format(dao_ThongKe.TongTienTheoNam(2020)));
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(978, 10, 504, 420);
 		pnChart.add(scrollPane);
@@ -483,17 +486,37 @@ public class UI_ThongKe1 extends JFrame {
 						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Tháng");
 						lbSTDB.setText("Tổng Doanh Thu Trong Tháng");
 						lbSLKH.setText("Tổng Khách Hàng Mới Trong Tháng");
+						jchart.setTitle("Thống kê số lượng xe bán theo tháng");
 						//Biểu đồ
 						int t2=(int) cbThang.getSelectedItem();
 						int n2=(int) cbNam.getSelectedItem();
 						Calendar calendar = Calendar.getInstance();
 						calendar.set(n2, t2, 0);
 						int maxDay =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-						System.out.println("dsa"+maxDay);
+				
+						for (int i = 1; i <=31; i++) {
+							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
+							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));
+						}
+						for (int i = 1; i <=31; i++) {
+							dcd.removeValue("Số lượng Nhập", String.valueOf(i));
+							dcd.removeValue("Số lượng Bán", String.valueOf(i));
+							dcd.removeColumn("Số lượng Nhập");
+							dcd.removeColumn("Số lượng Bán");
+						}
+						for (int i = 2019; i <= LocalDate.now().getYear(); i++) {
+							dcd.addValue(dao_thongKe.SoLuongXeBanTrongNam(i), "Số lượng Nhập", String.valueOf(i));
+							dcd.addValue(dao_thongKe.SoLuongXeNhapTrongNam(i), "Số lượng Bán", String.valueOf(i));
+						}
+						for (int i = 2019; i <=LocalDate.now().getYear(); i++) {
+							dcd.removeValue("Số lượng Nhập", String.valueOf(i));
+							dcd.removeValue("Số lượng Bán", String.valueOf(i));
+							dcd.removeColumn("Số lượng Nhập");
+							dcd.removeColumn("Số lượng Bán");
+						}
 						for (int i = 1; i <=maxDay; i++) {
 							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
 							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));
-							System.out.println(dao_ThongKe.BieuDoXeNhap(i, t2,n2));
 						}
 						for (int i = 1; i <=maxDay; i++) {
 							dcd.removeValue("Số lượng Nhập", String.valueOf(i));
@@ -508,29 +531,19 @@ public class UI_ThongKe1 extends JFrame {
 						
 					}
 					if(rdNam.isSelected()) {
-						if(dao_ThongKe.SoLuongXeNhapTrongNam(n1)==null) {
-							lbSLXeMoi.setText("0");
-						}
-						else {
-							lbSLXeMoi.setText(dao_ThongKe.SoLuongXeNhapTrongNam(n1));
-						}
+						lbSLXeMoi.setText(String.valueOf(dao_ThongKe.SoLuongXeNhapTrongNam(n1)));
 						lbSLXeBan.setText(String.valueOf(dao_ThongKe.SoLuongXeBanTrongNam(n1)));
 						lbSLKhachHang.setText(String.valueOf(dao_ThongKe.SoLuongKhachHangTrongNam(n1)));				
 						lbSLTienBan.setText(df.format(dao_ThongKe.TongTienTheoNam(n)));
-						System.out.println(df.format(dao_ThongKe.TongTienTheoNam(n)));
 						lbTKXB.setText("Tổng Số Lượng Xe Bán Trong Năm");
 						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Năm");
 						lbSTDB.setText("Tổng Doanh Thu Trong Năm");
 						lbSLKH.setText("Tổng Khách Hàng Mới Trong Năm");
 						loadThongKeNam();
-					}
-					if(rdNgay.isSelected()) {
-						int t2=(int) cbThang.getSelectedItem();
-						int n2=(int) cbNam.getSelectedItem();
-						Calendar calendar = Calendar.getInstance();
-						calendar.set(n2, t2, 0);
-						int maxDay =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-						System.out.println("dsa"+maxDay);
+						jchart.setTitle("Thống kê số lượng xe bán theo năm");
+						//Vẽ biểu đồ
+						
+						
 						for (int i = 1; i <= 12; i++) {
 							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, LocalDate.now().getYear()), "Số lượng Nhập", "Tháng "+i);
 							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, LocalDate.now().getYear()), "Số lượng Bán", "Tháng "+i);
@@ -541,10 +554,80 @@ public class UI_ThongKe1 extends JFrame {
 							dcd.removeColumn("Số lượng Nhập");
 							dcd.removeColumn("Số lượng Bán");
 						}
+						int t2=(int) cbThang.getSelectedItem();
+						int n2=(int) cbNam.getSelectedItem();
+						Calendar calendar = Calendar.getInstance();
+						calendar.set(n2, t2, 0);
+						int maxDay =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+						for (int i = 1; i <=31; i++) {
+							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
+							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));
+						}
+						for (int i = 1; i <=31; i++) {
+							dcd.removeValue("Số lượng Nhập", String.valueOf(i));
+							dcd.removeValue("Số lượng Bán", String.valueOf(i));
+							dcd.removeColumn("Số lượng Nhập");
+							dcd.removeColumn("Số lượng Bán");
+						}
 						for (int i = 1; i <=maxDay; i++) {
 							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
 							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));
-							System.out.println(dao_ThongKe.BieuDoXeNhap(i, t2,n2));
+	
+						}
+						for (int i = 1; i <=maxDay; i++) {
+							dcd.removeValue("Số lượng Nhập", String.valueOf(i));
+							dcd.removeValue("Số lượng Bán",  String.valueOf(i));
+							dcd.removeColumn("Số lượng Nhập");
+							dcd.removeColumn("Số lượng Bán");
+						}
+						for (int i = 2019; i <= LocalDate.now().getYear(); i++) {
+							dcd.addValue(dao_ThongKe.SoLuongXeNhapTrongNam(i), "Số lượng Nhập", String.valueOf(i));
+							dcd.addValue(dao_ThongKe.SoLuongXeBanTrongNam(i), "Số lượng Bán", String.valueOf(i));
+						}
+					}
+					
+					if(rdNgay.isSelected()) {
+						
+						int t2=(int) cbThang.getSelectedItem();
+						int n2=(int) cbNam.getSelectedItem();
+						Calendar calendar = Calendar.getInstance();
+						calendar.set(n2, t2, 0);
+						int maxDay =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+						
+						jchart.setTitle("Thống kê số lượng xe bán theo ngày");
+						for (int i = 1; i <=31; i++) {
+							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
+							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));
+						}
+						for (int i = 1; i <=31; i++) {
+							dcd.removeValue("Số lượng Nhập", String.valueOf(i));
+							dcd.removeValue("Số lượng Bán", String.valueOf(i));
+							dcd.removeColumn("Số lượng Nhập");
+							dcd.removeColumn("Số lượng Bán");
+						}
+						for (int i = 1; i <=maxDay; i++) {
+							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
+							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));
+						}
+						for (int i = 2019; i <= LocalDate.now().getYear(); i++) {
+							dcd.addValue(dao_thongKe.SoLuongXeBanTrongNam(i), "Số lượng Nhập", String.valueOf(i));
+							dcd.addValue(dao_thongKe.SoLuongXeNhapTrongNam(i), "Số lượng Bán", String.valueOf(i));
+						}
+						for (int i = 2019; i <=LocalDate.now().getYear(); i++) {
+							dcd.removeValue("Số lượng Nhập", String.valueOf(i));
+							dcd.removeValue("Số lượng Bán", String.valueOf(i));
+							dcd.removeColumn("Số lượng Nhập");
+							dcd.removeColumn("Số lượng Bán");
+						}
+						for (int i = 1; i <= 12; i++) {
+							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, LocalDate.now().getYear()), "Số lượng Nhập", "Tháng "+i);
+							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, LocalDate.now().getYear()), "Số lượng Bán", "Tháng "+i);
+						}
+						for (int i = 1; i <=12; i++) {
+							dcd.removeValue("Số lượng Nhập", "Tháng "+i);
+							dcd.removeValue("Số lượng Bán", "Tháng "+i);
+							dcd.removeColumn("Số lượng Nhập");
+							dcd.removeColumn("Số lượng Bán");
 						}
 					}
 				} catch (SQLException e1) {

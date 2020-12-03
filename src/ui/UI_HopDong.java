@@ -564,7 +564,7 @@ public class UI_HopDong extends JFrame {
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnThem.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Button-Add-icon.png")));
+		btnThem.setIcon(new ImageIcon("/image/Button-Add-icon.png"));
 		
 		btnThem.setBounds(739, 25, 129, 38);
 		panel_4.add(btnThem);
@@ -594,7 +594,7 @@ public class UI_HopDong extends JFrame {
 			}
 		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnXoa.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/delete-icon.png")));
+		btnXoa.setIcon(new ImageIcon("/image/delete-icon.png"));
 		
 		btnXoa.setBounds(1126, 24, 129, 41);
 		panel_4.add(btnXoa);
@@ -659,7 +659,7 @@ public class UI_HopDong extends JFrame {
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnSua.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/Settings-icon.png")));
+		btnSua.setIcon(new ImageIcon("/image/Settings-icon.png"));
 		
 		
 		btnSua.setBounds(936, 25, 129, 38);
@@ -668,7 +668,7 @@ public class UI_HopDong extends JFrame {
 		JButton btnNew = new JButton("Làm mới");
 		btnNew.setBackground(new Color(255,190,87));
 		btnNew.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnNew.setIcon(new ImageIcon(UI_PhieuNhap.class.getResource("/image/refresh-icon.png")));
+		btnNew.setIcon(new ImageIcon("/image/refresh-icon.png"));
 		btnNew.setBounds(1314, 25, 129, 38);
 		panel_4.add(btnNew);
 		JPanel panel_3 = new JPanel();

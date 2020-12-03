@@ -101,54 +101,54 @@ public class Detail extends JFrame {
 		lbMau.setBounds(450, 115, 130, 19);
 		contentPane.add(lbMau);
 		
-		JLabel lbSl = new JLabel("Số lượng");
-		lbSl.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbSl.setBounds(450, 159, 130, 19);
-		contentPane.add(lbSl);
+		JLabel lbSoKhung = new JLabel("Số khung");
+		lbSoKhung.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbSoKhung.setBounds(450, 159, 130, 19);
+		contentPane.add(lbSoKhung);
 		
 		JLabel lbPhanKhoi = new JLabel("Phân khối");
 		lbPhanKhoi.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbPhanKhoi.setBounds(450, 205, 130, 19);
+		lbPhanKhoi.setBounds(450, 271, 130, 19);
 		contentPane.add(lbPhanKhoi);
 		
 		JLabel lbNcc = new JLabel("Nhà cung cấp");
 		lbNcc.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbNcc.setBounds(450, 254, 88, 19);
+		lbNcc.setBounds(450, 320, 88, 19);
 		contentPane.add(lbNcc);
 		
 		JLabel lbHang = new JLabel("Hãng sản xuất");
 		lbHang.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbHang.setBounds(450, 301, 130, 19);
+		lbHang.setBounds(450, 367, 130, 19);
 		contentPane.add(lbHang);
 		
 		JLabel lbLoai = new JLabel("Loại xe");
 		lbLoai.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbLoai.setBounds(450, 385, 130, 19);
+		lbLoai.setBounds(450, 451, 130, 19);
 		contentPane.add(lbLoai);
 		
 		JLabel lbGia = new JLabel("Giá nhập");
 		lbGia.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbGia.setBounds(450, 428, 130, 19);
+		lbGia.setBounds(450, 494, 130, 19);
 		contentPane.add(lbGia);
 		
 		JLabel lbNgay = new JLabel("Ngày nhập");
 		lbNgay.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbNgay.setBounds(450, 473, 130, 14);
+		lbNgay.setBounds(450, 539, 130, 14);
 		contentPane.add(lbNgay);
 		
 		JLabel lbTrangThai = new JLabel("Trạng thái");
 		lbTrangThai.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbTrangThai.setBounds(450, 520, 130, 19);
+		lbTrangThai.setBounds(450, 580, 130, 19);
 		contentPane.add(lbTrangThai);
 		
 		JLabel lbChuThic = new JLabel("Chú thích");
 		lbChuThic.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbChuThic.setBounds(450, 560, 130, 19);
+		lbChuThic.setBounds(450, 620, 130, 19);
 		contentPane.add(lbChuThic);
 		
 		JLabel lbQuocGia = new JLabel("Quốc gia sản xuất");
 		lbQuocGia.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbQuocGia.setBounds(450, 344, 109, 19);
+		lbQuocGia.setBounds(450, 410, 109, 19);
 		contentPane.add(lbQuocGia);
 		
 		JLabel lbEditten = new JLabel("...");
@@ -165,16 +165,15 @@ public class Detail extends JFrame {
 		contentPane.add(lbEditMau);
 		lbEditMau.setText(listXe.getMauXe());
 		
-		JLabel lbEditSl = new JLabel("...");
-		lbEditSl.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbEditSl.setBounds(609, 159, 188, 19);
-		contentPane.add(lbEditSl);
-		String sl= Integer.toString(listXe.getSoLuong());
-		lbEditSl.setText(sl);
+		JLabel lbEditSoKhung = new JLabel("...");
+		lbEditSoKhung.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbEditSoKhung.setBounds(609, 159, 188, 19);
+		contentPane.add(lbEditSoKhung);
+		lbEditSoKhung.setText(listXe.getSoKhung());
 		
 		JLabel lbEditPhanKhoi = new JLabel("...");
 		lbEditPhanKhoi.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbEditPhanKhoi.setBounds(609, 205, 188, 19);
+		lbEditPhanKhoi.setBounds(609, 271, 188, 19);
 		contentPane.add(lbEditPhanKhoi);
 		String phanKhoi= Integer.toString(listXe.getPhanKhoi());
 		lbEditPhanKhoi.setText(phanKhoi);
@@ -188,32 +187,32 @@ public class Detail extends JFrame {
 		
 		JLabel lbeditNcc = new JLabel("...");
 		lbeditNcc.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbeditNcc.setBounds(609, 254, 225, 19);
+		lbeditNcc.setBounds(609, 320, 225, 19);
 		contentPane.add(lbeditNcc);
 		lbeditNcc.setText(dsncc.get(0).getTenNhaCungCap());
 		
 		JLabel lbEditHang = new JLabel("...");
 		lbEditHang.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbEditHang.setBounds(609, 301, 188, 19);
+		lbEditHang.setBounds(609, 367, 188, 19);
 		contentPane.add(lbEditHang);
 		
 		lbEditHang.setText(dshsx.get(0).getMaHangSX());
 		
 		JLabel lbeditQuocGia = new JLabel("...");
 		lbeditQuocGia.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbeditQuocGia.setBounds(609, 344, 188, 19);
+		lbeditQuocGia.setBounds(609, 410, 188, 19);
 		contentPane.add(lbeditQuocGia);
 		lbeditQuocGia.setText(dshsx.get(0).getQuocGia());
 		
 		JLabel lbEditLoai = new JLabel("...");
 		lbEditLoai.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbEditLoai.setBounds(609, 385, 188, 19);
+		lbEditLoai.setBounds(609, 451, 188, 19);
 		contentPane.add(lbEditLoai);
 		lbEditLoai.setText(dsLoai.get(0).getTenLoaiXe());
 		
 		JLabel lbEditGia = new JLabel("...");
 		lbEditGia.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbEditGia.setBounds(609, 428, 188, 19);
+		lbEditGia.setBounds(609, 494, 188, 19);
 		contentPane.add(lbEditGia);
 		DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 		String gia= df.format(listXe.getGiaNhap());
@@ -221,19 +220,19 @@ public class Detail extends JFrame {
 		
 		JLabel lbeditNgay = new JLabel("...");
 		lbeditNgay.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbeditNgay.setBounds(609, 473, 188, 14);
+		lbeditNgay.setBounds(609, 539, 188, 14);
 		contentPane.add(lbeditNgay);
 		lbeditNgay.setText(listXe.getNgayNhap().toString());
 		
 		JLabel lbEditTt = new JLabel("...");
 		lbEditTt.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbEditTt.setBounds(609, 520, 188, 19);
+		lbEditTt.setBounds(609, 580, 188, 19);
 		contentPane.add(lbEditTt);
 		lbEditTt.setText(listXe.getTrangThai());
 		
 		JLabel lbEditChuThich = new JLabel("...");
 		lbEditChuThich.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbEditChuThich.setBounds(609, 560, 188, 19);
+		lbEditChuThich.setBounds(609, 620, 188, 19);
 		contentPane.add(lbEditChuThich);
 		lbEditChuThich.setText(listXe.getChuThich());
 		
@@ -257,5 +256,16 @@ public class Detail extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setBounds(855, 0, 41, 35);
 		contentPane.add(lblNewLabel);
+		
+		JLabel lbSoMay = new JLabel("Số máy");
+		lbSoMay.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbSoMay.setBounds(450, 213, 130, 19);
+		contentPane.add(lbSoMay);
+		
+		JLabel lbEditSoMay = new JLabel((String) null);
+		lbEditSoMay.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbEditSoMay.setBounds(609, 213, 188, 19);
+		lbEditSoMay.setText(listXe.getSoMay());
+		contentPane.add(lbEditSoMay);
 	}
 }

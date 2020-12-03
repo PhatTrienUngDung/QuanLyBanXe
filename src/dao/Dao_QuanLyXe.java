@@ -273,14 +273,15 @@ public class Dao_QuanLyXe {
 				String maNcc=rs.getString(6);
 				String maHangSX=rs.getString(7);
 				int phanKhoi= rs.getInt(8);
-				int soLuong=rs.getInt(9);
-				double giaNhap=rs.getDouble(10);
-				Date ngay= rs.getDate(11);
-				String trangThai=rs.getString(12);
-				String chuThich=rs.getString(13);
-				String img1= rs.getString(14);
-				String img2= rs.getString(15);
-				xe = new Xe(maXe, tenXe, new LoaiXe(loaiXe), phienBan, mauXe, phanKhoi, soLuong, giaNhap, new NhaCungCap(maNcc), new HangSanXuat(maHangSX), ngay, trangThai, chuThich, img1, img2);
+				String soKhung= rs.getString(9);
+				String soMay=rs.getString(10);
+				double giaNhap=rs.getDouble(11);
+				Date ngay= rs.getDate(12);
+				String trangThai=rs.getString(13);
+				String chuThich=rs.getString(14);
+				String img1= rs.getString(15);
+				
+				xe = new Xe(maXe, tenXe, new LoaiXe(loaiXe), phienBan, mauXe, new NhaCungCap(maNcc), new HangSanXuat(maHangSX), phanKhoi, soKhung, soMay, giaNhap, ngay, trangThai, chuThich, img1);
 				//dsXe.add(xe);
 			}
 		} catch (Exception e) {
@@ -291,11 +292,11 @@ public class Dao_QuanLyXe {
 	}
 //Hiển thị danh sách xe
 	public DefaultTableModel getAllXe() throws SQLException {
-		String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Số lượng","Giá nhập","Ngày nhập","Trạng thái","Chú thích", "Tổng tiền","Phiên Bản","Ảnh"};
+		String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Giá nhập","Ngày nhập","Trạng thái", "Phiên Bản","Số khung","Số máy","Chú thích","Tổng tiền","Ảnh"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
-		String sql = "SELECT Xe.maXe, Xe.tenXe, Xe.mauXe, LoaiXe.tenLoaiXe, HangSanXuat.tenHangSanXuat, NhaCungCap.tenNhaCungCap, HangSanXuat.quocGia, Xe.phanKhoi, Xe.soLuong, Xe.giaNhap, Xe.ngayNhap, Xe.trangThai, Xe.chuThich,giaNhap*soLuong,Xe.PhienBan,Xe.img1\r\n"
+		String sql = "SELECT Xe.maXe, Xe.tenXe, Xe.mauXe, LoaiXe.tenLoaiXe, HangSanXuat.tenHangSanXuat, NhaCungCap.tenNhaCungCap, HangSanXuat.quocGia, Xe.phanKhoi, Xe.giaNhap, Xe.ngayNhap, Xe.trangThai,Xe.PhienBan,xe.soKhung,xe.soMay, Xe.chuThich,Xe.giaNhap,Xe.img1\r\n"
 				+ "FROM     Xe INNER JOIN\r\n"
 				+ "                  NhaCungCap ON Xe.maNhaCungCap = NhaCungCap.maNhaCungCap INNER JOIN\r\n"
 				+ "                  LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe INNER JOIN\r\n"
@@ -305,9 +306,9 @@ public class Dao_QuanLyXe {
 		while (rs.next()) {
 			DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 			DecimalFormat df1 = new DecimalFormat("############");
-			double tt= Double.parseDouble(rs.getString(14));
-			double donGia=Double.parseDouble(rs.getString(10));
-			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8), rs.getString(9), df1.format(donGia) , rs.getString(11), rs.getString(12),rs.getString(13),df.format(tt),rs.getString(15),rs.getString(16)};
+			double tt= Double.parseDouble(rs.getString(16));
+			double donGia=Double.parseDouble(rs.getString(9));
+			Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8), df1.format(donGia), rs.getString(10) , rs.getString(11), rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15),df.format(tt),rs.getString(17)};
 			tableModel.addRow(o);
 		}
 		return tableModel;
@@ -328,13 +329,13 @@ public class Dao_QuanLyXe {
 			stmt.setString(6, xe.getNhaCungCap().getMaNhaCungCap());
 			stmt.setString(7, xe.getHangSanXuat().getMaHangSX());
 			stmt.setInt(8, xe.getPhanKhoi());
-			stmt.setInt(9, xe.getSoLuong());
-			stmt.setDouble(10, xe.getGiaNhap());
-			stmt.setDate(11, xe.getNgayNhap());
-			stmt.setString(12, xe.getTrangThai());
-			stmt.setString(13, xe.getChuThich());
-			stmt.setString(14, xe.getImg1());
-			stmt.setString(15, xe.getImg2());
+			stmt.setString(9, xe.getSoKhung());
+			stmt.setString(10, xe.getSoMay());
+			stmt.setDouble(11, xe.getGiaNhap());
+			stmt.setDate(12, xe.getNgayNhap());
+			stmt.setString(13, xe.getTrangThai());
+			stmt.setString(14, xe.getChuThich());
+			stmt.setString(15, xe.getImg1());
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -357,22 +358,22 @@ public class Dao_QuanLyXe {
 			try {
 				//"Mã Xe","Tên Xe", "Loại Xe","Màu xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"
 				stmt = con.prepareStatement(
-						"update Xe set maxe=?,tenxe=?,maloaixe=?,mauxe=?,manhacungcap=?,mahangsanxuat=?,phankhoi=?,soluong=?,gianhap=?,ngaynhap=?,trangthai=?,chuthich=?,img1=?,img2=?,phienBan=? where maXe=?");
+						"update Xe set maxe=?,tenxe=?,maloaixe=?,mauxe=?,phienBan=?,manhacungcap=?,mahangsanxuat=?,phankhoi=?,sokhung=?,somay=?,gianhap=?,ngaynhap=?,trangthai=?,chuthich=?,img1=? where maXe=?");
 				stmt.setString(1, xe.getMaXe());
 				stmt.setString(2, xe.getTenXe());
 				stmt.setString(3, xe.getLoaiXe().getMaLoaiXe());
-				stmt.setString(4, xe.getMauXe());
-				stmt.setString(5, xe.getNhaCungCap().getMaNhaCungCap());
-				stmt.setString(6, xe.getHangSanXuat().getMaHangSX());
-				stmt.setInt(7, xe.getPhanKhoi());
-				stmt.setInt(8, xe.getSoLuong());
-				stmt.setDouble(9, xe.getGiaNhap());
-				stmt.setDate(10, xe.getNgayNhap());
-				stmt.setString(11, xe.getTrangThai());
-				stmt.setString(12, xe.getChuThich());
-				stmt.setString(13, xe.getImg1());
-				stmt.setString(14, xe.getImg2());
-				stmt.setString(15, xe.getPhienBan());
+				stmt.setString(4, xe.getPhienBan());
+				stmt.setString(5, xe.getMauXe());
+				stmt.setString(6, xe.getNhaCungCap().getMaNhaCungCap());
+				stmt.setString(7, xe.getHangSanXuat().getMaHangSX());
+				stmt.setInt(8, xe.getPhanKhoi());
+				stmt.setString(9, xe.getSoKhung());
+				stmt.setString(10, xe.getSoMay());
+				stmt.setDouble(11, xe.getGiaNhap());
+				stmt.setDate(12, xe.getNgayNhap());
+				stmt.setString(13, xe.getTrangThai());
+				stmt.setString(14, xe.getChuThich());
+				stmt.setString(15, xe.getImg1());
 				stmt.setString(16, xe.getMaXe());
 				n = stmt.executeUpdate();
 			} catch (SQLException e) {
@@ -399,23 +400,23 @@ public class Dao_QuanLyXe {
 	}
 //Tìm xe
 		public DefaultTableModel timKiem(String search) throws SQLException {
-			String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Số lượng","Giá nhập","Ngày nhập","Trạng thái","Chú thích", "Tổng tiền"};
+			String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Giá nhập","Ngày nhập","Trạng thái", "Phiên Bản","Số khung","Số máy","Chú thích","Tổng tiền","Ảnh"};
 			DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "SELECT Xe.maXe, Xe.tenXe, Xe.mauXe, LoaiXe.tenLoaiXe, HangSanXuat.tenHangSanXuat, NhaCungCap.tenNhaCungCap, HangSanXuat.quocGia, Xe.phanKhoi, Xe.soLuong, Xe.giaNhap, Xe.ngayNhap, Xe.trangThai, Xe.chuThich,giaNhap*soLuong,Xe.PhienBan,Xe.img1\r\n"
+			String sql = "SELECT Xe.maXe, Xe.tenXe, Xe.mauXe, LoaiXe.tenLoaiXe, HangSanXuat.tenHangSanXuat, NhaCungCap.tenNhaCungCap, HangSanXuat.quocGia, Xe.phanKhoi, Xe.giaNhap, Xe.ngayNhap, Xe.trangThai,Xe.PhienBan,xe.soKhung,xe.soMay, Xe.chuThich,Xe.giaNhap,Xe.img1\r\n"
 					+ "FROM     Xe INNER JOIN\r\n"
 					+ "                  NhaCungCap ON Xe.maNhaCungCap = NhaCungCap.maNhaCungCap INNER JOIN\r\n"
 					+ "                  LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe INNER JOIN\r\n"
-					+ "                  HangSanXuat ON Xe.maHangSanXuat = HangSanXuat.maHangSanXuat where maXe like'" + search + "' or tenXe like'"+search+"' ";
+					+ "                  HangSanXuat ON Xe.maHangSanXuat = HangSanXuat.maHangSanXuat where tenxe like '"+search+"' or maxe like '"+search+"'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 				DecimalFormat df1 = new DecimalFormat("############");
-				double tt= Double.parseDouble(rs.getString(14));
-				double donGia=Double.parseDouble(rs.getString(10));
-				Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8), rs.getString(9), df1.format(donGia) , rs.getString(11), rs.getString(12),rs.getString(13),df.format(tt),rs.getString(15),rs.getString(16)};
+				double tt= Double.parseDouble(rs.getString(16));
+				double donGia=Double.parseDouble(rs.getString(9));
+				Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8), df1.format(donGia), rs.getString(10) , rs.getString(11), rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15),df.format(tt),rs.getString(17)};
 				tableModel.addRow(o);
 			}
 			return tableModel;

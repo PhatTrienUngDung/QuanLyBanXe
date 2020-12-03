@@ -8,16 +8,16 @@ public class Xe {
 	private LoaiXe loaiXe;
 	private String phienBan;
 	private String mauXe;
-	private int phanKhoi;
-	private int soLuong;
-	private double giaNhap;
 	private NhaCungCap nhaCungCap;
 	private HangSanXuat hangSanXuat;
+	private int phanKhoi;
+	private String soKhung;
+	private String soMay;
+	private double giaNhap;
 	private Date ngayNhap;
 	private String trangThai;
 	private String chuThich;
 	private String img1;
-	private String img2;
 	
 	public Xe(String maXe) {
 		super();
@@ -41,67 +41,29 @@ public class Xe {
 		this.loaiXe = loaiXe;
 	}
 
-
-
-	public Xe(String maXe, String tenXe, String mauXe, int phanKhoi, int soLuong, double giaNhap, LoaiXe loaiXe,
-			NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, String trangThai, String chuThich, String img1, String img2) {
-		super();
-		this.maXe = maXe;
-		this.tenXe = tenXe;
-		this.mauXe = mauXe;
-		this.phanKhoi = phanKhoi;
-		this.soLuong = soLuong;
-		this.giaNhap = giaNhap;
-		this.loaiXe = loaiXe;
-		this.nhaCungCap = nhaCungCap;
-		this.hangSanXuat = hangSanXuat;
-		this.trangThai = trangThai;
-		this.chuThich = chuThich;
-		this.img1 = img1;
-		this.img2 = img2;
-	}
-
-	public Xe(String maXe, String tenXe, String mauXe, int phanKhoi, int soLuong, double giaNhap, LoaiXe loaiXe,
-			NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, Date ngayNhap, String trangThai, String chuThich,
-			String img1, String img2) {
-		super();
-		this.maXe = maXe;
-		this.tenXe = tenXe;
-		this.mauXe = mauXe;
-		this.phanKhoi = phanKhoi;
-		this.soLuong = soLuong;
-		this.giaNhap = giaNhap;
-		this.loaiXe = loaiXe;
-		this.nhaCungCap = nhaCungCap;
-		this.hangSanXuat = hangSanXuat;
-		this.ngayNhap = ngayNhap;
-		this.trangThai = trangThai;
-		this.chuThich = chuThich;
-		this.img1 = img1;
-		this.img2 = img2;
-	}
-
-	//Cái này của bạn Hoài
-	public Xe(String maXe, String tenXe, LoaiXe loaiXe, String phienBan, String mauXe, int phanKhoi, int soLuong,
-			double giaNhap, NhaCungCap nhaCungCap, HangSanXuat hangSanXuat, Date ngayNhap, String trangThai,
-			String chuThich, String img1, String img2) {
+	public Xe(String maXe, String tenXe, LoaiXe loaiXe, String phienBan, String mauXe, NhaCungCap nhaCungCap,
+			HangSanXuat hangSanXuat, int phanKhoi, String soKhung, String soMay, double giaNhap, Date ngayNhap,
+			String trangThai, String chuThich, String img1) {
 		super();
 		this.maXe = maXe;
 		this.tenXe = tenXe;
 		this.loaiXe = loaiXe;
 		this.phienBan = phienBan;
 		this.mauXe = mauXe;
-		this.phanKhoi = phanKhoi;
-		this.soLuong = soLuong;
-		this.giaNhap = giaNhap;
 		this.nhaCungCap = nhaCungCap;
 		this.hangSanXuat = hangSanXuat;
+		this.phanKhoi = phanKhoi;
+		this.soKhung = soKhung;
+		this.soMay = soMay;
+		this.giaNhap = giaNhap;
 		this.ngayNhap = ngayNhap;
 		this.trangThai = trangThai;
 		this.chuThich = chuThich;
 		this.img1 = img1;
-		this.img2 = img2;
 	}
+
+	//Cái này của bạn Hoài
+	
 
 	public Xe() {
 		super();
@@ -155,13 +117,7 @@ public class Xe {
 		this.phanKhoi = phanKhoi;
 	}
 
-	public int getSoLuong() {
-		return soLuong;
-	}
-
-	public void setSoLuong(int soLuong) {
-		this.soLuong = soLuong;
-	}
+	
 
 	public double getGiaNhap() {
 		return giaNhap;
@@ -219,12 +175,22 @@ public class Xe {
 		this.img1 = img1;
 	}
 
-	public String getImg2() {
-		return img2;
+	
+
+	public String getSoKhung() {
+		return soKhung;
 	}
 
-	public void setImg2(String img2) {
-		this.img2 = img2;
+	public void setSoKhung(String soKhung) {
+		this.soKhung = soKhung;
+	}
+
+	public String getSoMay() {
+		return soMay;
+	}
+
+	public void setSoMay(String soMay) {
+		this.soMay = soMay;
 	}
 
 	public double getDonGia() {
@@ -255,19 +221,16 @@ public class Xe {
 
 
 
+	
+
 	@Override
 	public String toString() {
 		return "Xe [maXe=" + maXe + ", tenXe=" + tenXe + ", loaiXe=" + loaiXe + ", phienBan=" + phienBan + ", mauXe="
-				+ mauXe + ", phanKhoi=" + phanKhoi + ", soLuong=" + soLuong + ", giaNhap=" + giaNhap + ", nhaCungCap="
-				+ nhaCungCap + ", hangSanXuat=" + hangSanXuat + ", ngayNhap=" + ngayNhap + ", trangThai=" + trangThai
-				+ ", chuThich=" + chuThich + ", img1=" + img1 + ", img2=" + img2 + "]";
+				+ mauXe + ", nhaCungCap=" + nhaCungCap + ", hangSanXuat=" + hangSanXuat + ", phanKhoi=" + phanKhoi
+				+ ", soKhung=" + soKhung + ", soMay=" + soMay + ", giaNhap=" + giaNhap + ", ngayNhap=" + ngayNhap
+				+ ", trangThai=" + trangThai + ", chuThich=" + chuThich + ", img1=" + img1 + "]";
 	}
 
-	public Xe(String ma, String ten, String mau, int phanKhoi2, int soLuong2, double giaNhap2, LoaiXe loaiXe2,
-			NhaCungCap nhaCungCap2, HangSanXuat hangSanXuat2, java.util.Date parse, String trangThai2, String chuThich2,
-			String img12, String img22, String img32) {
-		// TODO Auto-generated constructor stub
-	}
 
 	
 

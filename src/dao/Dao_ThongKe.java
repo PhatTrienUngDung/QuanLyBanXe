@@ -72,7 +72,7 @@ public class Dao_ThongKe {
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "select sum(soLuong) from Xe where YEAR(ngaynhap)="+nam+" and  Month(ngaynhap)="+thang+"";
+			String sql = "select count(maXe) from Xe where YEAR(ngaynhap)="+nam+" and  Month(ngaynhap)="+thang+"";
 			PreparedStatement pst=con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()) {
@@ -146,7 +146,7 @@ public class Dao_ThongKe {
 			try {
 				ConnectDB.getInstance();
 				Connection con = ConnectDB.getCon();
-				String sql = "select sum(soLuong) from Xe where day(ngaynhap)="+ngay+" and YEAR(ngaynhap)="+nam+" and  Month(ngaynhap)="+thang+"";
+				String sql = "select count(maXe) from Xe where day(ngaynhap)="+ngay+" and YEAR(ngaynhap)="+nam+" and  Month(ngaynhap)="+thang+"";
 				PreparedStatement pst=con.prepareStatement(sql);
 				ResultSet rs = pst.executeQuery();
 				if(rs.next()) {
@@ -214,8 +214,8 @@ public class Dao_ThongKe {
 	
 	//---------------------------------------------------------------------Theo Năm-------------------------------------------------------------------------------
 	//Thống kê số lượng xe nhập trong năm
-	public String SoLuongXeNhapTrongNam(int nam) {
-		String count =null;
+	public int SoLuongXeNhapTrongNam(int nam) {
+		int count =0;
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
@@ -223,7 +223,7 @@ public class Dao_ThongKe {
 			PreparedStatement pst=con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()) {
-				count=rs.getString(1);
+				count=rs.getInt(1);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
