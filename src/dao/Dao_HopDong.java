@@ -2,6 +2,7 @@ package dao;
 
 import java.lang.reflect.Array;
 
+
 import java.sql.Connection;
 
 
@@ -10,11 +11,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+import com.toedter.calendar.JDateChooser;
 
 import connect.ConnectDB;
 import entity.ChiTietHoaDon;
@@ -30,26 +34,75 @@ public class Dao_HopDong {
 	private int n;
 	public Dao_HopDong() {}
 		//Load data
-				public DefaultTableModel getAllHD() throws SQLException {
-					String[] header=  {"Mã Hợp Đồng","Tên Khách Hàng","CMND","Ngày Sinh","Địa Chỉ","Số Điện Thoại","Tên Nhân Viên","Tên Xe","Loại Xe","Màu Xe","Phân Khối","Số Lượng","Gía Nhập","Tổng Tiền","Ngày Lập","Thời gian bảo hành"};
-					DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+//				public DefaultTableModel getAllHD() throws SQLException {
+//					String[] header=  {"Mã Hợp Đồng","Tên Khách Hàng","CMND","Ngày Sinh","Địa Chỉ","Số Điện Thoại","Tên Nhân Viên","Tên Xe","Loại Xe","Màu Xe","Phân Khối","Số Lượng","Gía Nhập","Tổng Tiền","Ngày Lập","Thời gian bảo hành"};
+//					DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+//					ConnectDB.getInstance();
+//					Connection con = ConnectDB.getCon();
+//					String sql = "SELECT  HopDong.maHopDong, KhachHang.tenKhachHang, KhachHang.CMND, KhachHang.ngaySinh, KhachHang.diaChi,KhachHang.soDienThoai, NhanVien.tenNhanVien, Xe.tenXe, LoaiXe.tenLoaiXe, Xe.mauXe, Xe.phanKhoi, chiTietHoaDon.soLuong, chiTietHoaDon.donGia, chiTietHoaDon.soLuong*chiTietHoaDon.donGia, HopDong.ngayLap, HopDong.thoiGianBH\r\n" + 
+//							"FROM     HopDong INNER JOIN\r\n" + 
+//							"                  KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang INNER JOIN\r\n" + 
+//							"                  NhanVien ON HopDong.maNhanVien = NhanVien.maNhanVien INNER JOIN\r\n" + 
+//							"                  Xe ON HopDong.maXe = Xe.maXe INNER JOIN\r\n" + 
+//							"                  LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe INNER JOIN\r\n" + 
+//							"                  chiTietHoaDon ON Xe.maXe = chiTietHoaDon.maXe";
+//					Statement statement = con.createStatement();
+//					ResultSet rs = statement.executeQuery(sql);
+//					while (rs.next()) {
+//						Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15),rs.getString(16)};
+//						tableModel.addRow(o);
+//					}
+//					return tableModel;
+//				}
+//				
+				public DefaultTableModel getAllXe() throws SQLException{
+					String[] header = {"Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Đơn giá","Thuế","Trạng thái"};
+					DefaultTableModel tableModel = new DefaultTableModel(header,0);
 					ConnectDB.getInstance();
 					Connection con = ConnectDB.getCon();
-					String sql = "SELECT  HopDong.maHopDong, KhachHang.tenKhachHang, KhachHang.CMND, KhachHang.ngaySinh, KhachHang.diaChi,KhachHang.soDienThoai, NhanVien.tenNhanVien, Xe.tenXe, LoaiXe.tenLoaiXe, Xe.mauXe, Xe.phanKhoi, chiTietHoaDon.soLuong, chiTietHoaDon.donGia, chiTietHoaDon.soLuong*chiTietHoaDon.donGia, HopDong.ngayLap, HopDong.thoiGianBH\r\n" + 
-							"FROM     HopDong INNER JOIN\r\n" + 
-							"                  KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang INNER JOIN\r\n" + 
-							"                  NhanVien ON HopDong.maNhanVien = NhanVien.maNhanVien INNER JOIN\r\n" + 
-							"                  Xe ON HopDong.maXe = Xe.maXe INNER JOIN\r\n" + 
-							"                  LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe INNER JOIN\r\n" + 
-							"                  chiTietHoaDon ON Xe.maXe = chiTietHoaDon.maXe";
+					String sql = "select * from Xe";
 					Statement statement = con.createStatement();
 					ResultSet rs = statement.executeQuery(sql);
-					while (rs.next()) {
-						Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15),rs.getString(16)};
+					while(rs.next()) {
+						DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
+						DecimalFormat df1 = new DecimalFormat("############");
+						
+						double donGia=Double.parseDouble(rs.getString(10));
+						Object[] o = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(8),"",df.format(donGia), "",rs.getString(12)};
 						tableModel.addRow(o);
 					}
 					return tableModel;
+					
 				}
+				public DefaultTableModel getAllHD() throws SQLException{
+					String[] header1 = {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
+					DefaultTableModel tableModel1 = new DefaultTableModel(header1,0);
+					ConnectDB.getInstance();
+					Connection con = ConnectDB.getCon();
+					String sql = "select * from HopDong inner join KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang inner join  Xe ON HopDong.maXe = Xe.maXe ";
+					Statement statement = con.createStatement();
+					ResultSet rs = statement.executeQuery(sql);
+					Dao_QuanLyXe dao_xe  = new Dao_QuanLyXe();
+					Xe xe;
+					while(rs.next()) {
+						xe = dao_xe.getInfoXe("maXe",rs.getString(4));
+						DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
+						DecimalFormat df1 = new DecimalFormat("############");
+						double thue = xe.getThueVAT();
+						double donGia=Double.parseDouble(rs.getString(26));
+						Object[] o = {rs.getString(1),rs.getString(9),rs.getString(8),rs.getString(15),rs.getString(4),rs.getString(18),rs.getString(19),rs.getString(20),rs.getString(24),rs.getString(25),df.format(donGia),"",rs.getString(5),rs.getString(6)};
+						tableModel1.addRow(o);
+					}
+					return tableModel1;
+					
+				}
+				
+				
+				
+				
+				
+				
+				
 				
 				public boolean themHD(HopDong hd) {
 					ConnectDB.getInstance();
@@ -58,7 +111,7 @@ public class Dao_HopDong {
 					int n = 0;
 					try {
 						stmt = con.prepareStatement("insert into HopDong values(?,?,?,?,?,?)");
-						stmt.setString(1, hd.getMaHD());
+						stmt.setString(1, hd.getKhachHang().getMaKhachHang());
 						stmt.setString(2,hd.getKhachHang().getMaKhachHang());
 						stmt.setString(3, hd.getNhanVien().getMaNhanVien());
 						stmt.setString(4, hd.getXe().getMaXe());						
@@ -79,19 +132,75 @@ public class Dao_HopDong {
 				}
 			
 		//Tìm
-			public DefaultTableModel timKiem(String maHD) throws SQLException {
-				String[] header= {"Mã Hợp Đồng","Mã Khách Hàng","Mã Nhân Viên","Mã Xe","Ngày Lập","Thời gian bảo hành"};
+			public DefaultTableModel timKiem(String cmnd) throws SQLException {
+				String[] header= {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
 				DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 				ConnectDB.getInstance();
 				Connection con = ConnectDB.getCon();
-				String sql = "select *from HopDong where maHopDong='" + maHD + "'";
+				
+				String sql ="select * from HopDong inner join KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang inner join  Xe ON HopDong.maXe = Xe.maXe where CMND like '" + cmnd + "' ";
 				Statement statement = con.createStatement();
 				ResultSet rs = statement.executeQuery(sql);
 				while (rs.next()) {
-					Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8) };
+					double donGia=Double.parseDouble(rs.getString(26));
+					Object[] o = { rs.getString(1),rs.getString(9),rs.getString(8),rs.getString(15),rs.getString(4),rs.getString(18),rs.getString(19),rs.getString(20),rs.getString(24),rs.getString(25),rs.getString(8),rs.getString(5),rs.getString(6) };
 					tableModel.addRow(o);
 				}
 				return tableModel;
+			}
+			
+			public DefaultTableModel timKiemXe(String tenXe) throws SQLException{
+				String[] header = {"Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Đơn giá","Thuế"};
+				DefaultTableModel tableModel = new DefaultTableModel(header,0);
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql ="select *from Xe inner join  HopDong inner join KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang inner join  Xe ON HopDong.maXe = Xe.maXe  here TenXe like '"+tenXe+"'";
+				Statement statement = con.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+				while(rs.next()) {
+					Object[] o = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(8),"",rs.getString(10), ""};
+					tableModel.addRow(o);
+				}
+				return tableModel;
+			}
+			//Ờ mấy zingg gút chốp
+			public DefaultTableModel timKiemNgay(String ngayLap) throws SQLException{
+				String[] header= {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
+				DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql = "select * from HopDong inner join KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang inner join  Xe ON HopDong.maXe = Xe.maXe where HopDong.ngayLap='"+ngayLap+"'";
+			//	String sql ="select chiTietHoaDon.* from chiTietHoaDon,HoaDon,HopDong where HoaDon.maHoaDon=chiTietHoaDon.maHoaDon and HoaDon.ngayLapHoaDon='"+ngayLap+"'";
+				Statement statement = con.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+				while (rs.next()) {
+					Object[] o = { rs.getString(1),rs.getString(9),rs.getString(8),rs.getString(15),rs.getString(4),rs.getString(18),rs.getString(19),rs.getString(20),rs.getString(7),rs.getString(26),rs.getString(9),rs.getDate(5),rs.getString(6) };
+					tableModel.addRow(o);
+				}
+				return tableModel;
+			}
+			public DefaultTableModel locData(String cmnd,String ngayLap) throws SQLException{
+				String[] header = {"Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Đơn giá","Thuế"};
+			//	String[] header1= {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
+		//		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+				DefaultTableModel tableModel1 = new DefaultTableModel(header,0);
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql ="select chiTietHoaDon.* from chiTietHoaDon,HoaDon,HopDong where HoaDon.maHoaDon=chiTietHoaDon.maHoaDon and HoaDon.maKhachHang = '"+cmnd+"' and HoaDon.ngayLapHoaDon='"+ngayLap+"'";
+		
+				Statement statement = con.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+			
+//				while (rs.next()) {
+//					double donGia=Double.parseDouble(rs.getString(26));
+//					Object[] o = { rs.getString(1),rs.getString(9),rs.getString(8),rs.getString(15),rs.getString(4),rs.getString(18),rs.getString(19),rs.getString(20),rs.getString(24),rs.getString(25),rs.getString(8),rs.getString(5),rs.getString(6) };
+//					tableModel.addRow(o);
+//				}
+				while(rs.next()) {
+					Object[] o = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(8),"",rs.getString(10), ""};
+					tableModel1.addRow(o);
+				}
+				return tableModel1;
 			}
 		//Thêm
 			
@@ -175,19 +284,16 @@ public class Dao_HopDong {
 					try {
 						ConnectDB.getInstance();
 						Connection con= ConnectDB.getCon();
-						String sql= "select * from KhachHang";
+						String sql= "select cmnd,tenkhachhang from KhachHang";
 						Statement statement= con.createStatement();
 						ResultSet rs= statement.executeQuery(sql);
 						
 						while(rs.next()) {
-							String maKH=rs.getString(1);
+							String cmnd=rs.getString(1);
 							String tenKH=rs.getString(2);
-							String cmnd=rs.getString(3);
-							Date ngaySinh = rs.getDate(5);
-							String diaChi=rs.getString(6);
-							String sdt = rs.getString(8);
+						
 							
-							KhachHang kh= new KhachHang(maKH, tenKH, cmnd, ngaySinh, diaChi,sdt);
+							KhachHang kh= new KhachHang(tenKH, cmnd);
 							dsKH.add(kh);
 						}
 					} catch (Exception e) {
