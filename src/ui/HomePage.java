@@ -40,9 +40,9 @@ public class HomePage extends JFrame  {
 	private JPanel contentPane;
 	private JLabel lbltieuDe,lblanh;
 	private String[] list = {
-			"img1.jpg",
-			"img2.png",
-			"Main.png"
+			"banner1.jpg",
+			"banner2.jpg",
+			"Banner03.jpg"
 	};
 //	private Timer tm;
 	int x = 0;
@@ -70,38 +70,19 @@ public class HomePage extends JFrame  {
 	public HomePage() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1400, 750);
+		setBounds(5, 5, 1400, 750);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 	
-//		lblimg = new JLabel();
-//		lblimg.setBounds(66, 83, 1220, 374);
-		
-		
-//		SetImageSize(1);
-//		tm = new Timer(500,new ActionListener() {
-//			
-//			 @Override
-//	            public void actionPerformed(ActionEvent e) {
-//	                SetImageSize(x);
-//	                x += 1;
-//	                if(x >= list.length)
-//	                    x = 0; 
-//	            }
-//			
-//		});
-//		tm.start();
-//		contentPane.add(lblimg);
-//		
-	
 		lbltieuDe = new JLabel("CHÀO MỪNG ĐẾN VỚI CÔNG TY TNHH THÀNH NAM");
+		lbltieuDe.setBackground(new Color(255, 140, 0));
 		lbltieuDe.setHorizontalAlignment(SwingConstants.CENTER);
 		lbltieuDe.setFont(new Font("Tahoma", Font.BOLD, 35));
-		lbltieuDe.setBounds(0, 0, 1370, 72);
 		
+		lbltieuDe.setBounds(0, 0, 1370, 72);
 		
 		contentPane.add(lbltieuDe);
 		
@@ -214,12 +195,9 @@ public class HomePage extends JFrame  {
 		panelthongTin.add(lblNewLabel_4_1_1_1_1);
 		
 	    lblanh = new JLabel("");
-		lblanh.setBounds(21, 69, 1326, 388);
+		lblanh.setBounds(207, 69, 990, 386);
 		contentPane.add(lblanh);
 		
-		//lblnutPhai.addMouseListener(this);;
-		
-		//SetImageSize(2);
 		Timer timer = new Timer(1500,new ActionListener() {
 			
 			@Override
@@ -227,34 +205,16 @@ public class HomePage extends JFrame  {
 				// TODO Auto-generated method stub
 				int n = (int) Math.floor(Math.random() * 3);
 				String image = list[n];
+			
 				lblanh.setIcon(new ImageIcon("img\\"+image));
-//				System.out.println(n);
+			
 			}
 		});
 		timer.start();
-		//show(position);
+		
 	}
-//	public void show(int index) {
-//		String[] Images = takeImage();
-//		String img = Images[index];
-//		ImageIcon icon = new ImageIcon(getClass().getResource("/img1/"+img));
-//		Image image = icon.getImage().getScaledInstance(lblanh.getWidth(), lblanh.getHeight(), Image.SCALE_SMOOTH);
-//		lblanh.setIcon(new ImageIcon(image));
-//	}
-//	public String[] takeImage(){
-//		File f = new File(getClass().getResource("/img1").getFile());
-//		String[] Images = f.list();
-//		return Images;
-//	}
 
-//	public void SetImageSize(int i) {
-//		ImageIcon icon = new ImageIcon(list[i]);
-//		Image img = icon.getImage();
-//		Image newImg = img.getScaledInstance(lblanh.getWidth(), lblanh.getHeight(),Image.SCALE_SMOOTH );
-//		ImageIcon newImc = new ImageIcon(newImg);
-//		lblanh.setIcon(newImc);
-//		
-//	}
+
 }
 
 

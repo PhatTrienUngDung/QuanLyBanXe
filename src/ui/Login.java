@@ -36,6 +36,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.SystemColor;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
@@ -49,9 +52,7 @@ import java.awt.event.KeyEvent;
 
 public class Login extends JFrame {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane; 
 	private JLabel lblAnh;
@@ -89,6 +90,7 @@ public class Login extends JFrame {
 	 */
 //	
 	public Login() throws InterruptedException {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/img/secrecy-icon.png")));
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e1) {
@@ -134,7 +136,7 @@ public class Login extends JFrame {
 		
 		JPanel panelLeft = new JPanel();
 		panelLeft.setBackground(new Color(255, 255, 255));
-		panelLeft.setBounds(853, 28, 507, 652);
+		panelLeft.setBounds(853, 43, 507, 606);
 		contentPane.add(panelLeft);
 		panelLeft.setLayout(null);
 		
@@ -323,7 +325,7 @@ public class Login extends JFrame {
 		
 		lblbackground = new JLabel("");
 		lblbackground.setBounds(0, 0, 1370, 711);
-		ImageIcon icon = new ImageIcon("src/img1/light-background-wallpaper-preview.jpg");
+		ImageIcon icon = new ImageIcon("src/img1/dark.png");
 		Image img = icon.getImage();
 		Image imgScale = img.getScaledInstance(lblbackground.getWidth(), lblbackground.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(imgScale);
