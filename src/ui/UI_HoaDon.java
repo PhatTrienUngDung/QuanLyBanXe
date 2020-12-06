@@ -217,7 +217,7 @@ public class UI_HoaDon extends JFrame {
 		
 		txtEmployeeNum_Bill = new JTextField();
 		txtEmployeeNum_Bill.setEditable(false);
-		txtEmployeeNum_Bill.setText(Login.txtuser.getText());
+		//txtEmployeeNum_Bill.setText(Login.txtuser.getText());
 		txtEmployeeNum_Bill.setBackground(Color.WHITE);
 		txtEmployeeNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtEmployeeNum_Bill.setBounds(140, 10, 168, 21);
@@ -312,7 +312,6 @@ public class UI_HoaDon extends JFrame {
 		pAddVehicle_Bill.add(lblVehicleColor_Bill);
 		
 		JTextField txtVehicleNum_Bill = new JTextField();
-		txtVehicleNum_Bill.setEditable(false);
 		txtVehicleNum_Bill.setBackground(Color.white);
 		txtVehicleNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtVehicleNum_Bill.setBounds(115, 10, 203, 21);
@@ -329,11 +328,6 @@ public class UI_HoaDon extends JFrame {
 		cbbVersion.setBounds(115, 41, 203, 21);
 		pAddVehicle_Bill.add(cbbVersion);
 		
-		JLabel lblVehicleEngineNumber = new JLabel("Số Máy");
-		lblVehicleEngineNumber.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblVehicleEngineNumber.setBounds(405, 76, 70, 21);
-		pAddVehicle_Bill.add(lblVehicleEngineNumber);
-		
 		JLabel lblChasisNumber_Bill = new JLabel("Số Khung");
 		lblChasisNumber_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblChasisNumber_Bill.setBounds(10, 74, 95, 21);
@@ -343,6 +337,18 @@ public class UI_HoaDon extends JFrame {
 		cbbChasisNumber.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbbChasisNumber.setBounds(115, 74, 203, 21);
 		pAddVehicle_Bill.add(cbbChasisNumber);
+		
+		try {
+			combo.fill("select soKhung from Xe where trangThai = N'Còn hàng'" , cbbChasisNumber, "soKhung");	
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} 
+		
+		JLabel lblVehicleEngineNumber = new JLabel("Số Máy");
+		lblVehicleEngineNumber.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblVehicleEngineNumber.setBounds(405, 76, 70, 21);
+		pAddVehicle_Bill.add(lblVehicleEngineNumber);
 		
 		txtVehicleEngineNum = new JTextField();
 		txtVehicleEngineNum.setBounds(570, 74, 145, 21);
@@ -469,7 +475,7 @@ public class UI_HoaDon extends JFrame {
 		lblNewLabel_1.setBounds(10, 88, 526, 72);
 		contentPane.add(lblNewLabel_1);
 
-//====================Xử lý eventAction============================
+//====================Xử lý eventAction==========================================================================
 
 		//>>>>>>>>>>> txt CMND
 		txtCMND_Bill.addKeyListener(new KeyAdapter() {
@@ -534,6 +540,21 @@ public class UI_HoaDon extends JFrame {
 			}
 		});
 		
+		//>>>>>>>>>>> txt vehicle num
+		txtVehicleNum_Bill.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Xe xe = dao_Xe.getInfoXe("maXe", txtVehicleNum_Bill.getText());
+				if(xe != null)
+					getTenXe(xe);
+				else {
+					String temp = txtVehicleNum_Bill.getText();
+					cbbVehicleName_Bill.setSelectedIndex(-1);
+					txtVehicleNum_Bill.setText(temp);
+				}				
+			}
+		});
+		
 		//>>>>>>>>>>> cbb Vehicle Name
 		cbbVehicleName_Bill.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -547,6 +568,13 @@ public class UI_HoaDon extends JFrame {
 					cbbVersion.setSelectedIndex(-1);
 					txtVehicleNum_Bill.setText("");
 					txtVehicleEngineNum.setText("");
+					try {
+						combo.fill("select soKhung from Xe where trangThai = N'Còn hàng'" , cbbChasisNumber, "soKhung");
+						cbbVehicleName_Bill.setSelectedIndex(-1);
+					} catch (SQLException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
 				}
 			}
 		});
@@ -592,18 +620,23 @@ public class UI_HoaDon extends JFrame {
 		cbbChasisNumber.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String tenXe, version, mauXe, soKhung;
-				if (cbbVehicleName_Bill.getSelectedIndex() != -1) 	
+				/*if (cbbVehicleName_Bill.getSelectedIndex() != -1) 	
 					tenXe = cbbVehicleName_Bill.getSelectedItem().toString();
 				if (cbbVersion.getSelectedIndex() != -1)
 					version  = cbbVersion.getSelectedItem().toString();
 				if (cbbVehicleColor_Bill.getSelectedIndex() != -1)
-					mauXe = cbbVehicleColor_Bill.getSelectedItem().toString();
+					mauXe = cbbVehicleColor_Bill.getSelectedItem().toString();*/
 				if (cbbChasisNumber.getSelectedIndex() != -1) {
 					soKhung = cbbChasisNumber.getSelectedItem().toString();
 					Xe xe = dao_Xe.getInfoXe("soKhung", soKhung);
 					txtVehicleNum_Bill.setText(xe.getMaXe());
 					txtVehicleEngineNum.setText(xe.getSoMay());		
+					getTenXe(xe);
 					boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+				}
+				else {
+					txtVehicleNum_Bill.setText("");
+					txtVehicleEngineNum.setText("");
 				}
 			}
 		}); 
@@ -652,7 +685,7 @@ public class UI_HoaDon extends JFrame {
 			}
 		});
 	
-//====================UPDATE DATA============================
+//====================UPDATE DATA===============================================================================
 		
 		// update CMND Customer
 		pCustomerInfo_Bill.addAncestorListener(new AncestorListener() {
@@ -689,11 +722,13 @@ public class UI_HoaDon extends JFrame {
 		});*/
 		
 		
-//====================Xử lý button============================
+//====================Xử lý button=============================================================================
 		//>>>>>>>>>>> Xóa rỗng
 		btnEmptyDelete_Bill.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//txtVehicleNum_Bill.setText("");
+				//cbbChasisNumber.setSelectedIndex(-1);
 				cbbVehicleName_Bill.setSelectedIndex(-1);
 			}
 		});
@@ -804,5 +839,14 @@ public class UI_HoaDon extends JFrame {
 				}
 			}
 		});		
+	}
+	
+	public void getTenXe(Xe xe) {
+		int sl = cbbVehicleName_Bill.getItemCount();
+		for (int i = 0; i<sl; i++)
+			if (cbbVehicleName_Bill.getItemAt(i).toString().equalsIgnoreCase(xe.getTenXe())) {
+				cbbVehicleName_Bill.setSelectedIndex(i);
+				return;
+			}
 	}
 }

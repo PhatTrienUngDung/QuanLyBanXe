@@ -315,12 +315,13 @@ public class Dao_QuanLyXe {
 				
 				xe = new Xe(maXe, tenXe, new LoaiXe(loaiXe), phienBan, mauXe, new NhaCungCap(maNcc), new HangSanXuat(maHangSX), phanKhoi, soKhung, soMay, giaNhap, ngay, trangThai, chuThich, img1);
 				//dsXe.add(xe);
+				return xe;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return xe;
+		return null;
 	}
 //Hiển thị danh sách xe
 	public DefaultTableModel getAllXe() throws SQLException {
