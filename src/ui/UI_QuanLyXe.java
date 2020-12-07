@@ -56,6 +56,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,6 +71,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UI_QuanLyXe extends JFrame {
 
@@ -158,14 +162,17 @@ public class UI_QuanLyXe extends JFrame {
 		panel_5.add(panelXe, "name_24132246182000");
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(0, 101, 1502, 195);
-		panel_4.setBorder(new TitledBorder(null, "Th\u00F4ng tin xe", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_4.setBounds(0, 41, 1502, 255);
+		TitledBorder t= new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng tin xe", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK);
+		t.setTitleFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel_4.setBorder(t);
 		
 		JLabel lbMaXe = new JLabel("Mã Xe");
-		lbMaXe.setBounds(10, 26, 130, 14);
-		lbMaXe.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbMaXe.setBounds(10, 26, 130, 25);
+		lbMaXe.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		txtMa = new JTextField();
+		txtMa.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtMa.setBackground(Color.WHITE);
 		txtMa.setEditable(false);
 		txtMa.setBounds(144, 20, 208, 23);
@@ -174,43 +181,48 @@ public class UI_QuanLyXe extends JFrame {
 		txtMa.setText(ma);
 		
 		JLabel lbTenXe = new JLabel("Tên xe");
-		lbTenXe.setBounds(10, 53, 130, 14);
-		lbTenXe.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbTenXe.setBounds(10, 63, 130, 25);
+		lbTenXe.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		txtTen = new JTextField();
-		txtTen.setBounds(144, 51, 208, 23);
+		txtTen.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtTen.setBounds(144, 61, 208, 23);
 		txtTen.setColumns(10);
 		
 		JLabel lbMau = new JLabel("Màu xe");
-		lbMau.setBounds(10, 82, 130, 19);
-		lbMau.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbMau.setBounds(10, 102, 130, 25);
+		lbMau.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		txtMau = new JTextField();
-		txtMau.setBounds(144, 82, 208, 23);
+		txtMau.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtMau.setBounds(144, 102, 208, 23);
 		txtMau.setColumns(10);
 		
 		txtSoKhung = new JTextField();
-		txtSoKhung.setBounds(144, 111, 208, 23);
+		txtSoKhung.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtSoKhung.setBounds(144, 145, 208, 23);
 		txtSoKhung.setColumns(10);
 		
 		JLabel lbSoKhung = new JLabel("Số khung");
-		lbSoKhung.setBounds(10, 111, 130, 19);
-		lbSoKhung.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbSoKhung.setBounds(10, 145, 130, 25);
+		lbSoKhung.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		txtPhanKhoi = new JTextField();
-		txtPhanKhoi.setBounds(557, 142, 208, 23);
+		txtPhanKhoi.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtPhanKhoi.setBounds(557, 187, 208, 23);
 		txtPhanKhoi.setColumns(10);
 		
 		JLabel lbPhanKhoi = new JLabel("Phân khối");
-		lbPhanKhoi.setBounds(417, 144, 130, 19);
-		lbPhanKhoi.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbPhanKhoi.setBounds(417, 189, 130, 25);
+		lbPhanKhoi.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JLabel lbNhaCungCap = new JLabel("Nhà cung cấp");
-		lbNhaCungCap.setBounds(417, 24, 88, 19);
-		lbNhaCungCap.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbNhaCungCap.setBounds(417, 26, 130, 25);
+		lbNhaCungCap.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		ArrayList<NhaCungCap> listNCC= dao_qlXe.getAllNCC();
 		cbNhaCC = new JComboBox(dao_Ncc.getListSuppilerName().toArray());
+		cbNhaCC.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cbNhaCC.setBackground(Color.WHITE);
 		
 		panel_4.addAncestorListener(new AncestorListener() {
@@ -239,65 +251,70 @@ public class UI_QuanLyXe extends JFrame {
 		}*/
 		
 		JLabel lbHang = new JLabel("Hãng sản xuất");
-		lbHang.setBounds(417, 56, 130, 19);
-		lbHang.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbHang.setBounds(417, 63, 130, 25);
+		lbHang.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
 		cbHangSx = new JComboBox<String>();
+		cbHangSx.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cbHangSx.setBackground(Color.WHITE);
-		cbHangSx.setBounds(557, 55, 206, 23);
+		cbHangSx.setBounds(557, 62, 206, 23);
 		for (HangSanXuat hangSanXuat : listHang) {
 			cbHangSx.addItem(hangSanXuat.getTenHangSX());
 		}
 		
 		JLabel lbLoai = new JLabel("Loại xe");
-		lbLoai.setBounds(417, 86, 130, 19);
-		lbLoai.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbLoai.setBounds(417, 102, 130, 25);
+		lbLoai.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		ArrayList<LoaiXe> dsLoai= dao_qlXe.getAllLoaiXe();
 		cbLoaiXe = new JComboBox<String>();
+		cbLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cbLoaiXe.setBackground(Color.WHITE);
-		cbLoaiXe.setBounds(557, 85, 206, 23);
+		cbLoaiXe.setBounds(557, 101, 206, 23);
 		for (LoaiXe loaiXe : dsLoai) {
 			cbLoaiXe.addItem(loaiXe.getTenLoaiXe());
 		}
 		
 		txtGiaNhap = new JTextField();
-		txtGiaNhap.setBounds(557, 115, 206, 23);
+		txtGiaNhap.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtGiaNhap.setBounds(557, 145, 206, 23);
 		txtGiaNhap.setColumns(10);
 		
 		JLabel lbGia = new JLabel("Giá nhập");
-		lbGia.setBounds(417, 115, 130, 19);
-		lbGia.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbGia.setBounds(417, 145, 130, 25);
+		lbGia.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JLabel lbTrangThai = new JLabel("Trạng thái");
-		lbTrangThai.setBounds(828, 24, 130, 19);
-		lbTrangThai.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbTrangThai.setBounds(828, 24, 130, 25);
+		lbTrangThai.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JLabel lbNgay = new JLabel("Ngày nhập");
-		lbNgay.setBounds(828, 112, 130, 14);
-		lbNgay.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbNgay.setBounds(828, 145, 130, 25);
+		lbNgay.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JLabel lbHinhAnh1 = new JLabel("Hình ảnh 1");
-		lbHinhAnh1.setBounds(828, 80, 130, 14);
-		lbHinhAnh1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbHinhAnh1.setBounds(828, 102, 130, 25);
+		lbHinhAnh1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JLabel lbSoMay = new JLabel("Số Máy");
-		lbSoMay.setBounds(10, 140, 130, 19);
-		lbSoMay.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbSoMay.setBounds(10, 189, 130, 25);
+		lbSoMay.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JLabel lbChuThich = new JLabel("Chú thích");
-		lbChuThich.setBounds(828, 144, 130, 19);
-		lbChuThich.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbChuThich.setBounds(828, 189, 130, 25);
+		lbChuThich.setFont(new Font("Tahoma", Font.BOLD, 15));
 		txtSoMay = new JTextField();
+		txtSoMay.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtSoMay.setBackground(Color.WHITE);
-		txtSoMay.setBounds(144, 140, 208, 25);
+		txtSoMay.setBounds(144, 189, 208, 25);
 		txtSoMay.setColumns(10);
 		
 		txtImg1 = new JTextField();
+		txtImg1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtImg1.setEditable(false);
 		txtImg1.setBackground(Color.WHITE);
-		txtImg1.setBounds(962, 82, 170, 23);
+		txtImg1.setBounds(962, 104, 170, 23);
 		txtImg1.setColumns(10);
 		panelXe.setLayout(null);
 		panelXe.add(panel_4);
@@ -306,7 +323,7 @@ public class UI_QuanLyXe extends JFrame {
 		JLabel lblAnh = new JLabel("Chưa có hình ảnh");
 		lblAnh.setBackground(Color.WHITE);
 		lblAnh.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAnh.setBounds(1202, 10, 291, 175);
+		lblAnh.setBounds(1202, 10, 291, 218);
 		panel_4.add(lblAnh);
 		panel_4.add(lbMaXe);
 		panel_4.add(txtMa);
@@ -335,13 +352,15 @@ public class UI_QuanLyXe extends JFrame {
 		panel_4.add(lbChuThich);
 		
 		txtTrangThai = new JTextField();
+		txtTrangThai.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtTrangThai.setEditable(false);
 		txtTrangThai.setText("Còn hàng");
 		txtTrangThai.setColumns(10);
 		txtTrangThai.setBounds(962, 20, 208, 23);
 		panel_4.add(txtTrangThai);
 		txtCt = new JTextArea();
-		txtCt.setBounds(962, 149, 208, 34);
+		txtCt.setFont(new Font("Courier New", Font.PLAIN, 15));
+		txtCt.setBounds(962, 194, 208, 34);
 		panel_4.add(txtCt);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -359,6 +378,10 @@ public class UI_QuanLyXe extends JFrame {
 			e3.printStackTrace();
 		}
 		JButton btnImg1 = new JButton("...");
+		btnImg1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnImg1.setBackground(Color.LIGHT_GRAY);
 		btnImg1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -387,23 +410,26 @@ public class UI_QuanLyXe extends JFrame {
 		        }
 			}
 		});
-		btnImg1.setBounds(1135, 80, 34, 25);
+		btnImg1.setBounds(1135, 102, 34, 25);
 		panel_4.add(btnImg1);
 		
 		dtNgayNhap = new JDateChooser();
-		dtNgayNhap.setBounds(962, 111, 208, 23);
+		dtNgayNhap.setBounds(962, 144, 208, 23);
+		dtNgayNhap.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_4.add(dtNgayNhap);
 		dtNgayNhap.setDate(Date.valueOf(LocalDate.now()));
 		String[] header= {"Mã Xe","Tên Xe", "Màu xe","Loại xe", "Hãng sản xuất","Nhà cung cấp","Quốc gia","Phân khối","Số lượng","Giá nhập","Ngày nhập","Trạng thái","Chú thích", "Tổng tiền"};
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
 		
-		scrollPane.setBounds(0, 412, 1502, 238);
+		scrollPane.setBounds(0, 378, 1502, 272);
 		panelXe.add(scrollPane);
 		
 		table = new JTable(tableModel);
 //		ArrayList<Xe> listXe= dao_qlXe.getInfoXe("Xetest");
 //		txtImg1.setText(listXe.get(0).getImg1());
+		table.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -451,16 +477,17 @@ public class UI_QuanLyXe extends JFrame {
 		}
 		JPanel panel_6 = new JPanel();
 		panel_6.setBackground(new Color(231,150,36));
-		panel_6.setBounds(0, 307, 700, 95);
+		panel_6.setBounds(0, 306, 700, 62);
 		panelXe.add(panel_6);
 		panel_6.setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("Nhập thông tin cần tìm");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_3.setBounds(10, 27, 142, 40);
+		lblNewLabel_3.setFont(new Font("Dialog", Font.BOLD, 15));
+		lblNewLabel_3.setBounds(10, 10, 187, 40);
 		panel_6.add(lblNewLabel_3);
 		
 		txtTim = new JTextField();
+		txtTim.setFont(new Font("Dialog", Font.PLAIN, 15));
 		txtTim.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -482,90 +509,88 @@ public class UI_QuanLyXe extends JFrame {
 				}
 			}
 		});
-		txtTim.setBounds(151, 38, 321, 19);
+		txtTim.setBounds(226, 20, 321, 19);
 		panel_6.add(txtTim);
 		txtTim.setColumns(10);
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBackground(new Color(231,150,36));
-		panel_7.setBounds(710, 307, 792, 95);
+		panel_7.setBounds(710, 306, 792, 61);
 		panelXe.add(panel_7);
 		panel_7.setLayout(null);
 		JButton btnThem = new JButton("Thêm");
+		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		dtNgayNhap.setDateFormatString("yyy-MM-dd");
 		
 		txtPhienBan = new JTextField();
+		txtPhienBan.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtPhienBan.setColumns(10);
-		txtPhienBan.setBounds(962, 51, 208, 23);
+		txtPhienBan.setBounds(962, 63, 208, 23);
 		panel_4.add(txtPhienBan);
 		
 		JLabel lbPhienBan = new JLabel("Phiên Bản");
-		lbPhienBan.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbPhienBan.setBounds(828, 51, 130, 19);
+		lbPhienBan.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbPhienBan.setBounds(828, 63, 130, 25);
 		panel_4.add(lbPhienBan);
 		btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
-				try {
-					String ncc=null;
-					String loai=null;
-					String hsx = null;
-					String ma= txtMa.getText();
-					String ten=txtTen.getText();
-					String mau= txtMau.getText();
-					String soKhung= txtSoKhung.getText();
-					for (int i = 0; i < listNCC.size(); i++) {
-						if(cbNhaCC.getSelectedItem().toString().equalsIgnoreCase(listNCC.get(i).getTenNhaCungCap())) {
-							ncc= listNCC.get(i).getMaNhaCungCap();
-						}
-					} 
-						
-					for (int i = 0; i < listHang.size(); i++) {
-						if(cbHangSx.getSelectedItem().toString().equalsIgnoreCase(listHang.get(i).getTenHangSX())) {
-							hsx= listHang.get(i).getMaHangSX();
-						}
-					} 
-					for (int i = 0; i < dsLoai.size(); i++) {
-						if(cbLoaiXe.getSelectedItem().toString().equalsIgnoreCase(dsLoai.get(i).getTenLoaiXe())) {
-							loai= dsLoai.get(i).getMaLoaiXe();
-						}
-					} 
-					int phankhoi=Integer.parseInt(txtPhanKhoi.getText());
-					String soMay=txtSoMay.getText();
-					double giaNhap=Float.parseFloat(txtGiaNhap.getText());
-					String date  = ((JTextField)dtNgayNhap.getDateEditor().getUiComponent()).getText();
-					Date ngay=Date.valueOf(LocalDate.parse(date));
-					String trangThai=txtTrangThai.getText();
-					String chuThich=txtCt.getText();
-					String img1=txtImg1.getText();
-					String phienBan=txtPhienBan.getText();
-					Xe 	xe = new Xe(ma, ten, new LoaiXe(loai), phienBan, mau, new NhaCungCap(ncc), new HangSanXuat(hsx), phankhoi, soKhung, soMay, giaNhap, ngay, trangThai, chuThich, img1);
-
-					//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
-					dao_qlXe.themXe(xe);
-					cbbVehicleName_Bill.addItem(xe.getTenXe());
-					JOptionPane.showMessageDialog(null, "Thêm thành công !!!");
-					loadXe();
-					
-					
-					Reset();
-//					if (dao_qlXe.themXe(xe)) {
-//						cbbVehicleName_Bill.addItem(xe.getTenXe());
-//					}
-					
-				} catch (Exception s) {
-					s.getMessage();
+				if(validDataXe()) {
+					try {
+						String ncc=null;
+						String loai=null;
+						String hsx = null;
+						String ma= txtMa.getText();
+						String ten=txtTen.getText();
+						String mau= txtMau.getText();
+						String soKhung= txtSoKhung.getText();
+						for (int i = 0; i < listNCC.size(); i++) {
+							if(cbNhaCC.getSelectedItem().toString().equalsIgnoreCase(listNCC.get(i).getTenNhaCungCap())) {
+								ncc= listNCC.get(i).getMaNhaCungCap();
+							}
+						} 
+							
+						for (int i = 0; i < listHang.size(); i++) {
+							if(cbHangSx.getSelectedItem().toString().equalsIgnoreCase(listHang.get(i).getTenHangSX())) {
+								hsx= listHang.get(i).getMaHangSX();
+							}
+						} 
+						for (int i = 0; i < dsLoai.size(); i++) {
+							if(cbLoaiXe.getSelectedItem().toString().equalsIgnoreCase(dsLoai.get(i).getTenLoaiXe())) {
+								loai= dsLoai.get(i).getMaLoaiXe();
+							}
+						} 
+						int phankhoi=Integer.parseInt(txtPhanKhoi.getText());
+						String soMay=txtSoMay.getText();
+						double giaNhap=Float.parseFloat(txtGiaNhap.getText());
+						String date  = ((JTextField)dtNgayNhap.getDateEditor().getUiComponent()).getText();
+						Date ngay=Date.valueOf(LocalDate.parse(date));
+						String trangThai=txtTrangThai.getText();
+						String chuThich=txtCt.getText();
+						String img1=txtImg1.getText();
+						String phienBan=txtPhienBan.getText();
+						Xe 	xe = new Xe(ma, ten, new LoaiXe(loai), phienBan, mau, new NhaCungCap(ncc), new HangSanXuat(hsx), phankhoi, soKhung, soMay, giaNhap, ngay, trangThai, chuThich, img1);
+						dao_qlXe.themXe(xe);
+						JOptionPane.showMessageDialog(null, "Thêm thành công !!!");
+						loadXe();				
+						Reset();
+						cbbVehicleName_Bill.addItem(xe.getTenXe());
+					} catch (Exception s) {
+						s.getMessage();
+					}
+				}else {
+//					JOptionPane("Trùng")
 				}
 			}
 		});
 		btnThem.setIcon(new ImageIcon("img1\\add.png"));
 		btnThem.setToolTipText("");
 		btnThem.setBackground(new Color(255,190,87));
-		btnThem.setBounds(20, 28, 125, 36);
+		btnThem.setBounds(18, 13, 125, 36);
 		panel_7.add(btnThem);
 		
 		JButton btnXoa = new JButton("Xóa");
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnXoa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -577,14 +602,11 @@ public class UI_QuanLyXe extends JFrame {
 						if(hoi==JOptionPane.YES_OPTION) {
 							int r= table.getSelectedRow();						
 							if(xoaXe()) {
-								tableModel.removeRow(r);	
-								//cbbVehicleName_Bill.removeAllItems();
-								//dao_qlXe.getListTenXe(cbbVehicleName_Bill);		
+								tableModel.removeRow(r);		
 								FillCombo combo = new FillCombo();
 								try {
 									combo.fill("select DISTINCT tenXe from Xe where trangThai = N'Còn hàng' order by tenXe" , cbbVehicleName_Bill, "tenXe");	
 								} catch (SQLException e2) {
-									// TODO Auto-generated catch block
 									e2.printStackTrace();
 								}
 							} else
@@ -600,10 +622,11 @@ public class UI_QuanLyXe extends JFrame {
 		});
 		btnXoa.setIcon(new ImageIcon("img1\\Close-2-icon.png"));
 		btnXoa.setBackground(new Color(255,190,87));
-		btnXoa.setBounds(169, 28, 125, 36);
+		btnXoa.setBounds(167, 13, 125, 36);
 		panel_7.add(btnXoa);
 		
 		JButton btnCapNhat = new JButton("Cập nhật");
+		btnCapNhat.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCapNhat.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -672,10 +695,11 @@ public class UI_QuanLyXe extends JFrame {
 		});
 		btnCapNhat.setIcon(new ImageIcon("img1\\update.png"));
 		btnCapNhat.setBackground(new Color(255,190,87));
-		btnCapNhat.setBounds(326, 28, 125, 36);
+		btnCapNhat.setBounds(324, 13, 125, 36);
 		panel_7.add(btnCapNhat);
 		
 		JButton btnXoaTrang = new JButton("Làm mới ");
+		btnXoaTrang.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnXoaTrang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -685,10 +709,11 @@ public class UI_QuanLyXe extends JFrame {
 
 		btnXoaTrang.setIcon(new ImageIcon("img1\\refresh.png"));
 		btnXoaTrang.setBackground(new Color(255,190,87));
-		btnXoaTrang.setBounds(482, 28, 125, 36);
+		btnXoaTrang.setBounds(480, 13, 125, 36);
 		panel_7.add(btnXoaTrang);
 		
 		JButton btnTT = new JButton("Chi tiết");
+		btnTT.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnTT.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -707,14 +732,8 @@ public class UI_QuanLyXe extends JFrame {
 		});
 		btnTT.setIcon(new ImageIcon("img1\\detail.png"));
 		btnTT.setBackground(new Color(255, 190, 87));
-		btnTT.setBounds(642, 28, 125, 36);
+		btnTT.setBounds(640, 13, 125, 36);
 		panel_7.add(btnTT);
-		
-		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ KHO XE");
-		lblNewLabel_1.setBounds(0, 0, 391, 72);
-		panelXe.add(lblNewLabel_1);
-		lblNewLabel_1.setForeground(new Color(184, 134, 11));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 		
 		JPanel panelLoai = new JPanel();
 
@@ -1239,7 +1258,7 @@ public class UI_QuanLyXe extends JFrame {
 		btnHang.setBackground(Color.WHITE);
 		btnHang.setFocusable(false);
 		btnHang.setIcon(new ImageIcon("img1\\company-building-icon.png"));
-		btnHang.setBounds(255, 10, 93, 43);
+		btnHang.setBounds(268, 10, 93, 43);
 		btnHang.setBorderPainted(false);
 		panel.add(btnHang);
 		
@@ -1261,6 +1280,7 @@ public class UI_QuanLyXe extends JFrame {
 		panel.add(btnXe);
 		
 		JLabel lbXe = new JLabel("Xe");
+		lbXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lbXe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -1270,10 +1290,11 @@ public class UI_QuanLyXe extends JFrame {
 			}
 		});
 		lbXe.setHorizontalAlignment(SwingConstants.CENTER);
-		lbXe.setBounds(10, 55, 93, 13);
+		lbXe.setBounds(10, 55, 93, 23);
 		panel.add(lbXe);
 		
 		JLabel lblLoiXe = new JLabel("Loại Xe");
+		lblLoiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblLoiXe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -1283,10 +1304,11 @@ public class UI_QuanLyXe extends JFrame {
 			}
 		});
 		lblLoiXe.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLoiXe.setBounds(133, 55, 93, 13);
+		lblLoiXe.setBounds(133, 55, 93, 23);
 		panel.add(lblLoiXe);
 		
 		JLabel lblHngSnXut = new JLabel("Hãng Sản Xuất");
+		lblHngSnXut.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblHngSnXut.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -1297,7 +1319,7 @@ public class UI_QuanLyXe extends JFrame {
 			}
 		});
 		lblHngSnXut.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHngSnXut.setBounds(255, 55, 93, 13);
+		lblHngSnXut.setBounds(255, 55, 127, 23);
 		panel.add(lblHngSnXut);
 	}
 //Hàm load database
@@ -1311,7 +1333,6 @@ public class UI_QuanLyXe extends JFrame {
 			tableModelLoai = dao_lx.getAllLX();
 			tableLoai.setModel(tableModelLoai);
 		}
-		
 //Xóa xe
 		private boolean xoaXe() throws SQLException {
 			Dao_QuanLyXe dao_qlXe = new Dao_QuanLyXe();
@@ -1325,6 +1346,50 @@ public class UI_QuanLyXe extends JFrame {
 			Dao_LoaiXe dao_loai = new Dao_LoaiXe();
 			dao_loai.xoaLoaiXe(txtMaLoai.getText());
 			loadLoai();
+		}
+//Validate dataXe
+		private boolean validDataXe() {
+
+		//	double giaNhap= Double.parseDouble(txtGiaNhap.getText());
+			if(!(txtTen.getText().length()>0)) {
+				JOptionPane.showMessageDialog(null, "Tên xe không được để trống " );
+				return false;
+			}
+			if(txtSoKhung.getText().length()!=18) {
+				JOptionPane.showMessageDialog(null, "Số khung gồm 18 kí tự" );
+				return false;
+			}
+			if(txtSoMay.getText().length()!=7) {
+				JOptionPane.showMessageDialog(null, "Số máy gồm 7 kí tự" );
+				return false;
+			}
+			if(!(txtGiaNhap.getText().length()>0)) {
+				JOptionPane.showMessageDialog(null, "Giá nhập không được để rỗng " );
+				return false;
+			}
+			if(!(txtPhanKhoi.getText().length()>0)) {
+				JOptionPane.showMessageDialog(null, "Phân khối không được để rỗng " );
+				return false;
+			}
+			int phanKhoi= Integer.parseInt(txtPhanKhoi.getText());
+			if(phanKhoi<50||phanKhoi>180) {
+				JOptionPane.showMessageDialog(null, "Phân khối không được nhỏ hơn 50cc hoặc lớn hơn 180cc " );
+				return false;
+			}
+			double giaNhap= Double.parseDouble(txtGiaNhap.getText());
+			if(giaNhap<0) {
+				JOptionPane.showMessageDialog(null, "Giá nhập không chính xác" );
+				return false;
+			}
+			String date  = ((JTextField)dtNgayNhap.getDateEditor().getUiComponent()).getText();
+			Date ngay=Date.valueOf(LocalDate.parse(date));
+			if(ngay.after(Date.valueOf(LocalDate.now()))) {
+				
+				JOptionPane.showMessageDialog(null, "Ngày nhập phải trước ngày hôm nay" );
+				return false;
+			}
+			
+			return true;
 		}
 //Tìm xe theo tên và mã 
 		private void timXe() throws SQLException{
