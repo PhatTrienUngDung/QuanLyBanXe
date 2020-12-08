@@ -5,6 +5,7 @@ package ui;
 import java.awt.BorderLayout;
 
 
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -69,7 +70,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
-
+import dao.Dao_HoaDon;
 public class UI_NhanVien extends JFrame {
 
 	private JPanel contentPane;
@@ -152,27 +153,31 @@ public class UI_NhanVien extends JFrame {
 		panel_6.setLayout(null);
 		
 		JLabel lblmaNV = new JLabel("Mã Nhân Viên");
-		lblmaNV.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblmaNV.setBounds(10, 21, 96, 13);
+		lblmaNV.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblmaNV.setBounds(10, 21, 107, 13);
 		panel_6.add(lblmaNV);
 		
+		String maKH = dao_nv.getMaHDTail("maNhanVien", "NhanVien");
 		txtmaNV = new JTextField();
+		txtmaNV.setText(maKH);
+		txtmaNV.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtmaNV.setBounds(139, 20, 260, 19);
 		panel_6.add(txtmaNV);
 		txtmaNV.setColumns(10);
 		
 		JLabel lbltenNV = new JLabel("Tên Nhân Viên");
-		lbltenNV.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbltenNV.setBounds(10, 63, 96, 13);
+		lbltenNV.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbltenNV.setBounds(10, 63, 119, 13);
 		panel_6.add(lbltenNV);
 		
 		txttenNV = new JTextField();
+		txttenNV.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txttenNV.setBounds(139, 60, 260, 19);
 		panel_6.add(txttenNV);
 		txttenNV.setColumns(10);
 		
 		JLabel lblngaySinh = new JLabel("Ngày sinh");
-		lblngaySinh.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblngaySinh.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblngaySinh.setBounds(10, 113, 96, 13);
 		panel_6.add(lblngaySinh);
 		
@@ -182,75 +187,81 @@ public class UI_NhanVien extends JFrame {
 		panel_6.add(datengaySinh);
 		
 		JLabel lblgioiTinh = new JLabel("Giới tính");
-		lblgioiTinh.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblgioiTinh.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblgioiTinh.setBounds(10, 153, 96, 13);
 		panel_6.add(lblgioiTinh);
 		
 		String GT[] = {"Nam","Nữ"};
 		JComboBox cbgioiTinh = new JComboBox(GT);
-		cbgioiTinh.setBounds(139, 149, 101, 21);
+		cbgioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		cbgioiTinh.setBounds(139, 149, 260, 21);
 		panel_6.add(cbgioiTinh);
 		
 		JLabel lbldiaChi = new JLabel("Địa chỉ");
-		lbldiaChi.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbldiaChi.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbldiaChi.setBounds(506, 64, 68, 13);
 		panel_6.add(lbldiaChi);
 		
 		txtdiaChi = new JTextField();
+		txtdiaChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtdiaChi.setBounds(639, 63, 275, 19);
 		panel_6.add(txtdiaChi);
 		txtdiaChi.setColumns(10);
 		
 		JLabel lblemail = new JLabel("Email");
-		lblemail.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblemail.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblemail.setBounds(506, 114, 46, 13);
 		panel_6.add(lblemail);
 		
 		txtEmail = new JTextField();
+		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtEmail.setBounds(639, 113, 275, 19);
 		panel_6.add(txtEmail);
 		txtEmail.setColumns(20);
 		
 		JLabel lblchucVu = new JLabel("Chức vụ");
-		lblchucVu.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblchucVu.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblchucVu.setBounds(506, 154, 68, 13);
 		panel_6.add(lblchucVu);
 		
 		ArrayList<ChucVu> dsCV = dao_nv.getAllChucVus();
 		@SuppressWarnings("rawtypes")
 		JComboBox cbchucVu = new JComboBox();
-		cbchucVu.setBounds(639, 152, 195, 21);
+		cbchucVu.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		cbchucVu.setBounds(639, 152, 275, 21);
 		for (ChucVu cv : dsCV) {
 			cbchucVu.addItem(cv.getTenChucVu());
 		}
 		panel_6.add(cbchucVu);
 		
 		JLabel lblngayVaoLam = new JLabel("Ngày Vào Làm");
-		lblngayVaoLam.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblngayVaoLam.setBounds(1019, 66, 107, 13);
+		lblngayVaoLam.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblngayVaoLam.setBounds(1019, 66, 137, 13);
 		panel_6.add(lblngayVaoLam);
 		
 		JDateChooser datengayVaoLam = new JDateChooser();
-		datengayVaoLam.setBounds(1192, 57, 201, 19);
+		datengayVaoLam.setBounds(1192, 57, 270, 19);
 		datengayVaoLam.setDateFormatString("yyy-MM-dd");
 		panel_6.add(datengayVaoLam);
 		
 		JLabel lblsdt = new JLabel("Số Điện Thoại");
-		lblsdt.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblsdt.setBounds(1019, 21, 96, 13);
+		lblsdt.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblsdt.setBounds(1019, 21, 119, 13);
 		panel_6.add(lblsdt);
 		
 		txtSdt = new JTextField();
+		txtSdt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtSdt.setBounds(1192, 20, 270, 19);
 		panel_6.add(txtSdt);
 		txtSdt.setColumns(10);
 		
 		JLabel lblCmnd = new JLabel("CMND");
-		lblCmnd.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblCmnd.setBounds(506, 22, 46, 13);
+		lblCmnd.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblCmnd.setBounds(506, 22, 68, 13);
 		panel_6.add(lblCmnd);
 		
 		txtcmnd = new JTextField();
+		txtcmnd.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtcmnd.setBounds(639, 21, 275, 19);
 		panel_6.add(txtcmnd);
 		txtcmnd.setColumns(10);
@@ -313,9 +324,9 @@ public class UI_NhanVien extends JFrame {
 		panel_8.setBackground(new Color(231,150,36));
 		
 		JLabel lblNhpThngTin = new JLabel("Nhập Thông Tin Nhân Viên");
-		lblNhpThngTin.setBounds(21, 13, 176, 30);
+		lblNhpThngTin.setBounds(21, 13, 205, 30);
 		lblNhpThngTin.setBackground(new Color(255, 228, 225));
-		lblNhpThngTin.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNhpThngTin.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		txtTimKiem = new JTextField();
 		txtTimKiem.addKeyListener(new KeyAdapter() {
@@ -339,14 +350,14 @@ public class UI_NhanVien extends JFrame {
 				}
 			}
 		});
-		txtTimKiem.setBounds(207, 21, 246, 19);
+		txtTimKiem.setBounds(243, 21, 210, 19);
 		txtTimKiem.setColumns(10);
 		
 		JButton btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(Color.ORANGE);
-		btnTimKiem.setBounds(502, 10, 125, 45);
-		btnTimKiem.setIcon(new ImageIcon("/image/search1.png"));
-		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnTimKiem.setBounds(502, 10, 143, 45);
+		btnTimKiem.setIcon(new ImageIcon("img1/search2.png"));
+		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_3.setLayout(null);
 		
 		
@@ -373,8 +384,8 @@ public class UI_NhanVien extends JFrame {
 		JButton btnThem = new JButton("Thêm");
 		btnThem.setBackground(new Color(255,190,87));
 		btnThem.setBounds(43, 16, 123, 38);
-		btnThem.setIcon(new ImageIcon("/image/Button-Add-icon.png"));
-		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnThem.setIcon(new ImageIcon("img1/add.png"));
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnThem.setToolTipText("");
 		btnThem.addMouseListener(new MouseAdapter() {
 			@Override
@@ -402,7 +413,8 @@ public class UI_NhanVien extends JFrame {
 				Date ngayVaoLam =Date.valueOf(LocalDate.parse(date2));
 				String gioiTinh = (String) cbgioiTinh.getSelectedItem();
 				NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, new ChucVu(chucVu), sodt, ngayVaoLam);
-				tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getDiaChi(),nv.getEmail(),nv.getSdt(),nv.getChucVu().getMaChucVu(),nv.getNgaySinh(),nv.getNgayVaoLam()});						
+				tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getCMND(),nv.getGioiTinh(),nv.getDiaChi(),nv.getEmail(),nv.getSdt()
+						,nv.getNgayVaoLam(),nv.getNgaySinh(),nv.getChucVu().getMaChucVu()});						
 				JFrame f= new JFrame();
 				dao_nv.themNV(nv);
 				JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
@@ -415,7 +427,7 @@ public class UI_NhanVien extends JFrame {
 			JButton btnXoa = new JButton("Xóa");
 			btnXoa.setBackground(new Color(255,190,87));
 			btnXoa.setBounds(217, 16, 123, 38);
-			btnXoa.setIcon(new ImageIcon("/image/delete-icon.png"));
+			btnXoa.setIcon(new ImageIcon("icon/delete.png"));
 			btnXoa.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -438,7 +450,7 @@ public class UI_NhanVien extends JFrame {
 					}
 				}
 			});
-			btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 10));
+			btnXoa.setFont(new Font("Tahoma", Font.BOLD, 15));
 			
 			JButton btnLamMoi = new JButton("Làm mới");
 			btnLamMoi.setBackground(new Color(255,190,87));
@@ -447,7 +459,7 @@ public class UI_NhanVien extends JFrame {
 				}
 			});
 			btnLamMoi.setBounds(555, 16, 123, 38);
-			btnLamMoi.setIcon(new ImageIcon("/image/refresh-icon.png"));
+			btnLamMoi.setIcon(new ImageIcon("img1/refresh.png"));
 			btnLamMoi.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -464,13 +476,13 @@ public class UI_NhanVien extends JFrame {
 					datengayVaoLam.setDate(null);
 				}
 			});
-			btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 10));
+			btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 15));
 			
 			//Sửa
 			JButton btnSua = new JButton("Sửa");
 			btnSua.setBackground(new Color(255,190,87));
 			btnSua.setBounds(389, 16, 123, 38);
-			btnSua.setIcon(new ImageIcon(("/image/Settings-icon.png")));
+			btnSua.setIcon(new ImageIcon(("img1/update.png")));
 			btnSua.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -480,7 +492,7 @@ public class UI_NhanVien extends JFrame {
 					try {
 						if(row!=-1) {
 							JFrame f= new JFrame();
-							int hoi=JOptionPane.showConfirmDialog(f, "Nhà cung cấp này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
+							int hoi=JOptionPane.showConfirmDialog(f, "Nhân viên này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
 							if(hoi==JOptionPane.YES_OPTION) {
 								String ma= txtmaNV.getText();
 								String cmnd = txtcmnd.getText();
@@ -493,7 +505,8 @@ public class UI_NhanVien extends JFrame {
 								Date ngayVaoLam =Date.valueOf(LocalDate.parse(date2));
 								String gioiTinh = (String) cbgioiTinh.getSelectedItem();
 								NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, new ChucVu(chucVu), sodt, ngayVaoLam);
-								tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getDiaChi(),nv.getEmail(),nv.getSdt(),nv.getChucVu().getMaChucVu(),nv.getNgaySinh(),nv.getNgayVaoLam()});						
+								tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getCMND(),nv.getGioiTinh(),nv.getDiaChi(),nv.getEmail(),nv.getSdt()
+										,nv.getNgayVaoLam(),nv.getNgaySinh(),nv.getChucVu().getMaChucVu()});	
 								dao_nv.update(nv);
 								try {
 									loadNV();
@@ -504,14 +517,14 @@ public class UI_NhanVien extends JFrame {
 							}
 						}
 						else
-							JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp để xóa");
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên để chỉnh sửa thông tin");
 					} catch (Exception e2) {
 						// TODO: handle exception
 					}
 				}
 			});
 			panel_4.setLayout(null);
-			btnSua.setFont(new Font("Tahoma", Font.PLAIN, 10));
+			btnSua.setFont(new Font("Tahoma", Font.BOLD, 15));
 			panel_4.add(btnSua);
 			panel_4.add(btnThem);
 			panel_4.add(btnXoa);

@@ -129,16 +129,19 @@ public class Dao_NhanVien {
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("insert into nhanVien values(?,?,?,?,?,?,?,?)");
+			stmt = con.prepareStatement("insert into nhanVien values(?,?,?,?,?,?,?,?,?)");
 			stmt.setString(1, nv.getMaNhanVien());
 			stmt.setString(2, nv.getTenNhanVien());
-			stmt.setString(3, nv.getGioiTinh());
-			stmt.setString(4, nv.getDiaChi());
-			stmt.setString(5, nv.getEmail());
-			stmt.setString(6, nv.getSdt());
-			stmt.setDate(7, (Date) nv.getNgaySinh());
-			stmt.setDate(8, (Date) nv.getNgayVaoLam());
-			stmt.setString(9, nv.getGioiTinh());
+			stmt.setString(3, nv.getCMND());
+			stmt.setString(4, nv.getGioiTinh());
+			stmt.setString(5, nv.getDiaChi());
+			stmt.setString(6, nv.getEmail());
+			
+			stmt.setString(7, nv.getSdt());
+			stmt.setString(8, nv.getChucVu().getMaChucVu());
+			stmt.setDate(10, (Date) nv.getNgaySinh());
+			stmt.setDate(9, (Date) nv.getNgayVaoLam());
+			
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -172,13 +175,14 @@ public class Dao_NhanVien {
 						"update nhanVien set maNhanVien=?,tenNhanVien=?,diaChi=?,email=?,soDienThoai=?,gioiTinh=?,maChucVu=?,ngayVaoLam=? where maNhanVien=?");
 				stmt.setString(1, nv.getMaNhanVien());
 				stmt.setString(2, nv.getTenNhanVien());
-				stmt.setString(3, nv.getDiaChi());
-				stmt.setString(4, nv.getEmail());
-				stmt.setString(5, nv.getSdt());
-				stmt.setString(6, nv.getChucVu().getMaChucVu());
-				stmt.setDate(7,(Date) nv.getNgaySinh());
-				stmt.setDate(8,(Date) nv.getNgayVaoLam());
-				stmt.setString(9, nv.getGioiTinh());
+				stmt.setString(3, nv.getCMND());
+				stmt.setString(4, nv.getGioiTinh());
+				stmt.setString(5, nv.getDiaChi());
+				stmt.setString(6, nv.getEmail());				
+				stmt.setString(7, nv.getSdt());
+					stmt.setString(10, nv.getChucVu().getMaChucVu());
+				stmt.setDate(9, (Date) nv.getNgaySinh());
+				stmt.setDate(8, (Date) nv.getNgayVaoLam());
 				n = stmt.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -213,4 +217,24 @@ public class Dao_NhanVien {
 			}
 			return dsCV;
 		}
+
+		public String getMaHDTail(String properties, String table) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select Top 1 " + properties + " from " + table + " order by " + properties + " desc";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				String ma;
+				ma = rs.getString(1);
+				String[] parts = ma.split("_");
+				int so = Integer.parseInt(parts[1]) + 1;
+				return parts[0] + "_" + String.format("%04d", so);
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
+	}
 }
