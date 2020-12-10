@@ -356,10 +356,10 @@ public class UI_HopDong extends JFrame {
 			}
 		});
 		btnTimKiem.addMouseListener(new MouseAdapter() {
-			@Override
+				@Override
 			public void mouseClicked(MouseEvent e) {
 				if(textField_4.getText().length()==0) {
-					
+				//	loadHD();
 				}
 				if(textField_4.getText().length()>0) {
 					try {
@@ -530,11 +530,12 @@ public class UI_HopDong extends JFrame {
 		
 	}
 
-	/*private void loadHD() throws SQLException {
-		Dao_HopDong dao_hd = new Dao_HopDong();		
-		tableModel1 = dao_hd.getAllHD();
-		table_1.setModel(tableModel1);
-	}*/
+//	private void loadHD() throws SQLException {
+//		Dao_HopDong dao_hd = new Dao_HopDong();		
+//		String [] header1 = null ;
+//		tableModel1 = dao_hd.getAllHD(header1, tableModel1);
+//		table_1.setModel(tableModel1);
+//	}
 	private void loadXe() throws SQLException{
 		tableModel.getDataVector().removeAllElements();
 		tableModel.fireTableDataChanged();

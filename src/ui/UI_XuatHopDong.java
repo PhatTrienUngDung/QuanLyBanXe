@@ -39,25 +39,27 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UI_XuatHopDong extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtmaHD;
-	private JTextField txttenNV;
-	private JTextField txtcmnd;
-	private JTextField txtsdt;
-	private JTextField txtloaiXe;
-	private JTextField txttenXe;
-	private JTextField txtphanKhoi;
-	private JTextField txtmauXe;
-	private JTextField txtsoKhung;
-	private JTextField txtsoMay;
-	private JTextField txtdonGia;
-	private JTextField txttgbh;
+	public static JTextField txtmaHD;
+	public static JTextField txttenNV;
+	public static JTextField txtcmnd;
+	public static JTextField txtsdt;
+	public static JTextField txtloaiXe;
+	public static JTextField txttenXe;
+	public static JTextField txtphanKhoi;
+	public static JTextField txtmauXe;
+	public static JTextField txtsoKhung;
+	public static JTextField txtsoMay;
+	public static JTextField txtdonGia;
+	public static JTextField txttgbh;
 	private Dao_XuatHopDong daoxhd = new Dao_XuatHopDong();
-	private JTextField txttenKH;
-	private JDateChooser dateChooser;
+	public static JTextField txttenKH;
+	public static JDateChooser dateChooser;
 
 	/**
 	 * Launch the application.
@@ -264,32 +266,19 @@ public class UI_XuatHopDong extends JFrame {
 		txttenKH.setColumns(10);
 		
 		JButton btnXuat = new JButton("Xuất");
-		btnXuat.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				PrinterJob printjob =  PrinterJob.getPrinterJob();
-				printjob.setJobName("Hãng mua bán xe");
-				printjob.setPrintable(new Printable() {
-					
-					@Override
-					public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-						if(pageIndex > 0){
-							return Printable.NO_SUCH_PAGE;
-						}
-						return Printable.PAGE_EXISTS;
-					}
-				});
-				boolean returningResult = printjob.printDialog();
-				if(returningResult) {
-					try {
-						printjob.print();
-					}catch (PrinterException printException) {
-						JOptionPane.showMessageDialog(null, "Print Error" + printException.getMessage());
-						// TODO: handle exception
-					}
-				}
+		btnXuat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BillHopDong bill = new BillHopDong();
+				//bill.setVisible(true);
+				PrintSupport.printComponent(bill.textArea);
 			}
 		});
+//		btnXuat.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//		
+//			}
+//		});
 		btnXuat.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnXuat.setBounds(266, 695, 85, 21);
 		contentPane.add(btnXuat);
