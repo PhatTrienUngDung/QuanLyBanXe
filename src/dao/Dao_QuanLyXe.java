@@ -123,7 +123,13 @@ public class Dao_QuanLyXe {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListChassisNumber(String tenXe, String version, String mauXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
+<<<<<<< .mine
+		String sql = "SELECT DISTINCT soKhung FROM Xe WHERE tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"'";
+||||||| .r137
+		String sql = "SELECT DISTINCT soKhung FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"'";
+=======
 		String sql = "SELECT DISTINCT soKhung FROM Xe WHERE tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"' and trangThai = N'Còn hàng'";
+>>>>>>> .r143
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
@@ -423,7 +429,7 @@ public class Dao_QuanLyXe {
 			return n > 0;
 		}
 		
-		public boolean updateTrangThai(String id) {
+		public boolean updateTrangThai(String id, String trangThai) {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
 			PreparedStatement stmt = null;
@@ -431,7 +437,7 @@ public class Dao_QuanLyXe {
 			try {
 				//"Mã Xe","Tên Xe", "Loại Xe","Màu xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"
 				stmt = con.prepareStatement(
-						"update Xe set trangThai = N'Hết hàng' where maXe = ?");
+						"update Xe set trangThai = N'"+ trangThai +"' where maXe = ?");
 				stmt.setString(1, id);
 				n = stmt.executeUpdate();
 			} catch (SQLException e) {

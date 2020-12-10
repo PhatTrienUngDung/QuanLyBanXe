@@ -72,6 +72,7 @@ public class Login extends JFrame {
 				try {
 					Login frame = new Login();
 					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -86,16 +87,17 @@ public class Login extends JFrame {
 //	
 	public Login() throws InterruptedException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/img/secrecy-icon.png")));
+		
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Dao_TaiKhoan dao_tk = new Dao_TaiKhoan();
 		setBounds(-10, 0, 1430, 750);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

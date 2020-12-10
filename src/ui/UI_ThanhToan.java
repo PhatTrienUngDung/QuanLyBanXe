@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import autoComplete.FillCombo;
@@ -23,6 +24,7 @@ import javax.swing.JOptionPane;
 import static ui.UI_HoaDon.cbbVehicleName_Bill;
 
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.TextField;
 import javax.swing.JComboBox;
@@ -41,13 +43,17 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.Date;
 import java.sql.SQLException;
 
 public class UI_ThanhToan extends JFrame {
 
 	private JPanel contentPane;
-	public JFormattedTextField txtCusMoney;
+	public static JFormattedTextField txtCusMoney;
 
 	/**
 	 * Launch the application.
@@ -89,7 +95,7 @@ public class UI_ThanhToan extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(154, 205, 50));
-		panel.setBounds(0, 0, 704, 361);
+		panel.setBounds(0, 0, 712, 361);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -101,7 +107,7 @@ public class UI_ThanhToan extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(240, 248, 255));
-		panel_1.setBounds(0, 54, 704, 306);
+		panel_1.setBounds(0, 54, 712, 306);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -285,7 +291,7 @@ public class UI_ThanhToan extends JFrame {
 							JOptionPane.showMessageDialog(null, "Dòng " + String.valueOf(i) + " bị lỗi!");
 						else {
 							Dao_QuanLyXe dao_xe = new Dao_QuanLyXe();
-							if(dao_xe.updateTrangThai(maXe)==false)
+							if(dao_xe.updateTrangThai(maXe, "Hết hàng")==false)
 								JOptionPane.showMessageDialog(null, "Cập nhật trạng thái xe không thành công");
 							FillCombo combo = new FillCombo();
 							try {
@@ -309,6 +315,14 @@ public class UI_ThanhToan extends JFrame {
 					UI_HoaDon.txtNoteCustomer_Bill.setText("");
 					setVisible(false);
 				}
+			}
+		});
+		
+		btnCompleted.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Bill bill = new Bill();
+				//bill.setVisible(true);
+				PrintSupport.printComponent(Bill.textArea);
 			}
 		});
 		

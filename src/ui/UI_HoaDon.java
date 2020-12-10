@@ -161,41 +161,41 @@ public class UI_HoaDon extends JFrame {
 		
 		JLabel lblCustomerNum_Bill = new JLabel("CMND");
 		lblCustomerNum_Bill.setBounds(10, 12, 87, 21);
-		lblCustomerNum_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblCustomerNum_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		pCustomerInfo_Bill.add(lblCustomerNum_Bill);
 		
 		txtCMND_Bill = new JTextField();
-		txtCMND_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtCMND_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtCMND_Bill.setBounds(100, 10, 250, 21);
 		pCustomerInfo_Bill.add(txtCMND_Bill);
 		
 		JLabel lblNumPhone_Bill = new JLabel("SĐT");
-		lblNumPhone_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNumPhone_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNumPhone_Bill.setBounds(10, 41, 45, 21);
 		pCustomerInfo_Bill.add(lblNumPhone_Bill);
 		
 		txtNumPhone_Bill = new JTextField();
-		txtNumPhone_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtNumPhone_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtNumPhone_Bill.setBounds(100, 39, 250, 21);
 		pCustomerInfo_Bill.add(txtNumPhone_Bill);
 		
 		JLabel lblCustomerName_Bill = new JLabel("Tên Khách Hàng");
-		lblCustomerName_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblCustomerName_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblCustomerName_Bill.setBounds(405, 12, 128, 21);
 		pCustomerInfo_Bill.add(lblCustomerName_Bill);
 		
 		txtCustomerName_Bill = new JTextField();
-		txtCustomerName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtCustomerName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtCustomerName_Bill.setBounds(570, 10, 310, 21);
 		pCustomerInfo_Bill.add(txtCustomerName_Bill);
 		
 		JLabel lblNote_Bill = new JLabel("Chú Thích");
-		lblNote_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNote_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNote_Bill.setBounds(405, 43, 87, 21);
 		pCustomerInfo_Bill.add(lblNote_Bill);
 		
 		txtNoteCustomer_Bill = new JTextArea();
-		txtNoteCustomer_Bill.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtNoteCustomer_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtNoteCustomer_Bill.setBounds(570, 41, 310, 23);
 		pCustomerInfo_Bill.add(txtNoteCustomer_Bill);
 		
@@ -214,27 +214,27 @@ public class UI_HoaDon extends JFrame {
 		JLabel lblEmployee_Bill = new JLabel("Nhân Viên");
 		lblEmployee_Bill.setBackground(new Color(230, 230, 250));
 		lblEmployee_Bill.setBounds(10, 12, 87, 21);
-		lblEmployee_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEmployee_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		pEmployeeInfo_Bill.add(lblEmployee_Bill);	
 		
 		txtEmployeeNum_Bill = new JTextField();
 		txtEmployeeNum_Bill.setEditable(false);
 		//txtEmployeeNum_Bill.setText(Login.txtuser.getText());
-		txtEmployeeNum_Bill.setBackground(Color.WHITE);
-		txtEmployeeNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		//txtEmployeeNum_Bill.setBackground(Color.WHITE);
+		txtEmployeeNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtEmployeeNum_Bill.setBounds(140, 10, 168, 21);
 		pEmployeeInfo_Bill.add(txtEmployeeNum_Bill);
 		
 		JTextField txtEmployeeName_Bill = new JTextField();
 		txtEmployeeName_Bill.setEditable(false);
 		txtEmployeeName_Bill.setText(dao_nv.getTenNhanVienById(txtEmployeeNum_Bill.getText()));
-		txtEmployeeName_Bill.setBackground(Color.WHITE);
-		txtEmployeeName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		//txtEmployeeName_Bill.setBackground(Color.WHITE);
+		txtEmployeeName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtEmployeeName_Bill.setBounds(320, 10, 244, 21);
 		pEmployeeInfo_Bill.add(txtEmployeeName_Bill);
 		
 		JLabel lblBillNum = new JLabel("Mã Hóa Đơn");
-		lblBillNum.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblBillNum.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblBillNum.setBounds(10, 45, 92, 21);
 		pEmployeeInfo_Bill.add(lblBillNum);
 		
@@ -247,23 +247,36 @@ public class UI_HoaDon extends JFrame {
 		txtBillNum = new JTextField();
 		txtBillNum.setEditable(false);
 		txtBillNum.setText(maHD);
-		txtBillNum.setBackground(Color.WHITE);
-		txtBillNum.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		//txtBillNum.setBackground(Color.WHITE);
+		txtBillNum.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtBillNum.setBounds(140, 43, 168, 23);
 		pEmployeeInfo_Bill.add(txtBillNum);
+		/*JLabel lblBillNum1 = new JLabel();
+		lblBillNum1.setText(maHD);
+		lblBillNum1.setBackground(Color.WHITE);
+		lblBillNum1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblBillNum1.setBounds(140, 43, 168, 23);
+		pEmployeeInfo_Bill.add(lblBillNum1);*/
 		
 		JLabel lblBillDate = new JLabel("Ngày LHD");
-		lblBillDate.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblBillDate.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblBillDate.setBounds(320, 45, 86, 21);
 		pEmployeeInfo_Bill.add(lblBillDate);
 		
 		txtDateBill = new JTextField();
 		txtDateBill.setEditable(false);
-		txtDateBill.setBackground(Color.WHITE);
+		//txtDateBill.setBackground(Color.WHITE);
 		txtDateBill.setText(LocalDate.now().toString());
-		txtDateBill.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtDateBill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtDateBill.setBounds(414, 43, 150, 22);
 		pEmployeeInfo_Bill.add(txtDateBill);
+		
+		/*JLabel lblDateBill1 = new JLabel();
+		lblDateBill1.setBackground(Color.WHITE);
+		lblDateBill1.setText(LocalDate.now().toString());
+		lblDateBill1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblDateBill1.setBounds(414, 43, 150, 22);
+		pEmployeeInfo_Bill.add(lblDateBill1);*/
 		
 		JPanel pProduct_Bill = new JPanel();
 		pProduct_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng Tin Xe", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
@@ -280,16 +293,16 @@ public class UI_HoaDon extends JFrame {
 		
 		JLabel lblVehicleNum_Bill = new JLabel("Mã Xe");
 		lblVehicleNum_Bill.setBounds(10, 12, 44, 21);
-		lblVehicleNum_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblVehicleNum_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		pAddVehicle_Bill.add(lblVehicleNum_Bill);
 		
 		JLabel lblVehicleName_Bill = new JLabel("Tên Xe");
-		lblVehicleName_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblVehicleName_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblVehicleName_Bill.setBounds(405, 12, 60, 21);
 		pAddVehicle_Bill.add(lblVehicleName_Bill);
 		
 		cbbVehicleName_Bill = new JComboBox();
-		cbbVehicleName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cbbVehicleName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cbbVehicleName_Bill.setBackground(Color.WHITE);
 		cbbVehicleName_Bill.setBounds(570, 10, 290, 21);
 		pAddVehicle_Bill.add(cbbVehicleName_Bill);
@@ -303,40 +316,40 @@ public class UI_HoaDon extends JFrame {
 		} 
 		
 		cbbVehicleColor_Bill = new JComboBox();
-		cbbVehicleColor_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cbbVehicleColor_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cbbVehicleColor_Bill.setBackground(Color.WHITE);
 		cbbVehicleColor_Bill.setBounds(570, 43, 145, 21);
 		pAddVehicle_Bill.add(cbbVehicleColor_Bill);
 		
 		JLabel lblVehicleColor_Bill = new JLabel("Màu Xe");
-		lblVehicleColor_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblVehicleColor_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblVehicleColor_Bill.setBounds(405, 45, 68, 21);
 		pAddVehicle_Bill.add(lblVehicleColor_Bill);
 		
 		JTextField txtVehicleNum_Bill = new JTextField();
 		txtVehicleNum_Bill.setBackground(Color.white);
-		txtVehicleNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtVehicleNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtVehicleNum_Bill.setBounds(115, 10, 203, 21);
 		pAddVehicle_Bill.add(txtVehicleNum_Bill);
 		
 		JLabel lblManufacturerName_Bill = new JLabel("Phiên bản");
-		lblManufacturerName_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblManufacturerName_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblManufacturerName_Bill.setBounds(10, 43, 68, 21);
 		pAddVehicle_Bill.add(lblManufacturerName_Bill);
 		
 		cbbVersion = new JComboBox();
-		cbbVersion.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cbbVersion.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cbbVersion.setBackground(Color.WHITE);
 		cbbVersion.setBounds(115, 41, 203, 21);
 		pAddVehicle_Bill.add(cbbVersion);
 		
 		JLabel lblChasisNumber_Bill = new JLabel("Số Khung");
-		lblChasisNumber_Bill.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblChasisNumber_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblChasisNumber_Bill.setBounds(10, 74, 95, 21);
 		pAddVehicle_Bill.add(lblChasisNumber_Bill);
 		
 		cbbChasisNumber = new JComboBox();
-		cbbChasisNumber.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cbbChasisNumber.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cbbChasisNumber.setBounds(115, 74, 203, 21);
 		pAddVehicle_Bill.add(cbbChasisNumber);
 		
@@ -348,11 +361,12 @@ public class UI_HoaDon extends JFrame {
 		} 
 		
 		JLabel lblVehicleEngineNumber = new JLabel("Số Máy");
-		lblVehicleEngineNumber.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblVehicleEngineNumber.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblVehicleEngineNumber.setBounds(405, 76, 70, 21);
 		pAddVehicle_Bill.add(lblVehicleEngineNumber);
 		
 		txtVehicleEngineNum = new JTextField();
+		txtVehicleEngineNum.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtVehicleEngineNum.setBounds(570, 74, 145, 21);
 		pAddVehicle_Bill.add(txtVehicleEngineNum);
 		txtVehicleEngineNum.setColumns(10);
@@ -393,9 +407,9 @@ public class UI_HoaDon extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblTotalBill = new JLabel("Tổng Tiền");
-		lblTotalBill.setBounds(37, 24, 88, 19);
+		lblTotalBill.setBounds(10, 21, 111, 22);
 		lblTotalBill.setForeground(new Color(255, 0, 0));
-		lblTotalBill.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblTotalBill.setFont(new Font("Tahoma", Font.BOLD, 22));
 		lblTotalBill.setVerticalAlignment(SwingConstants.BOTTOM);
 		panel.add(lblTotalBill);
 		txtTotal.setForeground(Color.RED);
@@ -404,8 +418,8 @@ public class UI_HoaDon extends JFrame {
 		
 		//txtTotal = new TextField();
 		txtTotal.setText("0 VNĐ");
-		txtTotal.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtTotal.setBounds(131, 21, 308, 22);
+		txtTotal.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtTotal.setBounds(142, 12, 297, 36);
 		panel.add(txtTotal);
 		
 		Panel panel_1 = new Panel();
