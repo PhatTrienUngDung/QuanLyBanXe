@@ -22,14 +22,13 @@ public class Dao_ThongKe {
 			Connection con= ConnectDB.getCon();
 			String header[]= {"Tên Xe","Số Lượng","Tổng tiền thu được"};
 			DefaultTableModel tableModel = new DefaultTableModel(header, 0);
-			String sql= "SELECT top(10) Xe.tenXe, sum(chiTietHoaDon.soLuong), sum(HoaDon.tongTien)\r\n"
-					+ "FROM     HoaDon INNER JOIN\r\n"
-					+ "                  chiTietHoaDon ON HoaDon.maHoaDon = chiTietHoaDon.maHoaDon INNER JOIN\r\n"
+			String sql= "SELECT Xe.tenXe, count(xe.tenXe), sum(HoaDon.tongTien)\r\n"
+					+ "FROM     chiTietHoaDon INNER JOIN\r\n"
+					+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon INNER JOIN\r\n"
 					+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
-					+ "where MONTH(ngayLapHoaDon)="+thang+"and YEAR(ngayLapHoaDon)="+nam+"\r\n"
-					+ "group by  Xe.tenXe\r\n"
-					+ "order by sum(chiTietHoaDon.soLuong) desc,sum(HoaDon.tongTien) desc\r\n"
-					+ "";
+					+ "where MONTH(ngayLapHoaDon)="+thang+" and YEAR(ngayLapHoaDon)="+nam+"\r\n"
+					+ "group by xe.tenXe\r\n"
+					+ "order by count(xe.tenXe) desc ,sum(HoaDon.tongTien) desc";
 			Statement statement= con.createStatement();
 			ResultSet rs= statement.executeQuery(sql);
 			
@@ -46,13 +45,13 @@ public class Dao_ThongKe {
 		Connection con= ConnectDB.getCon();
 		String header[]= {"Tên nhân viên","Số lượng xe bán"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
-		String sql = "SELECT top(10) NhanVien.tenNhanVien ,sum(ChiTietHoaDon.soLuong) as soluong\r\n" + 
-				"from NhanVien inner join HoaDon on NhanVien.maNhanVien = HoaDon.maNhanVien \r\n" + 
-				"inner join ChiTietHoaDon on HoaDon.maHoaDon = ChiTietHoaDon.maHoaDon "
-				+ "where DAY(hoaDon.ngayLapHoaDon)="+ngay+" and MONTH(HoaDon.ngayLapHoaDon)="+thang+"and YEAR(HoaDon.ngayLapHoaDon)="+nam+"\r\n"
-				+ "group by  NhanVien.tenNhanVien\r\n"
-				+ "order by sum(chiTietHoaDon.soLuong) desc \r\n"
-				+"";
+		String sql = "SELECT Xe.tenXe, count(xe.tenXe), sum(HoaDon.tongTien)\r\n"
+				+ "FROM     chiTietHoaDon INNER JOIN\r\n"
+				+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon INNER JOIN\r\n"
+				+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
+				+ "where DAY(ngayLapHoaDon)="+ngay+" and MONTH(ngayLapHoaDon)="+thang+" and YEAR(ngayLapHoaDon)="+nam+"\r\n"
+				+ "group by xe.tenXe\r\n"
+				+ "order by count(xe.tenXe) desc ,sum(HoaDon.tongTien) desc";
 		Statement statement= con.createStatement();
 		ResultSet rs= statement.executeQuery(sql);
 		
@@ -69,14 +68,13 @@ public class Dao_ThongKe {
 		Connection con= ConnectDB.getCon();
 		String header[]= {"Tên Xe","Số Lượng","Tổng tiền thu được"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
-		String sql= "SELECT top(10) Xe.tenXe, sum(chiTietHoaDon.soLuong), sum(HoaDon.tongTien)\r\n"
-				+ "FROM     HoaDon INNER JOIN\r\n"
-				+ "                  chiTietHoaDon ON HoaDon.maHoaDon = chiTietHoaDon.maHoaDon INNER JOIN\r\n"
+		String sql= "SELECT Xe.tenXe, count(xe.tenXe), sum(HoaDon.tongTien)\r\n"
+				+ "FROM     chiTietHoaDon INNER JOIN\r\n"
+				+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon INNER JOIN\r\n"
 				+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
-				+ "where YEAR(ngayLapHoaDon)="+nam+"\r\n"
-				+ "group by Xe.tenXe\r\n"
-				+ "order by sum(chiTietHoaDon.soLuong) desc,sum(HoaDon.tongTien) desc\r\n"
-				+ "";
+				+ "where YEAR(ngayLapHoaDon)="+2020+"\r\n"
+				+ "group by xe.tenXe\r\n"
+				+ "order by count(xe.tenXe) desc ,sum(HoaDon.tongTien) desc";
 		Statement statement= con.createStatement();
 		ResultSet rs= statement.executeQuery(sql);
 		
@@ -112,10 +110,11 @@ public class Dao_ThongKe {
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "SELECT sum(chiTietHoaDon.soLuong)\r\n"
-					+ 				 "FROM     chiTietHoaDon INNER JOIN\r\n"
-					+ 				 "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon\r\n"
-					+ 				 "where YEAR(ngayLapHoaDon)="+nam+" and  Month(ngayLapHoaDon)="+thang+"";
+			String sql = "SELECT count(xe.maXe)\r\n"
+					+ "FROM     chiTietHoaDon INNER JOIN\r\n"
+					+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon INNER JOIN\r\n"
+					+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
+					+ "where MONTH(ngayLapHoaDon)="+thang+" and YEAR(ngayLapHoaDon)="+nam+"";
 			PreparedStatement pst=con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()) {
@@ -186,10 +185,11 @@ public class Dao_ThongKe {
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "SELECT sum(chiTietHoaDon.soLuong)\r\n"
-					+ 				 "FROM     chiTietHoaDon INNER JOIN\r\n"
-					+ 				 "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon\r\n"
-					+ 				 "where day(ngaylaphoadon)="+ngay+" and 	YEAR(ngayLapHoaDon)="+nam+" and  Month(ngayLapHoaDon)="+thang+"";
+			String sql = "SELECT count(xe.maXe)\r\n"
+					+ "FROM     chiTietHoaDon INNER JOIN\r\n"
+					+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon INNER JOIN\r\n"
+					+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
+					+ "where DAY(ngayLapHoaDon)="+ngay+" and MONTH(ngayLapHoaDon)="+thang+" and YEAR(ngayLapHoaDon)="+nam+"";
 			PreparedStatement pst=con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()) {
@@ -259,9 +259,10 @@ public class Dao_ThongKe {
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "SELECT sum(chiTietHoaDon.soLuong)\r\n"
+			String sql = "SELECT count(xe.maXe)\r\n"
 					+ "FROM     chiTietHoaDon INNER JOIN\r\n"
-					+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon\r\n"
+					+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon INNER JOIN\r\n"
+					+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
 					+ "where YEAR(ngayLapHoaDon)="+nam+"";
 			PreparedStatement pst=con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
