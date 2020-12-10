@@ -51,6 +51,7 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.SystemColor;
+import javax.swing.table.TableModel;
 
 public class UI_ThongKe1 extends JFrame {
 
@@ -59,7 +60,7 @@ public class UI_ThongKe1 extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private DefaultTableModel tableModel;
+	private DefaultTableModel tableModel,tableModel1;
 	@SuppressWarnings("unused")
 	private JTextField txtTen;
 	@SuppressWarnings("unused")
@@ -69,13 +70,15 @@ public class UI_ThongKe1 extends JFrame {
 	private JRadioButton rdThang;
 	private JRadioButton rdNgay;
 	private JRadioButton rdNam;
+	private JScrollPane scrollPane1 ;
 	private Dao_ThongKe dao_ThongKe = new Dao_ThongKe();
-	private JTable table;
+	private JTable table,table1;
 	private DefaultCategoryDataset dcd;
 	@SuppressWarnings("rawtypes")
 	private JComboBox cbNam= new JComboBox<>();
 	@SuppressWarnings("rawtypes")
-	private JComboBox cbThang= new JComboBox<>();;
+	private JComboBox cbThang= new JComboBox<>();
+	private JTable Table1;;
 	
 	/**
 	 * Launch the application.
@@ -386,6 +389,64 @@ public class UI_ThongKe1 extends JFrame {
 		table.setBackground(Color.WHITE);
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		contentPane.add(panel_5);
+		
+		JPanel panel_6 = new JPanel();
+		panel_5.add(panel_6, "name_199130799820500");
+		panel_6.setLayout(null);
+		
+		
+		JLabel lbltieuDe = new JLabel("Thống kê số lượng xe do nhân viên bán");
+		lbltieuDe.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lbltieuDe.setBounds(603, 11, 361, 37);
+		panel_6.add(lbltieuDe);
+		
+		JScrollPane ScrollPane1 = new JScrollPane();
+		ScrollPane1.setBounds(509, 59, 504, 420);
+		panel_6.add(ScrollPane1);
+		
+		Table1 = new JTable((TableModel) null);
+		Table1.setShowGrid(false);
+		Table1.setRowHeight(30);
+		Table1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		Table1.setEnabled(false);
+		Table1.setBackground(Color.WHITE);
+		ScrollPane1.setColumnHeaderView(Table1);
+		//table
+
+		String header1[]= {"Tên Xe","Số lượng xe đã bán"};
+		tableModel1= new DefaultTableModel(header1,0);
+		Table1 = new JTable(tableModel);
+		Table1.setEnabled(false);
+		Table1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		Table1.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 15));
+		//Dao_ThongKe dao_thongKe= new Dao_ThongKe();
+		try {
+			tableModel1 = dao_thongKe.getAllNV(LocalDate.now().getDayOfYear(),LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		Table1.setModel(tableModel1);
+		
+		Table1.getColumnModel().getColumn(0).setPreferredWidth(100);
+	    Table1.getColumnModel().getColumn(1).setPreferredWidth(5);
+	    Table1.setRowHeight(30);
+	    Table1.setShowGrid(false);
+	    Table1.getColumnModel().getColumn(1).setPreferredWidth(5);
+		ScrollPane1.setViewportView(Table1);
+		Border border1 = new LineBorder(Color.white);
+		ScrollPane1.setBorder(border1);
+		Table1.getTableHeader().setBorder(border);
+		DefaultTableCellRenderer renderer2 = (DefaultTableCellRenderer) Table1.getTableHeader().getDefaultRenderer();
+		renderer2.setHorizontalAlignment(SwingConstants.LEFT);
+		Table1.getTableHeader().setBackground(Color.white);
+		Table1.setBackground(Color.WHITE);
+		ScrollPane1.getViewport().setBackground(Color.WHITE);
+		
+		
+		
+		
+		
 		
 		JLabel lbLoc = new JLabel("Lọc ");
 		lbLoc.setBounds(25, 274, 42, 24);

@@ -40,6 +40,29 @@ public class Dao_ThongKe {
 			}
 			return tableModel;
 	}
+	
+	public DefaultTableModel getAllNV(int ngay,int thang, int nam) throws SQLException{
+		ConnectDB.getInstance();
+		Connection con= ConnectDB.getCon();
+		String header[]= {"Tên nhân viên","Số lượng xe bán"};
+		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+		String sql = "SELECT top(10) NhanVien.tenNhanVien ,sum(ChiTietHoaDon.soLuong) as soluong\r\n" + 
+				"from NhanVien inner join HoaDon on NhanVien.maNhanVien = HoaDon.maNhanVien \r\n" + 
+				"inner join ChiTietHoaDon on HoaDon.maHoaDon = ChiTietHoaDon.maHoaDon "
+				+ "where DAY(hoaDon.ngayLapHoaDon)="+ngay+" and MONTH(HoaDon.ngayLapHoaDon)="+thang+"and YEAR(HoaDon.ngayLapHoaDon)="+nam+"\r\n"
+				+ "group by  NhanVien.tenNhanVien\r\n"
+				+ "order by sum(chiTietHoaDon.soLuong) desc \r\n"
+				+"";
+		Statement statement= con.createStatement();
+		ResultSet rs= statement.executeQuery(sql);
+		
+		while(rs.next()) {
+			//DecimalFormat df = new DecimalFormat("#,###,###,### VNĐ");
+				Object[] o = { rs.getString(1), rs.getString(2)};
+				tableModel.addRow(o);
+		}
+		return tableModel;
+}
 	//Top 10 theo năm
 	public DefaultTableModel getAllYear(int nam) throws SQLException{
 		ConnectDB.getInstance();
