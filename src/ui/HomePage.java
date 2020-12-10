@@ -7,36 +7,38 @@ package ui;
 * @version: 1.0
 */
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.io.File;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 
 public class HomePage extends JFrame  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lbltieuDe,lblanh;
 	private String[] list = {
@@ -44,8 +46,8 @@ public class HomePage extends JFrame  {
 			"banner2.jpg",
 			"Banner03.jpg"
 	};
-//	private Timer tm;
 	int x = 0;
+	@SuppressWarnings("unused")
 	private JLabel lblimg;
 	int position=0;
 	/**
@@ -68,9 +70,24 @@ public class HomePage extends JFrame  {
 	 * Create the frame.
 	 */
 	public HomePage() {
-		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (InstantiationException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (IllegalAccessException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(5, 5, 1400, 750);
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(100, 100, screen.width, (screen.height-50));
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -82,13 +99,13 @@ public class HomePage extends JFrame  {
 		lbltieuDe.setHorizontalAlignment(SwingConstants.CENTER);
 		lbltieuDe.setFont(new Font("Tahoma", Font.BOLD, 35));
 		
-		lbltieuDe.setBounds(0, 0, 1370, 72);
+		lbltieuDe.setBounds(0, 0, 1522, 72);
 		
 		contentPane.add(lbltieuDe);
 		
 		JPanel panelthongTin = new JPanel();
 		panelthongTin.setBackground(new Color(102, 102, 255));
-		panelthongTin.setBounds(0, 468, 1370, 232);
+		panelthongTin.setBounds(10, 545, 1512, 232);
 		contentPane.add(panelthongTin);
 		panelthongTin.setLayout(null);
 		
@@ -195,7 +212,8 @@ public class HomePage extends JFrame  {
 		panelthongTin.add(lblNewLabel_4_1_1_1_1);
 		
 	    lblanh = new JLabel("");
-		lblanh.setBounds(207, 69, 990, 386);
+	    lblanh.setHorizontalAlignment(SwingConstants.CENTER);
+		lblanh.setBounds(32, 69, 1480, 386);
 		contentPane.add(lblanh);
 		
 		Timer timer = new Timer(1500,new ActionListener() {
@@ -205,15 +223,24 @@ public class HomePage extends JFrame  {
 				// TODO Auto-generated method stub
 				int n = (int) Math.floor(Math.random() * 3);
 				String image = list[n];
-			
-				lblanh.setIcon(new ImageIcon("img\\"+image));
-			
+				BufferedImage img = null;
+				System.out.println(image);
+				try {
+					img = ImageIO.read(new File("img\\"+image));
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				img.getScaledInstance(lblanh.getWidth(), lblanh.getHeight(),
+				        Image.SCALE_SMOOTH);
+				System.out.println();
+				ImageIcon imageIcon = new ImageIcon(img);
+				lblanh.setIcon(imageIcon);
 			}
 		});
 		timer.start();
 		
 	}
-
 
 }
 

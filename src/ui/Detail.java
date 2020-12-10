@@ -73,22 +73,25 @@ public class Detail extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		JLabel lbImg = new JLabel();
+		lbImg.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lbImg.setHorizontalAlignment(SwingConstants.CENTER);
 		lbImg.setBounds(48, 76, 348, 486);
-		BufferedImage img = null;
-		String img1= listXe.getImg1();
-		try {
-		    img = ImageIO.read(new File(img1));
-		} catch (IOException e) {
-		    e.printStackTrace();
+		if(listXe.getImg1().toString().length()<1) {
+			lbImg.setText("Chưa có hình ảnh");
 		}
-		Image dimg = img.getScaledInstance(lbImg.getWidth(), lbImg.getHeight(),
-		        Image.SCALE_SMOOTH);
-		ImageIcon imageIcon = new ImageIcon(dimg);
-		lbImg.setIcon(imageIcon);
-		
-	
-				
-				
+		else {
+			BufferedImage img = null;
+			String img1= listXe.getImg1();
+			try {
+			    img = ImageIO.read(new File(img1));
+			} catch (IOException e) {
+				   e.printStackTrace();
+			}
+			Image dimg = img.getScaledInstance(lbImg.getWidth(), lbImg.getHeight(),
+			        Image.SCALE_SMOOTH);
+			ImageIcon imageIcon = new ImageIcon(dimg);
+			lbImg.setIcon(imageIcon);
+		}	
 		contentPane.add(lbImg);
 		
 		JLabel lbten = new JLabel("Tên xe");

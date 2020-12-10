@@ -10,6 +10,10 @@ import javax.swing.text.PlainDocument;
 
 public class CustomCombo extends PlainDocument{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JComboBox comboBox;
     ComboBoxModel model;
     JTextComponent editor;

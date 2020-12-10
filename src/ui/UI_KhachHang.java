@@ -648,7 +648,6 @@ public class UI_KhachHang extends JFrame {
 		for(String i:list) {
 			if(i.equalsIgnoreCase(cmnd))
 				return true;
-			
 		}
 		return false;
 	}

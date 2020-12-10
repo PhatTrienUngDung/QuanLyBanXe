@@ -1,35 +1,24 @@
 package dao;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
-import entity.KhachHang;
-import entity.NhanVien;
-import entity.TaiKhoan;
-import entity.Xe;
+
 
 public class Dao_HoaDon {
 
+	@SuppressWarnings("unused")
 	private ArrayList<HoaDon> listBill;
+	@SuppressWarnings("unused")
 	private HoaDon hd;
 	
 	public Dao_HoaDon() {
@@ -59,7 +48,8 @@ public class Dao_HoaDon {
 	}
 	
 	public boolean createHD (HoaDon hd) {
-		Connection con = ConnectDB.getInstance().getCon();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getCon();
 		PreparedStatement stmt = null;
 		int n= 0;
 		try {
@@ -77,7 +67,8 @@ public class Dao_HoaDon {
 	}
 	
 	public boolean createCTHD (ChiTietHoaDon cthd) {
-		Connection con = ConnectDB.getInstance().getCon();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getCon();
 		PreparedStatement stmt = null;
 		int n= 0;
 		try {

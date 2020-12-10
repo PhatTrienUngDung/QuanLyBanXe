@@ -1,12 +1,10 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -14,11 +12,11 @@ import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.HangSanXuat;
-import entity.KhachHang;
 
 public class Dao_HangSanXuat {
 
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void getListHSX(String tenXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
 		String sql = "select DISTINCT HangSanXuat.tenHangSanXuat from Xe, HangSanXuat where Xe.maHangSanXuat=HangSanXuat.maHangSanXuat and tenXe = ?";

@@ -14,13 +14,11 @@ import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.ChucVu;
-import entity.KhachHang;
-import entity.NhaCungCap;
 import entity.NhanVien;
-import entity.TaiKhoan;
-
 public class Dao_NhanVien {
+	@SuppressWarnings("unused")
 	private int n;
+	@SuppressWarnings("unused")
 	private ArrayList<NhanVien> listNhanVien;
 	private ArrayList<String> list_MaNV;
 	public Dao_NhanVien() {
@@ -47,7 +45,8 @@ public class Dao_NhanVien {
 	
 	public ArrayList<String> getListMaNV(){	
 		try {
-			Connection con = ConnectDB.getInstance().getCon();
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
 			String sql = "Select maNhanVien from NhanVien";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);

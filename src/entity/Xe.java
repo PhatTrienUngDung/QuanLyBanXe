@@ -36,7 +36,6 @@ public class Xe {
 		this.tenXe = tenXe;
 		this.mauXe = mauXe;
 		this.phanKhoi = phanKhoi;
-	//	this.soLuong = soLuong;
 		this.giaNhap = giaNhap;
 		this.loaiXe = loaiXe;
 	}
@@ -60,6 +59,13 @@ public class Xe {
 		this.trangThai = trangThai;
 		this.chuThich = chuThich;
 		this.img1 = img1;
+	}
+
+	public Xe(String maXe, String soKhung, String soMay) {
+		super();
+		this.maXe = maXe;
+		this.soKhung = soKhung;
+		this.soMay = soMay;
 	}
 
 	//Cái này của bạn Hoài

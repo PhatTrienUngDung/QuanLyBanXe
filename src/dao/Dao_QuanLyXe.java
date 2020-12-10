@@ -1,7 +1,6 @@
 package dao;
 
 import java.awt.Image;
-import java.awt.TextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -20,7 +18,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
@@ -34,7 +31,7 @@ public class Dao_QuanLyXe {
 	private ArrayList<String> listColor;
 	public Dao_QuanLyXe() {
 		// TODO Auto-generated constructor stub
-		listColor = new ArrayList<String>();
+		setListColor(new ArrayList<String>());
 	}
 	
 	public int getAmountByVehicleID(String maXe) {
@@ -54,6 +51,7 @@ public class Dao_QuanLyXe {
 		return -1;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListTenXe(JComboBox comboBox){
 		Connection con = ConnectDB.getCon();
 		String sql = "SELECT DISTINCT tenXe FROM Xe order by tenXe asc";
@@ -84,6 +82,7 @@ public class Dao_QuanLyXe {
 		}
 	}*/
 	
+	@SuppressWarnings("static-access")
 	public String getMaXeTail() {
 		Connection con = ConnectDB.getCon();
 		String sql = "select Top 1 maXe from Xe order by maXe desc";
@@ -104,6 +103,7 @@ public class Dao_QuanLyXe {
 		return null;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListVersion(String tenXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
 		String sql = "SELECT DISTINCT phienBan FROM Xe WHERE tenXe = ?";
@@ -120,6 +120,7 @@ public class Dao_QuanLyXe {
 		}
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListChassisNumber(String tenXe, String version, String mauXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
 		String sql = "SELECT DISTINCT soKhung FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"'";
@@ -138,6 +139,7 @@ public class Dao_QuanLyXe {
 	
 	
 //Đọc dữ liệu lên bảng
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListColor(String tenXe, String version, JComboBox comboBox){
 		Connection con = ConnectDB.getCon();
 		String sql = "SELECT DISTINCT mauXe FROM Xe where tenXe = '" + tenXe +"' and phienBan = N'" + version + "'";
@@ -395,8 +397,8 @@ public class Dao_QuanLyXe {
 				stmt.setString(1, xe.getMaXe());
 				stmt.setString(2, xe.getTenXe());
 				stmt.setString(3, xe.getLoaiXe().getMaLoaiXe());
-				stmt.setString(4, xe.getPhienBan());
-				stmt.setString(5, xe.getMauXe());
+				stmt.setString(4, xe.getMauXe());
+				stmt.setString(5, xe.getPhienBan());
 				stmt.setString(6, xe.getNhaCungCap().getMaNhaCungCap());
 				stmt.setString(7, xe.getHangSanXuat().getMaHangSX());
 				stmt.setInt(8, xe.getPhanKhoi());
@@ -497,5 +499,34 @@ public class Dao_QuanLyXe {
 			ImageIcon imageIcon = new ImageIcon(dimg);
 			label.setIcon(imageIcon);
 			return true;
+		}
+		public ArrayList<Xe> getSoKhung(){
+			ArrayList<Xe> ListXe= new ArrayList<Xe>();
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql = "Select maxe,sokhung,somay from Xe";
+				Statement statement = con.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+				while (rs.next()) {
+					String maXe= rs.getString(1);
+					String soKhung= rs.getString(2);
+					String soMay = rs.getString(3);
+					Xe xe= new Xe(maXe, soKhung, soMay);
+					ListXe.add(xe);
+				}
+			}catch (SQLException e) { 
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return ListXe;
+		}
+
+		public ArrayList<String> getListColor() {
+			return listColor;
+		}
+
+		public void setListColor(ArrayList<String> listColor) {
+			this.listColor = listColor;
 		}
 }

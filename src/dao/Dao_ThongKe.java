@@ -206,7 +206,7 @@ public class Dao_ThongKe {
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "select count(maKhachHang) where day(ngayLapHoaDon)="+ngay+" and YEAR(ngayLapHoaDon)="+nam+" and  Month(ngayLapHoaDon)="+thang+"";
+			String sql = "select count(maKhachHang) from KhachHang where day(ngayGiaNhap)="+ngay+" and YEAR(ngayGiaNhap)="+nam+" and  Month(ngayGiaNhap)="+thang+"";
 			PreparedStatement pst=con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()) {

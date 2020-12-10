@@ -11,14 +11,12 @@ package ui;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import AppPackage.AnimationClass;
-//import AppPackage.AnimationClass;
 import connect.ConnectDB;
 import dao.Dao_TaiKhoan;
 import entity.TaiKhoan;
@@ -31,9 +29,6 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Font;
 import java.awt.Image;

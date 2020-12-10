@@ -7,10 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,6 +15,7 @@ import entity.NhaCungCap;
 
 
 public class Dao_NhaCungCap {
+	@SuppressWarnings("unused")
 	private int n;
 	private ArrayList<String> listSupplierName;
 	public Dao_NhaCungCap() {
@@ -45,7 +42,8 @@ public class Dao_NhaCungCap {
 	public ArrayList<String> getListSuppilerName() {
 		try {
 			listSupplierName.clear();
-			Connection con = ConnectDB.getInstance().getCon();
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
 			String sql = "select maNhaCungCap, tenNhaCungCap from NhaCungCap order by maNhaCungCap";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
