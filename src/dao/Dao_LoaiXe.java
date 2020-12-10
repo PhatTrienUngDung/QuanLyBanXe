@@ -119,4 +119,23 @@ public class Dao_LoaiXe {
 			}
 			return n > 0;
 		}
+		public String getLoaiXeTail() {
+			Connection con = ConnectDB.getCon();
+			String sql = "select Top 1 maLoaiXe from LoaiXe order by maLoaiXe desc";
+			try {
+				PreparedStatement pst = con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				while(rs.next()) {
+					String ma;
+					ma = rs.getString(1);
+					String[] parts = ma.split("_");
+					int so = Integer.parseInt(parts[1]) + 1;
+					return parts[0] + "_" + String.format("%04d", so);
+				}
+			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(null, e1);
+				e1.printStackTrace();
+			}
+			return null;
+		}
 }

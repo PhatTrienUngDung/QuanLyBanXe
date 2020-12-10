@@ -102,6 +102,25 @@ public class Dao_QuanLyXe {
 		}
 		return null;
 	}
+	public String getHangXeTail() {
+		Connection con = ConnectDB.getCon();
+		String sql = "select Top 1 maHangSanXuat from HangSanXuat order by maHangSanXuat desc";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				String ma;
+				ma = rs.getString(1);
+				String[] parts = ma.split("_");
+				int so = Integer.parseInt(parts[1]) + 1;
+				return parts[0] + "_" + String.format("%04d", so);
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
+	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListVersion(String tenXe, JComboBox comboBox) {

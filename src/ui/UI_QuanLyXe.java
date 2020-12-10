@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Color;
@@ -253,11 +254,12 @@ public class UI_QuanLyXe extends JFrame {
 		lbHang.setBounds(417, 63, 130, 25);
 		lbHang.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
-		ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
+		
 		cbHangSx = new JComboBox<String>();
 		cbHangSx.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbHangSx.setBackground(Color.WHITE);
 		cbHangSx.setBounds(557, 62, 206, 23);
+		ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
 		for (HangSanXuat hangSanXuat : listHang) {
 			cbHangSx.addItem(hangSanXuat.getTenHangSX());
 		}
@@ -635,55 +637,54 @@ public class UI_QuanLyXe extends JFrame {
 				int row=table.getSelectedRow();
 				try {
 					if(row!=-1) {
-						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "Xe '"+txtTen.getText()+"' sẽ được cập nhật !!!","Chú ý ",JOptionPane.YES_NO_OPTION);
-						if(hoi==JOptionPane.YES_OPTION) {
-							String ncc=null;
-							String loai=null;
-							String hsx = null;
-							String ma= txtMa.getText();
-							String ten=txtTen.getText();
-							String mau= txtMau.getText();
-							String soKhung= txtSoKhung.getText();
-							for (int i = 0; i < listNCC.size(); i++) {
-								if(cbNhaCC.getSelectedItem().toString().equalsIgnoreCase(listNCC.get(i).getTenNhaCungCap())) {
-									ncc= listNCC.get(i).getMaNhaCungCap();
-								}
-							} 
-								
-							for (int i = 0; i < listHang.size(); i++) {
-								if(cbHangSx.getSelectedItem().toString().equalsIgnoreCase(listHang.get(i).getTenHangSX())) {
-									hsx= listHang.get(i).getMaHangSX();
-								}
-							} 
-							for (int i = 0; i < dsLoai.size(); i++) {
-								if(cbLoaiXe.getSelectedItem().toString().equalsIgnoreCase(dsLoai.get(i).getTenLoaiXe())) {
-									loai= dsLoai.get(i).getMaLoaiXe();
-								}
-							} 
-							int phankhoi=Integer.parseInt(txtPhanKhoi.getText());
-							String soMay=txtSoMay.getText();
-							double giaNhap=Float.parseFloat(txtGiaNhap.getText());
-							String date  = ((JTextField)dtNgayNhap.getDateEditor().getUiComponent()).getText();
-							Date ngay=Date.valueOf(LocalDate.parse(date));
-							String trangThai=txtTrangThai.getText();
-							String chuThich=txtCt.getText();
-							String img1=txtImg1.getText();
-							String phienBan=txtPhienBan.getText();
-							Xe 	xe = new Xe(ma, ten, new LoaiXe(loai), phienBan, mau, new NhaCungCap(ncc), new HangSanXuat(hsx), phankhoi, soKhung, soMay, giaNhap, ngay, trangThai, chuThich, img1);
-							System.out.println(img1);
-//							Xe xe= new Xe(ma, ten, mau, phanKhoi, soLuong, giaNhap, new LoaiXe(loai), new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2, img3);
-//							//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
-//							
-							dao_qlXe.update(xe);
-							loadXe();
-							Reset();
-							JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!");
-							try {
+						if(validDataUpdateXe()) {
+							JFrame f= new JFrame();
+							int hoi=JOptionPane.showConfirmDialog(f, "Xe '"+txtTen.getText()+"' sẽ được cập nhật !!!","Chú ý ",JOptionPane.YES_NO_OPTION);
+							if(hoi==JOptionPane.YES_OPTION) {
+								String ncc=null;
+								String loai=null;
+								String hsx = null;
+								String ma= txtMa.getText();
+								String ten=txtTen.getText();
+								String mau= txtMau.getText();
+								String soKhung= txtSoKhung.getText();
+								for (int i = 0; i < listNCC.size(); i++) {
+									if(cbNhaCC.getSelectedItem().toString().equalsIgnoreCase(listNCC.get(i).getTenNhaCungCap())) {
+										ncc= listNCC.get(i).getMaNhaCungCap();
+									}
+								} 
+									
+								for (int i = 0; i < listHang.size(); i++) {
+									if(cbHangSx.getSelectedItem().toString().equalsIgnoreCase(listHang.get(i).getTenHangSX())) {
+										hsx= listHang.get(i).getMaHangSX();
+									}
+								} 
+								for (int i = 0; i < dsLoai.size(); i++) {
+									if(cbLoaiXe.getSelectedItem().toString().equalsIgnoreCase(dsLoai.get(i).getTenLoaiXe())) {
+										loai= dsLoai.get(i).getMaLoaiXe();
+									}
+								} 
+								int phankhoi=Integer.parseInt(txtPhanKhoi.getText());
+								String soMay=txtSoMay.getText();
+								double giaNhap=Float.parseFloat(txtGiaNhap.getText());
+								String date  = ((JTextField)dtNgayNhap.getDateEditor().getUiComponent()).getText();
+								Date ngay=Date.valueOf(LocalDate.parse(date));
+								String trangThai=txtTrangThai.getText();
+								String chuThich=txtCt.getText();
+								String img1=txtImg1.getText();
+								String phienBan=txtPhienBan.getText();
+								Xe 	xe = new Xe(ma, ten, new LoaiXe(loai), phienBan, mau, new NhaCungCap(ncc), new HangSanXuat(hsx), phankhoi, soKhung, soMay, giaNhap, ngay, trangThai, chuThich, img1);
+								System.out.println(img1);
+								dao_qlXe.update(xe);
 								loadXe();
-							} catch (Exception e2) {
-								// TODO: handle exception
-								e2.printStackTrace();
+								Reset();
+								JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!");
+								try {
+									loadXe();
+								} catch (Exception e2) {
+									// TODO: handle exception
+									e2.printStackTrace();
+								}
 							}
 						}
 					}
@@ -758,6 +759,7 @@ public class UI_QuanLyXe extends JFrame {
 		panelLoai.add(lbMaLoai);
 		
 		txtMaLoai = new JTextField();
+		txtMaLoai.setEditable(false);
 		txtMaLoai.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtMaLoai.setColumns(10);
 		txtMaLoai.setBounds(144, 102, 287, 25);
@@ -785,19 +787,24 @@ public class UI_QuanLyXe extends JFrame {
 		btnThem_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String ma= txtMaLoai.getText();
-				String ten=txtTenLoai.getText();
-				LoaiXe loai= new LoaiXe(ma, ten);
-				tableModel.addRow(new Object[] {loai.getMaLoaiXe(),loai.getTenLoaiXe()});
-				dao_loai.themLX(loai);
-				try {
-					loadXe();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if(validDataLoai()) {
+					String ma= txtMaLoai.getText();
+					String ten=txtTenLoai.getText();
+					LoaiXe loai= new LoaiXe(ma, ten);
+					tableModel.addRow(new Object[] {loai.getMaLoaiXe(),loai.getTenLoaiXe()});
+					dao_loai.themLX(loai);
+					
+					try {
+						loadLoai();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					ResetLoai();
+					JFrame f= new JFrame();
+					JOptionPane.showMessageDialog(f, "Thêm Thành Công Loại Xe"+txtTenLoai.getText());
 				}
-				JFrame f= new JFrame();
-				JOptionPane.showMessageDialog(f, "Thêm Thành Công Loại Xe"+txtTenLoai.getText());
+				
 			}
 		});
 		btnThem_1.setIcon(new ImageIcon("img1\\add.png"));
@@ -820,7 +827,8 @@ public class UI_QuanLyXe extends JFrame {
 							int r= tableLoai.getSelectedRow();
 							tableModel.removeRow(r);
 							xoaLoaiXe();
-						
+							loadLoai();
+							ResetLoai();
 						}
 					}
 					else
@@ -843,21 +851,25 @@ public class UI_QuanLyXe extends JFrame {
 				int row=tableLoai.getSelectedRow();
 				try {
 					if(row!=-1) {
-						JFrame f= new JFrame();
-						int hoi=JOptionPane.showConfirmDialog(f, "Loại xe này sẽ bị thay đôi !!!","Chú ý",JOptionPane.YES_NO_OPTION);
-						if(hoi==JOptionPane.YES_OPTION) {
-							String ma= txtMaLoai.getText();
-							String ten=txtTenLoai.getText();
-							LoaiXe loai= new LoaiXe(ma, ten);
-							tableModel.addRow(new Object[] {loai.getMaLoaiXe(),loai.getTenLoaiXe()});
-							dao_loai.update(loai);
-							try {
-								loadLoai();
-							} catch (Exception e2) {
-								// TODO: handle exception
-								e2.printStackTrace();
-							}
+						if (ValidateUpdateLoai()) {
+							Frame f= new JFrame();
+							int hoi=JOptionPane.showConfirmDialog(f, "Loại xe này sẽ bị thay đôi !!!","Chú ý",JOptionPane.YES_NO_OPTION);
+							if(hoi==JOptionPane.YES_OPTION) {
+								String ma= txtMaLoai.getText();
+								String ten=txtTenLoai.getText();
+								LoaiXe loai= new LoaiXe(ma, ten);
+								tableModel.addRow(new Object[] {loai.getMaLoaiXe(),loai.getTenLoaiXe()});
+								dao_loai.update(loai);
+								ResetLoai();
+								try {
+									loadLoai();
+								} catch (Exception e2) {
+									// TODO: handle exception
+									e2.printStackTrace();
+								}
+							}	
 						}
+						
 					}
 					else
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn loại xe cần thay đổi !!!");
@@ -872,6 +884,12 @@ public class UI_QuanLyXe extends JFrame {
 		panel_7_1.add(btnCapNhat_1);
 		
 		JButton btnXoaTrang_1 = new JButton("Làm mới ");
+		btnXoaTrang_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ResetLoai();
+			}
+		});
 		btnXoaTrang_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnXoaTrang_1.setIcon(new ImageIcon("img1\\refresh.png"));
 		btnXoaTrang_1.setBackground(new Color(255, 190, 87));
@@ -1000,7 +1018,7 @@ public class UI_QuanLyXe extends JFrame {
 		panel_7_1_2.setBackground(new Color(231, 150, 36));
 		panel_7_1_2.setBounds(443, 102, 548, 88);
 		panel_3_1.add(panel_7_1_2);
-		
+		txtmaHang.setText(dao_qlXe.getHangXeTail());
 		JButton btnthemHang = new JButton("Thêm");
 		btnthemHang.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnthemHang.addMouseListener(new MouseAdapter() {
@@ -1015,18 +1033,8 @@ public class UI_QuanLyXe extends JFrame {
 			    		dao_hsx.themHSX(hsx);
 			    		JFrame f = new JFrame();
 			    		loadHSX();
-			    		Dao_HoaDon dao_hd = new Dao_HoaDon();
-			    		//
-			    		String maHDTail = dao_hd.getMaHDTail("maHangSanXuat", "HangSanXuat");
-			    		String[] parts = maHDTail.split("_");
-			    		int soHD = Integer.parseInt(parts[1]) + 1;
-			    		String makh = "HSX_" + String.format("%04d", soHD);
-			    		txtmaHang.setText(makh);
 			    		JOptionPane.showMessageDialog(f, "Thêm hãng sản xuất thành công");
-			  
-						txttenHang.setText("");
-						txtquocGia.setText("");
-						txttenHang.requestFocus();
+			    		ResetHang();
 			    	  }catch(SQLException e1) {
 			    		  e1.getMessage();
 			    		  JOptionPane.showConfirmDialog(null, "Thêm không thành công");
@@ -1057,7 +1065,7 @@ public class UI_QuanLyXe extends JFrame {
 							int r = table_hang.getSelectedRow();
 							tableModelHang.removeRow(r);
 							xoaHangSX();
-							
+							ResetHang();
 						}
 					}
 					else
@@ -1081,6 +1089,7 @@ public class UI_QuanLyXe extends JFrame {
 				 int row = table_hang.getSelectedRow();
 					try {
 						if(row !=-1) {
+							
 							JFrame f = new JFrame();
 							int hoi=JOptionPane.showConfirmDialog(f, "Hãng Sản Xuất '"+txttenHang.getText()+"' sẽ được cập nhật !!!","Chú ý ",JOptionPane.YES_NO_OPTION);
 							if(hoi==JOptionPane.YES_OPTION) {
@@ -1091,9 +1100,7 @@ public class UI_QuanLyXe extends JFrame {
 					    		dao_hsx.update(hsx);
 					    		loadHSX();
 					    		JOptionPane.showMessageDialog(null, "Thay đổi thông tin thành công !!!"); 		
-								txttenHang.setText("");
-								txtquocGia.setText("");
-								txttenHang.requestFocus();
+								ResetHang();
 					    		try {
 					    			loadHSX();
 					    		}catch(Exception e2) {
@@ -1120,10 +1127,7 @@ public class UI_QuanLyXe extends JFrame {
 		btnlamMoiHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtmaHang.setText("");
-				txttenHang.setText("");
-				txtquocGia.setText("");
-				txttenHang.requestFocus();
+				ResetHang();
 			}
 		});
 		btnlamMoiHang.setIcon(new ImageIcon("img1\\refresh.png"));
@@ -1242,7 +1246,7 @@ public class UI_QuanLyXe extends JFrame {
 		txtquocGia.setColumns(10);
 		txtquocGia.setBounds(153, 174, 268, 27);
 		panel_3_1.add(txtquocGia);
-		
+		txtMaLoai.setText(dao_loai.getLoaiXeTail());
 		panel_5.add(panelHang, "name_24132267128600");
 		panel_5.add(panelLoai, "name_24132287226400");
 		getContentPane.add(panel_5);
@@ -1296,6 +1300,16 @@ public class UI_QuanLyXe extends JFrame {
 				panelXe.setVisible(true);
 				panelHang.setVisible(false);
 				panelLoai.setVisible(false);
+				ArrayList<HangSanXuat> listHang=dao_qlXe.getAllHangSX();
+				cbHangSx.removeAllItems();
+				for (HangSanXuat hangSanXuat : listHang) {
+					cbHangSx.addItem(hangSanXuat.getTenHangSX());
+				}
+				ArrayList<LoaiXe> listLoai=dao_qlXe.getAllLoaiXe();
+				cbLoaiXe.removeAllItems();
+				for (LoaiXe lx : listLoai) {
+					cbLoaiXe.addItem(lx.getTenLoaiXe());
+				}
 			}
 		});
 		btnXe.setBackground(Color.WHITE);
@@ -1401,14 +1415,72 @@ public class UI_QuanLyXe extends JFrame {
 			return true;
 		}
 //Validate dataXe
+		private boolean validDataUpdateXe() {
+			if(!(txtTen.getText().length()>0)) {
+				JOptionPane.showMessageDialog(null, "Tên xe không được để trống " );
+				return false;
+			}
+			if(txtSoKhung.getText().length()!=18) {
+				JOptionPane.showMessageDialog(null, "Số khung gồm 17 kí tự" );
+				return false;
+			}
+			
+			if(txtSoMay.getText().length()!=7) {
+				JOptionPane.showMessageDialog(null, "Số máy gồm 7 kí tự" );
+				return false;
+			}
+			
+			if(!(txtGiaNhap.getText().length()>0)) {
+				JOptionPane.showMessageDialog(null, "Giá nhập không được để rỗng " );
+				return false;
+			}
+			if(!(txtGiaNhap.getText().matches("\\d+"))){
+				JOptionPane.showMessageDialog(null, "Giá nhập là số không phải kí tự" );
+				return false;
+			}
+			double giaNhap= Double.parseDouble(txtGiaNhap.getText());
+			if(giaNhap<1000000) {
+				JOptionPane.showMessageDialog(null, "Giá nhập không chính xác" );
+				return false;
+			}
+			if(!(txtPhanKhoi.getText().length()>0)) {
+				JOptionPane.showMessageDialog(null, "Phân khối không được để rỗng " );
+				return false;
+			}
+			if(!(txtPhanKhoi.getText().matches("\\d+"))){
+				JOptionPane.showMessageDialog(null, "Phân khối là số không phải kí tự" );
+				return false;
+			}
+			int phanKhoi= Integer.parseInt(txtPhanKhoi.getText());
+			if(phanKhoi<50||phanKhoi>180) {
+				JOptionPane.showMessageDialog(null, "Phân khối không được nhỏ hơn 50cc hoặc lớn hơn 180cc " );
+				return false;
+			}
+			if(!(txtPhienBan.getText().length()>0)) {
+				JOptionPane.showMessageDialog(null, "Phiên bản không được để rỗng " );
+				return false;
+			}
+			String date  = ((JTextField)dtNgayNhap.getDateEditor().getUiComponent()).getText();
+			Date ngay=Date.valueOf(LocalDate.parse(date));
+			if(ngay.after(Date.valueOf(LocalDate.now()))) {
+				
+				JOptionPane.showMessageDialog(null, "Ngày nhập phải trước ngày hôm nay" );
+				return false;
+			}
+			
+			return true;
+		}
 		private boolean validDataXe() {
 			if(KiemTraMa()==false) {
 				JOptionPane.showMessageDialog(null, "Mã xe này đã tồn tại");
 				return false;
 			}
-		//	double giaNhap= Double.parseDouble(txtGiaNhap.getText());
 			if(!(txtTen.getText().length()>0)) {
 				JOptionPane.showMessageDialog(null, "Tên xe không được để trống " );
+				return false;
+			}
+			if(!(txtMau.getText().length()>0)) {
+				JOptionPane.showMessageDialog(null, "Màu không được để trống " );
 				return false;
 			}
 			if(txtSoKhung.getText().length()!=18) {
@@ -1467,6 +1539,7 @@ public class UI_QuanLyXe extends JFrame {
 			
 			return true;
 		}
+		
 //Tìm xe theo tên và mã 
 		private void timXe() throws SQLException{
 			Dao_QuanLyXe dao_qlXe= new Dao_QuanLyXe();
@@ -1513,6 +1586,32 @@ public class UI_QuanLyXe extends JFrame {
 			}
 			return true;
 		}
+		private boolean validDataLoai() {
+			if(!(txtTenLoai.getText().length()>0 && txtTenLoai.getText().matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
+					"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
+					"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$"))) {
+				JOptionPane.showMessageDialog(null, "Tên hãng không trống và không chứa kí tự đặc biệt không chứa kí tự số" );
+				return false;
+			}
+			if(xetMaLoai(txtMaLoai.getText())==true) {
+				JOptionPane.showMessageDialog(null, "Mã loại xe này đã tồn tại" );
+				return false;
+			}
+			if(xetTenLoai(txtTenLoai.getText())==true) {
+				JOptionPane.showMessageDialog(null, "Tên loại xe này đã tồn tại" );
+				return false;
+			}
+			return true;
+		}
+		private boolean ValidateUpdateLoai() {
+			if(!(txtTenLoai.getText().length()>0 && txtTenLoai.getText().matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
+					"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
+					"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$"))) {
+				JOptionPane.showMessageDialog(null, "Tên hãng không trống và không chứa kí tự đặc biệt không chứa kí tự số" );
+				return false;
+			}
+			return true;
+		}
 		public ArrayList<String> xettenHang() {
 			tenHang = new ArrayList<String>();
 			try {
@@ -1531,6 +1630,60 @@ public class UI_QuanLyXe extends JFrame {
 				e.printStackTrace();
 			}
 			return tenHang;
+		}
+		public ArrayList<String> xetTenLoai() {
+			ArrayList<String> tenLoai = new ArrayList<String>();
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql = "Select tenLoaiXe from LoaiXe";
+				Statement statement = con.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+				while (rs.next()) {
+					String ten;
+					ten = rs.getString(1);
+					tenLoai.add(ten);
+				}
+			}catch (SQLException e) { 
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return tenLoai;
+		}
+		public ArrayList<String> xetMaLoai() {
+			ArrayList<String> ma = new ArrayList<String>();
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql = "Select maLoaiXe from LoaiXe";
+				Statement statement = con.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+				while (rs.next()) {
+					String ten;
+					ten = rs.getString(1);
+					ma.add(ten);
+				}
+			}catch (SQLException e) { 
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return ma;
+		}
+		public boolean xetTenLoai(String ten) {
+			List<String> list = xetTenLoai();
+			for(String i:list) {
+				if(i.equalsIgnoreCase(ten))
+					return true;	
+			}
+			return false;
+		}
+		public boolean xetMaLoai(String ten) {
+			List<String> list = xetMaLoai();
+			for(String i:list) {
+				if(i.equalsIgnoreCase(ten))
+					return true;	
+			}
+			return false;
 		}
 		public boolean xetTenHang(String ten) {
 			List<String> list = xettenHang();
@@ -1559,7 +1712,15 @@ public class UI_QuanLyXe extends JFrame {
 			txtSoMay.setText("");
 			txtTen.requestFocus();
 		}
-		
+		public void ResetHang() {
+			txtmaHang.setText(dao_qlXe.getHangXeTail());
+			txttenHang.setText("");
+			txtquocGia.setText("");
+		}
+		public void ResetLoai() {
+			txtMaLoai.setText(dao_loai.getLoaiXeTail());
+			txtTenLoai.setText("");
+		}
 }
 
 
