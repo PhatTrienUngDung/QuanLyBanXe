@@ -220,6 +220,7 @@ public class UI_HoaDon extends JFrame {
 		txtEmployeeNum_Bill = new JTextField();
 		txtEmployeeNum_Bill.setEditable(false);
 		//txtEmployeeNum_Bill.setText(Login.txtuser.getText());
+		txtEmployeeNum_Bill.setText("NV_0001");
 		//txtEmployeeNum_Bill.setBackground(Color.WHITE);
 		txtEmployeeNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtEmployeeNum_Bill.setBounds(140, 10, 168, 21);
@@ -455,7 +456,8 @@ public class UI_HoaDon extends JFrame {
 		contentPane.add(pImageVehicle_Bill);
 		pImageVehicle_Bill.setLayout(null);
 		
-		JLabel lblImage = new JLabel("");
+		JLabel lblImage = new JLabel("                            Chưa có hình ảnh");
+		lblImage.setForeground(Color.red);
 		lblImage.setBounds(0, 0, 373, 145);
 		pImageVehicle_Bill.add(lblImage);
 		
@@ -495,8 +497,15 @@ public class UI_HoaDon extends JFrame {
 
 		//>>>>>>>>>>> txt CMND
 		txtCMND_Bill.addKeyListener(new KeyAdapter() {
+			public boolean isNumeric(String str) {
+				  return str.matches("\\d*");  //match a number with optional '-' and decimal. "-?\\d+(\\.\\d+)?"
+				}
 			@Override
 			public void keyReleased(KeyEvent e) {
+				if(!isNumeric(txtCMND_Bill.getText())) 
+					txtCMND_Bill.setForeground(Color.red);
+				else
+					txtCMND_Bill.setForeground(Color.BLACK);
 				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
 		        {
 		           

@@ -123,13 +123,7 @@ public class Dao_QuanLyXe {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListChassisNumber(String tenXe, String version, String mauXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
-<<<<<<< .mine
-		String sql = "SELECT DISTINCT soKhung FROM Xe WHERE tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"'";
-||||||| .r137
-		String sql = "SELECT DISTINCT soKhung FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"'";
-=======
 		String sql = "SELECT DISTINCT soKhung FROM Xe WHERE tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"' and trangThai = N'Còn hàng'";
->>>>>>> .r143
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
@@ -489,18 +483,21 @@ public class Dao_QuanLyXe {
 		public boolean getImage(JLabel label, String ID) {
 			BufferedImage img = null;
 			Xe xe_i = getInfoXe("maXe",ID);
+			String img1 = xe_i.getImg1();
+			int a = 0, b= 0;
 			if (xe_i.getImg1().length()==0) {
-				label.setVisible(false);
-				return false;
+				img1 = "HinhAnhXe\\deletelbl-icon.png";
+				a = 100;
+				b = 50;
 			}
-			label.setVisible(true);
-			String img1= xe_i.getImg1();
+			//label.setVisible(true);
+			//img1= xe_i.getImg1();
 			try {
 			    img = ImageIO.read(new File(img1));
 			} catch (IOException e1) {
 			    e1.printStackTrace();
 			}
-			Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),
+			Image dimg = img.getScaledInstance(label.getWidth()-a, label.getHeight()-b,
 			        Image.SCALE_SMOOTH);
 			ImageIcon imageIcon = new ImageIcon(dimg);
 			label.setIcon(imageIcon);

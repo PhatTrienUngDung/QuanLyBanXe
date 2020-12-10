@@ -54,6 +54,7 @@ public class UI_ThanhToan extends JFrame {
 
 	private JPanel contentPane;
 	public static JFormattedTextField txtCusMoney;
+	public static TextField txtRefunds;
 
 	/**
 	 * Launch the application.
@@ -183,7 +184,7 @@ public class UI_ThanhToan extends JFrame {
 		lblRefunds.setBounds(43, 253, 136, 25);
 		panel_1.add(lblRefunds);
 		
-		TextField txtRefunds = new TextField();
+		txtRefunds = new TextField();
 		txtRefunds.setBackground(Color.WHITE);
 		txtRefunds.setForeground(new Color(255, 69, 0));
 		txtRefunds.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -251,6 +252,10 @@ public class UI_ThanhToan extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Thông tin hóa đơn
+				if (txtRefunds.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Số tiền khách đưa không hợp lệ!");
+					return;
+				}
 				String maHoaDon = UI_HoaDon.txtBillNum.getText();
 				String maKhachHang = UI_HoaDon.maKhachHang;
 				String maNhanVien = UI_HoaDon.txtEmployeeNum_Bill.getText();
@@ -306,6 +311,15 @@ public class UI_ThanhToan extends JFrame {
 						e1.printStackTrace();
 					}			
 				}
+				Bill bill = new Bill();
+				//bill.setVisible(true);
+				PrintSupport.printComponent(bill.textArea);
+				String cmds[] = new String[] {"cmd", "/c", "C:\\Users\\hoais\\OneDrive\\Desktop\\a.pdf"};
+				try {
+				    Runtime.getRuntime().exec(cmds);
+				}catch (Exception e1) {
+					// TODO: handle exception
+				}
 				if(i == tableRowCount) {
 					UI_HoaDon.tableModel.getDataVector().removeAllElements();
 					UI_HoaDon.tableModel.fireTableDataChanged();
@@ -320,9 +334,7 @@ public class UI_ThanhToan extends JFrame {
 		
 		btnCompleted.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Bill bill = new Bill();
-				//bill.setVisible(true);
-				PrintSupport.printComponent(Bill.textArea);
+				
 			}
 		});
 		

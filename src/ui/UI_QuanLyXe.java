@@ -671,7 +671,7 @@ public class UI_QuanLyXe extends JFrame {
 							String img1=txtImg1.getText();
 							String phienBan=txtPhienBan.getText();
 							Xe 	xe = new Xe(ma, ten, new LoaiXe(loai), phienBan, mau, new NhaCungCap(ncc), new HangSanXuat(hsx), phankhoi, soKhung, soMay, giaNhap, ngay, trangThai, chuThich, img1);
-
+							System.out.println(img1);
 //							Xe xe= new Xe(ma, ten, mau, phanKhoi, soLuong, giaNhap, new LoaiXe(loai), new NhaCungCap(ncc), new HangSanXuat(hsx), ngay, trangThai, chuThich, img1, img2, img3);
 //							//{"Mã Xe","Tên Xe", "Màu Xe", "Loại Xe", "Nhà cung cấp","Hãng sản xuất","Phân Khối","Số Lượng","Giá Nhập","Ngày Nhập","Trạng Thái","Chú Thích"};
 //							
