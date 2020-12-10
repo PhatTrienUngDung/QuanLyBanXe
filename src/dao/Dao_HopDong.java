@@ -148,7 +148,7 @@ public class Dao_HopDong {
 					int n = 0;
 					try {
 						stmt = con.prepareStatement("insert into HopDong values(?,?,?,?,?,?)");
-						stmt.setString(1, hd.getKhachHang().getMaKhachHang());
+						stmt.setString(1, hd.getMaHD());
 						stmt.setString(2,hd.getKhachHang().getMaKhachHang());
 						stmt.setString(3, hd.getNhanVien().getMaNhanVien());
 						stmt.setString(4, hd.getXe().getMaXe());						
@@ -402,5 +402,43 @@ public class Dao_HopDong {
 						JOptionPane.showMessageDialog(null, e1);
 						e1.printStackTrace();
 					}
+					
+				}
+				public HopDong getInfoHDG(String properties, String id){
+					Connection con = ConnectDB.getCon();
+					String sql = "select * from HopDong where " + properties + " = ?";
+					try {
+						PreparedStatement pst = con.prepareStatement(sql);
+						pst.setString(1, id);
+						ResultSet rs = pst.executeQuery();
+						while(rs.next()) {
+							
+							HopDong nv = new HopDong(rs.getString(1),new KhachHang(rs.getString(2)),new NhanVien(rs.getString(3)),new Xe(rs.getString(4)),rs.getDate(5),rs.getInt(6));
+							return nv ;
+						}
+					} catch (SQLException e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					return null;
+				}
+				public String getMaHDGTail(String properties, String table) {
+					Connection con = ConnectDB.getCon();
+					String sql = "select Top 1 " + properties + " from " + table + " order by " + properties + " desc";
+					try {
+						PreparedStatement pst = con.prepareStatement(sql);
+						ResultSet rs = pst.executeQuery();
+						while(rs.next()) {
+							String ma;
+							ma = rs.getString(1);
+							String[] parts = ma.split("_");
+							int so = Integer.parseInt(parts[1]) + 1;
+							return parts[0] + "_" + String.format("%04d", so);
+						}
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, e1);
+						e1.printStackTrace();
+					}
+					return null;
 				}
 }

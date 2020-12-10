@@ -7,17 +7,38 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import com.toedter.calendar.JDateChooser;
 
+import connect.ConnectDB;
+import dao.Dao_LoaiXe;
 import dao.Dao_XuatHopDong;
 import entity.HopDong;
 import entity.KhachHang;
+import entity.LoaiXe;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.Graphics;
+
 import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 
 public class UI_XuatHopDong extends JFrame {
 
@@ -35,6 +56,8 @@ public class UI_XuatHopDong extends JFrame {
 	private JTextField txtdonGia;
 	private JTextField txttgbh;
 	private Dao_XuatHopDong daoxhd = new Dao_XuatHopDong();
+	private JTextField txttenKH;
+	private JDateChooser dateChooser;
 
 	/**
 	 * Launch the application.
@@ -56,8 +79,14 @@ public class UI_XuatHopDong extends JFrame {
 	 * Create the frame.
 	 */
 	public UI_XuatHopDong() {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 508, 720);
+		setBounds(100, 100, 508, 763);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -72,18 +101,29 @@ public class UI_XuatHopDong extends JFrame {
 		lblMHpng.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblMHpng.setBounds(23, 77, 110, 13);
 		contentPane.add(lblMHpng);
-		
+		Dao_LoaiXe dao_lx = new Dao_LoaiXe();
 		txtmaHD = new JTextField();
 		txtmaHD.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				ArrayList<HopDong> dsxhd=daoxhd.getAllHopDong();
-				for (int i = 0; i < dsxhd.size(); i++) {
-					if(txtmaHD.getText().equalsIgnoreCase(dsxhd.get(i).getMaHD())) {
-						
-						txttenXe.setText(dsxhd.get(i).getXe().getMaXe());
-					//	txttgbh.set(dsxhd.get(i).getThoiGianBaoHanh());
-					}
+				HopDong hd;
+				hd = daoxhd.getAllHopDong(txtmaHD.getText());
+				if(hd!=null) {
+					txtcmnd.setText(hd.getKhachHang().getCMND());
+					txttenNV.setText(hd.getNhanVien().getTenNhanVien());
+					txttenKH.setText(hd.getKhachHang().getTenKhachHang());
+					txttenXe.setText(hd.getXe().getTenXe());
+					txtmauXe.setText(hd.getXe().getMauXe());
+					txtphanKhoi.setText(hd.getXe().getPhanKhoi()+"");
+					txtsoKhung.setText(hd.getXe().getSoKhung());
+					txtsoMay.setText(hd.getXe().getSoMay());
+					txtsdt.setText(hd.getKhachHang().getSoDienThoai());
+					LoaiXe lx = dao_lx.getLoaiXeByID(hd.getXe().getLoaiXe().getMaLoaiXe());
+					txtloaiXe.setText(lx.getTenLoaiXe());
+					DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
+					
+					txtdonGia.setText(hd.getXe().getDonGia()+"");
+					txttgbh.setText(hd.getThoiGianBaoHanh()+"");
 				}
 			}
 		});
@@ -115,31 +155,31 @@ public class UI_XuatHopDong extends JFrame {
 		
 		JLabel lblSinThoi = new JLabel("Số điện thoại");
 		lblSinThoi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblSinThoi.setBounds(23, 207, 110, 13);
+		lblSinThoi.setBounds(23, 252, 110, 13);
 		contentPane.add(lblSinThoi);
 		
 		txtsdt = new JTextField();
-		txtsdt.setBounds(210, 206, 136, 19);
+		txtsdt.setBounds(210, 246, 136, 19);
 		contentPane.add(txtsdt);
 		txtsdt.setColumns(10);
 		
-		JLabel lblaCh = new JLabel("Địa chỉ");
+		JLabel lblaCh = new JLabel("Loại xe");
 		lblaCh.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblaCh.setBounds(23, 255, 77, 13);
+		lblaCh.setBounds(23, 290, 77, 13);
 		contentPane.add(lblaCh);
 		
 		txtloaiXe = new JTextField();
-		txtloaiXe.setBounds(210, 254, 136, 19);
+		txtloaiXe.setBounds(210, 284, 136, 19);
 		contentPane.add(txtloaiXe);
 		txtloaiXe.setColumns(10);
 		
 		JLabel lblTnXe = new JLabel("Tên xe");
 		lblTnXe.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTnXe.setBounds(23, 309, 77, 13);
+		lblTnXe.setBounds(23, 325, 77, 13);
 		contentPane.add(lblTnXe);
 		
 		txttenXe = new JTextField();
-		txttenXe.setBounds(210, 308, 136, 19);
+		txttenXe.setBounds(210, 324, 136, 19);
 		contentPane.add(txttenXe);
 		txttenXe.setColumns(10);
 		
@@ -212,5 +252,51 @@ public class UI_XuatHopDong extends JFrame {
 		lblBnMua.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblBnMua.setBounds(380, 631, 66, 13);
 		contentPane.add(lblBnMua);
+		
+		JLabel lblTnKhchHng = new JLabel("Tên khách hàng");
+		lblTnKhchHng.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblTnKhchHng.setBounds(23, 214, 128, 13);
+		contentPane.add(lblTnKhchHng);
+		
+		txttenKH = new JTextField();
+		txttenKH.setBounds(210, 213, 136, 19);
+		contentPane.add(txttenKH);
+		txttenKH.setColumns(10);
+		
+		JButton btnXuat = new JButton("Xuất");
+		btnXuat.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				PrinterJob printjob =  PrinterJob.getPrinterJob();
+				printjob.setJobName("Hãng mua bán xe");
+				printjob.setPrintable(new Printable() {
+					
+					@Override
+					public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+						if(pageIndex > 0){
+							return Printable.NO_SUCH_PAGE;
+						}
+						return Printable.PAGE_EXISTS;
+					}
+				});
+				boolean returningResult = printjob.printDialog();
+				if(returningResult) {
+					try {
+						printjob.print();
+					}catch (PrinterException printException) {
+						JOptionPane.showMessageDialog(null, "Print Error" + printException.getMessage());
+						// TODO: handle exception
+					}
+				}
+			}
+		});
+		btnXuat.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnXuat.setBounds(266, 695, 85, 21);
+		contentPane.add(btnXuat);
+		
+		JButton btnng = new JButton("Đóng");
+		btnng.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnng.setBounds(383, 697, 85, 21);
+		contentPane.add(btnng);
 	}
 }

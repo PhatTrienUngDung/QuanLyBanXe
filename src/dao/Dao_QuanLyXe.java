@@ -106,7 +106,7 @@ public class Dao_QuanLyXe {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListVersion(String tenXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
-		String sql = "SELECT DISTINCT phienBan FROM Xe WHERE tenXe = ?";
+		String sql = "SELECT DISTINCT phienBan FROM Xe WHERE tenXe = ? and trangThai = N'Còn hàng'";
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, tenXe);
@@ -123,7 +123,7 @@ public class Dao_QuanLyXe {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListChassisNumber(String tenXe, String version, String mauXe, JComboBox comboBox) {
 		Connection con = ConnectDB.getCon();
-		String sql = "SELECT DISTINCT soKhung FROM NhaCungCap, Xe WHERE Xe.maNhaCungCap = NhaCungCap.maNhaCungCap and tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"'";
+		String sql = "SELECT DISTINCT soKhung FROM Xe WHERE tenXe = '" + tenXe + "' and phienBan = N'"+ version +"' and mauXe = N'"+ mauXe +"' and trangThai = N'Còn hàng'";
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
@@ -142,7 +142,7 @@ public class Dao_QuanLyXe {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getListColor(String tenXe, String version, JComboBox comboBox){
 		Connection con = ConnectDB.getCon();
-		String sql = "SELECT DISTINCT mauXe FROM Xe where tenXe = '" + tenXe +"' and phienBan = N'" + version + "'";
+		String sql = "SELECT DISTINCT mauXe FROM Xe where tenXe = '" + tenXe +"' and phienBan = N'" + version + "' and trangThai = N'Còn hàng'";
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();

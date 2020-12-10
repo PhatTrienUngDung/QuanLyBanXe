@@ -184,6 +184,7 @@ public class UI_NhanVien extends JFrame {
 		panel_6.add(lblngaySinh);
 		
 		JDateChooser datengaySinh = new JDateChooser();
+		datengaySinh.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 15));
 		datengaySinh.setBounds(139, 107, 260, 19);
 		datengaySinh.setDateFormatString("yyy-MM-dd");
 		panel_6.add(datengaySinh);
@@ -242,6 +243,7 @@ public class UI_NhanVien extends JFrame {
 		panel_6.add(lblngayVaoLam);
 		
 		 datengayVaoLam = new JDateChooser();
+		 datengayVaoLam.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 15));
 		datengayVaoLam.setBounds(1192, 57, 270, 19);
 		datengayVaoLam.setDateFormatString("yyy-MM-dd");
 		panel_6.add(datengayVaoLam);
@@ -291,31 +293,37 @@ public class UI_NhanVien extends JFrame {
 //				"M\u00E3 nh\u00E2n vi\u00EAn", "T\u00EAn nh\u00E2n vi\u00EAn", "Ng\u00E0y sinh", "Gi\u1EDBi sinh", "Email", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", "\u0110\u1ECBa ch\u1EC9", "Ch\u1EE9c v\u1EE5", "Ng\u00E0y v\u00E0o l\u00E0m"
 //			}
 //		));
-		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Chức vụ","Ngày Vào Làm"};
-		tableModel = new DefaultTableModel(header, 0);
-		table = new JTable(tableModel);
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int i=table.getSelectedRow();
-				txtmaNV.setText(tableModel.getValueAt(i, 0).toString());
-				txttenNV.setText(tableModel.getValueAt(i, 1).toString());
-				txtcmnd.setText(tableModel.getValueAt(i, 2).toString());
-				datengaySinh.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 8).toString()))); 
-				cbgioiTinh.setSelectedItem(tableModel.getValueAt(i, 3).toString());
-				txtdiaChi.setText(tableModel.getValueAt(i, 4).toString());
-				txtEmail.setText(tableModel.getValueAt(i, 5).toString());
-				txtSdt.setText(tableModel.getValueAt(i, 6).toString());
-				cbchucVu.setSelectedItem(tableModel.getValueAt(i, 9).toString());
-				datengayVaoLam.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 7).toString())));
-			}
-		});
-		loadNV();
+		table = new JTable(){
+		       @Override
+		       public boolean isCellEditable(int i, int i1) {
+		           return false; //To change body of generated methods, choose Tools | Templates.
+		       }
+			};
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 514, 1482, 205);
 		panel.add(scrollPane);
 		scrollPane.setViewportView(table);
-		scrollPane.setViewportView(table);
+		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Chức vụ","Ngày Vào Làm"};
+		tableModel = new DefaultTableModel(header, 0);
+		table.setModel(tableModel);
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i=table.getSelectedRow();
+				txtmaNV.setText(tableModel.getValueAt(i, 0).toString().trim());
+				txttenNV.setText(tableModel.getValueAt(i, 1).toString().trim());
+				txtcmnd.setText(tableModel.getValueAt(i, 2).toString().trim());
+				datengaySinh.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 8).toString().trim()))); 
+				cbgioiTinh.setSelectedItem(tableModel.getValueAt(i, 3).toString().trim());
+				txtdiaChi.setText(tableModel.getValueAt(i, 4).toString().trim());
+				txtEmail.setText(tableModel.getValueAt(i, 5).toString().trim());
+				txtSdt.setText(tableModel.getValueAt(i, 6).toString().trim());
+				cbchucVu.setSelectedItem(tableModel.getValueAt(i, 9).toString().trim());
+				datengayVaoLam.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 7).toString())));
+			}
+		});
+		loadNV();
 		
 	
 		
@@ -325,8 +333,8 @@ public class UI_NhanVien extends JFrame {
 		panel_8.setBounds(10, 421, 683, 69);
 		panel_8.setBackground(new Color(231,150,36));
 		
-		JLabel lblNhpThngTin = new JLabel("Nhập Thông Tin Nhân Viên");
-		lblNhpThngTin.setBounds(21, 13, 205, 30);
+		JLabel lblNhpThngTin = new JLabel("Nhập số CMND của  nhân viên");
+		lblNhpThngTin.setBounds(21, 13, 230, 30);
 		lblNhpThngTin.setBackground(new Color(255, 228, 225));
 		lblNhpThngTin.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
@@ -352,7 +360,7 @@ public class UI_NhanVien extends JFrame {
 				}
 			}
 		});
-		txtTimKiem.setBounds(243, 21, 210, 19);
+		txtTimKiem.setBounds(282, 21, 210, 19);
 		txtTimKiem.setColumns(10);
 		
 		JButton btnTimKiem = new JButton("Tìm kiếm");
@@ -419,7 +427,12 @@ public class UI_NhanVien extends JFrame {
 				tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getCMND(),nv.getGioiTinh(),nv.getDiaChi(),nv.getEmail(),nv.getSdt()
 						,nv.getNgayVaoLam(),nv.getNgaySinh(),nv.getChucVu().getMaChucVu()});						
 				JFrame f= new JFrame();
-				dao_nv.themNV(nv);
+				try {
+					dao_nv.themNV(nv);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
 				}
 			}
@@ -461,7 +474,7 @@ public class UI_NhanVien extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 				}
 			});
-			btnLamMoi.setBounds(555, 16, 123, 38);
+			btnLamMoi.setBounds(555, 16, 135, 38);
 			btnLamMoi.setIcon(new ImageIcon("img1/refresh.png"));
 			btnLamMoi.addMouseListener(new MouseAdapter() {
 				@Override
@@ -508,16 +521,25 @@ public class UI_NhanVien extends JFrame {
 								Date ngaySinh=Date.valueOf(LocalDate.parse(date1));
 								Date ngayVaoLam =Date.valueOf(LocalDate.parse(date2));
 								String gioiTinh = (String) cbgioiTinh.getSelectedItem();
-								NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, new ChucVu(chucVu), sodt, ngayVaoLam);
-								tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getCMND(),nv.getGioiTinh(),nv.getDiaChi(),nv.getEmail(),nv.getSdt()
-										,nv.getNgayVaoLam(),nv.getNgaySinh(),nv.getChucVu().getMaChucVu()});	
-								dao_nv.update(nv);
-								try {
-									loadNV();
-								} catch (Exception e2) {
-									// TODO: handle exception
-									e2.printStackTrace();
+								String maChucVu="";
+								if (chucVu.equalsIgnoreCase("Quản Lý"))
+									maChucVu = "CV_0001";
+								else
+									maChucVu = "CV_0002";
+								NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, new ChucVu(maChucVu), sodt, ngayVaoLam);
+								if(dao_nv.update(nv)) {
+									tableModel.setValueAt(ma, row, 0);
+									tableModel.setValueAt(ten, row, 1);
+									tableModel.setValueAt(cmnd, row, 2);
+									tableModel.setValueAt(gioiTinh, row, 3);
+									tableModel.setValueAt(diachi, row, 4);
+									tableModel.setValueAt(email, row, 5);
+									tableModel.setValueAt(sodt, row, 6);
+									tableModel.setValueAt(ngayVaoLam, row, 7);
+									tableModel.setValueAt(ngaySinh, row, 8);
+									tableModel.setValueAt(chucVu, row, 9);
 								}
+								
 							}
 						}
 						}
@@ -605,21 +627,22 @@ public class UI_NhanVien extends JFrame {
 			JOptionPane.showMessageDialog(null, "Tên nhân vien không trống và không chứa kí tự đặc biệt " );
 			return false;
 		}
-		if(!(cmnd.length()>0 && cmnd.matches("^[1-9]{10}$"))) {
+		if(!(cmnd.length()>0 && cmnd.matches("^[0-9]{10}$"))) {
 			JOptionPane.showConfirmDialog(null, "Chứng minh nhân dân gồm 10 kí tự số");
 			return false;
 		}
-		if(!(diaChi.length()>0 && diaChi.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\\n\" + \r\n" + 
-				"				\"            \\\"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n\" + \r\n" + 
-				"				\"            \\\"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\\\\\s]"))) {
-			JOptionPane.showConfirmDialog(null, "Địa chỉ không chưa kí tự đặc biệt");
+		if(!(diaChi.length()>0 && diaChi.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+	            "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
+	            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s/\\.]+$"))) {
+			JOptionPane.showMessageDialog(null, "Địa chỉ không hợp lệ " );
 			return false;
 		}
-		if(!(cmnd.length()>0 && cmnd.matches("^[\\\\w.+\\\\-]+@gmail\\\\.com$"))) {
-			JOptionPane.showConfirmDialog(null, "Sai cú pháp");
+		if(!(email.length()>0 && email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"))) {
+			JOptionPane.showConfirmDialog(null, "Sai cú pháp gmail. Cú pháp đúng");
 			return false;
 		}
-		if(!(sdt.length()>0 && sdt.matches("^[0]+[1-9]{9}$"))) {
+		if(!(sdt.length()>0 && sdt.matches("^[0][1-9][0-9]{8}$"))) {
 			JOptionPane.showConfirmDialog(null, "Số điện thoại gồm 10 kí tự số và bắt đầu từ kí tự 0");
 			return false;
 		}

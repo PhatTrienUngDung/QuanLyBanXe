@@ -122,7 +122,7 @@ public class Dao_NhanVien {
 		return tableModel;
 	}
 //Thêm
-	public boolean themNV(NhanVien nv) {
+	public boolean themNV(NhanVien nv) throws SQLException{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
 		PreparedStatement stmt = null;
@@ -171,26 +171,21 @@ public class Dao_NhanVien {
 			try {
 				
 				stmt = con.prepareStatement(
-						"update nhanVien set maNhanVien=?,tenNhanVien=?,diaChi=?,email=?,soDienThoai=?,gioiTinh=?,maChucVu=?,ngayVaoLam=? where maNhanVien=?");
-				stmt.setString(1, nv.getMaNhanVien());
-				stmt.setString(2, nv.getTenNhanVien());
-				stmt.setString(3, nv.getCMND());
-				stmt.setString(4, nv.getGioiTinh());
-				stmt.setString(5, nv.getDiaChi());
-				stmt.setString(6, nv.getEmail());				
-				stmt.setString(7, nv.getSdt());
-					stmt.setString(10, nv.getChucVu().getMaChucVu());
-				stmt.setDate(9, (Date) nv.getNgaySinh());
-				stmt.setDate(8, (Date) nv.getNgayVaoLam());
+						"update nhanVien set tenNhanVien=?,CMND=?,gioiTinh=?,diaChi=?,email=?,soDienThoai=?,maChucVu=?,ngayVaoLam=?,ngaySinh=? where maNhanVien=?");
+				stmt.setString(1, nv.getTenNhanVien());
+				stmt.setString(2, nv.getCMND());
+				stmt.setString(3, nv.getGioiTinh());
+				stmt.setString(4, nv.getDiaChi());
+				stmt.setString(5, nv.getEmail());				
+				stmt.setString(6, nv.getSdt());
+				stmt.setString(7, nv.getChucVu().getMaChucVu());
+				stmt.setDate(8, (Date) nv.getNgaySinh());
+				stmt.setDate(9, (Date) nv.getNgayVaoLam());
+				stmt.setString(10, nv.getMaNhanVien());
 				n = stmt.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-				try {
-					stmt.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		
 			}
 			return n > 0;
 		}
