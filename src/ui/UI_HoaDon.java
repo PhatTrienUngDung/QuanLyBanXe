@@ -83,17 +83,19 @@ public class UI_HoaDon extends JFrame {
 	public static JTable table;
 	public static JTextField txtTotal = new JTextField();
 	public static JTextField txtBillNum;
-	public static String maKhachHang;
 	public static JTextField txtEmployeeNum_Bill;
 	public static JTextField txtDateBill;
-	public static double thueVAT;
 	public static DefaultTableModel tableModel;
 	public static JTextField txtCMND_Bill;
     public static JTextField txtNumPhone_Bill;
     public static JTextField txtCustomerName_Bill;
     public static JTextArea txtNoteCustomer_Bill;
     public static JComboBox cbbVehicleName_Bill;
+    private JComboBox cbbVehicleColor_Bill, cbbVersion, cbbChasisNumber;
     private JTextField txtVehicleEngineNum;
+    public static String maKhachHang;
+	public static double thueVAT;
+	
     
 
 	/**
@@ -300,7 +302,7 @@ public class UI_HoaDon extends JFrame {
 			e2.printStackTrace();
 		} 
 		
-		JComboBox cbbVehicleColor_Bill = new JComboBox();
+		cbbVehicleColor_Bill = new JComboBox();
 		cbbVehicleColor_Bill.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbbVehicleColor_Bill.setBackground(Color.WHITE);
 		cbbVehicleColor_Bill.setBounds(570, 43, 145, 21);
@@ -322,7 +324,7 @@ public class UI_HoaDon extends JFrame {
 		lblManufacturerName_Bill.setBounds(10, 43, 68, 21);
 		pAddVehicle_Bill.add(lblManufacturerName_Bill);
 		
-		JComboBox cbbVersion = new JComboBox();
+		cbbVersion = new JComboBox();
 		cbbVersion.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbbVersion.setBackground(Color.WHITE);
 		cbbVersion.setBounds(115, 41, 203, 21);
@@ -333,7 +335,7 @@ public class UI_HoaDon extends JFrame {
 		lblChasisNumber_Bill.setBounds(10, 74, 95, 21);
 		pAddVehicle_Bill.add(lblChasisNumber_Bill);
 		
-		JComboBox cbbChasisNumber = new JComboBox();
+		cbbChasisNumber = new JComboBox();
 		cbbChasisNumber.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbbChasisNumber.setBounds(115, 74, 203, 21);
 		pAddVehicle_Bill.add(cbbChasisNumber);
@@ -550,6 +552,7 @@ public class UI_HoaDon extends JFrame {
 				else {
 					String temp = txtVehicleNum_Bill.getText();
 					cbbVehicleName_Bill.setSelectedIndex(-1);
+					cbbVersion.setSelectedIndex(-1);
 					txtVehicleNum_Bill.setText(temp);
 				}				
 			}
@@ -730,6 +733,8 @@ public class UI_HoaDon extends JFrame {
 				//txtVehicleNum_Bill.setText("");
 				//cbbChasisNumber.setSelectedIndex(-1);
 				cbbVehicleName_Bill.setSelectedIndex(-1);
+				cbbVersion.setSelectedIndex(-1);
+				cbbChasisNumber.setSelectedIndex(-1);
 			}
 		});
 		
@@ -766,6 +771,8 @@ public class UI_HoaDon extends JFrame {
 					}
 					txtTotal.setText(df.format(total));
 					cbbVehicleName_Bill.setSelectedIndex(-1);
+					cbbVersion.setSelectedIndex(-1);
+					cbbChasisNumber.setSelectedIndex(-1);
 				}
 			}
 		});
@@ -846,7 +853,28 @@ public class UI_HoaDon extends JFrame {
 		for (int i = 0; i<sl; i++)
 			if (cbbVehicleName_Bill.getItemAt(i).toString().equalsIgnoreCase(xe.getTenXe())) {
 				cbbVehicleName_Bill.setSelectedIndex(i);
-				return;
+				break;
+			}
+		
+		sl = cbbVersion.getItemCount();
+		for(int i = 0; i<sl; i++)
+			if (cbbVersion.getItemAt(i).toString().equalsIgnoreCase(xe.getPhienBan())){
+				cbbVersion.setSelectedIndex(i);
+				break;
+			}
+		
+		sl = cbbVehicleColor_Bill.getItemCount();
+		for(int i = 0; i<sl; i++)
+			if (cbbVehicleColor_Bill.getItemAt(i).toString().equalsIgnoreCase(xe.getMauXe())){
+				cbbVehicleColor_Bill.setSelectedIndex(i);
+				break;
+			}
+		
+		sl = cbbChasisNumber.getItemCount();
+		for(int i = 0; i<sl; i++)
+			if (cbbChasisNumber.getItemAt(i).toString().equalsIgnoreCase(xe.getSoKhung())){
+				cbbChasisNumber.setSelectedIndex(i);
+				break;
 			}
 	}
 }
