@@ -31,6 +31,22 @@ public class HopDong {
 	
 
 
+	public HopDong(String maHD, KhachHang khachHang, Xe xe, Date ngayLap, int thoiGianBaoHanh) {
+		super();
+		this.maHD = maHD;
+		this.khachHang = khachHang;
+		this.xe = xe;
+		this.ngayLap = ngayLap;
+		this.thoiGianBaoHanh = thoiGianBaoHanh;
+	}
+
+	public HopDong(String maHD, Date ngayLap, int thoiGianBaoHanh) {
+		super();
+		this.maHD = maHD;
+		this.ngayLap = ngayLap;
+		this.thoiGianBaoHanh = thoiGianBaoHanh;
+	}
+
 	@Override
 	public String toString() {
 		return "HopDong [maHD=" + maHD + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", xe=" + xe

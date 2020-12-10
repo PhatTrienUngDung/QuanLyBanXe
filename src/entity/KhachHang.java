@@ -23,6 +23,12 @@ public class KhachHang {
 
 
 
+	public KhachHang(String tenKhachHang, String cMND) {
+		super();
+		this.tenKhachHang = tenKhachHang;
+		CMND = cMND;
+	}
+
 	public KhachHang(String maKhachHang, String tenKhachHang, String cMND, Date ngaySinh ,String diaChi,
 			String soDienThoai) {
 		super();
@@ -139,10 +145,6 @@ public class KhachHang {
 				+ diaChi + ", email=" + email + ", soDienThoai=" + soDienThoai + ", chuThich=" + chuThich + "]";
 	}
 
-	public KhachHang(String maKhachHang, String tenKhachHang) {
-		super();
-		this.maKhachHang = maKhachHang;
-		this.tenKhachHang = tenKhachHang;
-	}
+
 	
 }

@@ -1,12 +1,15 @@
 package ui;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import dao.Dao_XuatHopDong;
+import entity.HopDong;
 import entity.KhachHang;
 
 import javax.swing.JLabel;
@@ -31,6 +34,7 @@ public class UI_XuatHopDong extends JFrame {
 	private JTextField txtsoMay;
 	private JTextField txtdonGia;
 	private JTextField txttgbh;
+	private Dao_XuatHopDong daoxhd = new Dao_XuatHopDong();
 
 	/**
 	 * Launch the application.
@@ -70,6 +74,19 @@ public class UI_XuatHopDong extends JFrame {
 		contentPane.add(lblMHpng);
 		
 		txtmaHD = new JTextField();
+		txtmaHD.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				ArrayList<HopDong> dsxhd=daoxhd.getAllHopDong();
+				for (int i = 0; i < dsxhd.size(); i++) {
+					if(txtmaHD.getText().equalsIgnoreCase(dsxhd.get(i).getMaHD())) {
+						
+						txttenXe.setText(dsxhd.get(i).getXe().getMaXe());
+					//	txttgbh.set(dsxhd.get(i).getThoiGianBaoHanh());
+					}
+				}
+			}
+		});
 	
 		txtmaHD.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtmaHD.setBounds(210, 74, 136, 19);

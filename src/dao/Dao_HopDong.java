@@ -23,6 +23,7 @@ import com.toedter.calendar.JDateChooser;
 import connect.ConnectDB;
 import entity.ChiTietHoaDon;
 import entity.ChucVu;
+import entity.HangSanXuat;
 import entity.HopDong;
 import entity.KhachHang;
 import entity.NhaCungCap;
@@ -55,6 +56,24 @@ public class Dao_HopDong {
 //					return tableModel;
 //				}
 //				
+	
+				public HopDong getHopDongByVehicleNum(String maXe) {
+					Connection con = ConnectDB.getCon();
+					String sql = "select * from HopDong where maXe = '" + maXe + "'";
+					try {
+						PreparedStatement pst = con.prepareStatement(sql);
+						ResultSet rs = pst.executeQuery();
+						while(rs.next()) {
+							HopDong hd = new HopDong(rs.getString(1));
+							return hd;
+						}
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, e1);
+						e1.printStackTrace();
+					}
+					return null;
+				}
+	
 				public DefaultTableModel getAllXe() throws SQLException{
 					String[] header = {"Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Trạng thái"};
 					DefaultTableModel tableModel = new DefaultTableModel(header,0);
@@ -75,35 +94,52 @@ public class Dao_HopDong {
 					return tableModel;
 					
 				}
-				public DefaultTableModel getAllHD() throws SQLException{
-					String[] header1 = {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
-					DefaultTableModel tableModel1 = new DefaultTableModel(header1,0);
+				public DefaultTableModel getAllHD(String[] header1, DefaultTableModel tableModel1) throws SQLException{
 					ConnectDB.getInstance();
 					Connection con = ConnectDB.getCon();
-					String sql = "select * from HopDong inner join KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang inner join  Xe ON HopDong.maXe = Xe.maXe ";
+					String sql = "select * from HopDong";
 					Statement statement = con.createStatement();
 					ResultSet rs = statement.executeQuery(sql);
 					Dao_QuanLyXe dao_xe  = new Dao_QuanLyXe();
+					Dao_KhachHang dao_kh = new Dao_KhachHang();
+					Dao_NhanVien dao_nv = new Dao_NhanVien();
+					Dao_LoaiXe dao_lx = new Dao_LoaiXe();
 					Xe xe;
 					while(rs.next()) {
+						//{"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã nhân viên", "Tên nhân viên","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
 						xe = dao_xe.getInfoXe("maXe",rs.getString(4));
+						LoaiXe lx = dao_lx.getLoaiXeByID(xe.getLoaiXe().getMaLoaiXe());
+						KhachHang kh = dao_kh.getKhachHangById("maKhachHang", rs.getString(2));
+						NhanVien nv = dao_nv.getNhanVienById("maNhanVien", rs.getString(3));
 						DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 						DecimalFormat df1 = new DecimalFormat("############");
-						double thue = xe.getThueVAT();
-						double donGia=Double.parseDouble(rs.getString(27));
-						Object[] o = {rs.getString(1),rs.getString(9),rs.getString(8),rs.getString(15),rs.getString(4),rs.getString(18),rs.getString(19),rs.getString(20),rs.getString(24),rs.getString(25),rs.getString(26),df.format(donGia),"",rs.getString(5),rs.getString(6)};
+						//double thue = xe.getThueVAT();
+						//double donGia=Double.parseDouble(rs.getString(27));
+						Object[] o = {rs.getString(1), kh.getCMND(), kh.getTenKhachHang(), kh.getSoDienThoai(), nv.getMaNhanVien(), nv.getTenNhanVien(), xe.getMaXe(), xe.getTenXe(), lx.getTenLoaiXe(), xe.getPhienBan(), xe.getPhanKhoi(), xe.getSoKhung(), xe.getSoMay(), df.format(xe.getDonGia()), df.format(xe.getThueVAT()), rs.getDate(5), rs.getInt(6)+""};
+						//Object[] o = {rs.getString(1),rs.getString(9),rs.getString(8),rs.getString(15),rs.getString(4),rs.getString(18),rs.getString(19),rs.getString(20),rs.getString(24),rs.getString(25),rs.getString(26),df.format(donGia),"",rs.getString(5),rs.getString(6)};
 						tableModel1.addRow(o);
 					}
 					return tableModel1;
 					
 				}
 				
-				
-				
-				
-				
-				
-				
+				public ArrayList<String> getListXeByCustomer(String maKH, String ngay) {
+					ArrayList<String> listXe = new ArrayList<String>();
+					try {
+						ConnectDB.getInstance();
+						Connection con = ConnectDB.getCon();
+						String sql = "select distinct maXe from HoaDon hd, ChiTietHoaDon cthd"
+									+ " where hd.maHoaDon = cthd.maHoaDon and maKhachHang = '" + maKH + "' and ngayLapHoaDon like '%" + ngay + "%'";
+						Statement statement = con.createStatement();
+						ResultSet rs = statement.executeQuery(sql);
+						while(rs.next()) {
+							listXe.add(rs.getString(1));
+						}
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+					return listXe;
+				}
 				
 				public boolean themHD(HopDong hd) {
 					ConnectDB.getInstance();

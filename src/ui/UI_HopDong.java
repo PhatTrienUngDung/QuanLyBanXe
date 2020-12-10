@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 
 
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -27,8 +28,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,14 +47,17 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.OptionPaneUI;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
 import java.time.LocalDate;
 
 import connect.ConnectDB;
+import dao.Dao_HangSanXuat;
 import dao.Dao_HopDong;
 import dao.Dao_KhachHang;
+import dao.Dao_LoaiXe;
 import dao.Dao_NhaCungCap;
 import dao.Dao_NhanVien;
 import dao.Dao_QuanLyXe;
@@ -72,19 +78,29 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class UI_HopDong extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField textField;
+	private DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 
 		//ArrayList<KhachHang> tableModel;
 	private DefaultTableModel tableModel1,tableModel;
 	private Dao_HopDong dao_hd = new Dao_HopDong();
 	private Dao_QuanLyXe dao_qlXe = new Dao_QuanLyXe();
-	//private Dao_KhachHang dao_kh = new Dao_KhachHang();
+	private Dao_KhachHang dao_kh = new Dao_KhachHang();
 	private Dao_NhanVien dao_nv = new Dao_NhanVien();
+	private Dao_LoaiXe dao_lx = new Dao_LoaiXe();
+	private Dao_HangSanXuat dao_hsx = new Dao_HangSanXuat();
 	
 	private JTable table_1;
 	private JTextField txtcmnd;
@@ -120,6 +136,7 @@ public class UI_HopDong extends JFrame {
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1312, 735);
+		List<String> list_CMND = dao_kh.getListCMND();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		setBounds(0, 0, screen.width, (screen.height-50));
@@ -161,44 +178,42 @@ public class UI_HopDong extends JFrame {
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
-		String [] header1 = {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
+		String [] header1 = {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã nhân viên", "Tên nhân viên","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
 		tableModel1 = new DefaultTableModel(header1,0);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(0, 0, 1084, 209);
-		panel_2.add(scrollPane_2);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 1084, 209);
+		panel_2.add(scrollPane);
 		
-		table_1 = new JTable(tableModel1);
-		try {
+		table_1 = new JTable();
+		/*try {
 			loadHD();
 		}catch (SQLException e) {
 			// TODO: handle exception
+		}*/
+		try {
+			table_1.setModel(dao_hd.getAllHD(header1, tableModel1));
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
 		
-		
-		scrollPane_2.setViewportView(table_1);
-		
-		String [] header = {"Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Số máy","Đơn giá","Trạng thái"};
+		String [] header = {"Mã xe","Tên xe","Loại xe", "Hãng sản xuất", "Phiên bản","Phân khối","Số khung","Số máy","Thành tiền","Trạng thái"};
 		tableModel = new DefaultTableModel(header,0);
 		
-		
-		
-		JScrollPane scrollPane = new JScrollPane();
-		
-		scrollPane.setBounds(10, 404, 1084, 200);
-		panel.add(scrollPane);
+		scrollPane_2.setBounds(10, 404, 1084, 200);
+		panel.add(scrollPane_2);
 		
 		table = new JTable(tableModel);
-		try {
-			loadXe();
-			
-		} catch (SQLException e) {
-			// TODO: handle exception
-		}
+		setSizeColumn(table_1);
+		table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//table_1.getColumnModel().getColumn(2).setPreferredWidth(100);
+		scrollPane_2.setViewportView(table_1);
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new TitledBorder(null, "Th\u00F4ng tin kh\u00E1ch h\u00E0ng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_3.setBorder(new TitledBorder(null, "Thông tin khách hàng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_3.setBounds(1104, 170, 398, 200);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
@@ -212,76 +227,6 @@ public class UI_HopDong extends JFrame {
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 	//	dateChooser.setDate(Date.valueOf(LocalDate.now()));
 		
-		
-//		System.out.println(dateChooser.getDate());
-//		dateChooser.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseEntered(MouseEvent e) {
-//				
-//				
-//				if(dateChooser.getDate().toString().length()==0) {
-//					try {
-//						
-//						loadHD();
-//					
-//					}catch (SQLException e2) {
-//						e2.printStackTrace();
-//						// TODO: handle exception
-//					}
-//				}if(dateChooser.getDate().toString().length()>0) {
-//					try {
-//						timNgay();
-//					} catch (SQLException e2) {
-//						// TODO Auto-generated catch block
-//						e2.printStackTrace();
-//					}
-//				}
-//			}
-//					
-//		});
-	
-//		dateChooser.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyReleased(KeyEvent e) {
-//			//	System.out.println(dateChooser.getDateFormatString());
-//				if(dateChooser.getDate().toString().length()==0) {
-//					try {
-//						loadHD();
-//					
-//					}catch (SQLException e2) {
-//						e2.printStackTrace();
-//						// TODO: handle exception
-//					}
-//				}if(dateChooser.getDate().toString().length()>0) {
-//					try {
-//						timNgay();
-//					} catch (SQLException e2) {
-//						// TODO Auto-generated catch block
-//						e2.printStackTrace();
-//					}
-//				}
-//			}
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//				if(dateChooser.getDate().toString().length()==0) {
-//					try {
-//						loadHD();
-//					
-//					}catch (SQLException e2) {
-//						e2.printStackTrace();
-//						// TODO: handle exception
-//					}
-//				}if(dateChooser.getDate().toString().length()>0) {
-//					try {
-//						timNgay();
-//					} catch (SQLException e2) {
-//						// TODO Auto-generated catch block
-//						e2.printStackTrace();
-//					}
-//				}
-//			}
-			
-//	});
 		dateChooser.setBounds(152, 26, 180, 23);
 	
 	//	String ngayLap =  dateChooser.getDate().toString();
@@ -295,60 +240,6 @@ public class UI_HopDong extends JFrame {
 		
 		txtcmnd = new JTextField();	
 		txtcmnd.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtcmnd.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				
-				if(txtcmnd.getText().length()==0) {
-					try {
-						loadHD();
-					//	loadXe();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				
-						
-					
-				}
-				if(txtcmnd.getText().length()>0) {
-					try {
-						timHD();
-						ArrayList<KhachHang> dsKH = dao_hd.getAllKH();
-						for (int i = 0; i < dsKH.size(); i++) {
-							if(txtcmnd.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
-							
-								txttenKH.setText(dsKH.get(i).getTenKhachHang());
-							}
-						}
-						//timXe();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-//				if(txtcmnd.getText().length()==0 && dateChooser.getDate().toString().length()==0) {
-//					try {
-//						loadHD();
-//					}catch(SQLException e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//
-			}
-			@Override
-			public void keyPressed(KeyEvent e) {
-				ArrayList<KhachHang> dsKH = dao_hd.getAllKH();
-				for (int i = 0; i < dsKH.size(); i++) {
-					if(txtcmnd.getText().equalsIgnoreCase(dsKH.get(i).getCMND())) {
-					
-						txttenKH.setText(dsKH.get(i).getTenKhachHang());
-					}
-				}
-			}
-			
-		});
-		
 		txtcmnd.setBounds(152, 66, 180, 20);
 		panel_3.add(txtcmnd);
 		txtcmnd.setColumns(10);
@@ -381,12 +272,12 @@ public class UI_HopDong extends JFrame {
 				txtcmnd.setText("");
 				txttenKH.setText("");
 				dateChooser.requestFocus();
-				try {
-					loadHD();
+				/*try {
+/////					//loadHD();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				}*/
 			}
 		});
 		btnLamSach.setBackground(Color.ORANGE);
@@ -394,7 +285,7 @@ public class UI_HopDong extends JFrame {
 		btnLamSach.setIcon(new ImageIcon("img1/refresh.png"));
 		panel_3.add(btnLamSach);
 		
-		JButton btnDuyt = new JButton("Duyệt");
+		/*JButton btnDuyt = new JButton("Duyệt");
 		btnDuyt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -419,7 +310,7 @@ public class UI_HopDong extends JFrame {
 			}
 		});
 		btnDuyt.setBounds(342, 29, 29, 21);
-		panel_3.add(btnDuyt);
+		panel_3.add(btnDuyt);*/
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(null, "Ch\u1EE9c n\u0103ng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -446,13 +337,13 @@ public class UI_HopDong extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(textField_4.getText().length()==0) {
-					try {
-						loadHD();
+					/*try {
+						//loadHD();
 					//	loadXe();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					}
+					}*/
 				}
 				if(textField_4.getText().length()>0) {
 					try {
@@ -538,24 +429,126 @@ public class UI_HopDong extends JFrame {
 //		btnInHD.setIcon(new ImageIcon("img1/print-icon.png"));
 //		panel_4.add(btnInHD);
 		
-
-	
-		// nghe k
-		// mo mic cho nao v
-		//t noi m nghe k
-		// co'
-
+//========================================= XU LI ============================================================================
+		txtcmnd.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				try {
+					if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
+			        {
+			           
+			        }
+			        else
+			        {   
+			            String to_check=txtcmnd.getText();
+			            int to_check_len=to_check.length();
+			            for(String data:list_CMND)
+			            {
+			                String check_from_data="";
+			                for(int i=0;i<to_check_len;i++)
+			                {
+			                    if(to_check_len<=data.length())
+			                    {
+			                        check_from_data = check_from_data+data.charAt(i);
+			                    }
+			                }
+			                //System.out.print(check_from_data);
+			                if(check_from_data.equals(to_check))
+			                {
+			                    //System.out.print("Found");
+			                    txtcmnd.setText(data);
+			                    txtcmnd.setSelectionStart(to_check_len);
+			                    txtcmnd.setSelectionEnd(data.length());
+			                    break;
+			                }
+			            }
+			        }
+					loadXe();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		dateChooser.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				try {
+					loadXe();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		textField_4.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
+		        {
+		           
+		        }
+		        else
+		        {   
+		            String to_check=textField_4.getText();
+		            int to_check_len=to_check.length();
+		            for(String data:list_CMND)
+		            {
+		                String check_from_data="";
+		                for(int i=0;i<to_check_len;i++)
+		                {
+		                    if(to_check_len<=data.length())
+		                    {
+		                        check_from_data = check_from_data+data.charAt(i);
+		                    }
+		                }
+		                //System.out.print(check_from_data);
+		                if(check_from_data.equals(to_check))
+		                {
+		                    //System.out.print("Found");
+		                	textField_4.setText(data);
+		                	textField_4.setSelectionStart(to_check_len);
+		                	textField_4.setSelectionEnd(data.length());
+		                    break;
+		                }
+		            }
+		        }
+			}
+		});
+		
+		
+		
 	}
 
-	private void loadHD() throws SQLException {
+	/*private void loadHD() throws SQLException {
 		Dao_HopDong dao_hd = new Dao_HopDong();		
 		tableModel1 = dao_hd.getAllHD();
 		table_1.setModel(tableModel1);
-	}
+	}*/
 	private void loadXe() throws SQLException{
-		Dao_HopDong dao_hd = new Dao_HopDong();
-		tableModel  =dao_hd.getAllXe();
-		table.setModel(tableModel);
+		tableModel.getDataVector().removeAllElements();
+		tableModel.fireTableDataChanged();
+		KhachHang kh = dao_kh.getKhachHangById("CMND", txtcmnd.getText());
+		String ngay = ((JTextField) dateChooser.getDateEditor().getUiComponent()).getText();
+		if(kh!=null) {
+			txttenKH.setText(kh.getTenKhachHang());
+			List<String> listXe = dao_hd.getListXeByCustomer(kh.getMaKhachHang(), ngay);
+			Xe xe = null;
+			LoaiXe lx;
+			HangSanXuat hsx ;
+			double dongia = 0;
+			String trangthai= "";
+			for(String maXe : listXe) {
+				xe = dao_qlXe.getInfoXe("maXe", maXe);
+				lx = dao_lx.getLoaiXeByID(xe.getLoaiXe().getMaLoaiXe());
+				hsx = dao_hsx.getHangSanXuatById(xe.getHangSanXuat().getMaHangSX());
+				dongia = xe.getDonGia() + xe.getThueVAT();
+				if(dao_hd.getHopDongByVehicleNum(xe.getMaXe()) != null)
+					trangthai = "Đã Lập HD";
+				tableModel.addRow(new Object[] {xe.getMaXe(), xe.getTenXe(), lx.getTenLoaiXe(), hsx.getTenHangSX(), xe.getPhienBan(), xe.getPhanKhoi()+"", xe.getSoKhung(), xe.getSoMay(), df.format(dongia),trangthai});
+			}
+		}
 	}
 	private void timHD() throws SQLException{
 		dao_hd = new Dao_HopDong();
@@ -585,6 +578,16 @@ public class UI_HopDong extends JFrame {
 		dao_hd = new Dao_HopDong();
 		tableModel1 = dao_hd.locData("%"+txtcmnd.getText()+"%","%"+dateChooser.getDate().toString()+"%");
 		table_1.setModel(tableModel1);
+	}
+	
+	private void setSizeColumn(JTable table) {
+		TableColumn column = null;
+		int sl = table.getColumnCount();
+		for (int i = 0; i< sl; i++) {
+			column = table.getColumnModel().getColumn(i);
+			if( i == 2 || i == 5 || i == 9 || i == 11 || i == 13 || i == 14 || i == 15)
+				column.setPreferredWidth(120);
+		}
 	}
 }
 

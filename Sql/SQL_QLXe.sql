@@ -2,7 +2,7 @@
 go
 use SQL_QLXe
 go
-
+drop database SQL_QLXe
 --Hang san xuat
 CREATE TABLE [dbo].[HangSanXuat](
 	[maHangSanXuat] [varchar](15) NOT NULL,
@@ -488,8 +488,8 @@ INSERT INTO chiTietHoaDon values('HD_0001','X_0001',24495000,1704000),
 								('HD_0021','X_0021',26093500,1815200)
 GO
 
-INSERT INTO ChucVu values('CV_0001','Quản Lý'),
-						('CV_0002','Nhân Viên')
+INSERT INTO ChucVu values('CV_0001',N'Quản Lý'),
+						('CV_0002',N'Nhân Viên')
 			
 GO
 
@@ -532,3 +532,20 @@ GO
 							('PN_0002','NV_0002','NCC_0002',CAST(N'2020-3-6' AS DATE),''),
 							('PN_0003','NV_0003','NCC_0003',CAST(N'2020-8-7' AS DATE),'')
 GO*/
+select *from ChucVu
+	select *from NhanVien
+	select *from HopDong
+select *from HoaDon
+select * from chiTietHoaDon
+select * from Xe
+where maXe in (
+	select maXe from ChiTietHoaDon
+	where maHoaDon = (
+		select maHoaDon from HoaDon
+		where maKhachHang = 'KH_0006' and ngayLapHoaDon = '2020-01-17'
+	)
+)
+select distinct maXe from HoaDon hd, ChiTietHoaDon cthd
+where hd.maHoaDon = cthd.maHoaDon and maKhachHang = 'KH_0002' and ngayLapHoaDon = '2020-01-10'
+select * from KhachHang where maKhachHang like 'KH_000%'
+select * from HopDong where maXe = 'X_0002'

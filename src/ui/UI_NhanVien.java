@@ -97,6 +97,7 @@ public class UI_NhanVien extends JFrame {
 	private JTextField textField_5;
 	private JTextField txtSdt;
 	private JTextField txtcmnd;
+	private JDateChooser datengaySinh,datengayVaoLam;
 	
 
 	
@@ -162,6 +163,7 @@ public class UI_NhanVien extends JFrame {
 		txtmaNV.setText(maKH);
 		txtmaNV.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtmaNV.setBounds(139, 20, 260, 19);
+		txtmaNV.setEditable(false);
 		panel_6.add(txtmaNV);
 		txtmaNV.setColumns(10);
 		
@@ -239,7 +241,7 @@ public class UI_NhanVien extends JFrame {
 		lblngayVaoLam.setBounds(1019, 66, 137, 13);
 		panel_6.add(lblngayVaoLam);
 		
-		JDateChooser datengayVaoLam = new JDateChooser();
+		 datengayVaoLam = new JDateChooser();
 		datengayVaoLam.setBounds(1192, 57, 270, 19);
 		datengayVaoLam.setDateFormatString("yyy-MM-dd");
 		panel_6.add(datengayVaoLam);
@@ -390,6 +392,7 @@ public class UI_NhanVien extends JFrame {
 		btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(validData()) {
 				String cb =null;
 				String date1  = ((JTextField)datengaySinh.getDateEditor().getUiComponent()).getText();
 				String date2  = ((JTextField)datengayVaoLam.getDateEditor().getUiComponent()).getText();
@@ -418,7 +421,7 @@ public class UI_NhanVien extends JFrame {
 				JFrame f= new JFrame();
 				dao_nv.themNV(nv);
 				JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
-			
+				}
 			}
 		});
 		
@@ -490,6 +493,7 @@ public class UI_NhanVien extends JFrame {
 					String date1  = ((JTextField)datengaySinh.getDateEditor().getUiComponent()).getText();		
 					String date2  = ((JTextField)datengayVaoLam.getDateEditor().getUiComponent()).getText();
 					try {
+						if(validData()) {
 						if(row!=-1) {
 							JFrame f= new JFrame();
 							int hoi=JOptionPane.showConfirmDialog(f, "Nhân viên này sẽ được cập nhật","Chú ý",JOptionPane.YES_NO_OPTION);
@@ -516,11 +520,14 @@ public class UI_NhanVien extends JFrame {
 								}
 							}
 						}
+						}
 						else
 							JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên để chỉnh sửa thông tin");
 					} catch (Exception e2) {
 						// TODO: handle exception
 					}
+					
+					
 				}
 			});
 			panel_4.setLayout(null);
@@ -543,6 +550,82 @@ public class UI_NhanVien extends JFrame {
 			panel.add(lblNewLabel_1);
 	}
 	//Hàm Load
+	private boolean validNhanVien() {
+		if(txtcmnd.getText().length()>0) {
+			JOptionPane.showConfirmDialog(null, "Chứng minh nhân dẫn không được để trống");
+			return false;
+		}
+		if(txttenNV.getText().length()>0) {
+			JOptionPane.showConfirmDialog(null, "Tên nhân viên khônng được để trống");
+			return false;
+		}
+		if(txtdiaChi.getText().length()>0) {
+			JOptionPane.showConfirmDialog(null, "Địa chỉ không được để trống");
+			return false;
+		}
+		if(txtEmail.getText().length()>0) {
+			JOptionPane.showConfirmDialog(null, "Email không được để trống");
+			return false;
+		}
+		if(txtSdt.getText().length()>0) {
+			JOptionPane.showConfirmDialog(null, "Địa chỉ không được để trống");
+			return false;
+		}
+		if(txtGT.getText().length()>0) {
+			JOptionPane.showConfirmDialog(null, "Địa chỉ không được để trống");
+			return false;
+		}
+		String date  = ((JTextField)datengaySinh.getDateEditor().getUiComponent()).getText();
+		Date ngay=Date.valueOf(LocalDate.parse(date));
+		if(ngay.after(Date.valueOf(LocalDate.now()))) {
+			
+			JOptionPane.showMessageDialog(null, "Ngày sinh phải trước ngày hiện tại" );
+			return false;
+		}
+		String date1  = ((JTextField)datengayVaoLam.getDateEditor().getUiComponent()).getText();
+		Date datengayVaoLam=Date.valueOf(LocalDate.parse(date));
+		if(ngay.after(Date.valueOf(LocalDate.now()))) {
+			
+			JOptionPane.showMessageDialog(null, "Ngày vào làm  phải trước ngày hiện tại" );
+			return false;
+		}
+	
+		return true;
+		
+	}
+	private boolean validData() {
+		String tenNV = txttenNV.getText();
+		String cmnd = txtcmnd.getText();
+		String diaChi = txtdiaChi.getText();
+		String email = txtEmail.getText();
+		String sdt = txtSdt.getText();
+		if(!(tenNV.length()>0 && tenNV.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
+				"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
+				"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$"))) {
+			JOptionPane.showMessageDialog(null, "Tên nhân vien không trống và không chứa kí tự đặc biệt " );
+			return false;
+		}
+		if(!(cmnd.length()>0 && cmnd.matches("^[1-9]{10}$"))) {
+			JOptionPane.showConfirmDialog(null, "Chứng minh nhân dân gồm 10 kí tự số");
+			return false;
+		}
+		if(!(diaChi.length()>0 && diaChi.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\\n\" + \r\n" + 
+				"				\"            \\\"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n\" + \r\n" + 
+				"				\"            \\\"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\\\\\s]"))) {
+			JOptionPane.showConfirmDialog(null, "Địa chỉ không chưa kí tự đặc biệt");
+			return false;
+		}
+		if(!(cmnd.length()>0 && cmnd.matches("^[\\\\w.+\\\\-]+@gmail\\\\.com$"))) {
+			JOptionPane.showConfirmDialog(null, "Sai cú pháp");
+			return false;
+		}
+		if(!(sdt.length()>0 && sdt.matches("^[0]+[1-9]{9}$"))) {
+			JOptionPane.showConfirmDialog(null, "Số điện thoại gồm 10 kí tự số và bắt đầu từ kí tự 0");
+			return false;
+		}
+		return rootPaneCheckingEnabled;
+		
+	}
 	private void loadNV() throws SQLException {
 		Dao_NhanVien dao_nv = new Dao_NhanVien();
 		tableModel = dao_nv.getAllNV();
