@@ -678,7 +678,7 @@ public class UI_KhachHang extends JFrame {
 		}
 		if(!(diachi.length()>0 && diachi.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
 	            "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
-	            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s/\\.]+$"))) {
+	            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s/\\.,]+$"))) {
 			JOptionPane.showMessageDialog(null, "Địa chỉ không trống và không chứa kí tự đặc biệt " );
 			return false;
 		}
@@ -687,7 +687,7 @@ public class UI_KhachHang extends JFrame {
 			JOptionPane.showMessageDialog(null, "Email không trống và phải hợp lệ " );
 			return false;
 		}
-		if(!(sodt.length()>0 && sodt.matches("^[0]+[1-9]{10}$"))) {
+		if(!(sodt.length()>0 && sodt.matches("^[0][1-9][0-9]{8}$"))) {
 			JOptionPane.showMessageDialog(null, "Số điện thoại không được trống và phải có 10 số " );
 			return false;
 		}
