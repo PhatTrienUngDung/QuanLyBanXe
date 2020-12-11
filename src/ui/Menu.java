@@ -9,17 +9,20 @@ import javax.swing.JPanel;
 
 
 import connect.ConnectDB;
+import dao.Dao_NhanVien;
 
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import java.awt.Font;
 
@@ -599,6 +602,19 @@ public class Menu extends JFrame {
 		btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
 		panel.add(btnQuanLyTaiKhoan);
 		
+		JPanel panel1 = new JPanel();
+		JButton btnUser = new JButton();
+		Dao_NhanVien dao_nv = new Dao_NhanVien();
+		String ten = dao_nv.getTenNhanVienById(Login.txtuser.getText());
+		btnUser.setText(ten);
+		btnUser.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnUser.setForeground(Color.WHITE);
+		btnUser.setBorderPainted(false);
+		btnUser.setBackground(new Color(43, 87, 154));
+		btnQLKH.setFocusable(false);
+		panel1.add(btnUser, BorderLayout.EAST);
+		panel1.setBackground(new Color(43, 87, 154));
+		panel.add(panel1, BorderLayout.EAST);
 		
 		//panel.setLayout(new UI_HoaDon().setVisible(true));
 		
