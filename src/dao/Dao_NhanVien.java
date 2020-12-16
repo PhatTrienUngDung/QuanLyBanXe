@@ -109,7 +109,7 @@ public class Dao_NhanVien {
 		String sql = "SELECT NhanVien.maNhanVien, NhanVien.tenNhanVien, NhanVien.CMND, NhanVien.gioiTinh, NhanVien.diaChi, NhanVien.email, NhanVien.soDienThoai, NhanVien.ngayVaoLam, NhanVien.ngaySinh, ChucVu.tenChucVu\r\n" + 
 				"FROM     NhanVien INNER JOIN\r\n" + 
 				"                  ChucVu ON NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND \r\n" + 
-				"                  NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu where tenNhanVien like '"+id+"' or sodienThoai like '"+id+"'";
+				"                  NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu where CMNdX like '"+id+"' or sodienThoai like '"+id+"'";
                  
 		
 		Statement statement = con.createStatement();

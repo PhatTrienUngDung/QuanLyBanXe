@@ -18,7 +18,7 @@ import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.Xe;
-
+import ui.Bill;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import static ui.UI_HoaDon.cbbVehicleName_Bill;
@@ -43,10 +43,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
+
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -311,10 +308,10 @@ public class UI_ThanhToan extends JFrame {
 						e1.printStackTrace();
 					}			
 				}
-				Bill bill = new Bill();
+				Bill bill= new Bill();
 				//bill.setVisible(true);
 				PrintSupport.printComponent(bill.textArea);
-				String cmds[] = new String[] {"cmd", "/c", "C:\\Users\\hoais\\OneDrive\\Desktop\\a.pdf"};
+				String cmds[] = new String[] {"cmd", "/c", "C:\\Users\\Tuan Khang\\OneDrive\\Máy tính\\a.pdf"};
 				try {
 				    Runtime.getRuntime().exec(cmds);
 				}catch (Exception e1) {

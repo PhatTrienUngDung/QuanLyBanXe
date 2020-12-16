@@ -127,19 +127,19 @@ public class UI_NhaCungCap extends JFrame {
 		lblNewLabel.setBounds(10, 10, 123, 21);
 		panel_3.add(lblNewLabel);
 		lblNewLabel.setForeground(Color.BLACK);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		JLabel lblTnNhCung = new JLabel("T\u00EAn Nh\u00E0 Cung C\u1EA5p");
 		lblTnNhCung.setBounds(10, 41, 123, 21);
 		panel_3.add(lblTnNhCung);
 		lblTnNhCung.setForeground(Color.BLACK);
-		lblTnNhCung.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblTnNhCung.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		JLabel lblNewLabel_1 = new JLabel("Ch\u00FA Th\u00EDch");
 		lblNewLabel_1.setBounds(571, 72, 89, 21);
 		panel_3.add(lblNewLabel_1);
-		lblNewLabel_1.setForeground(Color.DARK_GRAY);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_1.setForeground(Color.BLACK);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		Dao_HoaDon dao_hd = new Dao_HoaDon();
 		String maHDTail = dao_hd.getMaHDTail("maNhaCungCap", "NhaCungCap");
@@ -174,13 +174,13 @@ public class UI_NhaCungCap extends JFrame {
 		lblEmail.setBounds(571, 10, 123, 21);
 		panel_3.add(lblEmail);
 		lblEmail.setForeground(Color.BLACK);
-		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		JLabel lblaCh = new JLabel("\u0110\u1ECBa Ch\u1EC9");
 		lblaCh.setBounds(571, 41, 89, 21);
 		panel_3.add(lblaCh);
-		lblaCh.setForeground(Color.DARK_GRAY);
-		lblaCh.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblaCh.setForeground(Color.BLACK);
+		lblaCh.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		 txtChuThich = new JTextArea();
 		txtChuThich.setBounds(704, 76, 294, 35);
@@ -193,7 +193,7 @@ public class UI_NhaCungCap extends JFrame {
 		JLabel lblSo = new JLabel("Số điện thoại");
 		lblSo.setBounds(10, 72, 123, 21);
 		lblSo.setForeground(Color.BLACK);
-		lblSo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblSo.setFont(new Font("Tahoma", Font.BOLD, 13));
 		panel_3.add(lblSo);
 		
 		txtSDT = new JTextField();
@@ -223,6 +223,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_2_1.add(lblNewLabel_2_1);
 		
 		JButton btnThem = new JButton("Th\u00EAm");
+		btnThem.setFont(new Font("Dialog", Font.PLAIN, 14));
 		
 		// ham them
 		btnThem.addActionListener(new ActionListener() {
@@ -278,6 +279,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_1.add(btnThem);
 		
 		JButton btnXoa = new JButton("X\u00F3a");
+		btnXoa.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnXoa.setIcon(new ImageIcon("G:\\HKI-Nam 3\\PTUD\\QuanLyBanXe\\branches\\Develop\\img1\\Close-2-icon.png"));
 		
 		
@@ -309,6 +311,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_1.add(btnXoa);
 		
 		JButton btnCapNhat = new JButton("C\u1EADp nh\u1EADt");
+		btnCapNhat.setFont(new Font("Dialog", Font.PLAIN, 14));
 		
 		//ham cap nhat
 		btnCapNhat.setIcon(new ImageIcon("img1/update.png"));
@@ -362,6 +365,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_1.add(btnCapNhat);
 		
 		JButton btnXoaTrang = new JButton("L\u00E0m t\u01B0\u01A1i");
+		btnXoaTrang.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnXoaTrang.setIcon(new ImageIcon("img1/refresh.png"));
 		btnXoaTrang.addMouseListener(new MouseAdapter() {
 			@Override
@@ -404,6 +408,9 @@ public class UI_NhaCungCap extends JFrame {
 			}
 		});
 		table_1.setBorder(null);
+		table_1.setRowHeight(20);
+		table_1.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane.setViewportView(table_1);
 		//Load Dá»¯ liá»‡u lÃªn báº£ng
 		try {
@@ -418,7 +425,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
 		
-		JLabel lblNewLabel_4 = new JLabel("Nhập thông tin cần tìm");
+		JLabel lblNewLabel_4 = new JLabel("Nhập mã hoặc tên cần tìm");
 		lblNewLabel_4.setForeground(Color.BLACK);
 		
 		JLabel lblNewLabel_5 = new JLabel("Nhập mã nhà cung cấp cần tìm");
@@ -427,7 +434,7 @@ public class UI_NhaCungCap extends JFrame {
 		JLabel lblNewLabel_6 = new JLabel("Nhập thông tin nhà cung cấp cần tìm");
 		lblNewLabel_6.setForeground(Color.BLACK);
 
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel_4.setBounds(10, 14, 190, 27);
 		panel_7.add(lblNewLabel_4);
 		
@@ -437,6 +444,7 @@ public class UI_NhaCungCap extends JFrame {
 		txtTim.setColumns(10);
 		
 		JButton btnNewButton_4 = new JButton("Tìm Kiếm");
+		btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton_4.setIcon(new ImageIcon("img1\\search2.png"));
 		btnNewButton_4.addMouseListener(new MouseAdapter() {
 			@Override
@@ -493,6 +501,7 @@ public class UI_NhaCungCap extends JFrame {
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setCellSelectionEnabled(true);
 		table.setBounds(10, 267, 1181, -260);
+		
 	}
 	//
 	//HÃ m load database
@@ -516,8 +525,6 @@ public class UI_NhaCungCap extends JFrame {
 				table.setValueAt(txtEmail.getText(),i, 3);
 				table.setValueAt(txtSDT.getText(),i, 4);
 				table.setValueAt(txtChuThich.getText(),i, 5);
-				
-				
 			}
 		}
 	}

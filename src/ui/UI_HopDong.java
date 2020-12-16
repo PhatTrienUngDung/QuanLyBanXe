@@ -205,7 +205,6 @@ public class UI_HopDong extends JFrame {
 		
 		String [] header = {"Mã xe","Tên xe","Loại xe", "Hãng sản xuất", "Phiên bản","Phân khối","Số khung","Số máy","Thành tiền","Trạng thái"};
 		tableModel = new DefaultTableModel(header,0);
-		
 		scrollPane_2.setBounds(10, 404, 1084, 200);
 		panel.add(scrollPane_2);
 		
@@ -385,6 +384,7 @@ public class UI_HopDong extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				UI_XuatHopDong frame = new UI_XuatHopDong();
+				frame.setVisible(true);
 		
 			
 				
@@ -526,8 +526,12 @@ public class UI_HopDong extends JFrame {
 			}
 		});
 		
-		
-		
+		table.setRowHeight(20);
+		table_1.setRowHeight(20);
+		table.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table_1.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	}
 
 //	private void loadHD() throws SQLException {

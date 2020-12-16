@@ -483,9 +483,9 @@ public class UI_QuanLyXe extends JFrame {
 		panelXe.add(panel_6);
 		panel_6.setLayout(null);
 		
-		JLabel lblNewLabel_3 = new JLabel("Nhập thông tin cần tìm");
+		JLabel lblNewLabel_3 = new JLabel("Nhập mã xe hoặc tên xe cần tìm");
 		lblNewLabel_3.setFont(new Font("Dialog", Font.BOLD, 15));
-		lblNewLabel_3.setBounds(10, 10, 187, 40);
+		lblNewLabel_3.setBounds(10, 10, 251, 40);
 		panel_6.add(lblNewLabel_3);
 		
 		txtTim = new JTextField();
@@ -511,7 +511,7 @@ public class UI_QuanLyXe extends JFrame {
 				}
 			}
 		});
-		txtTim.setBounds(226, 20, 321, 19);
+		txtTim.setBounds(309, 20, 321, 19);
 		panel_6.add(txtTim);
 		txtTim.setColumns(10);
 		
@@ -1361,6 +1361,9 @@ public class UI_QuanLyXe extends JFrame {
 		lblHngSnXut.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHngSnXut.setBounds(255, 55, 127, 23);
 		panel.add(lblHngSnXut);
+		table.setRowHeight(20);
+		table_hang.setRowHeight(20);
+		tableLoai.setRowHeight(20);
 	}
 //Hàm load database
 		private void loadXe() throws SQLException {
@@ -1484,7 +1487,7 @@ public class UI_QuanLyXe extends JFrame {
 				return false;
 			}
 			if(txtSoKhung.getText().length()!=18) {
-				JOptionPane.showMessageDialog(null, "Số khung gồm 17 kí tự" );
+				JOptionPane.showMessageDialog(null, "Số khung gồm 18 kí tự" );
 				return false;
 			}
 			if (KiemTraSoKhung()==false) {

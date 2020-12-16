@@ -227,13 +227,11 @@ public class HomePage extends JFrame  {
 				System.out.println(image);
 				try {
 					img = ImageIO.read(new File("img\\"+image));
-					
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 				img.getScaledInstance(lblanh.getWidth(), lblanh.getHeight(),
 				        Image.SCALE_SMOOTH);
-				System.out.println();
 				ImageIcon imageIcon = new ImageIcon(img);
 				lblanh.setIcon(imageIcon);
 			}

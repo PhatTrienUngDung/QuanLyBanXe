@@ -326,7 +326,9 @@ public class UI_NhanVien extends JFrame {
 		loadNV();
 		
 	
-		
+		table.setRowHeight(30);
+		table.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		
 		JPanel panel_8 = new JPanel();
@@ -479,16 +481,16 @@ public class UI_NhanVien extends JFrame {
 			btnLamMoi.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					txtmaNV.setText("");
+				//	txtmaNV.setText("");
 					txttenNV.setText("");
 					txtdiaChi.setText("");
 					txtEmail.setText("");
 					txtSdt.setText("");
-					cbchucVu.setSelectedIndex(-1);
+				//	cbchucVu.setSelectedIndex(-1);
 					datengaySinh.setDate(null);
 				
 					txtcmnd.setText("");
-					cbgioiTinh.setSelectedIndex(-1);
+				//	cbgioiTinh.setSelectedIndex(-1);
 					datengayVaoLam.setDate(null);
 				}
 			});
@@ -627,13 +629,13 @@ public class UI_NhanVien extends JFrame {
 			JOptionPane.showMessageDialog(null, "Tên nhân vien không trống và không chứa kí tự đặc biệt " );
 			return false;
 		}
-		if(!(cmnd.length()>0 && cmnd.matches("^[0-9]{10}$"))) {
-			JOptionPane.showConfirmDialog(null, "Chứng minh nhân dân gồm 10 kí tự số");
+		if(!(cmnd.length()>0 && cmnd.matches("\\d{9}|\\d{12}"))) {
+			JOptionPane.showConfirmDialog(null, "Chứng minh nhân dân gồm 9 kí tự số hoặc 12 số");
 			return false;
 		}
 		if(!(diaChi.length()>0 && diaChi.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
 	            "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
-	            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s/\\.]+$"))) {
+	            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s/\\.,]+$"))) {
 			JOptionPane.showMessageDialog(null, "Địa chỉ không hợp lệ " );
 			return false;
 		}

@@ -364,8 +364,8 @@ public class UI_ThongKe1 extends JFrame {
 		calendar.set(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 0);
 		int maxDay =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 		for (int i = 1; i <=maxDay; i++) {
-			dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, LocalDate.now().getYear(), LocalDate.now().getMonthValue()), "Số lượng Nhập", String.valueOf(i));
-			dcd.addValue(dao_ThongKe.BieuDoXeBan(i, LocalDate.now().getYear(), LocalDate.now().getMonthValue()), "Số lượng Bán", String.valueOf(i));
+			dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, LocalDate.now().getMonthValue(), LocalDate.now().getYear()), "Số lượng Nhập", String.valueOf(i));
+			dcd.addValue(dao_ThongKe.BieuDoXeBan(i,  LocalDate.now().getMonthValue(),LocalDate.now().getYear()), "Số lượng Bán", String.valueOf(i));
 		}
 		
 

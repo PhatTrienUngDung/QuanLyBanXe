@@ -405,7 +405,7 @@ public class Dao_ThongKe {
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "select sum(tongTien) from HoaDon where day(ngayLapHoaDon) and YEAR(ngayLapHoaDon)="+nam+" and Month(ngayLapHoaDon)="+thang+"";
+			String sql = "select sum(tongTien) from HoaDon where day(ngayLapHoaDon)="+ngay+" and YEAR(ngayLapHoaDon)="+nam+" and Month(ngayLapHoaDon)="+thang+"";
 			PreparedStatement pst=con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()) {

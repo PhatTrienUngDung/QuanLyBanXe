@@ -263,6 +263,7 @@ public class UI_KhachHang extends JFrame {
 		
 		String maKH = dao_hd.getMaHDTail("maKhachHang", "KhachHang");
 		txtmaKh = new JTextField();
+		txtmaKh.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtmaKh.setText(maKH);
 		txtmaKh.setEditable(false);
 		txtmaKh.setBounds(127, 26, 276, 20);
@@ -270,28 +271,33 @@ public class UI_KhachHang extends JFrame {
 		txtmaKh.setColumns(10);
 		
 		txttenKh = new JTextField();
+		txttenKh.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txttenKh.setBounds(638, 26, 342, 20);
 		panelthongTin.add(txttenKh);
 		txttenKh.setColumns(10);
 		
 
 		cbgioiTinh = new JComboBox();
+		cbgioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		cbgioiTinh.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
 		cbgioiTinh.setBounds(127, 55, 145, 20);
 		panelthongTin.add(cbgioiTinh);
 
 		
 		txtdiaChi = new JTextField();
+		txtdiaChi.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtdiaChi.setBounds(638, 55, 342, 20);
 		panelthongTin.add(txtdiaChi);
 		txtdiaChi.setColumns(10);
 		
 		txtEmail = new JTextField();
+		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtEmail.setBounds(638, 84, 342, 20);
 		panelthongTin.add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		txtchuThich = new JTextField();
+		txtchuThich.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtchuThich.setForeground(Color.BLACK);
 		txtchuThich.setBackground(new Color(255, 255, 255));
 		txtchuThich.setBounds(638, 114, 342, 20);
@@ -299,6 +305,7 @@ public class UI_KhachHang extends JFrame {
 		txtchuThich.setColumns(10);
 		
 		txtsoDt = new JTextField();
+		txtsoDt.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtsoDt.setBounds(127, 84, 276, 20);
 		panelthongTin.add(txtsoDt);
 		txtsoDt.setColumns(10);
@@ -319,10 +326,11 @@ public class UI_KhachHang extends JFrame {
 		
 		JLabel lblCmnd = new JLabel("CMND");
 		lblCmnd.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCmnd.setBounds(20, 143, 393, 14);
+		lblCmnd.setBounds(20, 143, 88, 14);
 		panelthongTin.add(lblCmnd);
 		
 		txtCmnd = new JTextField();
+		txtCmnd.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtCmnd.setBounds(127, 140, 276, 20);
 		panelthongTin.add(txtCmnd);
 		txtCmnd.setColumns(10);
@@ -433,7 +441,7 @@ public class UI_KhachHang extends JFrame {
 		});
 		btncapNhat.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/Male-user-edit-icon.png")));
 		btncapNhat.setBackground(new Color(255,190,87));
-		btncapNhat.setBounds(56, 120, 125, 49);
+		btncapNhat.setBounds(56, 110, 125, 49);
 		panelchucNang.add(btncapNhat);
 		
 		btnlamMoi = new JButton("Làm Mới");
@@ -457,7 +465,7 @@ public class UI_KhachHang extends JFrame {
 		
 		btnlamMoi.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/refresh-icon.png")));
 		btnlamMoi.setBackground(new Color(255,190,87));
-		btnlamMoi.setBounds(237, 120, 125, 49);
+		btnlamMoi.setBounds(237, 110, 125, 49);
 		panelchucNang.add(btnlamMoi);
 //		System.out.println(LocalDate.now());
 		dcngaySinh.setDateFormatString("yyyy-MM-dd");		
@@ -587,8 +595,9 @@ public class UI_KhachHang extends JFrame {
 		table.getColumnModel().getColumn(0).setPreferredWidth(31);
 		table.getColumnModel().getColumn(3).setPreferredWidth(63);
 		table.getColumnModel().getColumn(4).setPreferredWidth(74);
-		
-		
+		table.setRowHeight(20);
+		table.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	} 
 	//load
 	private void loadKH() throws SQLException {

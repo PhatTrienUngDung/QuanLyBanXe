@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import connect.ConnectDB;
 import dao.Dao_NhanVien;
+import dao.Dao_ThongKe;
 
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -50,6 +51,7 @@ public class Menu extends JFrame {
 	private UI_NhanVien ui_NhanVien;
 	private UI_TaiKhoan ui_TaiKhoan;
 	private UI_ThongKe1 ui_ThongKe1;
+	private HomePage home;
 	private JPanel pnQuanLyKH;
 	private JPanel pnQuanLyNV;
 	private JPanel pnQLHoaDon;
@@ -99,6 +101,7 @@ public class Menu extends JFrame {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
 		}
+		home= new HomePage();
 		ui_QuanLyXe= new UI_QuanLyXe();
 		ui_NhaCungCap = new UI_NhaCungCap();
 		ui_KhachHang= new UI_KhachHang();
@@ -175,10 +178,13 @@ public class Menu extends JFrame {
 		ui_ThongKe1.setVisible(true);
 		pnThongKe.add(ui_ThongKe1.getContentPane());
 		ui_ThongKe1.setVisible(false);
-		
+		//Home
 		pnTrangChu = new JPanel();
 		panelMain.add(pnTrangChu, "name_3887874348900");
-		
+		pnTrangChu.setLayout(null);
+		home.setVisible(true);
+		pnTrangChu.add(home.getContentPane());
+		home.setVisible(false);
 		//Giao diện quản lý tài khoản
 		pnTaiKhoan = new JPanel();
 		panelMain.add(pnTaiKhoan, "name_1832465809800");
@@ -187,6 +193,8 @@ public class Menu extends JFrame {
 		pnTaiKhoan.add(ui_TaiKhoan.getContentPane());
 		ui_TaiKhoan.setVisible(false);
 	
+		pnQuanLyKho.setVisible(false);
+		pnTrangChu.setVisible(true);
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(43,87,154));
 		splitPane.setLeftComponent(panel);
@@ -503,7 +511,7 @@ public class Menu extends JFrame {
 				pnTrangChu.setVisible(false);
 				pnThongKe.add(ui_ThongKe1.getContentPane());
 				pnThongKe.setVisible(true);
-				
+				ui_ThongKe1.LoadTong();
 			}
 		});
 		
@@ -602,6 +610,9 @@ public class Menu extends JFrame {
 		btnQuanLyTaiKhoan.setBackground(new Color(43, 87, 154));
 		panel.add(btnQuanLyTaiKhoan);
 		
+		btnTrangChu.setBackground(Color.white);
+		btnTrangChu.setForeground(Color.black);
+
 		JPanel panel1 = new JPanel();
 		JButton btnUser = new JButton();
 		Dao_NhanVien dao_nv = new Dao_NhanVien();

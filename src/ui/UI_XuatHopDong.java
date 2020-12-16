@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 
 import javax.swing.JTextField;
@@ -87,7 +88,9 @@ public class UI_XuatHopDong extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 508, 763);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -101,7 +104,7 @@ public class UI_XuatHopDong extends JFrame {
 		
 		JLabel lblMHpng = new JLabel("Mã hợp đồng");
 		lblMHpng.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblMHpng.setBounds(23, 77, 110, 13);
+		lblMHpng.setBounds(23, 77, 110, 19);
 		contentPane.add(lblMHpng);
 		Dao_LoaiXe dao_lx = new Dao_LoaiXe();
 		txtmaHD = new JTextField();
@@ -130,118 +133,140 @@ public class UI_XuatHopDong extends JFrame {
 			}
 		});
 	
-		txtmaHD.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtmaHD.setBounds(210, 74, 136, 19);
+		txtmaHD.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txtmaHD.setBounds(210, 74, 136, 25);
 		contentPane.add(txtmaHD);
 		txtmaHD.setColumns(10);
 		
 		JLabel lblTnNhnVin = new JLabel("Tên nhân viên");
 		lblTnNhnVin.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTnNhnVin.setBounds(21, 120, 112, 13);
+		lblTnNhnVin.setBounds(21, 120, 112, 25);
 		contentPane.add(lblTnNhnVin);
 		
 		txttenNV = new JTextField();
-		txttenNV.setBounds(210, 119, 136, 19);
+		txttenNV.setEditable(false);
+		txttenNV.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txttenNV.setBounds(210, 119, 136, 26);
 		contentPane.add(txttenNV);
 		txttenNV.setColumns(10);
 		
 		JLabel lblCmnd = new JLabel("CMND");
-		lblCmnd.setFont(new Font("Dialog", Font.BOLD, 15));
-		lblCmnd.setBounds(24, 164, 61, 13);
+		lblCmnd.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblCmnd.setBounds(23, 164, 61, 18);
 		contentPane.add(lblCmnd);
 		
 		txtcmnd = new JTextField();
-		txtcmnd.setBounds(210, 163, 136, 19);
+		txtcmnd.setEditable(false);
+		txtcmnd.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txtcmnd.setBounds(210, 163, 136, 25);
 		contentPane.add(txtcmnd);
 		txtcmnd.setColumns(10);
 		
 		JLabel lblSinThoi = new JLabel("Số điện thoại");
 		lblSinThoi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblSinThoi.setBounds(23, 252, 110, 13);
+		lblSinThoi.setBounds(23, 252, 110, 17);
 		contentPane.add(lblSinThoi);
 		
 		txtsdt = new JTextField();
-		txtsdt.setBounds(210, 246, 136, 19);
+		txtsdt.setEditable(false);
+		txtsdt.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txtsdt.setBounds(210, 246, 136, 23);
 		contentPane.add(txtsdt);
 		txtsdt.setColumns(10);
 		
 		JLabel lblaCh = new JLabel("Loại xe");
 		lblaCh.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblaCh.setBounds(23, 290, 77, 13);
+		lblaCh.setBounds(23, 290, 77, 19);
 		contentPane.add(lblaCh);
 		
 		txtloaiXe = new JTextField();
-		txtloaiXe.setBounds(210, 284, 136, 19);
+		txtloaiXe.setEditable(false);
+		txtloaiXe.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txtloaiXe.setBounds(210, 284, 136, 25);
 		contentPane.add(txtloaiXe);
 		txtloaiXe.setColumns(10);
 		
 		JLabel lblTnXe = new JLabel("Tên xe");
 		lblTnXe.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTnXe.setBounds(23, 325, 77, 13);
+		lblTnXe.setBounds(23, 325, 77, 18);
 		contentPane.add(lblTnXe);
 		
 		txttenXe = new JTextField();
-		txttenXe.setBounds(210, 324, 136, 19);
+		txttenXe.setEditable(false);
+		txttenXe.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txttenXe.setBounds(210, 324, 136, 25);
 		contentPane.add(txttenXe);
 		txttenXe.setColumns(10);
 		
 		JLabel lblPhnKhi = new JLabel("Phân khối");
 		lblPhnKhi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblPhnKhi.setBounds(23, 360, 77, 13);
+		lblPhnKhi.setBounds(23, 361, 77, 23);
 		contentPane.add(lblPhnKhi);
 		
 		txtphanKhoi = new JTextField();
-		txtphanKhoi.setBounds(210, 359, 135, 19);
+		txtphanKhoi.setEditable(false);
+		txtphanKhoi.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txtphanKhoi.setBounds(210, 363, 135, 24);
 		contentPane.add(txtphanKhoi);
 		txtphanKhoi.setColumns(10);
 		
 		JLabel lblMuXe = new JLabel("Màu xe");
 		lblMuXe.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblMuXe.setBounds(23, 404, 62, 13);
+		lblMuXe.setBounds(23, 404, 62, 22);
 		contentPane.add(lblMuXe);
 		
 		txtmauXe = new JTextField();
-		txtmauXe.setBounds(209, 403, 137, 19);
+		txtmauXe.setEditable(false);
+		txtmauXe.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txtmauXe.setBounds(209, 403, 137, 23);
 		contentPane.add(txtmauXe);
 		txtmauXe.setColumns(10);
 		
 		JLabel lblSKhung = new JLabel("Số khung");
 		lblSKhung.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblSKhung.setBounds(23, 450, 77, 13);
+		lblSKhung.setBounds(23, 446, 77, 23);
 		contentPane.add(lblSKhung);
 		
 		txtsoKhung = new JTextField();
-		txtsoKhung.setBounds(210, 449, 136, 19);
+		txtsoKhung.setEditable(false);
+		txtsoKhung.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txtsoKhung.setBounds(210, 445, 136, 24);
 		contentPane.add(txtsoKhung);
 		txtsoKhung.setColumns(10);
 		
 		JLabel lblSMy = new JLabel("Số máy");
 		lblSMy.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblSMy.setBounds(23, 498, 62, 13);
+		lblSMy.setBounds(23, 492, 62, 24);
 		contentPane.add(lblSMy);
 		
 		txtsoMay = new JTextField();
-		txtsoMay.setBounds(210, 497, 136, 19);
+		txtsoMay.setEditable(false);
+		txtsoMay.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txtsoMay.setBounds(210, 491, 136, 25);
 		contentPane.add(txtsoMay);
 		txtsoMay.setColumns(10);
 		
 		JLabel lblnGi = new JLabel("Đơn giá");
 		lblnGi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblnGi.setBounds(23, 542, 77, 13);
+		lblnGi.setBounds(23, 537, 77, 23);
 		contentPane.add(lblnGi);
 		
 		txtdonGia = new JTextField();
-		txtdonGia.setBounds(210, 541, 136, 19);
+		txtdonGia.setEditable(false);
+		txtdonGia.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txtdonGia.setBounds(210, 536, 136, 24);
 		contentPane.add(txtdonGia);
 		txtdonGia.setColumns(10);
 		
 		JLabel lblThiGianBo = new JLabel("Thời gian bảo hành");
 		lblThiGianBo.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblThiGianBo.setBounds(23, 584, 155, 13);
+		lblThiGianBo.setBounds(23, 580, 155, 22);
 		contentPane.add(lblThiGianBo);
 		
 		txttgbh = new JTextField();
-		txttgbh.setBounds(210, 583, 136, 19);
+		txttgbh.setEditable(false);
+		txttgbh.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txttgbh.setBounds(210, 579, 136, 23);
 		contentPane.add(txttgbh);
 		txttgbh.setColumns(10);
 		
@@ -257,19 +282,20 @@ public class UI_XuatHopDong extends JFrame {
 		
 		JLabel lblTnKhchHng = new JLabel("Tên khách hàng");
 		lblTnKhchHng.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTnKhchHng.setBounds(23, 214, 128, 13);
+		lblTnKhchHng.setBounds(23, 205, 128, 24);
 		contentPane.add(lblTnKhchHng);
 		
 		txttenKH = new JTextField();
-		txttenKH.setBounds(210, 213, 136, 19);
+		txttenKH.setEditable(false);
+		txttenKH.setFont(new Font("Dialog", Font.PLAIN, 15));
+		txttenKH.setBounds(210, 204, 136, 25);
 		contentPane.add(txttenKH);
 		txttenKH.setColumns(10);
 		
 		JButton btnXuat = new JButton("Xuất");
 		btnXuat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BillHopDong bill = new BillHopDong();
-				//bill.setVisible(true);
+				BillHopDong bill= new BillHopDong();
 				PrintSupport.printComponent(bill.textArea);
 			}
 		});
@@ -285,6 +311,11 @@ public class UI_XuatHopDong extends JFrame {
 		
 		JButton btnng = new JButton("Đóng");
 		btnng.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnng.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		});
 		btnng.setBounds(383, 697, 85, 21);
 		contentPane.add(btnng);
 	}
