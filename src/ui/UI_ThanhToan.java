@@ -329,6 +329,8 @@ public class UI_ThanhToan extends JFrame {
 					UI_HoaDon.txtCustomerName_Bill.setText("");
 					UI_HoaDon.txtNumPhone_Bill.setText("");
 					UI_HoaDon.txtNoteCustomer_Bill.setText("");
+					UI_HoaDon.txtTotal.setText("0 VNĐ");
+					UI_HoaDon.txtTotalVAT.setText("0 VNĐ");
 					setVisible(false);
 				}
 			}

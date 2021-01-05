@@ -18,6 +18,7 @@ import entity.HangSanXuat;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.LoaiXe;
+import entity.NhanVien;
 import entity.Xe;
 
 
@@ -32,6 +33,24 @@ public class Dao_HoaDon {
 		// TODO Auto-generated constructor stub
 		listBill = new ArrayList<HoaDon>();
 		hd = new HoaDon();
+	}
+	
+	public HoaDon getHoaDonByID(String ID) {
+		Connection con = ConnectDB.getCon();
+		String sql = "select * from HoaDon where maHoaDon = ?";
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, ID);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				HoaDon hd = new HoaDon(rs.getString(1), new KhachHang(rs.getString(2)), new NhanVien(rs.getString(3)), rs.getDate(4), rs.getDouble(5));
+				return hd;
+			}
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+			e1.printStackTrace();
+		}
+		return null;
 	}
 	
 	public String getMaHDTail(String properties, String table) {
