@@ -22,6 +22,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.keypoint.PngEncoder;
+import com.toedter.calendar.JDateChooser;
+
 import autoComplete.FillCombo;
 import connect.ConnectDB;
 import dao.Dao_HangSanXuat;
@@ -37,6 +40,8 @@ import entity.KhachHang;
 import entity.LoaiXe;
 import entity.NhaCungCap;
 import entity.Xe;
+import others.Bill;
+import others.PrintSupport;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -49,6 +54,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,6 +65,8 @@ import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionListener;
@@ -95,6 +103,9 @@ public class UI_HoaDon extends JFrame {
     private JTextField txtVehicleEngineNum;
     public static String maKhachHang;
 	public static double thueVAT;
+	private DefaultTableModel tableModel1, tableModel2;
+	private JTextField txtMaHD, txtMaKH, txtTenKH;
+	private JDateChooser dcNgayLHD;
 	
     
 
@@ -146,16 +157,88 @@ public class UI_HoaDon extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JPanel pTab1 = new JPanel();
+		pTab1.setBounds(10, 101, 1513, 644);
+		contentPane.add(pTab1);
+		pTab1.setLayout(null);
+		
+		/*String a = "MHD0005";
+		String[] parts = a.split("D");
+		System.out.println(parts[1]);*/
+		
+		String maHD = dao_hd.getMaHDTail("maHoaDon", "HoaDon");
+		/*JLabel lblBillNum1 = new JLabel();
+		lblBillNum1.setText(maHD);
+		lblBillNum1.setBackground(Color.WHITE);
+		lblBillNum1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblBillNum1.setBounds(140, 43, 168, 23);
+		pEmployeeInfo_Bill.add(lblBillNum1);*/
+		
+		/*JLabel lblDateBill1 = new JLabel();
+		lblDateBill1.setBackground(Color.WHITE);
+		lblDateBill1.setText(LocalDate.now().toString());
+		lblDateBill1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblDateBill1.setBounds(414, 43, 150, 22);
+		pEmployeeInfo_Bill.add(lblDateBill1);*/
+		
+		FillCombo combo = new FillCombo();
+		String[] header = {"Mã Xe", "Tên Xe", "Loại Xe", "Phiên Bản", "Màu xe", "Phân Khối", "Hãng Sản Xuất", "Số Khung", "Số Máy", "Đơn Giá", "Thuế VAT", "Thành tiền"};
+		tableModel = new DefaultTableModel(header, 0){
+	       @Override
+	       public boolean isCellEditable(int i, int i1) {
+	           return false; //To change body of generated methods, choose Tools | Templates.
+	       }
+		};
+		
+		JPanel panelTab = new JPanel();
+		panelTab.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		panelTab.setBackground(Color.WHITE);
+		panelTab.setBounds(0, 0, 1530, 78);
+		contentPane.add(panelTab);
+		panelTab.setLayout(null);
+		
+		JButton btn1 = new JButton("");
+		btn1.setBackground(new Color(240, 230, 140));
+		btn1.setFocusable(false);
+		btn1.setIcon(new ImageIcon("img1\\Shopping-basket-add-icon.png"));
+		btn1.setBorderPainted(false);
+		btn1.setBounds(10, 10, 93, 43);
+		panelTab.add(btn1);
+		
+		JLabel lbl1 = new JLabel("Hóa Đơn");
+		lbl1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lbl1.setBounds(25, 55, 77, 23);
+		panelTab.add(lbl1);
+		
+		JButton btn2 = new JButton("");
+		btn2.setBounds(135, 10, 93, 43);
+		btn2.setBackground(Color.WHITE);
+		btn2.setFocusable(false);
+		btn2.setIcon(new ImageIcon("img1\\Order-history-icon.png"));
+		btn2.setBorderPainted(false);
+		panelTab.add(btn2);
+		
+		JLabel lblNewLabel = new JLabel("Danh sách HD");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setBounds(133, 55, 115, 23);
+		panelTab.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ THÔNG TIN HÓA ĐƠN");
+		lblNewLabel_1.setBounds(606, 0, 526, 72);
+		panelTab.add(lblNewLabel_1);
+		lblNewLabel_1.setForeground(new Color(184, 134, 11));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		
 		JPanel pGenInfo_Bill = new JPanel();
-		pGenInfo_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng Tin Chung", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		pGenInfo_Bill.setBounds(0, 5, 905, 106);
+		pTab1.add(pGenInfo_Bill);
+		pGenInfo_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Thông Tin Chung", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		pGenInfo_Bill.setBackground(SystemColor.control);
-		pGenInfo_Bill.setBounds(10, 181, 905, 106);
-		contentPane.add(pGenInfo_Bill);
 		pGenInfo_Bill.setLayout(null);
 		
 		JPanel pCustomerInfo_Bill = new JPanel();
-		pCustomerInfo_Bill.setBackground(SystemColor.control);
 		pCustomerInfo_Bill.setBounds(10, 20, 890, 76);
+		pCustomerInfo_Bill.setBackground(SystemColor.control);
 		pGenInfo_Bill.add(pCustomerInfo_Bill);
 		pCustomerInfo_Bill.setLayout(null);
 		
@@ -200,10 +283,10 @@ public class UI_HoaDon extends JFrame {
 		pCustomerInfo_Bill.add(txtNoteCustomer_Bill);
 		
 		JPanel pOtherInfo_Bill = new JPanel();
-		pOtherInfo_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng Tin Kh\u00E1c", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		pOtherInfo_Bill.setBounds(925, 5, 598, 106);
+		pTab1.add(pOtherInfo_Bill);
+		pOtherInfo_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Thông Tin Khác", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		pOtherInfo_Bill.setBackground(SystemColor.control);
-		pOtherInfo_Bill.setBounds(925, 181, 598, 106);
-		contentPane.add(pOtherInfo_Bill);
 		pOtherInfo_Bill.setLayout(null);
 		
 		JPanel pEmployeeInfo_Bill = new JPanel();
@@ -239,12 +322,6 @@ public class UI_HoaDon extends JFrame {
 		lblBillNum.setBounds(10, 45, 92, 21);
 		pEmployeeInfo_Bill.add(lblBillNum);
 		
-		/*String a = "MHD0005";
-		String[] parts = a.split("D");
-		System.out.println(parts[1]);*/
-		
-		String maHD = dao_hd.getMaHDTail("maHoaDon", "HoaDon");
-		
 		txtBillNum = new JTextField();
 		txtBillNum.setEditable(false);
 		txtBillNum.setText(maHD);
@@ -252,12 +329,6 @@ public class UI_HoaDon extends JFrame {
 		txtBillNum.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtBillNum.setBounds(140, 43, 168, 23);
 		pEmployeeInfo_Bill.add(txtBillNum);
-		/*JLabel lblBillNum1 = new JLabel();
-		lblBillNum1.setText(maHD);
-		lblBillNum1.setBackground(Color.WHITE);
-		lblBillNum1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblBillNum1.setBounds(140, 43, 168, 23);
-		pEmployeeInfo_Bill.add(lblBillNum1);*/
 		
 		JLabel lblBillDate = new JLabel("Ngày LHD");
 		lblBillDate.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -272,18 +343,11 @@ public class UI_HoaDon extends JFrame {
 		txtDateBill.setBounds(414, 43, 150, 22);
 		pEmployeeInfo_Bill.add(txtDateBill);
 		
-		/*JLabel lblDateBill1 = new JLabel();
-		lblDateBill1.setBackground(Color.WHITE);
-		lblDateBill1.setText(LocalDate.now().toString());
-		lblDateBill1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblDateBill1.setBounds(414, 43, 150, 22);
-		pEmployeeInfo_Bill.add(lblDateBill1);*/
-		
 		JPanel pProduct_Bill = new JPanel();
-		pProduct_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng Tin Xe", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		pProduct_Bill.setBounds(0, 131, 905, 137);
+		pTab1.add(pProduct_Bill);
+		pProduct_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Thông Tin Xe", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		pProduct_Bill.setBackground(SystemColor.control);
-		pProduct_Bill.setBounds(10, 305, 905, 137);
-		contentPane.add(pProduct_Bill);
 		pProduct_Bill.setLayout(null);
 		
 		JPanel pAddVehicle_Bill = new JPanel();
@@ -307,14 +371,12 @@ public class UI_HoaDon extends JFrame {
 		cbbVehicleName_Bill.setBackground(Color.WHITE);
 		cbbVehicleName_Bill.setBounds(570, 10, 290, 21);
 		pAddVehicle_Bill.add(cbbVehicleName_Bill);
-		
-		FillCombo combo = new FillCombo();
 		try {
-			combo.fill("select DISTINCT tenXe from Xe where trangThai = N'Còn hàng' order by tenXe" , cbbVehicleName_Bill, "tenXe");	
-		} catch (SQLException e2) {
+			combo.fill("select DISTINCT tenXe from Xe where trangThai = N'Còn hàng' order by tenXe" , cbbVehicleName_Bill, "tenXe");
+		} catch (SQLException e3) {
 			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} 
+			e3.printStackTrace();
+		}	
 		
 		cbbVehicleColor_Bill = new JComboBox();
 		cbbVehicleColor_Bill.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -353,13 +415,12 @@ public class UI_HoaDon extends JFrame {
 		cbbChasisNumber.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cbbChasisNumber.setBounds(115, 74, 203, 21);
 		pAddVehicle_Bill.add(cbbChasisNumber);
-		
 		try {
-			combo.fill("select soKhung from Xe where trangThai = N'Còn hàng'" , cbbChasisNumber, "soKhung");	
-		} catch (SQLException e2) {
+			combo.fill("select soKhung from Xe where trangThai = N'Còn hàng'" , cbbChasisNumber, "soKhung");
+		} catch (SQLException e3) {
 			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} 
+			e3.printStackTrace();
+		}	
 		
 		JLabel lblVehicleEngineNumber = new JLabel("Số Máy");
 		lblVehicleEngineNumber.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -372,47 +433,98 @@ public class UI_HoaDon extends JFrame {
 		pAddVehicle_Bill.add(txtVehicleEngineNum);
 		txtVehicleEngineNum.setColumns(10);
 		
+		JPanel pImageVehicle_Bill = new JPanel();
+		pImageVehicle_Bill.setBounds(925, 131, 352, 137);
+		pTab1.add(pImageVehicle_Bill);
+		pImageVehicle_Bill.setBorder(new LineBorder(new Color(0, 0, 0)));
+		pImageVehicle_Bill.setLayout(null);
+		
+		JLabel lblImage = new JLabel("                            Chưa có hình ảnh");
+		lblImage.setForeground(Color.red);
+		lblImage.setBounds(0, 0, 373, 145);
+		pImageVehicle_Bill.add(lblImage);
+		
+		JPanel panelFunction1 = new JPanel();
+		panelFunction1.setBounds(1298, 131, 215, 137);
+		pTab1.add(panelFunction1);
+		panelFunction1.setBackground(new Color(231,150,36));
+		panelFunction1.setLayout(null);
+		
+		JButton btnEmptyDelete_Bill = new JButton("Xóa Trống");
+		btnEmptyDelete_Bill.setBackground(new Color(255,190,87));
+		btnEmptyDelete_Bill.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Recycle-Bin-Full-icon.png")));
+		btnEmptyDelete_Bill.setBounds(26, 10, 160, 51);
+		btnEmptyDelete_Bill.setFont(new Font("Tahoma", Font.BOLD, 10));
+		panelFunction1.add(btnEmptyDelete_Bill);
+		
+		JButton btnAddVehicle_Bill = new JButton("Th\u00EAm Xe");
+		btnAddVehicle_Bill.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/sign-add-icon.png")));
+		btnAddVehicle_Bill.setBackground(new Color(255,190,87));
+		btnAddVehicle_Bill.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnAddVehicle_Bill.setBounds(26, 84, 160, 51);
+		panelFunction1.add(btnAddVehicle_Bill);
+		
 		JPanel pBillDetailsList = new JPanel();
-		pBillDetailsList.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Danh S\u00E1ch Xe B\u00E1n", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		pBillDetailsList.setBounds(0, 290, 1513, 245);
+		pTab1.add(pBillDetailsList);
+		pBillDetailsList.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Danh Sách Xe Bán", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		pBillDetailsList.setBackground(SystemColor.control);
-		pBillDetailsList.setBounds(10, 452, 1513, 245);
-		contentPane.add(pBillDetailsList);
 		pBillDetailsList.setLayout(null);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 25, 1498, 210);
-		pBillDetailsList.add(scrollPane_1);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 25, 1498, 210);
+		pBillDetailsList.add(scrollPane);
 		
 		table = new JTable();
-		scrollPane_1.setViewportView(table);
-		String[] header = {"Mã Xe", "Tên Xe", "Loại Xe", "Phiên Bản", "Màu xe", "Phân Khối", "Hãng Sản Xuất", "Số Khung", "Số Máy", "Đơn Giá", "Thuế VAT", "Thành tiền"};
-		tableModel = new DefaultTableModel(header, 0){
-	       @Override
-	       public boolean isCellEditable(int i, int i1) {
-	           return false; //To change body of generated methods, choose Tools | Templates.
-	       }
-		};
+		scrollPane.setViewportView(table);
 		//DefaultTableModel tableModel = new DefaultTableModel();
 		table.setModel(tableModel);
-		scrollPane_1.setViewportView(table);
+		scrollPane.setViewportView(table);
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
 		table.setRowHeight(25);
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		
+		Panel panelFunction2 = new Panel();
+		panelFunction2.setBounds(933, 557, 580, 61);
+		pTab1.add(panelFunction2);
+		panelFunction2.setBackground(new Color(231,150,36));
+		panelFunction2.setLayout(null);
+		
+		JButton btnDeleteRowTableCTHD = new JButton("Xóa Xe CTHD");	
+		btnDeleteRowTableCTHD.setBackground(new Color(255, 69, 0));
+		btnDeleteRowTableCTHD.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/delete-icon.png")));
+		btnDeleteRowTableCTHD.setBounds(10, 6, 191, 45);
+		btnDeleteRowTableCTHD.setFont(new Font("Tahoma", Font.BOLD, 10));
+		panelFunction2.add(btnDeleteRowTableCTHD);
+		
+		JButton btnRemoveCTHD = new JButton("Hủy CTHD");
+		btnRemoveCTHD.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Status-dialog-error-icon.png")));
+		btnRemoveCTHD.setBackground(Color.RED);
+		btnRemoveCTHD.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnRemoveCTHD.setBounds(211, 6, 175, 45);
+		panelFunction2.add(btnRemoveCTHD);
+		
+		JButton btnPayments = new JButton("Thanh Toán");
+		btnPayments.setBackground(Color.ORANGE);
+		btnPayments.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/coin-icon.png")));
+		btnPayments.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnPayments.setBounds(396, 6, 175, 45);
+		panelFunction2.add(btnPayments);
 		//table.setBorder(BorderFactory.createLineBorder(Color.white));
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(231,150,36));
-		panel.setBounds(461, 703, 473, 61);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel panelTotal = new JPanel();
+		panelTotal.setBounds(444, 557, 473, 61);
+		pTab1.add(panelTotal);
+		panelTotal.setBackground(new Color(231,150,36));
+		panelTotal.setLayout(null);
 		
 		JLabel lblTotalBill = new JLabel("Tổng Tiền");
 		lblTotalBill.setBounds(10, 21, 111, 22);
 		lblTotalBill.setForeground(new Color(255, 0, 0));
 		lblTotalBill.setFont(new Font("Tahoma", Font.BOLD, 22));
 		lblTotalBill.setVerticalAlignment(SwingConstants.BOTTOM);
-		panel.add(lblTotalBill);
+		panelTotal.add(lblTotalBill);
 		txtTotal.setForeground(Color.RED);
 		txtTotal.setBackground(Color.WHITE);
 		txtTotal.setEditable(false);
@@ -421,146 +533,397 @@ public class UI_HoaDon extends JFrame {
 		txtTotal.setText("0 VNĐ");
 		txtTotal.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtTotal.setBounds(142, 12, 297, 36);
-		panel.add(txtTotal);
+		panelTotal.add(txtTotal);
 		
-		Panel panel_1 = new Panel();
-		panel_1.setBackground(new Color(231,150,36));
-		panel_1.setBounds(943, 703, 580, 61);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		JPanel pTab2 = new JPanel();
+		pTab2.setVisible(false);
+		pTab2.setBounds(10, 101, 1513, 644);
+		contentPane.add(pTab2);
+		pTab2.setLayout(null);
 		
-		JButton btnDeleteRowTableCTHD = new JButton("Xóa Xe CTHD");	
-		btnDeleteRowTableCTHD.setBackground(new Color(255, 69, 0));
-		btnDeleteRowTableCTHD.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/delete-icon.png")));
-		btnDeleteRowTableCTHD.setBounds(10, 6, 191, 45);
-		btnDeleteRowTableCTHD.setFont(new Font("Tahoma", Font.BOLD, 10));
-		panel_1.add(btnDeleteRowTableCTHD);
+		JPanel pSearchInfo = new JPanel();
+		pSearchInfo.setBorder(new TitledBorder(null, "Thông tin tìm kiếm", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pSearchInfo.setBounds(0, 5, 814, 124);
+		pTab2.add(pSearchInfo);
+		pSearchInfo.setLayout(null);
 		
-		JButton btnRemoveCTHD = new JButton("Hủy CTHD");
-		btnRemoveCTHD.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Status-dialog-error-icon.png")));
-		btnRemoveCTHD.setBackground(Color.RED);
-		btnRemoveCTHD.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnRemoveCTHD.setBounds(211, 6, 175, 45);
-		panel_1.add(btnRemoveCTHD);
+		JLabel lblmaHD = new JLabel("Mã Hóa Đơn");
+		lblmaHD.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblmaHD.setBounds(10, 31, 82, 27);
+		pSearchInfo.add(lblmaHD);
 		
-		JButton btnPayments = new JButton("Thanh Toán");
-		btnPayments.setBackground(Color.ORANGE);
-		btnPayments.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/coin-icon.png")));
-		btnPayments.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnPayments.setBounds(396, 6, 175, 45);
-		panel_1.add(btnPayments);
+		JLabel lblMaKH = new JLabel("Mã Khách Hàng");
+		lblMaKH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblMaKH.setBounds(10, 70, 107, 27);
+		pSearchInfo.add(lblMaKH);
 		
-		JPanel pImageVehicle_Bill = new JPanel();
-		pImageVehicle_Bill.setBorder(new LineBorder(new Color(0, 0, 0)));
-		pImageVehicle_Bill.setBounds(925, 305, 373, 137);
-		contentPane.add(pImageVehicle_Bill);
-		pImageVehicle_Bill.setLayout(null);
+		txtMaHD = new JTextField();
+		txtMaHD.setBounds(146, 31, 208, 21);
+		pSearchInfo.add(txtMaHD);
+		txtMaHD.setColumns(10);
 		
-		JLabel lblImage = new JLabel("                            Chưa có hình ảnh");
-		lblImage.setForeground(Color.red);
-		lblImage.setBounds(0, 0, 373, 145);
-		pImageVehicle_Bill.add(lblImage);
+		txtMaKH = new JTextField();
+		txtMaKH.setBounds(146, 70, 208, 21);
+		pSearchInfo.add(txtMaKH);
+		txtMaKH.setColumns(10);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(231,150,36));
-		panel_2.setBounds(1308, 305, 215, 137);
-		contentPane.add(panel_2);
-		panel_2.setLayout(null);
+		JLabel lblTenKH = new JLabel("Tên Khách Hàng");
+		lblTenKH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblTenKH.setBounds(441, 31, 118, 19);
+		pSearchInfo.add(lblTenKH);
 		
-		JButton btnEmptyDelete_Bill = new JButton("Xóa Trống");
-		btnEmptyDelete_Bill.setBackground(new Color(255,190,87));
-		btnEmptyDelete_Bill.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Recycle-Bin-Full-icon.png")));
-		btnEmptyDelete_Bill.setBounds(26, 10, 160, 51);
-		btnEmptyDelete_Bill.setFont(new Font("Tahoma", Font.BOLD, 10));
-		panel_2.add(btnEmptyDelete_Bill);
+		JLabel lblNgayLHD = new JLabel("Ngày Lập Hóa Đơn");
+		lblNgayLHD.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNgayLHD.setBounds(441, 70, 133, 19);
+		pSearchInfo.add(lblNgayLHD);
 		
-		JButton btnAddVehicle_Bill = new JButton("Th\u00EAm Xe");
-		btnAddVehicle_Bill.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/sign-add-icon.png")));
-		btnAddVehicle_Bill.setBackground(new Color(255,190,87));
-		btnAddVehicle_Bill.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnAddVehicle_Bill.setBounds(26, 84, 160, 51);
-		panel_2.add(btnAddVehicle_Bill);
+		txtTenKH = new JTextField();
+		txtTenKH.setBounds(589, 31, 208, 21);
+		pSearchInfo.add(txtTenKH);
+		txtTenKH.setColumns(10);
 		
-		JPanel panel_1_1 = new JPanel();
-		panel_1_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		panel_1_1.setBackground(Color.WHITE);
-		panel_1_1.setBounds(0, 0, 1530, 78);
-		contentPane.add(panel_1_1);
+		dcNgayLHD = new JDateChooser();		
+		dcNgayLHD.setBounds(589, 70, 141, 21);
+		dcNgayLHD.setDateFormatString("yyyy-MM-dd");
+		dcNgayLHD.setDate(Date.valueOf(LocalDate.now()));
+		pSearchInfo.add(dcNgayLHD);
 		
-		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ THÔNG TIN HÓA ĐƠN");
-		lblNewLabel_1.setForeground(new Color(184, 134, 11));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblNewLabel_1.setBounds(10, 88, 526, 72);
-		contentPane.add(lblNewLabel_1);
-
-//====================Xử lý eventAction==========================================================================
-
-		//>>>>>>>>>>> txt CMND
-		txtCMND_Bill.addKeyListener(new KeyAdapter() {
-			public boolean isNumeric(String str) {
-				  return str.matches("\\d*");  //match a number with optional '-' and decimal. "-?\\d+(\\.\\d+)?"
-				}
+		JPanel pChucNang = new JPanel();
+		pChucNang.setBorder(new TitledBorder(null, "Chức năng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pChucNang.setBounds(829, 5, 369, 124);
+		pTab2.add(pChucNang);
+		pChucNang.setLayout(null);
+		
+		JButton btnXoaTrong = new JButton("Xóa Trống");
+		btnXoaTrong.setIcon(new ImageIcon(a.class.getResource("/image/Recycle-Bin-Full-icon.png")));
+		btnXoaTrong.setBackground(Color.ORANGE);
+		btnXoaTrong.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnXoaTrong.setBounds(20, 22, 153, 40);
+		pChucNang.add(btnXoaTrong);
+		
+		JButton btnXuatHD = new JButton("Xuất Hóa Đơn");
+		btnXuatHD.setBackground(new Color(169, 169, 169));
+		btnXuatHD.setIcon(new ImageIcon(a.class.getResource("/image/Printer-icon.png")));
+		btnXuatHD.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnXuatHD.setBounds(20, 75, 330, 37);
+		pChucNang.add(btnXuatHD);
+		
+		JButton btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.setBackground(new Color(255, 160, 122));
+		btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnLamMoi.setIcon(new ImageIcon(a.class.getResource("/image/Refresh-icon (1).png")));
+		btnLamMoi.setBounds(190, 22, 160, 40);
+		pChucNang.add(btnLamMoi);
+		
+		JPanel pHinhAnh = new JPanel();
+		pHinhAnh.setBounds(1215, 10, 288, 119);
+		pHinhAnh.setBorder(new LineBorder(new Color(0, 0, 0)));
+		pTab2.add(pHinhAnh);
+		pHinhAnh.setLayout(null);
+		
+		JLabel lblHinhAnh = new JLabel("         Chưa có hình ảnh");
+		lblHinhAnh.setBounds(10, 5, 268, 104);
+		pHinhAnh.add(lblHinhAnh);
+		lblHinhAnh.setForeground(Color.RED);
+		
+		JPanel pHoaDon = new JPanel();
+		pHoaDon.setBorder(new TitledBorder(null, "Thông tin hóa đơn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pHoaDon.setBounds(0, 139, 1503, 241);
+		pTab2.add(pHoaDon);
+		pHoaDon.setLayout(null);
+		
+		JScrollPane scrollPane1 = new JScrollPane();
+		scrollPane1.setBounds(10, 20, 1483, 211);
+		pHoaDon.add(scrollPane1);
+		
+		JTable table1 = new JTable();
+		scrollPane1.setViewportView(table1);
+		String[] header1 = {"Mã Hóa Đơn", "Mã Khách Hàng", "Tên Khách Hàng", "CMND/TCC", "Mã Nhân Viên", "Tên Nhân viên", "Ngày LHD", "Tổng Tiền"};
+		tableModel1 = new DefaultTableModel(header1, 0){
+	       @Override
+	       public boolean isCellEditable(int i, int i1) {
+	           return false; //To change body of generated methods, choose Tools | Templates.
+	       }
+		};
+		scrollPane1.setViewportView(table1);
+		table1.setModel(tableModel1);
+		try {
+			tableModel1 = dao_hd.getAllOrder(header1, tableModel1);
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		table1.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
+		table1.setRowHeight(25);
+		table1.setAutoCreateRowSorter(true);
+		table1.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		
+		JPanel pCTHD = new JPanel();
+		pCTHD.setBorder(new TitledBorder(null, "Thông tin chi tiết hóa đơn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pCTHD.setBounds(0, 395, 1503, 234);
+		pTab2.add(pCTHD);
+		pCTHD.setLayout(null);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 24, 1483, 200);
+		pCTHD.add(scrollPane_1);
+		
+		JTable table2 = new JTable();
+		scrollPane_1.setViewportView(table2);
+		String[] header2 = {"Mã Hóa Đơn", "Mã Xe", "Tên Xe", "Loại Xe", "Phiên Bản", "Màu xe", "Phân Khối", "Hãng Sản Xuất", "Số Khung", "Số Máy", "Đơn Giá", "Thuế VAT", "Thành tiền"};
+		tableModel2 = new DefaultTableModel(header2, 0){
+	       @Override
+	       public boolean isCellEditable(int i, int i1) {
+	           return false; //To change body of generated methods, choose Tools | Templates.
+	       }
+		};
+		scrollPane_1.setViewportView(table2);
+		table2.setModel(tableModel2);
+		table2.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
+		table2.setRowHeight(25);
+		table2.setAutoCreateRowSorter(true);
+		table2.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		
+//==============================================================================================================================================================
+		
+		
+//====================Xử lý button=============================================================================
+		//>>>>>>>>>>>>>>>>>>>TAb
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btn1.setBackground(new Color(240, 230, 140));
+				btn2.setBackground(Color.white);
+				pTab1.setVisible(true);
+				pTab2.setVisible(false);
+			}
+		});
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btn2.setBackground(new Color(240, 230, 140));
+				btn1.setBackground(Color.white);
+				pTab1.setVisible(false);
+				pTab2.setVisible(true);
+			}
+		});
+		
+		
+		//>>>>>>>>>>> Xóa rỗng
+		btnEmptyDelete_Bill.addMouseListener(new MouseAdapter() {
 			@Override
-			public void keyReleased(KeyEvent e) {
-				if(!isNumeric(txtCMND_Bill.getText())) 
-					txtCMND_Bill.setForeground(Color.red);
-				else
-					txtCMND_Bill.setForeground(Color.BLACK);
-				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
-		        {
-		           
-		        }
-		        else
-		        {   
-		            String to_check=txtCMND_Bill.getText();
-		            int to_check_len=to_check.length();
-		            for(String data:list_CMND)
-		            {
-		                String check_from_data="";
-		                for(int i=0;i<to_check_len;i++)
-		                {
-		                    if(to_check_len<=data.length())
-		                    {
-		                        check_from_data = check_from_data+data.charAt(i);
-		                    }
-		                }
-		                //System.out.print(check_from_data);
-		                if(check_from_data.equals(to_check))
-		                {
-		                    //System.out.print("Found");
-		                    txtCMND_Bill.setText(data);
-		                    txtCMND_Bill.setSelectionStart(to_check_len);
-		                    txtCMND_Bill.setSelectionEnd(data.length());
-		                    break;
-		                }
-		            }
-		        }
-				/*Connection con = ConnectDB.getCon();
-				String sql = "select * from KhachHang where CMND = ?";
-				try {
-					PreparedStatement pst = con.prepareStatement(sql);
-					pst.setString(1, txtCMND_Bill.getText());
-					ResultSet rs = pst.executeQuery();
-					if(rs.next()) {
-						txtCustomerName_Bill.setText(rs.getString("tenKhachHang"));
-						txtNumPhone_Bill.setText(rs.getString("soDienThoai"));
-						txtNoteCustomer_Bill.setText(rs.getString("chuThich"));
+			public void mouseClicked(MouseEvent e) {
+				//txtVehicleNum_Bill.setText("");
+				//cbbChasisNumber.setSelectedIndex(-1);
+				cbbVehicleName_Bill.setSelectedIndex(-1);
+				cbbVersion.setSelectedIndex(-1);
+				cbbChasisNumber.setSelectedIndex(-1);
+			}
+		});
+		
+		//>>>>>>>>>>> DELETE Vehicle
+				btnDeleteRowTableCTHD.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int row = table.getSelectedRow();
+						if (row < 0)
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn Xe cần xóa khỏi CTHD");
+						else {
+							double tien;
+							try {
+								tien = df.parse(table.getValueAt(row, 11).toString()).doubleValue();
+								double total = df.parse(txtTotal.getText()).doubleValue();
+								total -= tien;
+								txtTotal.setText(df.format(total));
+								tableModel.removeRow(row);
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
 					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, e1);
-					e1.printStackTrace();
-				}*/
-				KhachHang kh = dao_kh.getKhachHangById("CMND", txtCMND_Bill.getText());
-				if(kh != null) {
-					txtCustomerName_Bill.setText(kh.getTenKhachHang());
-					txtNumPhone_Bill.setText(kh.getSoDienThoai());
-					txtNoteCustomer_Bill.setText(kh.getChuThich());
-				}
+				});
+				
+				//>>>>>>>>>>> REMOVE CTHD
+				btnRemoveCTHD.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						tableModel.getDataVector().removeAllElements();
+						tableModel.fireTableDataChanged();
+						txtTotal.setText(df.format(0));
+					}
+				});
+				
+				//>>>>>>>>>>> PAYMENTS
+				btnPayments.addMouseListener(new MouseAdapter() {
+					public boolean CheckPayment() throws HeadlessException, ParseException {
+						if (txtCMND_Bill.getText().equalsIgnoreCase("")) {
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn Khách Hàng!");
+							return false;
+						}					
+						else if(dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()) == null) {
+							KhachHang kh = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText());
+							JOptionPane.showMessageDialog(null, "Thông tin Khách Hàng không hợp lệ!");
+							return false;
+						}				
+						else if(df.parse(txtTotal.getText()).doubleValue() == 0) {
+							JOptionPane.showMessageDialog(null, "Chưa có sản phẩm");
+							return false;
+						}
+						if(txtCMND_Bill.getText().length()==0) 
+							maKhachHang = "";
+						else
+							maKhachHang = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()).getMaKhachHang();
+						return true;
+					}
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						try {
+							if (CheckPayment()) {
+								UI_ThanhToan thanhToan = new UI_ThanhToan();
+								thanhToan.setVisible(true);
+								thanhToan.txtCusMoney.requestFocus();
+							}
+						} catch (HeadlessException | ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
+				
+				btnXoaTrong.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						txtMaHD.setText("");
+						txtTenKH.setText("");
+						txtMaKH.setText("");
+						dcNgayLHD.setDate(Date.valueOf(LocalDate.now()));
+					}
+				});
+				
+				btnLamMoi.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						SearchHD(header1);
+					}
+				});
+				
+				btnXuatHD.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int row = table1.getSelectedRow();
+						Bill.maHD = table1.getValueAt(row, 0).toString();
+						Bill.kt = 1;
+						Bill bill = new Bill();
+						//bill.setVisible(true);
+						PrintSupport.printComponent(Bill.textArea);
+						String cmds[] = new String[] {"cmd", "/c", "C:\\Users\\hoais\\OneDrive\\Desktop\\a.pdf"};
+						try {
+						    Runtime.getRuntime().exec(cmds);
+						}catch (Exception e1) {
+							// TODO: handle exception
+						}
+					}
+				});
+				
+				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> tbl Table
+				
+				table.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						 int viTriDongVuaBam = table.getSelectedRow();
+						 txtVehicleNum_Bill.setText(table.getValueAt(viTriDongVuaBam, 0).toString());
+						 Xe xe = dao_Xe.getInfoXe("maXe",table.getValueAt(viTriDongVuaBam, 0).toString());
+					
+						 int sl = cbbVehicleName_Bill.getItemCount();
+						 for (int i = 0; i<sl; i++) {
+							 if(cbbVehicleName_Bill.getItemAt(i).toString().equalsIgnoreCase(xe.getTenXe())) {
+								 cbbVehicleName_Bill.setSelectedIndex(i);
+								 break;
+							 }
+						 }
+						 
+						 sl = cbbVersion.getItemCount();
+						 
+						 for (int i = 0; i<sl; i++) {
+							 if(cbbVersion.getItemAt(i).toString().equalsIgnoreCase(xe.getPhienBan())) {
+								 cbbVersion.setSelectedIndex(i);
+								 break;
+							 }
+						 }
+						 
+						 sl = cbbVehicleColor_Bill.getItemCount();
+						 for (int i = 0; i<sl; i++) {
+							 if(cbbVehicleColor_Bill.getItemAt(i).toString().equalsIgnoreCase(xe.getMauXe())) {
+								 cbbVehicleColor_Bill.setSelectedIndex(i);
+								 break;
+							 }
+						 }
+						 
+						 sl = cbbChasisNumber.getItemCount();
+						 for (int i = 0; i<sl; i++) {
+							 if(cbbChasisNumber.getItemAt(i).toString().equalsIgnoreCase(xe.getSoKhung())) {
+								 cbbChasisNumber.setSelectedIndex(i);
+								 break;
+							 }
+						 }
+						 boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+					}
+				});
+				
+				table1.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int row = table1.getSelectedRow();
+						try {
+							tableModel2 = dao_hd.getOrderDetails(header2, tableModel2, table1.getValueAt(row, 0).toString());
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
+				
+				table2.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int row = table2.getSelectedRow();
+						boolean check = dao_Xe.getImage(lblHinhAnh, table2.getValueAt(row, 1).toString());
+					}
+				});
+				
+		
+		//>>>>>>>>>>> ADD Vehicle
+		btnAddVehicle_Bill.addMouseListener(new MouseAdapter() {
+			public String CheckValueVehicle() {
+				if (cbbVehicleName_Bill.getSelectedItem() == null) 
+					return "Vui lòng chọn Tên Xe";
+				int sl = table.getRowCount();
+				if(sl > 0)
+					for(int i = 0; i<sl ; i++)
+						if(txtVehicleNum_Bill.getText().equalsIgnoreCase(table.getValueAt(i, 0).toString()))
+							return "Xe đã tồn tại trong chi tiết hóa đơn!";
+				return null;
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (CheckValueVehicle()!= null)
+					JOptionPane.showMessageDialog(null, CheckValueVehicle());
 				else {
-					txtCustomerName_Bill.setText("");
-					txtNumPhone_Bill.setText("");
-					txtNoteCustomer_Bill.setText("");
+					double total =0;
+					try {
+						total = df.parse(txtTotal.getText()).doubleValue();
+						Xe xe = dao_Xe.getInfoXe("maXe", txtVehicleNum_Bill.getText());
+						LoaiXe lx = dao_lx.getLoaiXeByID(xe.getLoaiXe().getMaLoaiXe());
+						HangSanXuat hsx = dao_Hsx.getHangSanXuatById(xe.getHangSanXuat().getMaHangSX());
+						double thanhTien = xe.getDonGia() + xe.getThueVAT();
+						total += thanhTien;
+						tableModel.addRow(new Object[] {xe.getMaXe(), xe.getTenXe(), lx.getTenLoaiXe(), xe.getPhienBan(), xe.getMauXe(), xe.getPhanKhoi()+"", hsx.getTenHangSX(), xe.getSoKhung(), xe.getSoMay(), df.format(xe.getDonGia()), df.format(xe.getThueVAT()), df.format(thanhTien)});
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					txtTotal.setText(df.format(total));
+					cbbVehicleName_Bill.setSelectedIndex(-1);
+					cbbVersion.setSelectedIndex(-1);
+					cbbChasisNumber.setSelectedIndex(-1);
 				}
 			}
 		});
@@ -666,69 +1029,124 @@ public class UI_HoaDon extends JFrame {
 				}
 			}
 		}); 
-		
-		//>>>>>>>>>>> tbl Table
-		table.addMouseListener(new MouseAdapter() {
+
+//====================Xử lý eventAction==========================================================================
+
+		//>>>>>>>>>>> txt CMND
+		txtCMND_Bill.addKeyListener(new KeyAdapter() {
+			public boolean isNumeric(String str) {
+				  return str.matches("\\d*");  //match a number with optional '-' and decimal. "-?\\d+(\\.\\d+)?"
+				}
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				 int viTriDongVuaBam = table.getSelectedRow();
-				 txtVehicleNum_Bill.setText(table.getValueAt(viTriDongVuaBam, 0).toString());
-				 Xe xe = dao_Xe.getInfoXe("maXe",table.getValueAt(viTriDongVuaBam, 0).toString());
-			
-				 int sl = cbbVehicleName_Bill.getItemCount();
-				 for (int i = 0; i<sl; i++) {
-					 if(cbbVehicleName_Bill.getItemAt(i).toString().equalsIgnoreCase(xe.getTenXe())) {
-						 cbbVehicleName_Bill.setSelectedIndex(i);
-						 break;
-					 }
-				 }
-				 
-				 sl = cbbVersion.getItemCount();
-				 
-				 for (int i = 0; i<sl; i++) {
-					 if(cbbVersion.getItemAt(i).toString().equalsIgnoreCase(xe.getPhienBan())) {
-						 cbbVersion.setSelectedIndex(i);
-						 break;
-					 }
-				 }
-				 
-				 sl = cbbVehicleColor_Bill.getItemCount();
-				 for (int i = 0; i<sl; i++) {
-					 if(cbbVehicleColor_Bill.getItemAt(i).toString().equalsIgnoreCase(xe.getMauXe())) {
-						 cbbVehicleColor_Bill.setSelectedIndex(i);
-						 break;
-					 }
-				 }
-				 
-				 sl = cbbChasisNumber.getItemCount();
-				 for (int i = 0; i<sl; i++) {
-					 if(cbbChasisNumber.getItemAt(i).toString().equalsIgnoreCase(xe.getSoKhung())) {
-						 cbbChasisNumber.setSelectedIndex(i);
-						 break;
-					 }
-				 }
-				 boolean check = dao_Xe.getImage(lblImage, txtVehicleNum_Bill.getText());
+			public void keyReleased(KeyEvent e) {
+				if(!isNumeric(txtCMND_Bill.getText())) 
+					txtCMND_Bill.setForeground(Color.red);
+				else
+					txtCMND_Bill.setForeground(Color.BLACK);
+				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
+		        {
+		           
+		        }
+		        else
+		        {   
+		            String to_check=txtCMND_Bill.getText();
+		            int to_check_len=to_check.length();
+		            for(String data:list_CMND)
+		            {
+		                String check_from_data="";
+		                for(int i=0;i<to_check_len;i++)
+		                {
+		                    if(to_check_len<=data.length())
+		                    {
+		                        check_from_data = check_from_data+data.charAt(i);
+		                    }
+		                }
+		                //System.out.print(check_from_data);
+		                if(check_from_data.equals(to_check))
+		                {
+		                    //System.out.print("Found");
+		                    txtCMND_Bill.setText(data);
+		                    txtCMND_Bill.setSelectionStart(to_check_len);
+		                    txtCMND_Bill.setSelectionEnd(data.length());
+		                    break;
+		                }
+		            }
+		        }
+				/*Connection con = ConnectDB.getCon();
+				String sql = "select * from KhachHang where CMND = ?";
+				try {
+					PreparedStatement pst = con.prepareStatement(sql);
+					pst.setString(1, txtCMND_Bill.getText());
+					ResultSet rs = pst.executeQuery();
+					if(rs.next()) {
+						txtCustomerName_Bill.setText(rs.getString("tenKhachHang"));
+						txtNumPhone_Bill.setText(rs.getString("soDienThoai"));
+						txtNoteCustomer_Bill.setText(rs.getString("chuThich"));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1);
+					e1.printStackTrace();
+				}*/
+				KhachHang kh = dao_kh.getKhachHangById("CMND", txtCMND_Bill.getText());
+				if(kh != null) {
+					txtCustomerName_Bill.setText(kh.getTenKhachHang());
+					txtNumPhone_Bill.setText(kh.getSoDienThoai());
+					txtNoteCustomer_Bill.setText(kh.getChuThich());
+				}
+				else {
+					txtCustomerName_Bill.setText("");
+					txtNumPhone_Bill.setText("");
+					txtNoteCustomer_Bill.setText("");
+				}
 			}
 		});
-	
-//====================UPDATE DATA===============================================================================
 		
-		// update CMND Customer
-		pCustomerInfo_Bill.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-				String cmndKHTail = list_CMND.get(list_CMND.size()-1);
-				KhachHang kh = dao_kh.getKhachHangTail();
-				if (list_CMND.get(list_CMND.size()-1).equalsIgnoreCase(kh.getCMND())) {
-					
-				} else {
-					list_CMND.add(kh.getCMND());
-				}		
-			}
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			public void ancestorRemoved(AncestorEvent event) {
+		txtMaHD.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				SearchHD(header1);
 			}
 		});
+		
+		txtTenKH.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				SearchHD(header1);
+			}
+		});
+		
+		txtMaKH.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				SearchHD(header1);
+			}
+		});
+		
+		dcNgayLHD.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				SearchHD(header1);
+			}
+		});
+		
+//====================UPDATE DATA===============================================================================
+			
+			// update CMND Customer
+			pCustomerInfo_Bill.addAncestorListener(new AncestorListener() {
+				public void ancestorAdded(AncestorEvent event) {
+					String cmndKHTail = list_CMND.get(list_CMND.size()-1);
+					KhachHang kh = dao_kh.getKhachHangTail();
+					if (list_CMND.get(list_CMND.size()-1).equalsIgnoreCase(kh.getCMND())) {
+						
+					} else {
+						list_CMND.add(kh.getCMND());
+					}		
+				}
+				public void ancestorMoved(AncestorEvent event) {
+				}
+				public void ancestorRemoved(AncestorEvent event) {
+				}
+			});
 		
 		/*// update Vehicle Name
 		pAddVehicle_Bill.addAncestorListener(new AncestorListener() {
@@ -746,129 +1164,17 @@ public class UI_HoaDon extends JFrame {
 			public void ancestorRemoved(AncestorEvent event) {
 			}
 		});*/
-		
-		
-//====================Xử lý button=============================================================================
-		//>>>>>>>>>>> Xóa rỗng
-		btnEmptyDelete_Bill.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//txtVehicleNum_Bill.setText("");
-				//cbbChasisNumber.setSelectedIndex(-1);
-				cbbVehicleName_Bill.setSelectedIndex(-1);
-				cbbVersion.setSelectedIndex(-1);
-				cbbChasisNumber.setSelectedIndex(-1);
-			}
-		});
-		
-		
-		//>>>>>>>>>>> ADD Vehicle
-		btnAddVehicle_Bill.addMouseListener(new MouseAdapter() {
-			public String CheckValueVehicle() {
-				if (cbbVehicleName_Bill.getSelectedItem() == null) 
-					return "Vui lòng chọn Tên Xe";
-				int sl = table.getRowCount();
-				if(sl > 0)
-					for(int i = 0; i<sl ; i++)
-						if(txtVehicleNum_Bill.getText().equalsIgnoreCase(table.getValueAt(i, 0).toString()))
-							return "Xe đã tồn tại trong chi tiết hóa đơn!";
-				return null;
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (CheckValueVehicle()!= null)
-					JOptionPane.showMessageDialog(null, CheckValueVehicle());
-				else {
-					double total =0;
-					try {
-						total = df.parse(txtTotal.getText()).doubleValue();
-						Xe xe = dao_Xe.getInfoXe("maXe", txtVehicleNum_Bill.getText());
-						LoaiXe lx = dao_lx.getLoaiXeByID(xe.getLoaiXe().getMaLoaiXe());
-						HangSanXuat hsx = dao_Hsx.getHangSanXuatById(xe.getHangSanXuat().getMaHangSX());
-						double thanhTien = xe.getDonGia() + xe.getThueVAT();
-						total += thanhTien;
-						tableModel.addRow(new Object[] {xe.getMaXe(), xe.getTenXe(), lx.getTenLoaiXe(), xe.getPhienBan(), xe.getMauXe(), xe.getPhanKhoi()+"", hsx.getTenHangSX(), xe.getSoKhung(), xe.getSoMay(), df.format(xe.getDonGia()), df.format(xe.getThueVAT()), df.format(thanhTien)});
-					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					txtTotal.setText(df.format(total));
-					cbbVehicleName_Bill.setSelectedIndex(-1);
-					cbbVersion.setSelectedIndex(-1);
-					cbbChasisNumber.setSelectedIndex(-1);
-				}
-			}
-		});
-		
-		//>>>>>>>>>>> DELETE Vehicle
-		btnDeleteRowTableCTHD.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int row = table.getSelectedRow();
-				if (row < 0)
-					JOptionPane.showMessageDialog(null, "Vui lòng chọn Xe cần xóa khỏi CTHD");
-				else {
-					double tien;
-					try {
-						tien = df.parse(table.getValueAt(row, 11).toString()).doubleValue();
-						double total = df.parse(txtTotal.getText()).doubleValue();
-						total -= tien;
-						txtTotal.setText(df.format(total));
-						tableModel.removeRow(row);
-					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			}
-		});
-		
-		//>>>>>>>>>>> REMOVE CTHD
-		btnRemoveCTHD.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				tableModel.getDataVector().removeAllElements();
-				tableModel.fireTableDataChanged();
-				txtTotal.setText(df.format(0));
-			}
-		});
-		
-		//>>>>>>>>>>> PAYMENTS
-		btnPayments.addMouseListener(new MouseAdapter() {
-			public boolean CheckPayment() throws HeadlessException, ParseException {
-				if (txtCMND_Bill.getText().equalsIgnoreCase("")) {
-					JOptionPane.showMessageDialog(null, "Vui lòng chọn Khách Hàng!");
-					return false;
-				}					
-				else if(dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()) == null) {
-					KhachHang kh = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText());
-					JOptionPane.showMessageDialog(null, "Thông tin Khách Hàng không hợp lệ!");
-					return false;
-				}				
-				else if(df.parse(txtTotal.getText()).doubleValue() == 0) {
-					JOptionPane.showMessageDialog(null, "Chưa có sản phẩm");
-					return false;
-				}
-				if(txtCMND_Bill.getText().length()==0) 
-					maKhachHang = "";
-				else
-					maKhachHang = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()).getMaKhachHang();
-				return true;
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					if (CheckPayment()) {
-						UI_ThanhToan thanhToan = new UI_ThanhToan();
-						thanhToan.setVisible(true);
-						thanhToan.txtCusMoney.requestFocus();
-					}
-				} catch (HeadlessException | ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});		
+	}
+	
+	public void SearchHD(String[] header1) {
+		Dao_HoaDon dao_hd = new Dao_HoaDon();
+		String ngay = ((JTextField) dcNgayLHD.getDateEditor().getUiComponent()).getText();
+		try {
+			tableModel1 = dao_hd.getAllOrderById (header1, tableModel1, txtMaHD.getText().trim(), txtMaKH.getText().trim(), txtTenKH.getText().trim(), ngay);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 	public void getTenXe(Xe xe) {

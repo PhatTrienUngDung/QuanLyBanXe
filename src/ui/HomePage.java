@@ -224,7 +224,7 @@ public class HomePage extends JFrame  {
 				int n = (int) Math.floor(Math.random() * 3);
 				String image = list[n];
 				BufferedImage img = null;
-				System.out.println(image);
+			//	System.out.println(image);
 				try {
 					img = ImageIO.read(new File("img\\"+image));
 				} catch (IOException e1) {

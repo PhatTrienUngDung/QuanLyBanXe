@@ -1023,9 +1023,17 @@ INSERT INTO HopDong values('HDG_0001','KH_0001','NV_0001','X_0001',CAST(N'2020-1
 						  ('HDG_0020','KH_0020','NV_0001','X_0020',CAST(N'2020-3-5' AS DATE),3),
 						  ('HDG_0021','KH_0021','NV_0001','X_0021',CAST(N'2020-3-5' AS DATE),3)
 GO
-select *from Xe
-SELECT *from HopDong
 /*INSERT INTO PhieuNhap values('PN_0001','NV_0001','NCC_0001',CAST(N'2020-1-1' AS DATE),''),
 							('PN_0002','NV_0002','NCC_0002',CAST(N'2020-3-6' AS DATE),''),
 							('PN_0003','NV_0003','NCC_0003',CAST(N'2020-8-7' AS DATE),'')
 GO*/
+
+select * from HoaDon
+select * from ChiTietHoaDon
+
+select ROW_NUMBER() OVER (ORDER BY TaiKhoan.maNhanVien), TaiKhoan.*, tenNhanVien
+from TaiKhoan, NhanVien
+				where TaiKhoan.maNhanvien = NhanVien.maNhanVien
+go
+select hd.*, kh.tenKhachHang, kh.CMND, nv.tenNhanVien from HoaDon hd, KhachHang kh, NhanVien nv
+where hd.maKhachHang = kh.maKhachHang and hd.maNhanVien = nv.maNhanVien

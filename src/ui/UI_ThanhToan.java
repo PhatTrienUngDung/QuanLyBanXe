@@ -18,7 +18,9 @@ import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.Xe;
-import ui.Bill;
+import others.Bill;
+import others.PrintSupport;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import static ui.UI_HoaDon.cbbVehicleName_Bill;
@@ -308,10 +310,13 @@ public class UI_ThanhToan extends JFrame {
 						e1.printStackTrace();
 					}			
 				}
-				Bill bill= new Bill();
+				//Bill bill= new Bill();
+				
+				Bill.maHD = maHoaDon;
+				Bill bill = new Bill();
 				//bill.setVisible(true);
-				PrintSupport.printComponent(bill.textArea);
-				String cmds[] = new String[] {"cmd", "/c", "C:\\Users\\Tuan Khang\\OneDrive\\Máy tính\\a.pdf"};
+				PrintSupport.printComponent(Bill.textArea);
+				String cmds[] = new String[] {"cmd", "/c", "C:\\Users\\hoais\\OneDrive\\Desktop\\a.pdf"};
 				try {
 				    Runtime.getRuntime().exec(cmds);
 				}catch (Exception e1) {
@@ -326,12 +331,6 @@ public class UI_ThanhToan extends JFrame {
 					UI_HoaDon.txtNoteCustomer_Bill.setText("");
 					setVisible(false);
 				}
-			}
-		});
-		
-		btnCompleted.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
 			}
 		});
 		

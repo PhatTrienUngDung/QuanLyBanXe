@@ -19,6 +19,8 @@ import dao.Dao_XuatHopDong;
 import entity.HopDong;
 import entity.KhachHang;
 import entity.LoaiXe;
+import others.BillHopDong;
+import others.PrintSupport;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

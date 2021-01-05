@@ -1259,6 +1259,10 @@ public class UI_QuanLyXe extends JFrame {
 		panel.setLayout(null);
 		
 		JButton btnLoai = new JButton("");
+		btnLoai.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnLoai.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -1293,6 +1297,10 @@ public class UI_QuanLyXe extends JFrame {
 		panel.add(btnHang);
 		
 		JButton btnXe = new JButton("");
+		btnXe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnXe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

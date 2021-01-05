@@ -224,6 +224,10 @@ public class Xe {
 		else
 			return getGiaNhap() * 15 / 100;
 	}
+	
+	public double getThanhTien() {
+		return getDonGia() + getThueVAT();
+	}
 
 
 

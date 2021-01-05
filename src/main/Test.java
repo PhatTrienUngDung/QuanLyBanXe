@@ -2,9 +2,9 @@ package main;
 
 import java.sql.SQLException;
 
+import others.SplashScreen;
 import ui.Login;
 import ui.Menu;
-import ui.SplashScreen;
 
 public class Test {
 	@SuppressWarnings("unused")
