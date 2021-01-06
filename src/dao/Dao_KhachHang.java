@@ -77,7 +77,7 @@ public class Dao_KhachHang {
 	}
 //Đọc dữ liệu lên bảng
 	public DefaultTableModel getAllKH() throws SQLException {
-		String[] header= {"Mã Khách Hàng","Tên Khách Hàng","cmnd" ,"Giới Tính", "Ngày Sinh", "Ngày Gia Nhập","Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};
+		String[] header= {"Mã Khách Hàng","Tên Khách Hàng","Chứng minh" ,"Giới Tính", "Ngày Sinh", "Ngày Gia Nhập","Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
@@ -92,12 +92,12 @@ public class Dao_KhachHang {
 	}
 	
 	//Tìm
-	public DefaultTableModel timKiem(String maKh) throws SQLException {
+	public DefaultTableModel timKiem(String id,String properties) throws SQLException {
 		String[] header= {"Mã Khách Hàng", "Tên Khách Hàng","CMND" ,"Giới Tính", "Ngày Sinh","Ngày Gia Nhập","Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
-		String sql = "select * from KhachHang where maKhachHang like '" + maKh + "'";
+		String sql = "select * from KhachHang where "+ properties + " like '" + id + "'";
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
 		while (rs.next()) {
@@ -106,6 +106,10 @@ public class Dao_KhachHang {
 		}
 		return tableModel;
 	}
+	
+	// tim` theo ten
+	
+
 	
 	//Thêm
 	public boolean themKH(KhachHang kh) {
@@ -140,13 +144,15 @@ public class Dao_KhachHang {
 		return n > 0;
 	}
 	//xóa
-	public void xoaKH(String maKH) throws SQLException {
+	public boolean xoaKH(String maKH) throws SQLException {
 		Connection a = ConnectDB.getCon();// Tao Ket Noi
-		String sql = "delete KhachHang where maKhachHang='" + maKH + "'";
+		String sql = "delete from KhachHang where maKhachHang='" + maKH + "'";
 		PreparedStatement pstm = a.prepareStatement(sql);
 		if (pstm.executeUpdate() > 0) {
 			JOptionPane.showMessageDialog(null, "Xóa thành công khách hàng " + maKH);
+			return true;
 		}
+		return false;
 	}
 	
 	//Cập nhật dữ liệu
@@ -180,5 +186,61 @@ public class Dao_KhachHang {
 			}
 		}
 		return n > 0;
+	}
+	public int TongKhachHang()   {
+		int count = 0;
+		try {
+			
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			String sql = "select count(maKhachHang) from KhachHang"  ;
+			PreparedStatement pst=con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt(1);
+			}
+		}catch(Exception e) {
+			
+		}
+		
+		return count;
+	}
+	
+	public int TongKhachNam()   {
+		int count = 0;
+		try {
+			
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			String sql = "select count(maKhachHang) from KhachHang where gioiTinh = 'nam ' "  ;
+			PreparedStatement pst=con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt(1);
+			}
+		}catch(Exception e) {
+			
+		}
+		
+		return count;
+	}
+	
+	public int TongKhachNu()   {
+		int count = 0;
+		try {
+			
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
+			String sql = "select count(maKhachHang) from KhachHang where gioiTinh = N'Nữ' "  ;
+			PreparedStatement pst=con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt(1);
+			}
+		}catch(Exception e) {
+			
+		}
+		
+		return count;
 	}
 }

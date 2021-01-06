@@ -527,7 +527,7 @@ public class UI_QuanLyXe extends JFrame {
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
 
-		scrollPane.setBounds(0, 441, 1502, 219);
+		scrollPane.setBounds(79, 443, 1502, 219);
 		panelXe.add(scrollPane);
 
 		table = new JTable(tableModel);

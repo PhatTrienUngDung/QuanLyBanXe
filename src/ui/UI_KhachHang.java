@@ -34,7 +34,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
@@ -60,6 +63,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.border.MatteBorder;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class UI_KhachHang extends JFrame {
 
@@ -87,6 +92,12 @@ public class UI_KhachHang extends JFrame {
 	private JTextField txtCmnd;
 	@SuppressWarnings("rawtypes")
 	private JComboBox cbgioiTinh;
+	private JLabel lblTngKhchHng;
+	private JLabel lblTngKhchHng_1;
+	private JLabel lblTngKhchHng_2;
+	private JLabel txtTongkh;
+	private JLabel txtTongkhnam;
+	private JLabel txttongkhnu;
 	/**
 	 * Launch the application.
 	 */
@@ -126,7 +137,7 @@ public class UI_KhachHang extends JFrame {
 		
 		JPanel panelTimkiem = new JPanel();
 		panelTimkiem.setBackground(SystemColor.control);
-		panelTimkiem.setBounds(915, 124, 597, 53);
+		panelTimkiem.setBounds(911, 37, 597, 53);
 		contentPane.add(panelTimkiem);
 		panelTimkiem.setLayout(null);
 		
@@ -203,7 +214,7 @@ public class UI_KhachHang extends JFrame {
 		JPanel panelthongTin = new JPanel();
 		panelthongTin.setBorder(new TitledBorder(null, "Thông tin chi tiết", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelthongTin.setBackground(SystemColor.control);
-		panelthongTin.setBounds(10, 539, 1055, 169);
+		panelthongTin.setBounds(10, 483, 1055, 235);
 		contentPane.add(panelthongTin);
 		panelthongTin.setLayout(null);
 		
@@ -219,7 +230,7 @@ public class UI_KhachHang extends JFrame {
 		lblgioiTinh.setBackground(new Color(255, 248, 220));
 		lblgioiTinh.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblgioiTinh.setHorizontalAlignment(SwingConstants.LEFT);
-		lblgioiTinh.setBounds(20, 56, 107, 19);
+		lblgioiTinh.setBounds(20, 72, 88, 19);
 		panelthongTin.add(lblgioiTinh);
 
 
@@ -227,14 +238,14 @@ public class UI_KhachHang extends JFrame {
 		JLabel lblngaySinh = new JLabel("Ngày Sinh");
 		lblngaySinh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblngaySinh.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblngaySinh.setBounds(20, 115, 104, 17);
+		lblngaySinh.setBounds(20, 156, 104, 17);
 		panelthongTin.add(lblngaySinh);
 
 
 
 		JLabel lbldiaChi = new JLabel("Địa Chỉ");
 		lbldiaChi.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbldiaChi.setBounds(524, 57, 63, 19);
+		lbldiaChi.setBounds(524, 72, 63, 19);
 		panelthongTin.add(lbldiaChi);
 
 
@@ -242,23 +253,18 @@ public class UI_KhachHang extends JFrame {
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblEmail.setBounds(524, 86, 63, 17);
+		lblEmail.setBounds(524, 115, 63, 17);
 		panelthongTin.add(lblEmail);
 		
 
 		JLabel lblsoDt = new JLabel("Số Điện Thoại");
 		lblsoDt.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblsoDt.setBounds(20, 85, 104, 19);
+		lblsoDt.setBounds(20, 114, 104, 19);
 		panelthongTin.add(lblsoDt);
-
-		JLabel lblNewLabel_5 = new JLabel("Số Điện Thoại");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_5.setBounds(20, 85, 88, 19);
-		panelthongTin.add(lblNewLabel_5);
 
 		JLabel lblchuThich = new JLabel("Chú Thích");
 		lblchuThich.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblchuThich.setBounds(524, 114, 88, 19);
+		lblchuThich.setBounds(524, 155, 88, 19);
 		panelthongTin.add(lblchuThich);
 		Dao_HoaDon dao_hd = new Dao_HoaDon();
 		
@@ -267,13 +273,13 @@ public class UI_KhachHang extends JFrame {
 		txtmaKh.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtmaKh.setText(maKH);
 		txtmaKh.setEditable(false);
-		txtmaKh.setBounds(127, 26, 276, 20);
+		txtmaKh.setBounds(127, 26, 276, 31);
 		panelthongTin.add(txtmaKh);
 		txtmaKh.setColumns(10);
 		
 		txttenKh = new JTextField();
 		txttenKh.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		txttenKh.setBounds(638, 26, 342, 20);
+		txttenKh.setBounds(638, 26, 342, 31);
 		panelthongTin.add(txttenKh);
 		txttenKh.setColumns(10);
 		
@@ -281,19 +287,19 @@ public class UI_KhachHang extends JFrame {
 		cbgioiTinh = new JComboBox();
 		cbgioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		cbgioiTinh.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
-		cbgioiTinh.setBounds(127, 55, 145, 20);
+		cbgioiTinh.setBounds(127, 71, 145, 31);
 		panelthongTin.add(cbgioiTinh);
 
 		
 		txtdiaChi = new JTextField();
 		txtdiaChi.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		txtdiaChi.setBounds(638, 55, 342, 20);
+		txtdiaChi.setBounds(638, 71, 342, 31);
 		panelthongTin.add(txtdiaChi);
 		txtdiaChi.setColumns(10);
 		
 		txtEmail = new JTextField();
 		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		txtEmail.setBounds(638, 84, 342, 20);
+		txtEmail.setBounds(638, 113, 342, 30);
 		panelthongTin.add(txtEmail);
 		txtEmail.setColumns(10);
 		
@@ -301,13 +307,25 @@ public class UI_KhachHang extends JFrame {
 		txtchuThich.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtchuThich.setForeground(Color.BLACK);
 		txtchuThich.setBackground(new Color(255, 255, 255));
-		txtchuThich.setBounds(638, 114, 342, 20);
+		txtchuThich.setBounds(638, 154, 342, 31);
 		panelthongTin.add(txtchuThich);
 		txtchuThich.setColumns(10);
 		
 		txtsoDt = new JTextField();
+		txtsoDt.setDocument(new JTextFieldLimit(12));
+		txtsoDt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if(!(txtsoDt.getText().matches("^[0][1-9][0-9]{8}$"))) {
+					txtsoDt.setForeground(Color.red);
+				}
+				else {
+					txtsoDt.setForeground(Color.black);
+				}
+			}
+		});
 		txtsoDt.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		txtsoDt.setBounds(127, 84, 276, 20);
+		txtsoDt.setBounds(127, 113, 276, 29);
 		panelthongTin.add(txtsoDt);
 		txtsoDt.setColumns(10);
 		
@@ -319,7 +337,7 @@ public class UI_KhachHang extends JFrame {
 		
 		dcngaySinh = new JDateChooser();
 		
-		dcngaySinh.setBounds(127, 112, 145, 20);
+		dcngaySinh.setBounds(127, 153, 145, 28);
 		dcngaySinh.setDateFormatString("yyy/MM/dd");
 		
 		
@@ -327,18 +345,37 @@ public class UI_KhachHang extends JFrame {
 		
 		JLabel lblCmnd = new JLabel("CMND");
 		lblCmnd.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCmnd.setBounds(20, 143, 88, 14);
+		lblCmnd.setBounds(20, 199, 88, 14);
 		panelthongTin.add(lblCmnd);
 		
 		txtCmnd = new JTextField();
+		txtCmnd.setDocument(new JTextFieldLimit(13));
+		txtCmnd.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+		
+				if(!(txtCmnd.getText().matches("\\d{9}|\\d{12}") )) {
+					txtCmnd.setForeground(Color.red);
+				}
+				else {
+					txtCmnd.setForeground(Color.black);
+				}
+				
+				
+//				if(!(cmnd.length()>0 && cmnd.matches("\\d{9}|\\d{12}") )) {
+//					JOptionPane.showMessageDialog(null, "Chứng minh nhân dân không để trống và phải có 9 chữ số và không được trùng " );
+//					return false;
+//				}
+			}
+		});
 		txtCmnd.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		txtCmnd.setBounds(127, 140, 276, 20);
+		txtCmnd.setBounds(127, 196, 276, 28);
 		panelthongTin.add(txtCmnd);
 		txtCmnd.setColumns(10);
 		
 		JPanel panelchucNang = new JPanel();
 		panelchucNang.setBackground(new Color(231,150,36));
-		panelchucNang.setBounds(1098, 539, 414, 169);
+		panelchucNang.setBounds(1094, 523, 414, 169);
 		contentPane.add(panelchucNang);
 		panelchucNang.setLayout(null);
 
@@ -353,20 +390,28 @@ public class UI_KhachHang extends JFrame {
 						int hoi=JOptionPane.showConfirmDialog(f, "Khách hàng này sẽ bị xóa","Chú ý", JOptionPane.YES_NO_OPTION);
 						if(hoi==JOptionPane.YES_OPTION) {
 							int r = table.getSelectedRow();
-							tableModel.removeRow(r);
-							xoaKhachHang();
-							txtmaKh.setText(maKH);
-							txtchuThich.setText("");
-							txtdiaChi.setText("");
-							txtEmail.setText("");
-							txtsoDt.setText("");
-							txttenKh.setText("");
-							txttimKiem.setText("");
-							txtCmnd.setText("");
-							cbgioiTinh.setSelectedIndex(0);
-							dcngaySinh.setCalendar(null);
-							//dcngayGiaNhap.setCalendar(null);
-							txttenKh.requestFocus();
+							if(xoaKhachHang()) {
+								tableModel.removeRow(r);
+								txtmaKh.setText(maKH);
+								txtchuThich.setText("");
+								txtdiaChi.setText("");
+								txtEmail.setText("");
+								txtsoDt.setText("");
+								txttenKh.setText("");
+								txttimKiem.setText("");
+								txtCmnd.setText("");
+								cbgioiTinh.setSelectedIndex(0);
+								dcngaySinh.setCalendar(null);
+								txtTongkh.setText(String.valueOf(Integer.parseInt(txtTongkh.getText())-1));
+								KhachHang kh = dao_kh.getKhachHangById("maKhachHang", txtmaKh.getText());
+								if(kh.getGioiTinh().equalsIgnoreCase("Nam"))
+									txtTongkhnam.setText(String.valueOf(Integer.parseInt(txtTongkhnam.getText())-1));
+								else
+									txttongkhnu.setText(String.valueOf(Integer.parseInt(txttongkhnu.getText())-1));
+								txttenKh.requestFocus();
+							}
+							else
+								JOptionPane.showMessageDialog(null, "Xóa khách hàng không thành công");
 							
 						}
 					}
@@ -468,21 +513,41 @@ public class UI_KhachHang extends JFrame {
 		btnlamMoi.setBackground(new Color(255,190,87));
 		btnlamMoi.setBounds(237, 110, 125, 49);
 		panelchucNang.add(btnlamMoi);
-//		System.out.println(LocalDate.now());
+//		
 		dcngaySinh.setDateFormatString("yyyy-MM-dd");		
 		JLabel lblngayGiaNhap = new JLabel("Ngày Gia Nhập");
 		lblngayGiaNhap.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblngayGiaNhap.setBounds(524, 143, 88, 14);
+		lblngayGiaNhap.setBounds(524, 196, 88, 14);
 		panelthongTin.add(lblngayGiaNhap);
-		
+		//dcngaySinh.setDate(Date.valueOf(LocalDate.now()));
+		dcngaySinh.addPropertyChangeListener(new PropertyChangeListener() {
+			public int calculateAge(LocalDate birthDate, LocalDate currentDate) {
+		        if ((birthDate != null) && (currentDate != null)) {
+		            return Period.between(birthDate, currentDate).getYears();
+		        } else {
+		            return 0;
+		        }
+			}
+			public void propertyChange(PropertyChangeEvent arg0) {
+				String date = ((JTextField) dcngaySinh.getDateEditor().getUiComponent()).getText();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				if(!date.equalsIgnoreCase("")) {
+					if(calculateAge(LocalDate.parse(date, formatter), LocalDate.now()) < 18) {
+						JOptionPane.showMessageDialog(null, "Khách hàng chưa đủ 18 tuôi!");
+						dcngaySinh.setDate(null);
+					}
+						
+				}
+			}
+		});
 		dcngayGiaNhap = new JDateChooser();
-		dcngayGiaNhap.setBounds(638, 140, 183, 20);
+		dcngayGiaNhap.setBounds(638, 193, 183, 31);
 		dcngayGiaNhap.setDateFormatString("yyyy-MM-dd");
 		Date ngayhientai = Date.valueOf(LocalDate.now());
 		((JTextField) dcngayGiaNhap.getDateEditor().getUiComponent()).setText(ngayhientai.toString());
-//		JTextFieldDateEditor editor = (JTextFieldDateEditor) dcngayGiaNhap.getDateEditor();
-//		editor.setEditable(false);
-		dcngayGiaNhap.setEnabled(false);
+		dcngayGiaNhap.setForeground(Color.RED);
+//		
+		//dcngayGiaNhap.setEnabled(false);
 		dcngayGiaNhap.setFont(new Font("",Font.BOLD,12));
 		panelthongTin.add(dcngayGiaNhap);
 		
@@ -493,7 +558,9 @@ public class UI_KhachHang extends JFrame {
 	    	 if(txttenKh.getText().trim().length()<=0) {
 	    		 JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin");
 	    	 }
-	    	 if(validData() && CMND(txtCmnd.getText())==false ) {
+	    	 if(validData()) {
+	    		
+	   
 	    		String makH = txtmaKh.getText();
 	    		String tenkH = txttenKh.getText();
 	    		String cmnd = txtCmnd.getText();
@@ -506,28 +573,39 @@ public class UI_KhachHang extends JFrame {
 	    		String email = txtEmail.getText();
 	    		String sodt = txtsoDt.getText();
 	    		String ghiChu = txtchuThich.getText();
+	    		KhachHang kh1 = dao_kh.getKhachHangById("CMND", txtCmnd.getText());
 	    		KhachHang kh = new KhachHang(makH,tenkH,cmnd,gioiTinh,ngay,ngaygiaNhap,diachi,email,sodt,ghiChu);
-	    		if(dao_kh.themKH(kh))
-	    		{
-	    			String maKH = dao_hd.getMaHDTail("maKhachHang", "KhachHang");
-		    		JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công");
-		    		txtmaKh.setText(maKH);
-					txtchuThich.setText("");
-					txtdiaChi.setText("");
-					txtEmail.setText("");
-					txtsoDt.setText("");
-					txttenKh.setText("");
-					txtCmnd.setText("");
-					txttimKiem.setText("");
-					dcngaySinh.setCalendar(null);
-					cbgioiTinh.setSelectedIndex(0);
-					//dcngayGiaNhap.setCalendar(null);
-					txtmaKh.requestFocus();
-					tableModel.addRow(new Object[] {kh.getMaKhachHang(),kh.getTenKhachHang(),kh.getCMND(),kh.getGioiTinh(),kh.getNgaySinh()+"",kh.getNgaygiaNhap()+"",kh.getDiaChi(),kh.getEmail(),kh.getSoDienThoai(),kh.getChuThich()});
-	    		}
+	    		if(kh1!=null)
+	    			JOptionPane.showMessageDialog(null, "Trùng chứng minh nhân dân với khách hàng có mã số là " + kh1.getMaKhachHang());
+	    			
 	    		else {
-		    		 JOptionPane.showMessageDialog(null, "Đã trùng chứng minh nhân dân");
-		    	 }
+	    			if(dao_kh.themKH(kh))
+		    		{
+		    			String maKH = dao_hd.getMaHDTail("maKhachHang", "KhachHang");
+			    		JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công");
+			    		txtmaKh.setText(maKH);
+						txtchuThich.setText("");
+						txtdiaChi.setText("");
+						txtEmail.setText("");
+						txtsoDt.setText("");
+						txttenKh.setText("");
+						txtCmnd.setText("");
+						txttimKiem.setText("");
+						dcngaySinh.setCalendar(null);
+						cbgioiTinh.setSelectedIndex(0);
+						txtTongkh.setText(String.valueOf(Integer.parseInt(txtTongkh.getText())+1));
+						if(kh.getGioiTinh().equalsIgnoreCase("Nam"))
+							txtTongkhnam.setText(String.valueOf(Integer.parseInt(txtTongkhnam.getText())+1));
+						else
+							txttongkhnu.setText(String.valueOf(Integer.parseInt(txttongkhnu.getText())+1));
+						txtmaKh.requestFocus();
+						tableModel.addRow(new Object[] {kh.getMaKhachHang(),kh.getTenKhachHang(),kh.getCMND(),kh.getGioiTinh(),kh.getNgaySinh()+"",kh.getNgaygiaNhap()+"",kh.getDiaChi(),kh.getEmail(),kh.getSoDienThoai(),kh.getChuThich()});
+		    		}
+		    		else {
+			    		 JOptionPane.showMessageDialog(null, "Thêm khách hàng không thành công!");
+			    	 }
+	    		}
+	    		
 	    	  
 	    	 }
 	    		     		
@@ -550,7 +628,7 @@ public class UI_KhachHang extends JFrame {
 		lblchucNang.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 197, 1502, 331);
+		scrollPane.setBounds(6, 115, 1502, 310);
 		contentPane.add(scrollPane);
 		String[] header = {
 				"Mã Khách Hàng", "Tên Khách Hàng","CMND", "Giới Tính", "Ngày Sinh", "Ngày Gia Nhập","Địa Chỉ", "Email", "Số Điện Thoại","Chú Thích"
@@ -577,16 +655,10 @@ public class UI_KhachHang extends JFrame {
 		//table = new JTable();
 		scrollPane.setViewportView(table);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 0, 1522, 78);
-		contentPane.add(panel);
-		
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ THÔNG TIN KHÁCH HÀNG");
 		lblNewLabel_1.setForeground(new Color(184, 124, 12));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblNewLabel_1.setBounds(10, 88, 497, 72);
+		lblNewLabel_1.setBounds(10, 11, 497, 72);
 		contentPane.add(lblNewLabel_1);
 		try {
 			loadKH();
@@ -599,6 +671,42 @@ public class UI_KhachHang extends JFrame {
 		table.setRowHeight(20);
 		table.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		lblTngKhchHng = new JLabel("Tổng Khách Hàng");
+		lblTngKhchHng.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngKhchHng.setBounds(21, 447, 123, 25);
+		contentPane.add(lblTngKhchHng);
+		
+		lblTngKhchHng_1 = new JLabel("Tổng Khách Hàng Nam");
+		lblTngKhchHng_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngKhchHng_1.setBounds(408, 454, 159, 18);
+		contentPane.add(lblTngKhchHng_1);
+		
+		lblTngKhchHng_2 = new JLabel("Tổng Khách Hàng Nữ");
+		lblTngKhchHng_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngKhchHng_2.setBounds(807, 454, 132, 25);
+		contentPane.add(lblTngKhchHng_2);
+		
+		txtTongkh = new JLabel("");
+		txtTongkh.setForeground(Color.BLUE);
+		txtTongkh.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtTongkh.setText(dao_kh.TongKhachHang()+"");
+		txtTongkh.setBounds(176, 449, 46, 25);
+		contentPane.add(txtTongkh);
+		
+		txtTongkhnam = new JLabel("");
+		txtTongkhnam.setForeground(Color.RED);
+		txtTongkhnam.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtTongkhnam.setText(dao_kh.TongKhachNam()+"");
+		txtTongkhnam.setBounds(605, 447, 46, 25);
+		contentPane.add(txtTongkhnam);
+		
+		txttongkhnu = new JLabel("");
+		txttongkhnu.setForeground(Color.GREEN);
+		txttongkhnu.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txttongkhnu.setText(dao_kh.TongKhachNu()+"");
+		txttongkhnu.setBounds(968, 453, 46, 25);
+		contentPane.add(txttongkhnu);
 	} 
 	//load
 	private void loadKH() throws SQLException {
@@ -622,15 +730,21 @@ public class UI_KhachHang extends JFrame {
 			}
 		}
 	}
-	private void xoaKhachHang() throws SQLException{
+	private boolean xoaKhachHang() throws SQLException{
 		dao_kh = new Dao_KhachHang();
-		dao_kh.xoaKH(txtmaKh.getText());
+		if(dao_kh.xoaKH(txtmaKh.getText()))
+			return true;
+		return false;
 		//loadKH();
 	}
+	
+	
 	//Đếm số KhachHang
 	private void timKhachHang() throws SQLException {
 		dao_kh = new Dao_KhachHang();
-		tableModel = dao_kh.timKiem("%"+txttimKiem.getText()+"%");
+		tableModel = dao_kh.timKiem("%"+txttimKiem.getText()+"%","maKhachHang");
+		tableModel = dao_kh.timKiem("%"+txttimKiem.getText()+"%","tenKhachHang");
+		tableModel = dao_kh.timKiem("%"+txttimKiem.getText()+"%","CMND");
 		table.setModel(tableModel);
 		
 	}
@@ -661,9 +775,9 @@ public class UI_KhachHang extends JFrame {
 		}
 		return false;
 	}
-	//validdata
+	
 	private boolean validData(){
-		//String makh = txtmaKh.getText().trim();
+		
 		String tenkh = txttenKh.getText().trim();
 		String cmnd = txtCmnd.getText().trim();
 		String diachi = txtdiaChi.getText().trim();
@@ -701,8 +815,10 @@ public class UI_KhachHang extends JFrame {
 			JOptionPane.showMessageDialog(null, "Số điện thoại không được trống và phải có 10 số " );
 			return false;
 		}
-		if(!( ghichu.length()>0 )) {
-			JOptionPane.showMessageDialog(null, "Ghi chú không được trống " );
+		if(!(ghichu.length()>0 && ghichu.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+	            "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
+	            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s/\\.]+$"))) {
+			JOptionPane.showMessageDialog(null, "Ghi chú không được trống và không chứa kí tự đặc biệt " );
 			return false;
 		}
 		if(!(ngaysinh.length()>0 && fngaysinh.compareTo(fngaygn)<0)){
@@ -713,7 +829,6 @@ public class UI_KhachHang extends JFrame {
 		
 		return true;
 	}
-
 }
 
 
