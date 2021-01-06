@@ -6,6 +6,8 @@ import java.awt.BorderLayout;
 
 
 
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -28,6 +30,7 @@ import connect.ConnectDB;
 import dao.Dao_NhaCungCap;
 import dao.Dao_NhanVien;
 import entity.ChucVu;
+import entity.KhachHang;
 import entity.LoaiXe;
 import entity.NhaCungCap;
 import entity.NhanVien;
@@ -54,7 +57,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -71,6 +77,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import dao.Dao_HoaDon;
+import dao.Dao_KhachHang;
+import java.beans.PropertyChangeListener;
+//import java.lang.FdLibm.Cbrt;
+import java.beans.PropertyChangeEvent;
 public class UI_NhanVien extends JFrame {
 
 	private JPanel contentPane;
@@ -98,6 +108,7 @@ public class UI_NhanVien extends JFrame {
 	private JTextField txtSdt;
 	private JTextField txtcmnd;
 	private JDateChooser datengaySinh,datengayVaoLam;
+	private Dao_KhachHang dao_kh = new Dao_KhachHang();
 	
 
 	
@@ -133,7 +144,7 @@ public class UI_NhanVien extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	//	setBounds(100, 100, 1296, 732);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		
+		List<String> list_CMND = dao_kh.getListCMND();
 		setBounds(0, 0, screen.width, (screen.height-50));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -162,42 +173,98 @@ public class UI_NhanVien extends JFrame {
 		txtmaNV = new JTextField();
 		txtmaNV.setText(maKH);
 		txtmaNV.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtmaNV.setBounds(139, 20, 260, 19);
+		txtmaNV.setBounds(139, 20, 260, 27);
 		txtmaNV.setEditable(false);
 		panel_6.add(txtmaNV);
 		txtmaNV.setColumns(10);
 		
 		JLabel lbltenNV = new JLabel("Tên Nhân Viên");
 		lbltenNV.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbltenNV.setBounds(10, 63, 119, 13);
+		lbltenNV.setBounds(10, 67, 119, 13);
 		panel_6.add(lbltenNV);
 		
 		txttenNV = new JTextField();
+		
+		txttenNV.addKeyListener(new KeyAdapter() {
+			public boolean tennv(String str) {
+				return str.matches("\\D*"); 
+			}	
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!tennv(txttenNV.getText())) 
+					txttenNV.setForeground(Color.red);
+				else
+					txttenNV.setForeground(Color.BLACK);
+				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
+		        {
+		           
+		        }
+		        else
+		        {   
+		            String to_check=txttenNV.getText();
+		            int to_check_len=to_check.length();
+		            for(String data:list_CMND)
+		            {
+		                String check_from_data="";
+		                for(int i=0;i<to_check_len;i++)
+		                {
+		                    if(to_check_len<=data.length())
+		                    {
+		                        check_from_data = check_from_data+data.charAt(i);
+		                    }
+		                }
+		            }
+		        }
+			}
+		});
 		txttenNV.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txttenNV.setBounds(139, 60, 260, 19);
+		txttenNV.setBounds(139, 60, 260, 27);
 		panel_6.add(txttenNV);
 		txttenNV.setColumns(10);
 		
 		JLabel lblngaySinh = new JLabel("Ngày sinh");
 		lblngaySinh.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblngaySinh.setBounds(10, 113, 96, 13);
+		lblngaySinh.setBounds(10, 107, 96, 21);
 		panel_6.add(lblngaySinh);
 		
 		JDateChooser datengaySinh = new JDateChooser();
+
+
+		
 		datengaySinh.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 15));
-		datengaySinh.setBounds(139, 107, 260, 19);
+		datengaySinh.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		datengaySinh.setBounds(139, 107, 260, 27);
 		datengaySinh.setDateFormatString("yyy-MM-dd");
+		datengaySinh.addPropertyChangeListener(new PropertyChangeListener() {
+		public int calculateAge(LocalDate birthDate, LocalDate currentDate) {
+	        if ((birthDate != null) && (currentDate != null)) {
+	            return Period.between(birthDate, currentDate).getYears();
+	        } else {
+	            return 0;
+	        }
+	    }
+		public void propertyChange(PropertyChangeEvent arg0) {
+			String date = ((JTextField) datengaySinh.getDateEditor().getUiComponent()).getText();
+			if(!date.equalsIgnoreCase("")) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				if(calculateAge(LocalDate.parse(date, formatter), LocalDate.now()) < 18) {
+					JOptionPane.showMessageDialog(null, "Khách hàng chưa đủ 18 tuôi!");
+					datengaySinh.setDate(null);
+				}
+			}
+		}
+	});
 		panel_6.add(datengaySinh);
 		
 		JLabel lblgioiTinh = new JLabel("Giới tính");
 		lblgioiTinh.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblgioiTinh.setBounds(10, 153, 96, 13);
+		lblgioiTinh.setBounds(10, 153, 96, 17);
 		panel_6.add(lblgioiTinh);
 		
 		String GT[] = {"Nam","Nữ"};
 		JComboBox cbgioiTinh = new JComboBox(GT);
 		cbgioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		cbgioiTinh.setBounds(139, 149, 260, 21);
+		cbgioiTinh.setBounds(139, 149, 260, 27);
 		panel_6.add(cbgioiTinh);
 		
 		JLabel lbldiaChi = new JLabel("Địa chỉ");
@@ -207,7 +274,7 @@ public class UI_NhanVien extends JFrame {
 		
 		txtdiaChi = new JTextField();
 		txtdiaChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtdiaChi.setBounds(639, 63, 275, 19);
+		txtdiaChi.setBounds(639, 63, 275, 24);
 		panel_6.add(txtdiaChi);
 		txtdiaChi.setColumns(10);
 		
@@ -218,20 +285,20 @@ public class UI_NhanVien extends JFrame {
 		
 		txtEmail = new JTextField();
 		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtEmail.setBounds(639, 113, 275, 19);
+		txtEmail.setBounds(639, 113, 275, 27);
 		panel_6.add(txtEmail);
 		txtEmail.setColumns(20);
 		
 		JLabel lblchucVu = new JLabel("Chức vụ");
 		lblchucVu.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblchucVu.setBounds(506, 154, 68, 13);
+		lblchucVu.setBounds(506, 154, 68, 21);
 		panel_6.add(lblchucVu);
 		
 		ArrayList<ChucVu> dsCV = dao_nv.getAllChucVus();
 		@SuppressWarnings("rawtypes")
 		JComboBox cbchucVu = new JComboBox();
 		cbchucVu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		cbchucVu.setBounds(639, 152, 275, 21);
+		cbchucVu.setBounds(639, 152, 275, 24);
 		for (ChucVu cv : dsCV) {
 			cbchucVu.addItem(cv.getTenChucVu());
 		}
@@ -239,23 +306,59 @@ public class UI_NhanVien extends JFrame {
 		
 		JLabel lblngayVaoLam = new JLabel("Ngày Vào Làm");
 		lblngayVaoLam.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblngayVaoLam.setBounds(1019, 66, 137, 13);
+		lblngayVaoLam.setBounds(1019, 66, 137, 21);
 		panel_6.add(lblngayVaoLam);
 		
-		 datengayVaoLam = new JDateChooser();
-		 datengayVaoLam.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 15));
-		datengayVaoLam.setBounds(1192, 57, 270, 19);
+		datengayVaoLam = new JDateChooser();		
+		datengayVaoLam.setDate(Date.valueOf(LocalDate.now()));
+		datengayVaoLam.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 15));
+		datengayVaoLam.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		datengayVaoLam.setBounds(1192, 57, 270, 30);
 		datengayVaoLam.setDateFormatString("yyy-MM-dd");
 		panel_6.add(datengayVaoLam);
 		
 		JLabel lblsdt = new JLabel("Số Điện Thoại");
 		lblsdt.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblsdt.setBounds(1019, 21, 119, 13);
+		lblsdt.setBounds(1019, 21, 119, 21);
 		panel_6.add(lblsdt);
 		
 		txtSdt = new JTextField();
+		txtSdt.setDocument(new JTextFieldLimit(10));
+		txtSdt.addKeyListener(new KeyAdapter() {
+			public boolean sdt(String str) {
+				return str.matches("\\d*");
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!sdt(txtSdt.getText())) 
+					txtSdt.setForeground(Color.red);
+				else
+					txtSdt.setForeground(Color.BLACK);
+				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
+		        {
+		           
+		        }
+				else
+				{   
+		            String to_check=txttenNV.getText();
+		            int to_check_len=to_check.length();
+		            for(String data:list_CMND)
+		            {
+		                String check_from_data="";
+		                for(int i=0;i<to_check_len;i++)
+		                {
+		                    if(to_check_len<=data.length())
+		                    {
+		                        check_from_data = check_from_data+data.charAt(i);
+		                    }
+		                }
+		            }
+		        }
+				  
+			}
+		});
 		txtSdt.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtSdt.setBounds(1192, 20, 270, 19);
+		txtSdt.setBounds(1192, 20, 270, 27);
 		panel_6.add(txtSdt);
 		txtSdt.setColumns(10);
 		
@@ -265,8 +368,42 @@ public class UI_NhanVien extends JFrame {
 		panel_6.add(lblCmnd);
 		
 		txtcmnd = new JTextField();
+		txtcmnd.setDocument(new JTextFieldLimit(12));
+		txtcmnd.addKeyListener(new KeyAdapter() {
+			public boolean cmnd(String str) {
+				  return str.matches("\\d*");  //match a number with optional '-' and decimal. "-?\\d+(\\.\\d+)?"
+				}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!cmnd(txtcmnd.getText())) 
+					txtcmnd.setForeground(Color.red);
+				else
+					txtcmnd.setForeground(Color.BLACK);
+				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
+		        {
+		           
+		        }
+		        else
+		        {   
+		            String to_check=txtcmnd.getText();
+		            int to_check_len=to_check.length();
+		            for(String data:list_CMND)
+		            {
+		                String check_from_data="";
+		                for(int i=0;i<to_check_len;i++)
+		                {
+		                    if(to_check_len<=data.length())
+		                    {
+		                        check_from_data = check_from_data+data.charAt(i);
+		                    }
+		                }
+		            }
+		        }
+				
+			}
+		});
 		txtcmnd.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtcmnd.setBounds(639, 21, 275, 19);
+		txtcmnd.setBounds(639, 21, 275, 27);
 		panel_6.add(txtcmnd);
 		txtcmnd.setColumns(10);
 		
@@ -326,7 +463,7 @@ public class UI_NhanVien extends JFrame {
 		loadNV();
 		
 	
-		table.setRowHeight(30);
+		table.setRowHeight(20);
 		table.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
@@ -343,7 +480,7 @@ public class UI_NhanVien extends JFrame {
 		txtTimKiem = new JTextField();
 		txtTimKiem.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				if(txtTimKiem.getText().length()==0) {
 					try {
 						loadNV();
@@ -413,28 +550,17 @@ public class UI_NhanVien extends JFrame {
 				String email= txtEmail.getText();
 				String sodt= txtSdt.getText();
 				String cmnd = txtcmnd.getText();
+				ChucVu maChucVu=dao_nv.getMaChucVu((String) cbchucVu.getSelectedItem());
 				String chucVu = (String) cbchucVu.getSelectedItem();
-				
-//				for (int i = 0; i < dsCV.size(); i++) {
-//					if(cbchucVu.getSelectedItem().toString().equalsIgnoreCase(dsCV.get(i).getTenChucVu())) {
-//						cv= dsCV.get(i).getMaChucVu()();
-//					}
-//				} 
-				
-				
 				Date ngaySinh=Date.valueOf(LocalDate.parse(date1));
 				Date ngayVaoLam =Date.valueOf(LocalDate.parse(date2));
 				String gioiTinh = (String) cbgioiTinh.getSelectedItem();
-				NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, new ChucVu(chucVu), sodt, ngayVaoLam);
+				System.out.println(maChucVu);
+				NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, maChucVu, sodt, ngayVaoLam);
 				tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getCMND(),nv.getGioiTinh(),nv.getDiaChi(),nv.getEmail(),nv.getSdt()
 						,nv.getNgayVaoLam(),nv.getNgaySinh(),nv.getChucVu().getMaChucVu()});						
 				JFrame f= new JFrame();
-				try {
-					dao_nv.themNV(nv);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				dao_nv.themNV(nv);			
 				JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
 				}
 			}
@@ -456,15 +582,26 @@ public class UI_NhanVien extends JFrame {
 							int hoi=JOptionPane.showConfirmDialog(f, "Nhân viên sẽ bị xóa","Chú ý",JOptionPane.YES_NO_OPTION);
 							if(hoi==JOptionPane.YES_OPTION) {
 								int r= table.getSelectedRow();
-								tableModel.removeRow(r);
-								xoaNV();
+								if(xoaNV()){
+									txtcmnd.setText("");
+									txtdiaChi.setText("");
+									txtEmail.setText("");
+									cbgioiTinh.setSelectedItem(0);
+									txtSdt.setText("");
+									cbchucVu.setSelectedItem(0);
+									datengaySinh.setCalendar(null);
+									txttenNV.setText("");
+									txttenNV.requestFocus();
+									tableModel.removeRow(row);
+								}
+								
 								
 							}
 						}
 						else
 							JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cấp để xóa");
 					} catch (Exception e2) {
-						// TODO: handle exception
+						JOptionPane.showMessageDialog(null, "Không thể xóa nhân viên này !!!");
 					}
 				}
 			});
@@ -529,26 +666,16 @@ public class UI_NhanVien extends JFrame {
 								else
 									maChucVu = "CV_0002";
 								NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, new ChucVu(maChucVu), sodt, ngayVaoLam);
-								if(dao_nv.update(nv)) {
-									tableModel.setValueAt(ma, row, 0);
-									tableModel.setValueAt(ten, row, 1);
-									tableModel.setValueAt(cmnd, row, 2);
-									tableModel.setValueAt(gioiTinh, row, 3);
-									tableModel.setValueAt(diachi, row, 4);
-									tableModel.setValueAt(email, row, 5);
-									tableModel.setValueAt(sodt, row, 6);
-									tableModel.setValueAt(ngayVaoLam, row, 7);
-									tableModel.setValueAt(ngaySinh, row, 8);
-									tableModel.setValueAt(chucVu, row, 9);
-								}
-								
+								dao_nv.update(nv);
+								loadNV();
+								JOptionPane.showMessageDialog(null, "Cập nhật nhân viên thành công");
 							}
 						}
 						}
 						else
 							JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên để chỉnh sửa thông tin");
 					} catch (Exception e2) {
-						// TODO: handle exception
+						e2.printStackTrace();
 					}
 					
 					
@@ -626,13 +753,13 @@ public class UI_NhanVien extends JFrame {
 		if(!(tenNV.length()>0 && tenNV.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
 				"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
 				"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$"))) {
-			JOptionPane.showMessageDialog(null, "Tên nhân vien không trống và không chứa kí tự đặc biệt " );
+			JOptionPane.showMessageDialog(null, "Tên nhân viên không trống " );
 			return false;
 		}
-		if(!(cmnd.length()>0 && cmnd.matches("\\d{9}|\\d{12}"))) {
-			JOptionPane.showConfirmDialog(null, "Chứng minh nhân dân gồm 9 kí tự số hoặc 12 số");
-			return false;
-		}
+//		if(!(cmnd.length()>0 && cmnd.matches("\\d{12}"))) {
+//			JOptionPane.showConfirmDialog(null, "Chứng minh nhân dân gồm 9 kí tự số hoặc 12 số");
+//			return false;
+//		}
 		if(!(diaChi.length()>0 && diaChi.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
 	            "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
 	            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s/\\.,]+$"))) {
@@ -657,15 +784,30 @@ public class UI_NhanVien extends JFrame {
 		table.setModel(tableModel);
 	}
 	//Hàm Xóa
-	private void xoaNV() throws SQLException {
-		Dao_NhanVien dao_nv = new Dao_NhanVien();
-		dao_nv.xoaNV(txtmaNV.getText());
-		loadNV();
+	private boolean xoaNV() throws SQLException {
+		dao_nv = new Dao_NhanVien();
+		if(dao_nv.xoaNV(txtmaNV.getText()))
+			return true;
+		return false;
+	//	loadNV();
 	}
 	//Tìm kiếm
 		private void timNV() throws SQLException{
 			Dao_NhanVien dao_nv= new Dao_NhanVien();
-			tableModel = dao_nv.timKiem("%"+txtTimKiem.getText()+"%");
+			tableModel = dao_nv.timKiem("%"+txtTimKiem.getText()+"%", "%"+txtTimKiem.getText()+"%");
 			table.setModel(tableModel);
 		}
+//	private void update() {
+//		for(int i =0 ; i<table.getRowCount();i++) {
+//			if(txtmaNV.getText().equalsIgnoreCase(table.getValueAt(i, 0).toString())) {
+//				table.setValueAt(txttenNV.getText(),i, 1);
+//				table.setValueAt(txtcmnd.getText(), i, 2);
+//				table.setValueAt(txtGT.getText(),i ,3);
+//				table.setValueAt(txtdiaChi.getText(), i, 4);
+//				table.setValueAt(txtEmail.getText(), i, 5);
+//				table.setValueAt(txtSdt.getText(), i, 6);
+//				table.setValueAt(cbChuc)
+//			}
+//	}
+//}
 }

@@ -14,7 +14,11 @@ import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.ChucVu;
+import entity.HangSanXuat;
+import entity.LoaiXe;
+import entity.NhaCungCap;
 import entity.NhanVien;
+import entity.Xe;
 public class Dao_NhanVien {
 	@SuppressWarnings("unused")
 	private int n;
@@ -101,7 +105,7 @@ public class Dao_NhanVien {
 			return tableModel;
 		}
 //Tìm
-	public DefaultTableModel timKiem(String id) throws SQLException {
+	public DefaultTableModel timKiem(String id,String sdt) throws SQLException {
 		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Chức vụ","Ngày Vào Làm"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
@@ -109,7 +113,7 @@ public class Dao_NhanVien {
 		String sql = "SELECT NhanVien.maNhanVien, NhanVien.tenNhanVien, NhanVien.CMND, NhanVien.gioiTinh, NhanVien.diaChi, NhanVien.email, NhanVien.soDienThoai, NhanVien.ngayVaoLam, NhanVien.ngaySinh, ChucVu.tenChucVu\r\n" + 
 				"FROM     NhanVien INNER JOIN\r\n" + 
 				"                  ChucVu ON NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND \r\n" + 
-				"                  NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu where CMNdX like '"+id+"' or sodienThoai like '"+id+"'";
+				"                  NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu where CMND like '"+id+"' or sodienThoai like '"+sdt+"'";
                  
 		
 		Statement statement = con.createStatement();
@@ -122,20 +126,19 @@ public class Dao_NhanVien {
 		return tableModel;
 	}
 //Thêm
-	public boolean themNV(NhanVien nv) throws SQLException{
+	public boolean themNV(NhanVien nv){
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("insert into nhanVien values(?,?,?,?,?,?,?,?,?)");
+			stmt = con.prepareStatement("insert into nhanVien values(?,?,?,?,?,?,?,?,?,?)");
 			stmt.setString(1, nv.getMaNhanVien());
 			stmt.setString(2, nv.getTenNhanVien());
 			stmt.setString(3, nv.getCMND());
 			stmt.setString(4, nv.getGioiTinh());
 			stmt.setString(5, nv.getDiaChi());
 			stmt.setString(6, nv.getEmail());
-			
 			stmt.setString(7, nv.getSdt());
 			stmt.setString(8, nv.getChucVu().getMaChucVu());
 			stmt.setDate(10, (Date) nv.getNgaySinh());
@@ -153,14 +156,37 @@ public class Dao_NhanVien {
 		}
 		return n > 0;
 	}
+	public ChucVu getMaChucVu(String ten) {
+		ChucVu cv;
+		try {
+			ConnectDB.getInstance();
+			Connection con= ConnectDB.getCon();
+			String sql= "select * from ChucVu where tenChucVu=N'"+ten+"'";
+			Statement statement= con.createStatement();
+			ResultSet rs= statement.executeQuery(sql);
+			
+			while(rs.next()) {
+				String macv=rs.getString(1);
+				
+				cv= new ChucVu(macv);
+				return cv;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
 	//Xóa dữ liệu khỏi bảng
-		public void xoaNV(String maNV) throws SQLException {
+		public boolean xoaNV(String maNV) throws SQLException {
 			Connection a = ConnectDB.getCon();// Tao Ket Noi
-			String sql = "delete nhanVien where maNhanVien='" + maNV + "'";
+			String sql = "delete NhanVien where maNhanVien='" + maNV + "'";
 			PreparedStatement pstm = a.prepareStatement(sql);
 			if (pstm.executeUpdate() > 0) {
 				JOptionPane.showMessageDialog(null, "Xóa thành công nhân viên " + maNV);
+				return true;
 			}
+			return false;
 		}
 	//Cập nhật dữ liệu
 		public boolean update(NhanVien nv) {

@@ -56,7 +56,37 @@ public class Dao_HopDong {
 //					return tableModel;
 //				}
 //				
-	
+				public HopDong getInfoHD(String  properties) {
+					HopDong hdg = new HopDong(properties);
+					
+					try {
+						ConnectDB.getInstance();
+						Connection con= ConnectDB.getCon();
+						String sql= "select * from HopDong  where " + properties + "";
+						Statement statement= con.createStatement();
+						ResultSet rs= statement.executeQuery(sql);
+						Dao_QuanLyXe dao_xe  = new Dao_QuanLyXe();
+						Dao_KhachHang dao_kh = new Dao_KhachHang();
+						Dao_NhanVien dao_nv = new Dao_NhanVien();
+						Dao_LoaiXe dao_lx = new Dao_LoaiXe();
+						Xe xe;
+						while(rs.next()) {
+							xe = dao_xe.getInfoXe("maXe",rs.getString(4));
+							LoaiXe lx = dao_lx.getLoaiXeByID(xe.getLoaiXe().getMaLoaiXe());
+							KhachHang kh = dao_kh.getKhachHangById("maKhachHang", rs.getString(2));
+							NhanVien nv = dao_nv.getNhanVienById("maNhanVien", rs.getString(3));
+							String maHD = rs.getString(1);
+							Date ngayLap = rs.getDate(5);
+							int tgbh = rs.getInt(6);
+							HopDong hd = new HopDong(maHD, kh, nv, xe, ngayLap, tgbh);
+							return hd;						
+						}
+					}
+						catch (Exception e) {
+							// TODO: handle exception
+						}
+						return null;
+				}
 				public HopDong getHopDongByVehicleNum(String maXe) {
 					Connection con = ConnectDB.getCon();
 					String sql = "select * from HopDong where maXe = '" + maXe + "'";
@@ -75,19 +105,19 @@ public class Dao_HopDong {
 				}
 	
 				public DefaultTableModel getAllXe() throws SQLException{
-					String[] header = {"Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Trạng thái"};
+					String[] header = {"Mã xe","Tên xe","Loại xe","Phiên bản","Màu xe","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Trạng thái"};
 					DefaultTableModel tableModel = new DefaultTableModel(header,0);
 					ConnectDB.getInstance();
 					Connection con = ConnectDB.getCon();
-					String sql = "select maxe,tenxe,maloaixe,phienban,phankhoi,sokhung,somay,gianhap,trangthai from Xe";
+					String sql = "select maxe,tenxe,maloaixe,phienban,mauxe,phankhoi,sokhung,somay,gianhap,trangthai from Xe";
 					Statement statement = con.createStatement();
 					ResultSet rs = statement.executeQuery(sql);
 					while(rs.next()) {
 						DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 						DecimalFormat df1 = new DecimalFormat("############");
 
-						Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8),""
-								,rs.getString(9)};
+						Object[] o = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8),
+								rs.getString(9),"",rs.getString(10)};
 						
 						tableModel.addRow(o);
 					}
@@ -115,7 +145,7 @@ public class Dao_HopDong {
 						DecimalFormat df1 = new DecimalFormat("############");
 						//double thue = xe.getThueVAT();
 						//double donGia=Double.parseDouble(rs.getString(27));
-						Object[] o = {rs.getString(1), kh.getCMND(), kh.getTenKhachHang(), kh.getSoDienThoai(), nv.getMaNhanVien(), nv.getTenNhanVien(), xe.getMaXe(), xe.getTenXe(), lx.getTenLoaiXe(), xe.getPhienBan(), xe.getPhanKhoi(), xe.getSoKhung(), xe.getSoMay(), df.format(xe.getDonGia()), df.format(xe.getThueVAT()), rs.getDate(5), rs.getInt(6)+""};
+						Object[] o = {rs.getString(1), kh.getCMND(), kh.getTenKhachHang(), kh.getSoDienThoai(),kh.getDiaChi(), nv.getMaNhanVien(), nv.getTenNhanVien(), xe.getMaXe(), xe.getTenXe(), lx.getTenLoaiXe(), xe.getPhienBan(),xe.getMauXe(), xe.getPhanKhoi(), xe.getSoKhung(), xe.getSoMay(), df.format(xe.getDonGia()), df.format(xe.getThueVAT()), rs.getDate(5), rs.getInt(6)+""};
 						//Object[] o = {rs.getString(1),rs.getString(9),rs.getString(8),rs.getString(15),rs.getString(4),rs.getString(18),rs.getString(19),rs.getString(20),rs.getString(24),rs.getString(25),rs.getString(26),df.format(donGia),"",rs.getString(5),rs.getString(6)};
 						tableModel1.addRow(o);
 					}
@@ -441,4 +471,5 @@ public class Dao_HopDong {
 					}
 					return null;
 				}
+
 }

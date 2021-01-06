@@ -3,11 +3,6 @@ package ui;
 import java.awt.BorderLayout;
 
 
-
-
-
-
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -121,6 +116,7 @@ public class UI_HopDong extends JFrame {
 				try {
 					UI_HopDong frame = new UI_HopDong();
 					frame.setVisible(true);
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -182,15 +178,24 @@ public class UI_HopDong extends JFrame {
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
-		String [] header1 = {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã nhân viên", "Tên nhân viên","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
+		String [] header1 = {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Địa chỉ","Mã nhân viên", "Tên nhân viên","Mã xe","Tên xe","Loại xe","Phiên bản","Màu xe","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Ngày lập hợp đồng","Thời gian bảo hành"};
 		tableModel1 = new DefaultTableModel(header1,0);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i=table_1.getSelectedRow();
+				txtcmnd.setText(tableModel1.getValueAt(i, 1).toString());
+			//	txtMa.setText(tableModel.getValueAt(i, 0).toString());
+			}
+		});
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 0, 1084, 209);
 		panel_2.add(scrollPane);
 		
 		table_1 = new JTable();
+		
 		/*try {
 			loadHD();
 		}catch (SQLException e) {
@@ -203,9 +208,9 @@ public class UI_HopDong extends JFrame {
 			e2.printStackTrace();
 		}
 		
-		String [] header = {"Mã xe","Tên xe","Loại xe", "Hãng sản xuất", "Phiên bản","Phân khối","Số khung","Số máy","Thành tiền","Trạng thái"};
+		String [] header = {"Mã xe","Tên xe","Loại xe", "Hãng sản xuất", "Phiên bản","Màu xe","Phân khối","Số khung","Số máy","Thành tiền","Trạng thái"};
 		tableModel = new DefaultTableModel(header,0);
-		scrollPane_2.setBounds(10, 404, 1084, 200);
+		scrollPane_2.setBounds(10, 404, 1084, 237);
 		panel.add(scrollPane_2);
 		
 		table = new JTable(tableModel);
@@ -241,7 +246,9 @@ public class UI_HopDong extends JFrame {
 		lblCmnd.setBounds(10, 73, 80, 13);
 		panel_3.add(lblCmnd);
 		
+		
 		txtcmnd = new JTextField();	
+		txtcmnd.setDocument(new JTextFieldLimit(12));
 		txtcmnd.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtcmnd.setBounds(152, 66, 180, 20);
 		panel_3.add(txtcmnd);
@@ -256,9 +263,10 @@ public class UI_HopDong extends JFrame {
 		txttenKH = new JTextField();
 		txttenKH.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txttenKH.setBounds(152, 108, 180, 20);
+		txttenKH.setEditable(false);
 		panel_3.add(txttenKH);
 		txttenKH.setColumns(10);
-		
+	
 
 		JButton btnTaoMoi = new JButton("Tạo mới");		
 		Dao_HoaDon dao_hoadon = new Dao_HoaDon();
@@ -279,16 +287,17 @@ public class UI_HopDong extends JFrame {
 					String maxe = table.getValueAt(row, 0).toString();
 					String tenxe = table.getValueAt(row, 1).toString();
 					String loaixe = table.getValueAt(row, 2).toString();
+					String mauxe = table.getValueAt(row, 5).toString();
 					String phienban = table.getValueAt(row, 4).toString();
-					String phankhoi = table.getValueAt(row, 5).toString();
-					String sokhung = table.getValueAt(row, 6).toString();
-					String somay = table.getValueAt(row, 7).toString();
+					String phankhoi = table.getValueAt(row, 6).toString();
+					String sokhung = table.getValueAt(row, 7).toString();
+					String somay = table.getValueAt(row, 8).toString();
 					Xe xe =dao_qlXe.getInfoXe("maXe",maxe);
 					NhanVien nv = dao_nv.getNhanVienById("maNhanVien", Login.txtuser.getText());
 					
 					Date  ngay = Date.valueOf(LocalDate.now());
 					//HopDong hdg = dao_hd.getInfoHDG("maHopDong", "HopDong");
-					HopDong hd = new HopDong(maHD,kh,nv,xe,ngay,3);System.out.println(table.getValueAt(row, 9).toString());
+					HopDong hd = new HopDong(maHD,kh,nv,xe,ngay,3);System.out.println(table.getValueAt(row, 10).toString());
 				
 					if(!table.getValueAt(row, 9).toString().equalsIgnoreCase("Đã Lập HD")) {
 						if(dao_hd.themHD(hd)) {
@@ -335,7 +344,7 @@ public class UI_HopDong extends JFrame {
 
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(null, "Chức năng	", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_4.setBounds(1104, 407, 398, 197);
+		panel_4.setBounds(1104, 407, 398, 234);
 		panel.add(panel_4);
 		panel_4.setLayout(null);
 		
@@ -345,6 +354,7 @@ public class UI_HopDong extends JFrame {
 		panel_4.add(lblNhapCmnd);
 		
 		textField_4 = new JTextField();
+		textField_4.setDocument(new JTextFieldLimit(12));
 		textField_4.setBounds(151, 20, 189, 31);
 		panel_4.add(textField_4);
 		textField_4.setColumns(10);
@@ -376,16 +386,42 @@ public class UI_HopDong extends JFrame {
 		btnTimKiem.setBackground(Color.ORANGE);
 		btnTimKiem.setBounds(230, 115, 110, 41);
 		btnTimKiem.setIcon(new ImageIcon("img1/search2.png"));
-		
 		panel_4.add(btnTimKiem);
 		
 		JButton btnXuatHD = new JButton("Xuất");
 		btnXuatHD.addMouseListener(new MouseAdapter() {
 			@Override
+			
 			public void mouseClicked(MouseEvent e) {
-				UI_XuatHopDong frame = new UI_XuatHopDong();
-				frame.setVisible(true);
-		
+				int row=table_1.getSelectedRow();
+				int i=table_1.getSelectedRow();
+				try {
+					if(row!=-1) {
+				//		JOptionPane.showMessageDialog(null, " !!!");
+						UI_XuatHopDong frame = new UI_XuatHopDong();
+						frame.setVisible(true);
+						frame.label_edit_tenKH.setText(tableModel1.getValueAt(i, 2).toString());
+						frame.label_edit_cmnd.setText(tableModel1.getValueAt(i, 1).toString());
+						frame.label_edit_dongia.setText(tableModel1.getValueAt(i, 15).toString());
+						frame.label_edit_loaixe.setText(tableModel1.getValueAt(i, 9).toString());
+						frame.label_edit_mauxe.setText(tableModel1.getValueAt(i,11).toString());
+						frame.label_edit_phankhoi.setText(tableModel1.getValueAt(i, 12).toString());
+						frame.label_edit_sokhung.setText(tableModel1.getValueAt(i, 13).toString());
+						frame.label_edit_somay.setText(tableModel1.getValueAt(i, 14).toString());
+						frame.label_edit_tgbh.setText(tableModel1.getValueAt(i, 17).toString());
+						frame.label_edit_sdt.setText(tableModel1.getValueAt(i, 3).toString());
+						frame.label_edit_tenxe.setText(tableModel1.getValueAt(i, 8).toString());
+						frame.lbl_edit_tenNV.setText(tableModel1.getValueAt(i, 6).toString());
+						frame.label_edit_diachi.setText(tableModel1.getValueAt(i, 4).toString());
+						frame.label_edit_thue.setText(tableModel1.getValueAt(i, 16).toString());
+						
+						
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn hợp đồng  để xem thông tin chi tiết !!!");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
 			
 				
 			}
@@ -477,6 +513,49 @@ public class UI_HopDong extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				if(txtcmnd.getText().length()==0) {
+					txttenKH.setText(null);
+				}
+			}
+			
+			public boolean cmnd(String str) {
+				  return str.matches("\\d*");  //match a number with optional '-' and decimal. "-?\\d+(\\.\\d+)?"
+				}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(!cmnd(txtcmnd.getText())) 
+					txtcmnd.setForeground(Color.red);
+				else
+					txtcmnd.setForeground(Color.BLACK);
+				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
+		        {
+		           
+		        }
+		        else
+		        {   
+		            String to_check=txtcmnd.getText();
+		            int to_check_len=to_check.length();
+		            for(String data:list_CMND)
+		            {
+		                String check_from_data="";
+		                for(int i=0;i<to_check_len;i++)
+		                {
+		                    if(to_check_len<=data.length())
+		                    {
+		                        check_from_data = check_from_data+data.charAt(i);
+		                    }
+		                }
+		                //System.out.print(check_from_data);
+		                if(check_from_data.equals(to_check))
+		                {
+		                    //System.out.print("Found");
+		                    txtcmnd.setText(data);
+		                    txtcmnd.setSelectionStart(to_check_len);
+		                    txtcmnd.setSelectionEnd(data.length());
+		                    break;
+		                }
+		            }
+		        }
 			}
 		});
 		
@@ -562,7 +641,7 @@ public class UI_HopDong extends JFrame {
 					trangthai = "Đã Lập HD";
 				else
 					trangthai = "";
-				tableModel.addRow(new Object[] {xe.getMaXe(), xe.getTenXe(), lx.getTenLoaiXe(), hsx.getTenHangSX(), xe.getPhienBan(), xe.getPhanKhoi()+"", xe.getSoKhung(), xe.getSoMay(), df.format(dongia),trangthai});
+				tableModel.addRow(new Object[] {xe.getMaXe(), xe.getTenXe(), lx.getTenLoaiXe(), hsx.getTenHangSX(), xe.getPhienBan(),xe.getMauXe(), xe.getPhanKhoi()+"", xe.getSoKhung(), xe.getSoMay(), df.format(dongia),trangthai});
 			}
 		}
 	}
