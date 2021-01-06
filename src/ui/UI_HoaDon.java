@@ -60,7 +60,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -620,7 +623,7 @@ public class UI_HoaDon extends JFrame {
 		pChucNang.setLayout(null);
 		
 		JButton btnXoaTrong = new JButton("Xóa Trống");
-		btnXoaTrong.setIcon(new ImageIcon(a.class.getResource("/image/Recycle-Bin-Full-icon.png")));
+		btnXoaTrong.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Recycle-Bin-Full-icon.png")));
 		btnXoaTrong.setBackground(Color.ORANGE);
 		btnXoaTrong.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnXoaTrong.setBounds(20, 22, 153, 40);
@@ -628,7 +631,7 @@ public class UI_HoaDon extends JFrame {
 		
 		JButton btnXuatHD = new JButton("Xuất Hóa Đơn");
 		btnXuatHD.setBackground(new Color(169, 169, 169));
-		btnXuatHD.setIcon(new ImageIcon(a.class.getResource("/image/Printer-icon.png")));
+		btnXuatHD.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Printer-icon.png")));
 		btnXuatHD.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnXuatHD.setBounds(20, 75, 330, 37);
 		pChucNang.add(btnXuatHD);
@@ -636,7 +639,7 @@ public class UI_HoaDon extends JFrame {
 		JButton btnLamMoi = new JButton("Làm Mới");
 		btnLamMoi.setBackground(new Color(255, 160, 122));
 		btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnLamMoi.setIcon(new ImageIcon(a.class.getResource("/image/Refresh-icon (1).png")));
+		btnLamMoi.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Refresh-icon (1).png")));
 		btnLamMoi.setBounds(190, 22, 160, 40);
 		pChucNang.add(btnLamMoi);
 		
@@ -1075,7 +1078,7 @@ public class UI_HoaDon extends JFrame {
 			public boolean isNumeric(String str) {
 				  return str.matches("\\d*");  //match a number with optional '-' and decimal. "-?\\d+(\\.\\d+)?"
 				}
-			@Override
+			    @Override
 			public void keyReleased(KeyEvent e) {
 				if(!isNumeric(txtCMND_Bill.getText())) 
 					txtCMND_Bill.setForeground(Color.red);
@@ -1162,6 +1165,13 @@ public class UI_HoaDon extends JFrame {
 		});
 		
 		dcNgayLHD.addPropertyChangeListener(new PropertyChangeListener() {
+			public int calculateAge(LocalDate birthDate, LocalDate currentDate) {
+		        if ((birthDate != null) && (currentDate != null)) {
+		            return Period.between(birthDate, currentDate).getYears();
+		        } else {  
+		            return 0;
+		        }
+		    }
 			public void propertyChange(PropertyChangeEvent evt) {
 				SearchHD(header1);
 			}

@@ -115,7 +115,6 @@ public class Bill extends JFrame {
 		}
 		double cusMoney = 0;
 		textArea.append(String.format("\n							Total          : %20s" , df.format(dao_hd.getTotalMoneyHD(maHD))));
-		textArea.append("\n\n			Ngày xuất hóa đơn  :  " + LocalDateTime.now() +"\n");
 		if(kt == 0) {
 			try {
 				cusMoney = num.parse(UI_ThanhToan.txtCusMoney.getText()).doubleValue();
@@ -125,7 +124,8 @@ public class Bill extends JFrame {
 			}
 			textArea.append(String.format("\n							Tiền khách trả : %20s" , df.format(cusMoney)));
 			textArea.append(String.format("\n							Tiền thừa      : %20s" , UI_ThanhToan.txtRefunds.getText()));
-		}
+		} else
+			textArea.append("\n\n			Ngày xuất hóa đơn  :  " + LocalDateTime.now() +"\n");
 		contentPane.add(textArea);
 	}
 
