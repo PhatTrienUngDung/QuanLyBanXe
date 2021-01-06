@@ -254,7 +254,7 @@ public class Dao_ThongKe {
 				+ "FROM     chiTietHoaDon INNER JOIN\r\n"
 				+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon INNER JOIN\r\n"
 				+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
-				+ "where YEAR(ngayLapHoaDon)="+2020+"\r\n"
+				+ "where YEAR(ngayLapHoaDon)="+nam+"\r\n"
 				+ "group by xe.tenXe\r\n"
 				+ "order by count(xe.tenXe) desc ,sum(HoaDon.tongTien) desc";
 		Statement statement= con.createStatement();

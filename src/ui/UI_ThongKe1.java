@@ -32,7 +32,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.JToggleButton.ToggleButtonModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
 import java.awt.CardLayout;
@@ -133,6 +134,21 @@ public class UI_ThongKe1 extends JFrame {
 		setBounds(100, 100, 450, 300);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(100, 100, screen.width, (screen.height-50));
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (InstantiationException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (IllegalAccessException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -195,18 +211,21 @@ public class UI_ThongKe1 extends JFrame {
 		panel.add(btnXe);
 		
 		JLabel lbXe = new JLabel("Thống Kê Xe");
+		lbXe.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbXe.setHorizontalAlignment(SwingConstants.CENTER);
-		lbXe.setBounds(10, 55, 93, 13);
+		lbXe.setBounds(10, 55, 93, 23);
 		panel.add(lbXe);
 		
 		JLabel lblNhanVien = new JLabel("Thống Kê Nhân Viên");
+		lblNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNhanVien.setBounds(144, 55, 148, 13);
+		lblNhanVien.setBounds(144, 55, 148, 23);
 		panel.add(lblNhanVien);
 		
 		JLabel lblHngSnXut = new JLabel("Thống Kê Khách Hàng");
+		lblHngSnXut.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblHngSnXut.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHngSnXut.setBounds(313, 55, 148, 13);
+		lblHngSnXut.setBounds(313, 55, 148, 23);
 		panel.add(lblHngSnXut);
 		
 		JPanel panel_1 = new JPanel();
@@ -233,11 +252,11 @@ public class UI_ThongKe1 extends JFrame {
 		        Image.SCALE_SMOOTH);
 		ImageIcon imageIcon = new ImageIcon(dimg);
 		
-		lbTKXM = new JLabel("Tổng Số Lượng Xe Mới Trong Tháng "+ LocalDate.now().getMonthValue());
+		lbTKXM = new JLabel("Tổng Số Lượng Xe Mới Trong Tháng "+ LocalDate.now().getMonthValue()+"-"+LocalDate.now().getYear());
 		lbTKXM.setForeground(Color.WHITE);
-		lbTKXM.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbTKXM.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbTKXM.setHorizontalAlignment(SwingConstants.CENTER);
-		lbTKXM.setBounds(0, 2, 337, 34);
+		lbTKXM.setBounds(0, 2, 349, 34);
 		panel_1.add(lbTKXM);
 		
 		JLabel lbSLXeMoi = new JLabel("...");
@@ -272,7 +291,7 @@ public class UI_ThongKe1 extends JFrame {
 		JLabel lbTKXB = new JLabel("Tổng Số Lượng Xe Bán Trong Tháng "+ LocalDate.now().getMonthValue());
 		lbTKXB.setHorizontalAlignment(SwingConstants.CENTER);
 		lbTKXB.setForeground(Color.WHITE);
-		lbTKXB.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbTKXB.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbTKXB.setBounds(0, 0, 337, 34);
 		panel_2.add(lbTKXB);
 		
@@ -308,7 +327,7 @@ public class UI_ThongKe1 extends JFrame {
 		lbSTDB = new JLabel("Tổng Doanh Thu Trong Tháng "+ LocalDate.now().getMonthValue());
 		lbSTDB.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSTDB.setForeground(Color.WHITE);
-		lbSTDB.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbSTDB.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbSTDB.setBounds(0, 0, 337, 34);
 		panel_3.add(lbSTDB);
 		
@@ -343,7 +362,7 @@ public class UI_ThongKe1 extends JFrame {
 		lbSLKH = new JLabel("Số Khách Hàng Mới Trong Tháng "+ LocalDate.now().getMonthValue());
 		lbSLKH.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSLKH.setForeground(Color.WHITE);
-		lbSLKH.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbSLKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbSLKH.setBounds(0, 0, 337, 34);
 		panel_4.add(lbSLKH);
 		
@@ -390,10 +409,12 @@ public class UI_ThongKe1 extends JFrame {
 		panel_5.add(pnChartXeMuaBan, "name_6412416537300");
 		//Hàm đọc số lượng
 		int ngay=LocalDate.now().getDayOfMonth();
-		lbTKXB.setText("Tổng Số Lượng Xe Bán Trong Ngày "+ngay);
-		lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Ngày "+ngay);
-		lbSTDB.setText("Tổng Doanh Thu Trong Ngày "+ngay);
-		lbSLKH.setText("Số Khách Hàng Mới Trong Ngày "+ngay);
+		int thang1=LocalDate.now().getMonthValue();
+		int nam1=LocalDate.now().getYear();
+		lbTKXB.setText("Tổng Số Lượng Xe Bán Trong Ngày "+ngay+"-"+thang1+"-"+nam1);
+		lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Ngày "+ngay+"-"+thang1+"-"+nam1);
+		lbSTDB.setText("Tổng Doanh Thu Trong Ngày "+ngay+"-"+thang1+"-"+nam1);
+		lbSLKH.setText("Số Khách Hàng Mới Trong Ngày "+ngay+"-"+thang1+"-"+nam1);
 		int t=LocalDate.now().getMonthValue();
 		int n=LocalDate.now().getYear();
 		int d=LocalDate.now().getDayOfMonth();
@@ -587,6 +608,7 @@ public class UI_ThongKe1 extends JFrame {
 		lbThang.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbThang.setBounds(257, 274, 45, 24);
 		contentPane.add(lbThang);
+		cbThang.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbThang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -606,7 +628,7 @@ public class UI_ThongKe1 extends JFrame {
 			}
 		});
 		
-		cbThang.setBounds(312, 277, 85, 21);
+		cbThang.setBounds(312, 277, 85, 25);
 		contentPane.add(cbThang);
 		cbThang.setBackground(Color.WHITE);
 		cbThang.setBorder(new LineBorder(new Color(0, 0, 0), 0));
@@ -616,8 +638,9 @@ public class UI_ThongKe1 extends JFrame {
 		lbNam.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbNam.setBounds(412, 274, 45, 24);
 		contentPane.add(lbNam);
+		cbNam.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		cbNam.setBounds(458, 277, 85, 21);
+		cbNam.setBounds(458, 277, 85, 25);
 		contentPane.add(cbNam);
 		cbNam.setBackground(Color.WHITE);
 		cbNam.setSelectedItem(LocalDate.now().getYear());
@@ -638,6 +661,7 @@ public class UI_ThongKe1 extends JFrame {
 		panel_7.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		rdNgay = new JRadioButton("Theo Ngày");
+		rdNgay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdNgay.setSelected(true);
 		rdNgay.addMouseListener(new MouseAdapter() {
 			@Override
@@ -652,6 +676,7 @@ public class UI_ThongKe1 extends JFrame {
 		rdNgay.setBackground(SystemColor.control);
 		
 		rdThang = new JRadioButton("Theo Tháng");
+		rdThang.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdThang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -665,6 +690,7 @@ public class UI_ThongKe1 extends JFrame {
 		rdThang.setBackground(SystemColor.control);
 		
 		rdNam = new JRadioButton("Theo Năm");
+		rdNam.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdNam.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -678,7 +704,8 @@ public class UI_ThongKe1 extends JFrame {
 		rdNam.setBackground(SystemColor.control);
 		//Bộ lọc quyền năng
 		JButton txtLoc = new JButton("Lọc");
-		txtLoc.setBounds(991, 277, 85, 21);
+		txtLoc.setFont(new Font("Tahoma", Font.BOLD, 13));
+		txtLoc.setBounds(991, 274, 85, 28);
 		contentPane.add(txtLoc);
 		
 		JLabel lblNgy = new JLabel("Ngày");
@@ -687,9 +714,10 @@ public class UI_ThongKe1 extends JFrame {
 		contentPane.add(lblNgy);
 		
 		cbNgay = new JComboBox<Object>();
+		cbNgay.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbNgay.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		cbNgay.setBackground(Color.WHITE);
-		cbNgay.setBounds(150, 277, 85, 21);
+		cbNgay.setBounds(150, 277, 85, 25);
 		int thang=(int) cbThang.getSelectedItem();
 		int nam=(int) cbNam.getSelectedItem();
 		Calendar calendarNgay = Calendar.getInstance();
@@ -720,11 +748,11 @@ public class UI_ThongKe1 extends JFrame {
 						lbSLXeBan.setText(String.valueOf(dao_ThongKe.BieuDoXeBan(t1, n1)));
 						lbSLKhachHang.setText(String.valueOf(dao_ThongKe.SoLuongKhachHangTrongThang(t1, n1)));
 						lbSLTienBan.setText(df.format(dao_ThongKe.TongTienTheoThang(t1, n1)));
-						lbTKXB.setText("Tổng Số Lượng Xe Bán Trong Tháng "+t1);
-						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Tháng "+t1);
-						lbSTDB.setText("Tổng Doanh Thu Trong Tháng "+t1);
-						lbSLKH.setText("Số Khách Hàng Mới Trong Tháng "+t1);
-						jchart.setTitle("Thống kê số lượng xe bán theo tháng "+t1);
+						lbTKXB.setText("Tổng Số Lượng Xe Bán Trong Tháng "+t1+"-"+n1);
+						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Tháng "+t1+"-"+n1);
+						lbSTDB.setText("Tổng Doanh Thu Trong Tháng "+t1+"-"+n1);
+						lbSLKH.setText("Số Khách Hàng Mới Trong Tháng "+t1+"-"+n1);
+						jchart.setTitle("Thống kê số lượng xe bán theo tháng trong năm "+n1);
 						loadKHThang(t1, n1);
 						//Biểu đồ
 						int t2=(int) cbThang.getSelectedItem();
@@ -804,7 +832,7 @@ public class UI_ThongKe1 extends JFrame {
 						lbSTDB.setText("Tổng Doanh Thu Trong Năm "+n1);
 						lbSLKH.setText("Số Khách Hàng Mới Trong Năm "+n1);
 						loadThongKeNam();
-						jchart.setTitle("Thống kê số lượng xe bán theo năm"+n1);
+						jchart.setTitle("Thống kê số lượng xe bán theo năm "+n1);
 						loadNhanVienTheoNam(n1);
 						loadKHNam(n1);
 						//Biểu đồ xe Nhập - Bán
@@ -883,11 +911,11 @@ public class UI_ThongKe1 extends JFrame {
 						lbSLXeBan.setText(String.valueOf(dao_ThongKe.BieuDoXeBan(ngay,t1, n1)));
 						lbSLKhachHang.setText(String.valueOf(dao_ThongKe.BieuDoKhachHangTheoNgay(ngay,t1, n1)));
 						lbSLTienBan.setText(df.format(dao_ThongKe.TongTienTheoNgay(ngay,t1, n1)));
-						lbTKXB.setText("Tổng Số Lượng Xe Bán Trong Ngày "+ngay);
-						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Ngày "+ngay);
-						lbSTDB.setText("Tổng Doanh Thu Trong Ngày "+ngay);
-						lbSLKH.setText("Số Khách Hàng Mới Trong Ngày "+ngay);
-						jchart.setTitle("Thống kê số lượng xe bán theo ngày trong tháng "+ t1);
+						lbTKXB.setText("Tổng Số Lượng Xe Bán Trong Ngày "+ngay+"-"+t1+"-"+n1);
+						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Ngày "+ngay+"-"+t1+"-"+n1);
+						lbSTDB.setText("Tổng Doanh Thu Trong Ngày "+ngay+"-"+t1+"-"+n1);
+						lbSLKH.setText("Số Khách Hàng Mới Trong Ngày "+ngay+"-"+t1+"-"+n1);
+						
 						int t2=(int) cbThang.getSelectedItem();
 						int n2=(int) cbNam.getSelectedItem();
 						loadNhanVienTheoNgay(ngay1, t1, n1);
@@ -896,7 +924,7 @@ public class UI_ThongKe1 extends JFrame {
 						int maxDay =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 						
 						//Biểu đồ xe Nhập - Bán
-						jchart.setTitle("Thống kê số lượng xe bán theo ngày");
+						jchart.setTitle("Thống kê số lượng xe bán theo ngày trong tháng "+ t1+"-"+n1);
 						for (int i = 1; i <=31; i++) {
 							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
 							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));

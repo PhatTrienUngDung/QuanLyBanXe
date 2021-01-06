@@ -31,6 +31,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import javax.swing.JTextArea;
+import java.awt.SystemColor;
+import com.toedter.calendar.JCalendar;
 
 
 public class HomePage extends JFrame  {
@@ -41,6 +47,7 @@ public class HomePage extends JFrame  {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lbltieuDe,lblanh;
+	private JLabel lbClock;
 	private String[] list = {
 			"banner1.jpg",
 			"banner2.jpg",
@@ -94,7 +101,7 @@ public class HomePage extends JFrame  {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 	
-		lbltieuDe = new JLabel("CHÀO MỪNG ĐẾN VỚI CÔNG TY TNHH THÀNH NAM");
+		lbltieuDe = new JLabel("CHÀO MỪNG ĐẾN VỚI CỬA HÀNG XE MÁY THÀNH NAM");
 		lbltieuDe.setBackground(new Color(255, 140, 0));
 		lbltieuDe.setHorizontalAlignment(SwingConstants.CENTER);
 		lbltieuDe.setFont(new Font("Tahoma", Font.BOLD, 35));
@@ -109,14 +116,14 @@ public class HomePage extends JFrame  {
 		contentPane.add(panelthongTin);
 		panelthongTin.setLayout(null);
 		
-		JLabel lblCngTy = new JLabel("@ Công ty TNHH Xe Thành Nam");
+		JLabel lblCngTy = new JLabel("@ Cửa Hàng Xe Máy Thành Nam");
 		lblCngTy.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCngTy.setBounds(33, 92, 254, 14);
+		lblCngTy.setBounds(33, 92, 254, 20);
 		panelthongTin.add(lblCngTy);
 		
 		JLabel lblNewLabel = new JLabel("Mã số doanh nghiệp: 0108617038. \r\n");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel.setBounds(33, 122, 202, 36);
+		lblNewLabel.setBounds(33, 122, 237, 36);
 		panelthongTin.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("GỌI MUA HÀNG, HỖ TRỢ (08:00 - 21:00): 1900.272737");
@@ -161,20 +168,20 @@ public class HomePage extends JFrame  {
 		lblNewLabel_2_1.setBounds(595, 181, 229, 14);
 		panelthongTin.add(lblNewLabel_2_1);
 		
-		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon(HomePage.class.getResource("/img/Phone-icon.png")));
-		lblNewLabel_3.setBounds(7, 169, 16, 14);
-		panelthongTin.add(lblNewLabel_3);
+		JLabel lbCall = new JLabel("");
+		lbCall.setIcon(new ImageIcon(HomePage.class.getResource("/img/Phone-icon.png")));
+		lbCall.setBounds(7, 169, 16, 14);
+		panelthongTin.add(lbCall);
 		
-		JLabel lblNewLabel_3_1 = new JLabel("");
-		lblNewLabel_3_1.setIcon(new ImageIcon(HomePage.class.getResource("/img/blue-home-icon.png")));
-		lblNewLabel_3_1.setBounds(565, 122, 20, 15);
-		panelthongTin.add(lblNewLabel_3_1);
+		JLabel lbH = new JLabel("");
+		lbH.setIcon(new ImageIcon(HomePage.class.getResource("/img/blue-home-icon.png")));
+		lbH.setBounds(565, 122, 20, 15);
+		panelthongTin.add(lbH);
 		
-		JLabel lblNewLabel_3_1_1 = new JLabel("");
-		lblNewLabel_3_1_1.setIcon(new ImageIcon(HomePage.class.getResource("/img/blue-home-icon.png")));
-		lblNewLabel_3_1_1.setBounds(565, 181, 20, 15);
-		panelthongTin.add(lblNewLabel_3_1_1);
+		JLabel lbh1 = new JLabel("");
+		lbh1.setIcon(new ImageIcon(HomePage.class.getResource("/img/blue-home-icon.png")));
+		lbh1.setBounds(565, 181, 20, 15);
+		panelthongTin.add(lbh1);
 		
 		JLabel lblTheoDiChng = new JLabel("Theo dõi chúng tôi tại");
 		lblTheoDiChng.setFont(new Font("Tahoma", Font.PLAIN, 30));
@@ -186,35 +193,63 @@ public class HomePage extends JFrame  {
 		panel_1_1.setBounds(1020, 71, 294, 4);
 		panelthongTin.add(panel_1_1);
 		
-		JLabel lblNewLabel_4 = new JLabel("");
-		lblNewLabel_4.setIcon(new ImageIcon(HomePage.class.getResource("/img/social-facebook-box-blue-icon.png")));
-		lblNewLabel_4.setBounds(1030, 92, 39, 30);
-		panelthongTin.add(lblNewLabel_4);
+		JLabel lbFb = new JLabel("");
+		lbFb.setIcon(new ImageIcon(HomePage.class.getResource("/img/social-facebook-box-blue-icon.png")));
+		lbFb.setBounds(1030, 92, 39, 30);
+		panelthongTin.add(lbFb);
 		
-		JLabel lblNewLabel_4_1 = new JLabel("");
-		lblNewLabel_4_1.setIcon(new ImageIcon(HomePage.class.getResource("/img/Twitter-icon.png")));
-		lblNewLabel_4_1.setBounds(1097, 92, 39, 30);
-		panelthongTin.add(lblNewLabel_4_1);
+		JLabel lbt = new JLabel("");
+		lbt.setIcon(new ImageIcon(HomePage.class.getResource("/img/Twitter-icon.png")));
+		lbt.setBounds(1097, 92, 39, 30);
+		panelthongTin.add(lbt);
 		
-		JLabel lblNewLabel_4_1_1 = new JLabel("");
-		lblNewLabel_4_1_1.setIcon(new ImageIcon(HomePage.class.getResource("/img/google-plus-icon.png")));
-		lblNewLabel_4_1_1.setBounds(1159, 92, 39, 30);
-		panelthongTin.add(lblNewLabel_4_1_1);
+		JLabel lbGG = new JLabel("");
+		lbGG.setIcon(new ImageIcon(HomePage.class.getResource("/img/google-plus-icon.png")));
+		lbGG.setBounds(1159, 92, 39, 30);
+		panelthongTin.add(lbGG);
 		
-		JLabel lblNewLabel_4_1_1_1 = new JLabel("");
-		lblNewLabel_4_1_1_1.setIcon(new ImageIcon(HomePage.class.getResource("/img/Linked-In-icon.png")));
-		lblNewLabel_4_1_1_1.setBounds(1219, 92, 39, 30);
-		panelthongTin.add(lblNewLabel_4_1_1_1);
+		JLabel lbIn = new JLabel("");
+		lbIn.setIcon(new ImageIcon(HomePage.class.getResource("/img/Linked-In-icon.png")));
+		lbIn.setBounds(1219, 92, 39, 30);
+		panelthongTin.add(lbIn);
 		
-		JLabel lblNewLabel_4_1_1_1_1 = new JLabel("");
-		lblNewLabel_4_1_1_1_1.setIcon(new ImageIcon(HomePage.class.getResource("/img/youtube-icon.png")));
-		lblNewLabel_4_1_1_1_1.setBounds(1275, 92, 39, 30);
-		panelthongTin.add(lblNewLabel_4_1_1_1_1);
+		JLabel lbYt = new JLabel("");
+		lbYt.setIcon(new ImageIcon(HomePage.class.getResource("/img/youtube-icon.png")));
+		lbYt.setBounds(1275, 92, 39, 30);
+		panelthongTin.add(lbYt);
 		
 	    lblanh = new JLabel("");
 	    lblanh.setHorizontalAlignment(SwingConstants.CENTER);
-		lblanh.setBounds(32, 69, 1480, 386);
+		lblanh.setBounds(49, 111, 673, 386);
 		contentPane.add(lblanh);
+		
+		JTextArea txtrCaHngXe = new JTextArea();
+		txtrCaHngXe.setForeground(SystemColor.desktop);
+		txtrCaHngXe.setEditable(false);
+		txtrCaHngXe.setBackground(SystemColor.control);
+		txtrCaHngXe.setFont(new Font("Courier New", Font.PLAIN, 20));
+		txtrCaHngXe.setText("Cửa hàng xe máy Thành Nam là một trong các cửa hàng kinh\r\ndoanh xe máy tại TP. Hồ Chí Minh, bên cạnh đó Cửa hàng xe\r\nmáy Thành Nam còn là hệ thống đầu tiên có chuỗi cung ứng \r\nhoàn thiện xe máy chính hãng từ các nhà sản xuất trong và\r\nngoài Việt Nam. ");
+		txtrCaHngXe.setBounds(751, 99, 706, 169);
+		contentPane.add(txtrCaHngXe);
+		
+		JLabel lbAnh1 = new JLabel("New label");
+		lbAnh1.setBounds(751, 278, 405, 232);
+		ImageIcon icon1 = new ImageIcon("img//them.png");
+		Image img1 = icon1.getImage();
+		Image imgScale1 = img1.getScaledInstance(lbAnh1.getWidth(), lbAnh1.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon scaledIcon1 = new ImageIcon(imgScale1);
+		lbAnh1.setIcon(scaledIcon1);
+		contentPane.add(lbAnh1);
+		
+		JCalendar cld = new JCalendar();
+		cld.setBounds(1166, 278, 298, 198);
+		contentPane.add(cld);
+		
+		lbClock = new JLabel("New label");
+		lbClock.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbClock.setBounds(1166, 479, 335, 38);
+		contentPane.add(lbClock);
+		clock();
 		
 		Timer timer = new Timer(1500,new ActionListener() {
 			
@@ -223,23 +258,47 @@ public class HomePage extends JFrame  {
 				// TODO Auto-generated method stub
 				int n = (int) Math.floor(Math.random() * 3);
 				String image = list[n];
-				BufferedImage img = null;
-			//	System.out.println(image);
-				try {
-					img = ImageIO.read(new File("img\\"+image));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				img.getScaledInstance(lblanh.getWidth(), lblanh.getHeight(),
-				        Image.SCALE_SMOOTH);
-				ImageIcon imageIcon = new ImageIcon(img);
-				lblanh.setIcon(imageIcon);
+				ImageIcon icon1 = new ImageIcon("img//"+image+"");
+				Image img1 = icon1.getImage();
+				Image imgScale1 = img1.getScaledInstance(lblanh.getWidth(), lblanh.getHeight(), Image.SCALE_SMOOTH);
+				ImageIcon scaledIcon1 = new ImageIcon(imgScale1);
+				lblanh.setIcon(scaledIcon1);
+
 			}
 		});
 		timer.start();
 		
 	}
+	public void clock() {
+	    Thread clock = new Thread() {
+	        public void run() {
+	            try {
+	                while (true) {
+	                    Calendar cal = new GregorianCalendar();
+	                    int second = cal.get(Calendar.SECOND);
+	                    int minute = cal.get(Calendar.MINUTE);
+	                    int hour = cal.get(Calendar.HOUR_OF_DAY);
+	                    String thu;
+	                    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+	                    if (dayOfWeek == 1) {
+	                        thu = "Chủ nhật";
+	                    } else {
+	                        thu = "Thứ " + Integer.toString(dayOfWeek);
+	                    }
+	                    int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+	                    int month = cal.get(Calendar.MONTH)+1;
+	                    int year = cal.get(Calendar.YEAR);
 
+	                    lbClock.setText(hour + "h:" + minute + "p:" + second +"s "+thu+" Ngày "+dayOfMonth+" Tháng "+month+" Năm "+year);
+	                    sleep(1000);
+	                }
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    };
+	    clock.start();
+	}
 }
 
 

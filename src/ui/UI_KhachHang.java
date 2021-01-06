@@ -85,6 +85,7 @@ public class UI_KhachHang extends JFrame {
 	private Dao_KhachHang dao_kh;
 	private ArrayList<String> cmnd ;
 	private JTextField txtCmnd;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbgioiTinh;
 	/**
 	 * Launch the application.

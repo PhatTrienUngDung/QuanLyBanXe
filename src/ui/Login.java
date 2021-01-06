@@ -41,6 +41,7 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.SwingConstants;
 
 
 
@@ -106,14 +107,13 @@ public class Login extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panelRight = new JPanel();
-		panelRight.setBounds(3, 67, 840, 559);
+		panelRight.setBounds(27, 68, 840, 559);
 		contentPane.add(panelRight);
 		panelRight.setLayout(null);
 		
 		lblanh1 = new JLabel("");
-		//lblanh1.setIcon(new ImageIcon(Login.class.getResource("/img1/inventory-management-system.png")));
-		lblanh1.setBounds(0, 11, 840, 550);
-		ImageIcon icon1 = new ImageIcon("src/img1/inventory-management-system.png");
+		lblanh1.setBounds(0, 0, 840, 561);
+		ImageIcon icon1 = new ImageIcon("img1//1.png");
 		Image img1 = icon1.getImage();
 		Image imgScale1 = img1.getScaledInstance(lblanh1.getWidth(), lblanh1.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon1 = new ImageIcon(imgScale1);
@@ -122,61 +122,61 @@ public class Login extends JFrame {
 		panelRight.add(lblanh1);
 		
 		lblanh2 = new JLabel("");
-		//lblanh2.setIcon(new ImageIcon(Login.class.getResource("/img1/images.jpg")));
 		lblanh2.setBounds(840, 11, 840, 550);
-		ImageIcon icon2 = new ImageIcon("src/img1/seed_fundraising_pitch_deck_business_plan_animation_ppt_download_315300.jpg");
+		ImageIcon icon2 = new ImageIcon("img1//2.png");
 		Image img2 = icon2.getImage();
 		Image imgScale2 = img2.getScaledInstance(lblanh2.getWidth(), lblanh2.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon2 = new ImageIcon(imgScale2);
 		lblanh2.setIcon(scaledIcon2);
-		//lblanh2.setIcon(new ImageIcon(Login.class.getResource("/img1/seed_fundraising_pitch_deck_business_plan_animation_ppt_download_315300.jpg")));
+
 		
 		panelRight.add(lblanh2);
 		
 		JPanel panelLeft = new JPanel();
 		panelLeft.setBackground(new Color(255, 255, 255));
-		panelLeft.setBounds(853, 43, 507, 606);
+		panelLeft.setBounds(877, 68, 507, 559);
 		contentPane.add(panelLeft);
 		panelLeft.setLayout(null);
 		
 		lblAnh = new JLabel("");
 		lblAnh.setIcon(new ImageIcon(Login.class.getResource("/img/User-Administrator-Red-icon.png")));
-		lblAnh.setBounds(174, 135, 172, 136);
+		lblAnh.setBounds(186, 80, 172, 136);
 		panelLeft.add(lblAnh);
 		
-		lbltieuDe = new JLabel("USER LOGIN");
+		lbltieuDe = new JLabel("Đăng Nhập");
+		lbltieuDe.setHorizontalAlignment(SwingConstants.CENTER);
 		lbltieuDe.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lbltieuDe.setBounds(143, 65, 221, 40);
+		lbltieuDe.setBounds(155, 10, 221, 40);
 		panelLeft.add(lbltieuDe);
 		
-		lbluser = new JLabel("User :");
+		lbluser = new JLabel("Mã nhân viên");
 		lbluser.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lbluser.setBounds(94, 311, 76, 31);
+		lbluser.setBounds(106, 256, 202, 31);
 		panelLeft.add(lbluser);
 		
-		lblpass = new JLabel("Password :");
+		lblpass = new JLabel("Mật khẩu");
 		lblpass.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblpass.setBounds(94, 414, 161, 31);
+		lblpass.setBounds(106, 359, 161, 31);
 		panelLeft.add(lblpass);
 		
 		paneluser = new JPanel();
 		paneluser.setBackground(Color.BLACK);
-		paneluser.setBounds(94, 388, 283, 4);
+		paneluser.setBounds(106, 333, 283, 4);
 		panelLeft.add(paneluser);
 		
 		panelpass = new JPanel();
 		panelpass.setBackground(Color.BLACK);
-		panelpass.setBounds(94, 484, 283, 4);
+		panelpass.setBounds(106, 429, 283, 4);
 		panelLeft.add(panelpass);
 		
 		imageuser = new JLabel("");
 		imageuser.setIcon(new ImageIcon(Login.class.getResource("/img/User-icon.png")));
-		imageuser.setBounds(94, 353, 32, 40);
+		imageuser.setBounds(106, 298, 32, 40);
 		panelLeft.add(imageuser);
 		
 		imagepass = new JLabel("");
 		imagepass.setIcon(new ImageIcon(Login.class.getResource("/img/lock-icon.png")));
-		imagepass.setBounds(94, 448, 46, 40);
+		imagepass.setBounds(106, 393, 46, 40);
 		panelLeft.add(imagepass);
 		
 		txtuser = new JTextField();
@@ -193,12 +193,12 @@ public class Login extends JFrame {
 		});
 		txtuser.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtuser.setBackground(Color.WHITE);
-		txtuser.setBounds(131, 353, 215, 31);
+		txtuser.setBounds(143, 298, 215, 31);
 		txtuser.setBorder(null);
 		panelLeft.add(txtuser);
 		txtuser.setColumns(10);
 		
-		JButton btndangNhap = new JButton("Login");
+		JButton btndangNhap = new JButton("Đăng nhập");
 		btndangNhap.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -232,7 +232,7 @@ public class Login extends JFrame {
 		btndangNhap.setForeground(SystemColor.inactiveCaptionBorder);
 		btndangNhap.setBackground(new Color(0, 153, 255));
 		btndangNhap.setFont(new Font("Tahoma", Font.BOLD, 25));
-		btndangNhap.setBounds(143, 524, 202, 49);
+		btndangNhap.setBounds(155, 469, 202, 49);
 		panelLeft.add(btndangNhap);
 		
 		txtpass = new JPasswordField();
@@ -278,7 +278,7 @@ public class Login extends JFrame {
 				}
 			}
 		});
-		txtpass.setBounds(134, 453, 215, 31);
+		txtpass.setBounds(146, 398, 215, 31);
 		txtpass.setBorder(null);
 		
 		panelLeft.add(txtpass);
@@ -294,7 +294,7 @@ public class Login extends JFrame {
 			}
 		});
 		lblxoauser.setIcon(new ImageIcon(Login.class.getResource("/img/delete-1-icon.png")));
-		lblxoauser.setBounds(360, 370, 17, 16);
+		lblxoauser.setBounds(372, 315, 17, 16);
 		lblxoauser.setVisible(false);
 		panelLeft.add(lblxoauser);
 		
@@ -309,7 +309,7 @@ public class Login extends JFrame {
 			}
 		});
 		lblxoapass.setIcon(new ImageIcon(Login.class.getResource("/img/delete-1-icon.png")));
-		lblxoapass.setBounds(359, 465, 17, 16);
+		lblxoapass.setBounds(371, 410, 17, 16);
 		lblxoapass.setVisible(false);
 		panelLeft.add(lblxoapass);
 		
@@ -323,7 +323,7 @@ public class Login extends JFrame {
 //		
 		
 		lblbackground = new JLabel("");
-		lblbackground.setBounds(0, 0, 1370, 711);
+		lblbackground.setBounds(0, 0, 1416, 711);
 		ImageIcon icon = new ImageIcon("src/img1/dark.png");
 		Image img = icon.getImage();
 		Image imgScale = img.getScaledInstance(lblbackground.getWidth(), lblbackground.getHeight(), Image.SCALE_SMOOTH);
@@ -385,7 +385,10 @@ public class Login extends JFrame {
 				}
 			}
 		}.start();
+		txtuser.setText("NV_0001");
+		txtpass.setText("111111");
 	}
+	
 }
 
 
