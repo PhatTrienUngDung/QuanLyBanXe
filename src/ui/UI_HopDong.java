@@ -152,17 +152,6 @@ public class UI_HopDong extends JFrame {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-
-
-		
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(0, 0, 1522, 78);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
-		
 	
 		
 		
@@ -170,11 +159,11 @@ public class UI_HopDong extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("Quản lý thông tin hợp đồng");
 		lblNewLabel_1.setForeground(new Color(184, 134, 11));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblNewLabel_1.setBounds(10, 88, 439, 72);
+		lblNewLabel_1.setBounds(10, 10, 439, 72);
 		panel.add(lblNewLabel_1);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 170, 1084, 209);
+		panel_2.setBounds(10, 92, 1084, 240);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -191,7 +180,7 @@ public class UI_HopDong extends JFrame {
 			}
 		});
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 1084, 209);
+		scrollPane.setBounds(0, 0, 1084, 240);
 		panel_2.add(scrollPane);
 		
 		table_1 = new JTable();
@@ -210,7 +199,7 @@ public class UI_HopDong extends JFrame {
 		
 		String [] header = {"Mã xe","Tên xe","Loại xe", "Hãng sản xuất", "Phiên bản","Màu xe","Phân khối","Số khung","Số máy","Thành tiền","Trạng thái"};
 		tableModel = new DefaultTableModel(header,0);
-		scrollPane_2.setBounds(10, 404, 1084, 237);
+		scrollPane_2.setBounds(10, 342, 1084, 237);
 		panel.add(scrollPane_2);
 		
 		table = new JTable(tableModel);
@@ -222,20 +211,20 @@ public class UI_HopDong extends JFrame {
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(null, "Thông tin khách hàng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_3.setBounds(1104, 170, 398, 200);
+		panel_3.setBounds(1104, 92, 398, 240);
 		panel.add(panel_3);
 		panel_3.setLayout(null);
 		
 		JLabel lblNgyChn = new JLabel("Ngày chọn");
 		lblNgyChn.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNgyChn.setBounds(10, 26, 93, 23);
+		lblNgyChn.setBounds(40, 26, 93, 28);
 		panel_3.add(lblNgyChn);
 		
 		dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 	//	dateChooser.setDate(Date.valueOf(LocalDate.now()));
 		
-		dateChooser.setBounds(152, 26, 180, 23);
+		dateChooser.setBounds(182, 26, 180, 28);
 	
 	//	String ngayLap =  dateChooser.getDate().toString();
 		panel_3.add(dateChooser);
@@ -243,26 +232,26 @@ public class UI_HopDong extends JFrame {
 		
 		JLabel lblCmnd = new JLabel("CMND");
 		lblCmnd.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCmnd.setBounds(10, 73, 80, 13);
+		lblCmnd.setBounds(40, 71, 80, 20);
 		panel_3.add(lblCmnd);
 		
 		
 		txtcmnd = new JTextField();	
 		txtcmnd.setDocument(new JTextFieldLimit(12));
 		txtcmnd.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtcmnd.setBounds(152, 66, 180, 20);
+		txtcmnd.setBounds(182, 64, 180, 27);
 		panel_3.add(txtcmnd);
 		txtcmnd.setColumns(10);
 		
 		JLabel lblTnKhchHng = new JLabel("Tên khách hàng");
 		lblTnKhchHng.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTnKhchHng.setBounds(10, 109, 132, 19);
+		lblTnKhchHng.setBounds(40, 102, 132, 25);
 		panel_3.add(lblTnKhchHng);
 		
 	
 		txttenKH = new JTextField();
 		txttenKH.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txttenKH.setBounds(152, 108, 180, 20);
+		txttenKH.setBounds(182, 101, 180, 26);
 		txttenKH.setEditable(false);
 		panel_3.add(txttenKH);
 		txttenKH.setColumns(10);
@@ -316,7 +305,7 @@ public class UI_HopDong extends JFrame {
 		
 		btnTaoMoi.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnTaoMoi.setBackground(Color.ORANGE);
-		btnTaoMoi.setBounds(48, 138, 132, 52);
+		btnTaoMoi.setBounds(40, 148, 132, 52);
 		btnTaoMoi.setIcon(new ImageIcon("img1/add.png"));
 		panel_3.add(btnTaoMoi);
 		
@@ -337,25 +326,25 @@ public class UI_HopDong extends JFrame {
 			}
 		});
 		btnLamSach.setBackground(Color.ORANGE);
-		btnLamSach.setBounds(221, 138, 139, 52);
+		btnLamSach.setBounds(223, 148, 139, 52);
 		btnLamSach.setIcon(new ImageIcon("img1/refresh.png"));
 		panel_3.add(btnLamSach);
 		
 
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(null, "Chức năng	", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_4.setBounds(1104, 407, 398, 234);
+		panel_4.setBounds(1104, 342, 398, 240);
 		panel.add(panel_4);
 		panel_4.setLayout(null);
 		
 		JLabel lblNhapCmnd = new JLabel("Nhập số CMND");
 		lblNhapCmnd.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNhapCmnd.setBounds(10, 33, 131, 13);
+		lblNhapCmnd.setBounds(33, 48, 131, 31);
 		panel_4.add(lblNhapCmnd);
 		
 		textField_4 = new JTextField();
 		textField_4.setDocument(new JTextFieldLimit(12));
-		textField_4.setBounds(151, 20, 189, 31);
+		textField_4.setBounds(174, 48, 189, 31);
 		panel_4.add(textField_4);
 		textField_4.setColumns(10);
 		
@@ -384,7 +373,7 @@ public class UI_HopDong extends JFrame {
 		});
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnTimKiem.setBackground(Color.ORANGE);
-		btnTimKiem.setBounds(230, 115, 110, 41);
+		btnTimKiem.setBounds(235, 115, 124, 57);
 		btnTimKiem.setIcon(new ImageIcon("img1/search2.png"));
 		panel_4.add(btnTimKiem);
 		
@@ -454,7 +443,7 @@ public class UI_HopDong extends JFrame {
 		
 		btnXuatHD.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnXuatHD.setBackground(Color.ORANGE);
-		btnXuatHD.setBounds(67, 115, 110, 41);
+		btnXuatHD.setBounds(33, 115, 131, 57);
 		btnXuatHD.setIcon(new ImageIcon("img1/update.png"));
 		panel_4.add(btnXuatHD);
 		

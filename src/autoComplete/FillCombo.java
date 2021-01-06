@@ -5,12 +5,12 @@ import connect.ConnectDB;
 import java.sql.SQLException;
 
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 
 public class FillCombo {
 
 	ConnectDB con = new ConnectDB();
 	
+	@SuppressWarnings("rawtypes")
 	public void fill(String SQL, JComboBox combo, String column) throws SQLException {
         con.connect();
         con.executaSQL(SQL);

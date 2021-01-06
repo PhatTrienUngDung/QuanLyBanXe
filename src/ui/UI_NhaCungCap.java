@@ -125,7 +125,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_4.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 151, 1100, 167);
+		panel.setBounds(10, 73, 1100, 167);
 		panel_4.add(panel);
 		panel.setForeground(UIManager.getColor("CheckBox.focus"));
 		panel.setBackground(SystemColor.control);
@@ -225,7 +225,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_3.add(txtSDT);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(1134, 151, 358, 167);
+		panel_1.setBounds(1134, 73, 358, 167);
 		panel_4.add(panel_1);
 		panel_1.setBackground(SystemColor.control);
 		TitledBorder t2=new TitledBorder(null, "Ch\u1EE9c n\u0103ng", TitledBorder.LEADING, TitledBorder.TOP, null, null);
@@ -396,7 +396,7 @@ public class UI_NhaCungCap extends JFrame {
 		
 		JPanel panel_6 = new JPanel();
 		panel_6.setBackground(SystemColor.control);
-		panel_6.setBounds(10, 421, 1494, 313);
+		panel_6.setBounds(10, 335, 1494, 313);
 		panel_4.add(panel_6);
 		panel_6.setLayout(null);
 		String[] header= {"Mã Nhà Cung Cấp","Tên Nhà Cung Cấp", "Địa Chỉ", "Email", "Số Điện Thoại","Ghi Chú"};
@@ -435,7 +435,7 @@ public class UI_NhaCungCap extends JFrame {
 		t1.setTitleFont(new Font("Tahoma", Font.PLAIN, 13));
 		panel_7.setBorder(t1);
 		panel_7.setBackground(SystemColor.control);
-		panel_7.setBounds(10, 336, 1100, 75);
+		panel_7.setBounds(10, 250, 1100, 75);
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
 		
@@ -479,7 +479,7 @@ public class UI_NhaCungCap extends JFrame {
 		JPanel panel_8 = new JPanel();
 		panel_8.setBorder(new MatteBorder(1, 1, 1, 1, (Color) SystemColor.controlShadow));
 		panel_8.setBackground(SystemColor.control);
-		panel_8.setBounds(1134, 342, 358, 65);
+		panel_8.setBounds(1134, 255, 358, 65);
 		panel_4.add(panel_8);
 		panel_8.setLayout(null);
 		
@@ -500,16 +500,10 @@ public class UI_NhaCungCap extends JFrame {
 		panel_8.add(txtDem);
 		txtDem.setColumns(10);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		panel_2.setBackground(Color.WHITE);
-		panel_2.setBounds(0, 0, 1535, 78);
-		panel_4.add(panel_2);
-		
 		JLabel lblNewLabel_1_1 = new JLabel("QUẢN LÝ THÔNG TIN NHÀ CUNG CẤP");
 		lblNewLabel_1_1.setForeground(new Color(184, 134, 11));
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblNewLabel_1_1.setBounds(10, 88, 611, 53);
+		lblNewLabel_1_1.setBounds(10, 10, 611, 53);
 		panel_4.add(lblNewLabel_1_1);
 		dem();
 		table = new JTable();

@@ -1,11 +1,9 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
@@ -15,14 +13,12 @@ import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
-import java.awt.Image;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.keypoint.PngEncoder;
 import com.toedter.calendar.JDateChooser;
 
 import autoComplete.FillCombo;
@@ -34,11 +30,9 @@ import dao.Dao_LoaiXe;
 import dao.Dao_NhaCungCap;
 import dao.Dao_NhanVien;
 import dao.Dao_QuanLyXe;
-import dao.Dao_TaiKhoan;
 import entity.HangSanXuat;
 import entity.KhachHang;
 import entity.LoaiXe;
-import entity.NhaCungCap;
 import entity.Xe;
 import others.Bill;
 import others.PrintSupport;
@@ -47,42 +41,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.Panel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JComboBox;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.IOException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseMotionAdapter;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import java.awt.SystemColor;
-import java.awt.TextArea;
-import java.awt.TextField;
-
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
@@ -91,6 +69,10 @@ import javax.swing.event.AncestorEvent;
 
 public class UI_HoaDon extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public static JTable table;
 	public static JTextField txtTotal = new JTextField();
@@ -103,8 +85,10 @@ public class UI_HoaDon extends JFrame {
     public static JTextField txtNumPhone_Bill;
     public static JTextField txtCustomerName_Bill;
     public static JTextArea txtNoteCustomer_Bill;
-    public static JComboBox cbbVehicleName_Bill;
-    private JComboBox cbbVehicleColor_Bill, cbbVersion, cbbChasisNumber;
+    @SuppressWarnings("rawtypes")
+	public static JComboBox cbbVehicleName_Bill;
+    @SuppressWarnings("rawtypes")
+	private JComboBox cbbVehicleColor_Bill, cbbVersion, cbbChasisNumber;
     private JTextField txtVehicleEngineNum;
     public static String maKhachHang;
 	public static double thueVAT;
@@ -141,6 +125,27 @@ public class UI_HoaDon extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (InstantiationException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (IllegalAccessException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		DecimalFormat df = new DecimalFormat("#,###,###,### VNĐ");
 		Dao_KhachHang dao_kh = new Dao_KhachHang();
 		Dao_HangSanXuat dao_Hsx = new Dao_HangSanXuat();
@@ -163,7 +168,7 @@ public class UI_HoaDon extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel pTab1 = new JPanel();
-		pTab1.setBounds(10, 101, 1513, 644);
+		pTab1.setBounds(10, 101, 1513, 687);
 		contentPane.add(pTab1);
 		pTab1.setLayout(null);
 		
@@ -235,73 +240,77 @@ public class UI_HoaDon extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 		
 		JPanel pGenInfo_Bill = new JPanel();
-		pGenInfo_Bill.setBounds(0, 5, 905, 106);
+		pGenInfo_Bill.setBounds(0, 5, 905, 141);
 		pTab1.add(pGenInfo_Bill);
-		pGenInfo_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Thông Tin Chung", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		TitledBorder t= new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Thông Tin Chung", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK);
+		t.setTitleFont(new Font("Tahoma", Font.PLAIN, 13));
+		pGenInfo_Bill.setBorder(t);
 		pGenInfo_Bill.setBackground(SystemColor.control);
 		pGenInfo_Bill.setLayout(null);
 		
 		JPanel pCustomerInfo_Bill = new JPanel();
-		pCustomerInfo_Bill.setBounds(10, 20, 890, 76);
+		pCustomerInfo_Bill.setBounds(10, 22, 890, 104);
 		pCustomerInfo_Bill.setBackground(SystemColor.control);
 		pGenInfo_Bill.add(pCustomerInfo_Bill);
 		pCustomerInfo_Bill.setLayout(null);
 		
 		JLabel lblCustomerNum_Bill = new JLabel("CMND");
-		lblCustomerNum_Bill.setBounds(10, 12, 87, 21);
+		lblCustomerNum_Bill.setBounds(10, 12, 87, 28);
 		lblCustomerNum_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		pCustomerInfo_Bill.add(lblCustomerNum_Bill);
 		
 		txtCMND_Bill = new JTextField();
 		txtCMND_Bill.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtCMND_Bill.setBounds(100, 10, 250, 21);
+		txtCMND_Bill.setBounds(100, 10, 250, 30);
 		pCustomerInfo_Bill.add(txtCMND_Bill);
 		
 		JLabel lblNumPhone_Bill = new JLabel("SĐT");
 		lblNumPhone_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNumPhone_Bill.setBounds(10, 41, 45, 21);
+		lblNumPhone_Bill.setBounds(10, 52, 45, 25);
 		pCustomerInfo_Bill.add(lblNumPhone_Bill);
 		
 		txtNumPhone_Bill = new JTextField();
 		txtNumPhone_Bill.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtNumPhone_Bill.setBounds(100, 39, 250, 21);
+		txtNumPhone_Bill.setBounds(100, 50, 250, 27);
 		pCustomerInfo_Bill.add(txtNumPhone_Bill);
 		
 		JLabel lblCustomerName_Bill = new JLabel("Tên Khách Hàng");
 		lblCustomerName_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblCustomerName_Bill.setBounds(405, 12, 128, 21);
+		lblCustomerName_Bill.setBounds(405, 12, 128, 28);
 		pCustomerInfo_Bill.add(lblCustomerName_Bill);
 		
 		txtCustomerName_Bill = new JTextField();
 		txtCustomerName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtCustomerName_Bill.setBounds(570, 10, 310, 21);
+		txtCustomerName_Bill.setBounds(570, 10, 310, 30);
 		pCustomerInfo_Bill.add(txtCustomerName_Bill);
 		
 		JLabel lblNote_Bill = new JLabel("Chú Thích");
 		lblNote_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNote_Bill.setBounds(405, 43, 87, 21);
+		lblNote_Bill.setBounds(405, 52, 87, 25);
 		pCustomerInfo_Bill.add(lblNote_Bill);
 		
 		txtNoteCustomer_Bill = new JTextArea();
 		txtNoteCustomer_Bill.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtNoteCustomer_Bill.setBounds(570, 41, 310, 23);
+		txtNoteCustomer_Bill.setBounds(570, 50, 310, 27);
 		pCustomerInfo_Bill.add(txtNoteCustomer_Bill);
 		
 		JPanel pOtherInfo_Bill = new JPanel();
-		pOtherInfo_Bill.setBounds(925, 5, 598, 106);
+		pOtherInfo_Bill.setBounds(925, 5, 598, 141);
 		pTab1.add(pOtherInfo_Bill);
-		pOtherInfo_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Thông Tin Khác", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		TitledBorder t2=new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Thông Tin Khác", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK);
+		t2.setTitleFont(new Font("Tahoma", Font.PLAIN, 13));
+		pOtherInfo_Bill.setBorder(t2);
 		pOtherInfo_Bill.setBackground(SystemColor.control);
 		pOtherInfo_Bill.setLayout(null);
 		
 		JPanel pEmployeeInfo_Bill = new JPanel();
-		pEmployeeInfo_Bill.setBounds(10, 20, 574, 76);
+		pEmployeeInfo_Bill.setBounds(10, 20, 574, 111);
 		pOtherInfo_Bill.add(pEmployeeInfo_Bill);
 		pEmployeeInfo_Bill.setLayout(null);
 		
 		JLabel lblEmployee_Bill = new JLabel("Nhân Viên");
 		lblEmployee_Bill.setBackground(new Color(230, 230, 250));
-		lblEmployee_Bill.setBounds(10, 12, 87, 21);
+		lblEmployee_Bill.setBounds(10, 12, 87, 26);
 		lblEmployee_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		pEmployeeInfo_Bill.add(lblEmployee_Bill);	
 		
@@ -311,7 +320,7 @@ public class UI_HoaDon extends JFrame {
 		txtEmployeeNum_Bill.setText("NV_0001");
 		//txtEmployeeNum_Bill.setBackground(Color.WHITE);
 		txtEmployeeNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtEmployeeNum_Bill.setBounds(140, 10, 168, 21);
+		txtEmployeeNum_Bill.setBounds(140, 10, 168, 28);
 		pEmployeeInfo_Bill.add(txtEmployeeNum_Bill);
 		
 		JTextField txtEmployeeName_Bill = new JTextField();
@@ -319,12 +328,12 @@ public class UI_HoaDon extends JFrame {
 		txtEmployeeName_Bill.setText(dao_nv.getTenNhanVienById(txtEmployeeNum_Bill.getText()));
 		//txtEmployeeName_Bill.setBackground(Color.WHITE);
 		txtEmployeeName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtEmployeeName_Bill.setBounds(320, 10, 244, 21);
+		txtEmployeeName_Bill.setBounds(320, 10, 244, 28);
 		pEmployeeInfo_Bill.add(txtEmployeeName_Bill);
 		
 		JLabel lblBillNum = new JLabel("Mã Hóa Đơn");
 		lblBillNum.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblBillNum.setBounds(10, 45, 92, 21);
+		lblBillNum.setBounds(10, 60, 92, 24);
 		pEmployeeInfo_Bill.add(lblBillNum);
 		
 		txtBillNum = new JTextField();
@@ -332,12 +341,12 @@ public class UI_HoaDon extends JFrame {
 		txtBillNum.setText(maHD);
 		//txtBillNum.setBackground(Color.WHITE);
 		txtBillNum.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtBillNum.setBounds(140, 43, 168, 23);
+		txtBillNum.setBounds(140, 58, 168, 26);
 		pEmployeeInfo_Bill.add(txtBillNum);
 		
 		JLabel lblBillDate = new JLabel("Ngày LHD");
 		lblBillDate.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblBillDate.setBounds(320, 45, 86, 21);
+		lblBillDate.setBounds(320, 60, 86, 24);
 		pEmployeeInfo_Bill.add(lblBillDate);
 		
 		txtDateBill = new JTextField();
@@ -345,36 +354,38 @@ public class UI_HoaDon extends JFrame {
 		//txtDateBill.setBackground(Color.WHITE);
 		txtDateBill.setText(LocalDate.now().toString());
 		txtDateBill.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtDateBill.setBounds(414, 43, 150, 22);
+		txtDateBill.setBounds(414, 58, 150, 26);
 		pEmployeeInfo_Bill.add(txtDateBill);
 		
 		JPanel pProduct_Bill = new JPanel();
-		pProduct_Bill.setBounds(0, 131, 905, 137);
+		pProduct_Bill.setBounds(0, 156, 905, 169);
 		pTab1.add(pProduct_Bill);
-		pProduct_Bill.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Thông Tin Xe", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		TitledBorder t3=new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Thông Tin Xe", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK);
+		t3.setTitleFont(new Font("Tahoma", Font.PLAIN, 13));
+		pProduct_Bill.setBorder(t3);
 		pProduct_Bill.setBackground(SystemColor.control);
 		pProduct_Bill.setLayout(null);
 		
 		JPanel pAddVehicle_Bill = new JPanel();
 		pAddVehicle_Bill.setToolTipText("");
-		pAddVehicle_Bill.setBounds(10, 21, 890, 102);
+		pAddVehicle_Bill.setBounds(10, 21, 890, 142);
 		pProduct_Bill.add(pAddVehicle_Bill);
 		pAddVehicle_Bill.setLayout(null);
 		
 		JLabel lblVehicleNum_Bill = new JLabel("Mã Xe");
-		lblVehicleNum_Bill.setBounds(10, 12, 44, 21);
+		lblVehicleNum_Bill.setBounds(10, 12, 44, 25);
 		lblVehicleNum_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		pAddVehicle_Bill.add(lblVehicleNum_Bill);
 		
 		JLabel lblVehicleName_Bill = new JLabel("Tên Xe");
 		lblVehicleName_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblVehicleName_Bill.setBounds(405, 12, 60, 21);
+		lblVehicleName_Bill.setBounds(405, 12, 60, 25);
 		pAddVehicle_Bill.add(lblVehicleName_Bill);
 		
 		cbbVehicleName_Bill = new JComboBox();
 		cbbVehicleName_Bill.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbbVehicleName_Bill.setBackground(Color.WHITE);
-		cbbVehicleName_Bill.setBounds(570, 10, 290, 21);
+		cbbVehicleName_Bill.setBounds(570, 10, 290, 27);
 		pAddVehicle_Bill.add(cbbVehicleName_Bill);
 		try {
 			combo.fill("select DISTINCT tenXe from Xe where trangThai = N'Còn hàng' order by tenXe" , cbbVehicleName_Bill, "tenXe");
@@ -386,39 +397,39 @@ public class UI_HoaDon extends JFrame {
 		cbbVehicleColor_Bill = new JComboBox();
 		cbbVehicleColor_Bill.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbbVehicleColor_Bill.setBackground(Color.WHITE);
-		cbbVehicleColor_Bill.setBounds(570, 43, 145, 21);
+		cbbVehicleColor_Bill.setBounds(570, 47, 145, 27);
 		pAddVehicle_Bill.add(cbbVehicleColor_Bill);
 		
 		JLabel lblVehicleColor_Bill = new JLabel("Màu Xe");
 		lblVehicleColor_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblVehicleColor_Bill.setBounds(405, 45, 68, 21);
+		lblVehicleColor_Bill.setBounds(405, 47, 68, 25);
 		pAddVehicle_Bill.add(lblVehicleColor_Bill);
 		
 		JTextField txtVehicleNum_Bill = new JTextField();
 		txtVehicleNum_Bill.setBackground(Color.white);
 		txtVehicleNum_Bill.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtVehicleNum_Bill.setBounds(115, 10, 203, 21);
+		txtVehicleNum_Bill.setBounds(115, 10, 203, 27);
 		pAddVehicle_Bill.add(txtVehicleNum_Bill);
 		
 		JLabel lblManufacturerName_Bill = new JLabel("Phiên bản");
 		lblManufacturerName_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblManufacturerName_Bill.setBounds(10, 43, 68, 21);
+		lblManufacturerName_Bill.setBounds(10, 49, 68, 25);
 		pAddVehicle_Bill.add(lblManufacturerName_Bill);
 		
 		cbbVersion = new JComboBox();
 		cbbVersion.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbbVersion.setBackground(Color.WHITE);
-		cbbVersion.setBounds(115, 41, 203, 21);
+		cbbVersion.setBounds(115, 47, 203, 27);
 		pAddVehicle_Bill.add(cbbVersion);
 		
 		JLabel lblChasisNumber_Bill = new JLabel("Số Khung");
 		lblChasisNumber_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblChasisNumber_Bill.setBounds(10, 74, 95, 21);
+		lblChasisNumber_Bill.setBounds(10, 84, 95, 25);
 		pAddVehicle_Bill.add(lblChasisNumber_Bill);
 		
 		cbbChasisNumber = new JComboBox();
 		cbbChasisNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbbChasisNumber.setBounds(115, 74, 203, 21);
+		cbbChasisNumber.setBounds(115, 84, 203, 25);
 		pAddVehicle_Bill.add(cbbChasisNumber);
 		try {
 			combo.fill("select soKhung from Xe where trangThai = N'Còn hàng'" , cbbChasisNumber, "soKhung");
@@ -429,50 +440,55 @@ public class UI_HoaDon extends JFrame {
 		
 		JLabel lblVehicleEngineNumber = new JLabel("Số Máy");
 		lblVehicleEngineNumber.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblVehicleEngineNumber.setBounds(405, 76, 70, 21);
+		lblVehicleEngineNumber.setBounds(405, 82, 70, 23);
 		pAddVehicle_Bill.add(lblVehicleEngineNumber);
 		
 		txtVehicleEngineNum = new JTextField();
 		txtVehicleEngineNum.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtVehicleEngineNum.setBounds(570, 74, 145, 21);
+		txtVehicleEngineNum.setBounds(570, 84, 145, 25);
 		pAddVehicle_Bill.add(txtVehicleEngineNum);
 		txtVehicleEngineNum.setColumns(10);
 		
 		JPanel pImageVehicle_Bill = new JPanel();
-		pImageVehicle_Bill.setBounds(925, 131, 352, 137);
+		pImageVehicle_Bill.setBounds(925, 162, 352, 159);
 		pTab1.add(pImageVehicle_Bill);
-		pImageVehicle_Bill.setBorder(new LineBorder(new Color(0, 0, 0)));
+		pImageVehicle_Bill.setBorder(new LineBorder(SystemColor.controlShadow));
 		pImageVehicle_Bill.setLayout(null);
 		
-		JLabel lblImage = new JLabel("                               Chưa có hình ảnh");
+		JLabel lblImage = new JLabel("Chưa có hình ảnh");
+		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImage.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblImage.setForeground(Color.red);
-		lblImage.setBounds(0, 0, 373, 145);
+		lblImage.setBounds(0, 0, 350, 159);
 		pImageVehicle_Bill.add(lblImage);
 		
 		JPanel panelFunction1 = new JPanel();
-		panelFunction1.setBounds(1298, 131, 215, 137);
+		panelFunction1.setBorder(new LineBorder(SystemColor.controlShadow));
+		panelFunction1.setBounds(1287, 162, 215, 159);
 		pTab1.add(panelFunction1);
-		panelFunction1.setBackground(new Color(231,150,36));
+		panelFunction1.setBackground(SystemColor.controlHighlight);
 		panelFunction1.setLayout(null);
 		
 		JButton btnEmptyDelete_Bill = new JButton("Xóa Trống");
-		btnEmptyDelete_Bill.setBackground(new Color(255,190,87));
+		btnEmptyDelete_Bill.setBackground(Color.RED);
 		btnEmptyDelete_Bill.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Recycle-Bin-Full-icon.png")));
-		btnEmptyDelete_Bill.setBounds(26, 10, 160, 51);
+		btnEmptyDelete_Bill.setBounds(27, 24, 160, 51);
 		btnEmptyDelete_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
 		panelFunction1.add(btnEmptyDelete_Bill);
 		
 		JButton btnAddVehicle_Bill = new JButton("Th\u00EAm Xe");
 		btnAddVehicle_Bill.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/sign-add-icon.png")));
-		btnAddVehicle_Bill.setBackground(new Color(255,190,87));
+		btnAddVehicle_Bill.setBackground(new Color(0, 153, 0));
 		btnAddVehicle_Bill.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnAddVehicle_Bill.setBounds(26, 84, 160, 51);
+		btnAddVehicle_Bill.setBounds(27, 90, 160, 51);
 		panelFunction1.add(btnAddVehicle_Bill);
 		
 		JPanel pBillDetailsList = new JPanel();
-		pBillDetailsList.setBounds(0, 290, 1513, 245);
+		pBillDetailsList.setBounds(-1, 331, 1513, 245);
 		pTab1.add(pBillDetailsList);
-		pBillDetailsList.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Danh Sách Xe Bán", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		TitledBorder t4=new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Danh Sách Xe Bán", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK);
+		t4.setTitleFont(new Font("Tahoma", Font.PLAIN, 13));
+		pBillDetailsList.setBorder(t4);
 		pBillDetailsList.setBackground(SystemColor.control);
 		pBillDetailsList.setLayout(null);
 		
@@ -491,10 +507,18 @@ public class UI_HoaDon extends JFrame {
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		
-		Panel panelFunction2 = new Panel();
-		panelFunction2.setBounds(933, 557, 580, 61);
-		pTab1.add(panelFunction2);
-		panelFunction2.setBackground(new Color(231,150,36));
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(SystemColor.controlShadow));
+		panel.setBounds(925, 586, 580, 61);
+		pTab1.add(panel);
+		panel.setLayout(null);
+		
+		JPanel panelFunction2 = new JPanel();
+		panelFunction2.setBorder(new LineBorder(SystemColor.controlShadow));
+		
+		panelFunction2.setBounds(0, 0, 580, 61);
+		panel.add(panelFunction2);
+		panelFunction2.setBackground(SystemColor.control);
 		panelFunction2.setLayout(null);
 		
 		JButton btnDeleteRowTableCTHD = new JButton("Xóa Xe CTHD");	
@@ -517,18 +541,96 @@ public class UI_HoaDon extends JFrame {
 		btnPayments.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnPayments.setBounds(396, 6, 175, 45);
 		panelFunction2.add(btnPayments);
+		
+		//>>>>>>>>>>> DELETE Vehicle
+				btnDeleteRowTableCTHD.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int row = table.getSelectedRow();
+						if (row < 0)
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn Xe cần xóa khỏi CTHD");
+						else {
+							double tien;
+							double thue;
+							try {
+								tien = df.parse(table.getValueAt(row, 11).toString()).doubleValue();
+								thue = df.parse(table.getValueAt(row, 10).toString()).doubleValue();
+								double total = df.parse(txtTotal.getText()).doubleValue();
+								double totalThue = df.parse(txtTotalVAT.getText()).doubleValue();
+								total -= tien;
+								totalThue -= thue;
+								txtTotal.setText(df.format(total));
+								txtTotalVAT.setText(df.format(totalThue));
+								tableModel.removeRow(row);
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					}
+				});
+				
+				//>>>>>>>>>>> REMOVE CTHD
+				btnRemoveCTHD.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						tableModel.getDataVector().removeAllElements();
+						tableModel.fireTableDataChanged();
+						txtTotal.setText(df.format(0));
+						txtTotalVAT.setText(df.format(0));
+					}
+				});
+				
+				//>>>>>>>>>>> PAYMENTS
+				btnPayments.addMouseListener(new MouseAdapter() {
+					public boolean CheckPayment() throws HeadlessException, ParseException {
+						if (txtCMND_Bill.getText().equalsIgnoreCase("")) {
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn Khách Hàng!");
+							return false;
+						}					
+						else if(dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()) == null) {
+							KhachHang kh = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText());
+							JOptionPane.showMessageDialog(null, "Thông tin Khách Hàng không hợp lệ!");
+							return false;
+						}				
+						else if(df.parse(txtTotal.getText()).doubleValue() == 0) {
+							JOptionPane.showMessageDialog(null, "Chưa có sản phẩm");
+							return false;
+						}
+						if(txtCMND_Bill.getText().length()==0) 
+							maKhachHang = "";
+						else
+							maKhachHang = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()).getMaKhachHang();
+						return true;
+					}
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						try {
+							if (CheckPayment()) {
+								UI_ThanhToan thanhToan = new UI_ThanhToan();
+								thanhToan.setVisible(true);
+								thanhToan.txtCusMoney.requestFocus();
+							}
+						} catch (HeadlessException | ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
 		//table.setBorder(BorderFactory.createLineBorder(Color.white));
 		
 		JPanel panelTotal = new JPanel();
-		panelTotal.setBounds(444, 557, 473, 61);
+		panelTotal.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelTotal.setBounds(443, 586, 473, 61);
 		pTab1.add(panelTotal);
-		panelTotal.setBackground(new Color(231,150,36));
+		panelTotal.setBackground(SystemColor.control);
 		panelTotal.setLayout(null);
 		
 		JLabel lblTotalBill = new JLabel("Tổng Tiền");
-		lblTotalBill.setBounds(10, 12, 111, 31);
+		lblTotalBill.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTotalBill.setBounds(10, 12, 111, 28);
 		lblTotalBill.setForeground(new Color(255, 0, 0));
-		lblTotalBill.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblTotalBill.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTotalBill.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelTotal.add(lblTotalBill);
 		txtTotal.setForeground(Color.RED);
@@ -537,24 +639,25 @@ public class UI_HoaDon extends JFrame {
 		
 		//txtTotal = new TextField();
 		txtTotal.setText("0 VNĐ");
-		txtTotal.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtTotal.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		txtTotal.setBounds(142, 12, 297, 36);
 		panelTotal.add(txtTotal);
 		
 		JPanel pTotalVAT = new JPanel();
-		pTotalVAT.setBounds(10, 557, 424, 61);
-		pTotalVAT.setBackground(new Color(231,150,36));
+		pTotalVAT.setBorder(new LineBorder(SystemColor.controlShadow));
+		pTotalVAT.setBounds(0, 586, 433, 61);
+		pTotalVAT.setBackground(SystemColor.control);
 		pTab1.add(pTotalVAT);
 		pTotalVAT.setLayout(null);
 		
 		JLabel lblTotalVAT = new JLabel("Tổng Thuế VAT");
 		lblTotalVAT.setForeground(Color.RED);
-		lblTotalVAT.setFont(new Font("Tahoma", Font.BOLD, 22));
-		lblTotalVAT.setBounds(10, 10, 187, 41);
+		lblTotalVAT.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblTotalVAT.setBounds(22, 11, 165, 41);
 		pTotalVAT.add(lblTotalVAT);
 		
 		txtTotalVAT.setText("0 VNĐ");
-		txtTotalVAT.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtTotalVAT.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		txtTotalVAT.setForeground(new Color(50, 205, 50));
 		txtTotalVAT.setBackground(Color.WHITE);
 		txtTotalVAT.setBounds(207, 15, 207, 31);
@@ -565,7 +668,7 @@ public class UI_HoaDon extends JFrame {
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		JPanel pTab2 = new JPanel();
 		pTab2.setVisible(false);
-		pTab2.setBounds(10, 101, 1513, 644);
+		pTab2.setBounds(10, 101, 1513, 687);
 		contentPane.add(pTab2);
 		pTab2.setLayout(null);
 		
@@ -623,13 +726,7 @@ public class UI_HoaDon extends JFrame {
 		pChucNang.setLayout(null);
 		
 		JButton btnXoaTrong = new JButton("Xóa Trống");
-<<<<<<< .mine
-		
-||||||| .r157
-		btnXoaTrong.setIcon(new ImageIcon(a.class.getResource("/image/Recycle-Bin-Full-icon.png")));
-=======
-		btnXoaTrong.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Recycle-Bin-Full-icon.png")));
->>>>>>> .r160
+		btnXoaTrong.setIcon(new ImageIcon("/image/Recycle-Bin-Full-icon.png"));
 		btnXoaTrong.setBackground(Color.ORANGE);
 		btnXoaTrong.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnXoaTrong.setBounds(20, 22, 153, 40);
@@ -637,13 +734,7 @@ public class UI_HoaDon extends JFrame {
 		
 		JButton btnXuatHD = new JButton("Xuất Hóa Đơn");
 		btnXuatHD.setBackground(new Color(169, 169, 169));
-<<<<<<< .mine
-	
-||||||| .r157
-		btnXuatHD.setIcon(new ImageIcon(a.class.getResource("/image/Printer-icon.png")));
-=======
-		btnXuatHD.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Printer-icon.png")));
->>>>>>> .r160
+		btnXuatHD.setIcon(new ImageIcon("/image/Printer-icon.png"));
 		btnXuatHD.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnXuatHD.setBounds(20, 75, 330, 37);
 		pChucNang.add(btnXuatHD);
@@ -651,13 +742,7 @@ public class UI_HoaDon extends JFrame {
 		JButton btnLamMoi = new JButton("Làm Mới");
 		btnLamMoi.setBackground(new Color(255, 160, 122));
 		btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 10));
-<<<<<<< .mine
-
-||||||| .r157
-		btnLamMoi.setIcon(new ImageIcon(a.class.getResource("/image/Refresh-icon (1).png")));
-=======
-		btnLamMoi.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Refresh-icon (1).png")));
->>>>>>> .r160
+		btnLamMoi.setIcon(new ImageIcon("/image/Refresh-icon (1).png"));
 		btnLamMoi.setBounds(190, 22, 160, 40);
 		pChucNang.add(btnLamMoi);
 		
@@ -766,82 +851,6 @@ public class UI_HoaDon extends JFrame {
 				cbbChasisNumber.setSelectedIndex(-1);
 			}
 		});
-		
-		//>>>>>>>>>>> DELETE Vehicle
-				btnDeleteRowTableCTHD.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						int row = table.getSelectedRow();
-						if (row < 0)
-							JOptionPane.showMessageDialog(null, "Vui lòng chọn Xe cần xóa khỏi CTHD");
-						else {
-							double tien;
-							double thue;
-							try {
-								tien = df.parse(table.getValueAt(row, 11).toString()).doubleValue();
-								thue = df.parse(table.getValueAt(row, 10).toString()).doubleValue();
-								double total = df.parse(txtTotal.getText()).doubleValue();
-								double totalThue = df.parse(txtTotalVAT.getText()).doubleValue();
-								total -= tien;
-								totalThue -= thue;
-								txtTotal.setText(df.format(total));
-								txtTotalVAT.setText(df.format(totalThue));
-								tableModel.removeRow(row);
-							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
-					}
-				});
-				
-				//>>>>>>>>>>> REMOVE CTHD
-				btnRemoveCTHD.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						tableModel.getDataVector().removeAllElements();
-						tableModel.fireTableDataChanged();
-						txtTotal.setText(df.format(0));
-						txtTotalVAT.setText(df.format(0));
-					}
-				});
-				
-				//>>>>>>>>>>> PAYMENTS
-				btnPayments.addMouseListener(new MouseAdapter() {
-					public boolean CheckPayment() throws HeadlessException, ParseException {
-						if (txtCMND_Bill.getText().equalsIgnoreCase("")) {
-							JOptionPane.showMessageDialog(null, "Vui lòng chọn Khách Hàng!");
-							return false;
-						}					
-						else if(dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()) == null) {
-							KhachHang kh = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText());
-							JOptionPane.showMessageDialog(null, "Thông tin Khách Hàng không hợp lệ!");
-							return false;
-						}				
-						else if(df.parse(txtTotal.getText()).doubleValue() == 0) {
-							JOptionPane.showMessageDialog(null, "Chưa có sản phẩm");
-							return false;
-						}
-						if(txtCMND_Bill.getText().length()==0) 
-							maKhachHang = "";
-						else
-							maKhachHang = dao_kh.getKhachHangById("CMND",txtCMND_Bill.getText()).getMaKhachHang();
-						return true;
-					}
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						try {
-							if (CheckPayment()) {
-								UI_ThanhToan thanhToan = new UI_ThanhToan();
-								thanhToan.setVisible(true);
-								thanhToan.txtCusMoney.requestFocus();
-							}
-						} catch (HeadlessException | ParseException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-				});
 				
 				btnXoaTrong.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {

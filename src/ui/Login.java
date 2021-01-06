@@ -248,8 +248,6 @@ public class Login extends JFrame {
 						//txtuser.setText("");
 						//txtpass.setText("");
 						//close();
-
-
 						Menu m = null;
 						try {
 							m = new Menu();

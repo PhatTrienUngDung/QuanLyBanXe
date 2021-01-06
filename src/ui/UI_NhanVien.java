@@ -73,6 +73,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
@@ -81,6 +83,7 @@ import dao.Dao_KhachHang;
 import java.beans.PropertyChangeListener;
 //import java.lang.FdLibm.Cbrt;
 import java.beans.PropertyChangeEvent;
+import javax.swing.border.TitledBorder;
 public class UI_NhanVien extends JFrame {
 
 	private JPanel contentPane;
@@ -140,7 +143,27 @@ public class UI_NhanVien extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (InstantiationException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (IllegalAccessException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	//	setBounds(100, 100, 1296, 732);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -156,31 +179,31 @@ public class UI_NhanVien extends JFrame {
 		contentPane.add(panel);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(10, 175, 1492, 228);
+		panel_3.setBounds(7, 93, 1492, 228);
 		
 		JPanel panel_6 = new JPanel();
-		panel_6.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_6.setBorder(new TitledBorder(null, "Th\u00F4ng Tin Nh\u00E2n Vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_6.setBounds(0, 10, 1482, 211);
 		panel_3.add(panel_6);
 		panel_6.setLayout(null);
 		
 		JLabel lblmaNV = new JLabel("Mã Nhân Viên");
-		lblmaNV.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblmaNV.setBounds(10, 21, 107, 13);
+		lblmaNV.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblmaNV.setBounds(9, 25, 107, 26);
 		panel_6.add(lblmaNV);
 		
 		String maKH = dao_nv.getMaHDTail("maNhanVien", "NhanVien");
 		txtmaNV = new JTextField();
 		txtmaNV.setText(maKH);
-		txtmaNV.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtmaNV.setBounds(139, 20, 260, 27);
+		txtmaNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtmaNV.setBounds(138, 24, 260, 27);
 		txtmaNV.setEditable(false);
 		panel_6.add(txtmaNV);
 		txtmaNV.setColumns(10);
 		
 		JLabel lbltenNV = new JLabel("Tên Nhân Viên");
-		lbltenNV.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbltenNV.setBounds(10, 67, 119, 13);
+		lbltenNV.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbltenNV.setBounds(8, 66, 119, 30);
 		panel_6.add(lbltenNV);
 		
 		txttenNV = new JTextField();
@@ -217,14 +240,14 @@ public class UI_NhanVien extends JFrame {
 		        }
 			}
 		});
-		txttenNV.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txttenNV.setBounds(139, 60, 260, 27);
+		txttenNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txttenNV.setBounds(137, 69, 260, 27);
 		panel_6.add(txttenNV);
 		txttenNV.setColumns(10);
 		
 		JLabel lblngaySinh = new JLabel("Ngày sinh");
-		lblngaySinh.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblngaySinh.setBounds(10, 107, 96, 21);
+		lblngaySinh.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblngaySinh.setBounds(9, 111, 96, 27);
 		panel_6.add(lblngaySinh);
 		
 		JDateChooser datengaySinh = new JDateChooser();
@@ -233,7 +256,7 @@ public class UI_NhanVien extends JFrame {
 		
 		datengaySinh.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 15));
 		datengaySinh.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		datengaySinh.setBounds(139, 107, 260, 27);
+		datengaySinh.setBounds(138, 111, 260, 27);
 		datengaySinh.setDateFormatString("yyy-MM-dd");
 		datengaySinh.addPropertyChangeListener(new PropertyChangeListener() {
 		public int calculateAge(LocalDate birthDate, LocalDate currentDate) {
@@ -257,69 +280,69 @@ public class UI_NhanVien extends JFrame {
 		panel_6.add(datengaySinh);
 		
 		JLabel lblgioiTinh = new JLabel("Giới tính");
-		lblgioiTinh.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblgioiTinh.setBounds(10, 153, 96, 17);
+		lblgioiTinh.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblgioiTinh.setBounds(9, 147, 96, 32);
 		panel_6.add(lblgioiTinh);
 		
 		String GT[] = {"Nam","Nữ"};
 		JComboBox cbgioiTinh = new JComboBox(GT);
-		cbgioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		cbgioiTinh.setBounds(139, 149, 260, 27);
+		cbgioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbgioiTinh.setBounds(138, 152, 156, 29);
 		panel_6.add(cbgioiTinh);
 		
 		JLabel lbldiaChi = new JLabel("Địa chỉ");
-		lbldiaChi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbldiaChi.setBounds(506, 64, 68, 13);
+		lbldiaChi.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbldiaChi.setBounds(505, 72, 68, 23);
 		panel_6.add(lbldiaChi);
 		
 		txtdiaChi = new JTextField();
-		txtdiaChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtdiaChi.setBounds(639, 63, 275, 24);
+		txtdiaChi.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtdiaChi.setBounds(638, 71, 275, 24);
 		panel_6.add(txtdiaChi);
 		txtdiaChi.setColumns(10);
 		
 		JLabel lblemail = new JLabel("Email");
-		lblemail.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblemail.setBounds(506, 114, 46, 13);
+		lblemail.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblemail.setBounds(506, 114, 68, 20);
 		panel_6.add(lblemail);
 		
 		txtEmail = new JTextField();
-		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtEmail.setBounds(639, 113, 275, 27);
 		panel_6.add(txtEmail);
 		txtEmail.setColumns(20);
 		
 		JLabel lblchucVu = new JLabel("Chức vụ");
-		lblchucVu.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblchucVu.setBounds(506, 154, 68, 21);
+		lblchucVu.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblchucVu.setBounds(505, 158, 96, 21);
 		panel_6.add(lblchucVu);
 		
 		ArrayList<ChucVu> dsCV = dao_nv.getAllChucVus();
 		@SuppressWarnings("rawtypes")
 		JComboBox cbchucVu = new JComboBox();
-		cbchucVu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		cbchucVu.setBounds(639, 152, 275, 24);
+		cbchucVu.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbchucVu.setBounds(638, 154, 275, 30);
 		for (ChucVu cv : dsCV) {
 			cbchucVu.addItem(cv.getTenChucVu());
 		}
 		panel_6.add(cbchucVu);
 		
 		JLabel lblngayVaoLam = new JLabel("Ngày Vào Làm");
-		lblngayVaoLam.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblngayVaoLam.setBounds(1019, 66, 137, 21);
+		lblngayVaoLam.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblngayVaoLam.setBounds(1019, 75, 137, 21);
 		panel_6.add(lblngayVaoLam);
 		
 		datengayVaoLam = new JDateChooser();		
 		datengayVaoLam.setDate(Date.valueOf(LocalDate.now()));
 		datengayVaoLam.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 15));
 		datengayVaoLam.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		datengayVaoLam.setBounds(1192, 57, 270, 30);
+		datengayVaoLam.setBounds(1192, 66, 270, 30);
 		datengayVaoLam.setDateFormatString("yyy-MM-dd");
 		panel_6.add(datengayVaoLam);
 		
 		JLabel lblsdt = new JLabel("Số Điện Thoại");
-		lblsdt.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblsdt.setBounds(1019, 21, 119, 21);
+		lblsdt.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblsdt.setBounds(1019, 21, 119, 26);
 		panel_6.add(lblsdt);
 		
 		txtSdt = new JTextField();
@@ -357,14 +380,14 @@ public class UI_NhanVien extends JFrame {
 				  
 			}
 		});
-		txtSdt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtSdt.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtSdt.setBounds(1192, 20, 270, 27);
 		panel_6.add(txtSdt);
 		txtSdt.setColumns(10);
 		
 		JLabel lblCmnd = new JLabel("CMND");
-		lblCmnd.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCmnd.setBounds(506, 22, 68, 13);
+		lblCmnd.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblCmnd.setBounds(506, 22, 68, 25);
 		panel_6.add(lblCmnd);
 		
 		txtcmnd = new JTextField();
@@ -402,7 +425,7 @@ public class UI_NhanVien extends JFrame {
 				
 			}
 		});
-		txtcmnd.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtcmnd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtcmnd.setBounds(639, 21, 275, 27);
 		panel_6.add(txtcmnd);
 		txtcmnd.setColumns(10);
@@ -437,7 +460,7 @@ public class UI_NhanVien extends JFrame {
 		       }
 			};
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 514, 1482, 205);
+		scrollPane.setBounds(10, 427, 1482, 205);
 		panel.add(scrollPane);
 		scrollPane.setViewportView(table);
 		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Chức vụ","Ngày Vào Làm"};
@@ -469,11 +492,12 @@ public class UI_NhanVien extends JFrame {
 
 		
 		JPanel panel_8 = new JPanel();
-		panel_8.setBounds(10, 421, 683, 69);
-		panel_8.setBackground(new Color(231,150,36));
+		panel_8.setBorder(new TitledBorder(null, "T\u00ECm ki\u1EBFm", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_8.setBounds(10, 334, 683, 69);
+		panel_8.setBackground(SystemColor.control);
 		
 		JLabel lblNhpThngTin = new JLabel("Nhập số CMND của  nhân viên");
-		lblNhpThngTin.setBounds(21, 13, 230, 30);
+		lblNhpThngTin.setBounds(22, 21, 230, 30);
 		lblNhpThngTin.setBackground(new Color(255, 228, 225));
 		lblNhpThngTin.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
@@ -499,14 +523,8 @@ public class UI_NhanVien extends JFrame {
 				}
 			}
 		});
-		txtTimKiem.setBounds(282, 21, 210, 19);
+		txtTimKiem.setBounds(282, 21, 337, 30);
 		txtTimKiem.setColumns(10);
-		
-		JButton btnTimKiem = new JButton("Tìm kiếm");
-		btnTimKiem.setBackground(Color.ORANGE);
-		btnTimKiem.setBounds(502, 10, 143, 45);
-		btnTimKiem.setIcon(new ImageIcon("img1/search2.png"));
-		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_3.setLayout(null);
 		
 		
@@ -517,12 +535,12 @@ public class UI_NhanVien extends JFrame {
 		panel_8.setLayout(null);
 		panel_8.add(lblNhpThngTin);
 		panel_8.add(txtTimKiem);
-		panel_8.add(btnTimKiem);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(768, 421, 724, 69);
+		panel_4.setBorder(new TitledBorder(null, "Ch\u1EE9c n\u0103ng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_4.setBounds(768, 334, 724, 69);
 		panel.add(panel_4);
-		panel_4.setBackground(new Color(231,150,36));
+		panel_4.setBackground(SystemColor.control);
 		
 		
 		
@@ -531,7 +549,7 @@ public class UI_NhanVien extends JFrame {
 		
 		//Thêm
 		JButton btnThem = new JButton("Thêm");
-		btnThem.setBackground(new Color(255,190,87));
+		btnThem.setBackground(Color.GREEN);
 		btnThem.setBounds(43, 16, 123, 38);
 		btnThem.setIcon(new ImageIcon("img1/add.png"));
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -569,7 +587,7 @@ public class UI_NhanVien extends JFrame {
 			
 			//Xóa
 			JButton btnXoa = new JButton("Xóa");
-			btnXoa.setBackground(new Color(255,190,87));
+			btnXoa.setBackground(Color.RED);
 			btnXoa.setBounds(217, 16, 123, 38);
 			btnXoa.setIcon(new ImageIcon("icon/delete.png"));
 			btnXoa.addMouseListener(new MouseAdapter() {
@@ -635,7 +653,7 @@ public class UI_NhanVien extends JFrame {
 			
 			//Sửa
 			JButton btnSua = new JButton("Sửa");
-			btnSua.setBackground(new Color(255,190,87));
+			btnSua.setBackground(Color.BLUE);
 			btnSua.setBounds(389, 16, 123, 38);
 			btnSua.setIcon(new ImageIcon(("img1/update.png")));
 			btnSua.addMouseListener(new MouseAdapter() {
@@ -688,16 +706,10 @@ public class UI_NhanVien extends JFrame {
 			panel_4.add(btnXoa);
 			panel_4.add(btnLamMoi);
 			
-			JPanel panel_1 = new JPanel();
-			panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-			panel_1.setBackground(Color.WHITE);
-			panel_1.setBounds(0, 0, 1530, 78);
-			panel.add(panel_1);
-			
 			JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ NHÂN VIÊN");
 			lblNewLabel_1.setForeground(new Color(184, 134, 11));
 			lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-			lblNewLabel_1.setBounds(10, 88, 391, 72);
+			lblNewLabel_1.setBounds(7, 6, 391, 72);
 			panel.add(lblNewLabel_1);
 	}
 	//Hàm Load

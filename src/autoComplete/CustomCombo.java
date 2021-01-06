@@ -14,12 +14,15 @@ public class CustomCombo extends PlainDocument{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("rawtypes")
 	JComboBox comboBox;
-    ComboBoxModel model;
+    @SuppressWarnings("rawtypes")
+	ComboBoxModel model;
     JTextComponent editor;
     boolean selecting = false;
 
-    public CustomCombo(final JComboBox comboBox) {
+    @SuppressWarnings("rawtypes")
+	public CustomCombo(final JComboBox comboBox) {
         this.comboBox = comboBox;
         model = comboBox.getModel();
         editor = (JTextComponent) comboBox.getEditor().getEditorComponent();
@@ -88,7 +91,8 @@ public class CustomCombo extends PlainDocument{
         return str1.toUpperCase().startsWith(str2.toUpperCase());
     }
 
-    public void custom(JComboBox combo, String data) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public void custom(JComboBox combo, String data) {
         combo.setEditable(true);
         JTextComponent editor = (JTextComponent) combo.getEditor().getEditorComponent();
         editor.setDocument(new CustomCombo(combo));

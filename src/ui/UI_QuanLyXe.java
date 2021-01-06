@@ -527,7 +527,7 @@ public class UI_QuanLyXe extends JFrame {
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();
 
-		scrollPane.setBounds(79, 443, 1502, 219);
+		scrollPane.setBounds(0, 442, 1502, 219);
 		panelXe.add(scrollPane);
 
 		table = new JTable(tableModel);
@@ -554,7 +554,6 @@ public class UI_QuanLyXe extends JFrame {
 				txtImg1.setForeground(Color.black);
 				txtSoMay.setForeground(Color.black);
 				txtTen.requestFocus();
-				
 				int i = table.getSelectedRow();
 				txtMa.setText(tableModel.getValueAt(i, 0).toString());
 				txtTen.setText(tableModel.getValueAt(i, 1).toString());

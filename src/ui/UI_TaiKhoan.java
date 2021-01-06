@@ -60,6 +60,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.border.TitledBorder;
 
 public class UI_TaiKhoan extends JFrame {
 
@@ -101,7 +102,7 @@ public class UI_TaiKhoan extends JFrame {
 		int height = gd.getDisplayMode().getHeight();
 		setBounds(0, 0, width, height);
 		pAccount = new JPanel();
-		pAccount.setBackground(Color.LIGHT_GRAY);
+		pAccount.setBackground(SystemColor.control);
 		pAccount.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(pAccount);
 		pAccount.setLayout(null);
@@ -111,90 +112,80 @@ public class UI_TaiKhoan extends JFrame {
 		Dao_TaiKhoan dao_tk = new Dao_TaiKhoan();
 		List<TaiKhoan> list_tk = dao_tk.docTuBang();
 		
-		JLabel lblAccountName = new JLabel("TÀI KHOẢN");
-		lblAccountName.setBounds(534, 10, 367, 35);
-		lblAccountName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAccountName.setForeground(new Color(255, 140, 0));
-		lblAccountName.setFont(new Font("Tahoma", Font.BOLD, 26));
-		pAccount.add(lblAccountName);
-		
 		JPanel pAccountInfo = new JPanel();
-		pAccountInfo.setBackground(new Color(211, 211, 211));
-		pAccountInfo.setBounds(5, 50, 910, 149);
+		pAccountInfo.setBorder(new TitledBorder(null, "Th\u00F4ng tin t\u00E0i kho\u1EA3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pAccountInfo.setBackground(SystemColor.control);
+		pAccountInfo.setBounds(5, 106, 910, 165);
 		pAccount.add(pAccountInfo);
 		pAccountInfo.setLayout(null);
 		
-		JLabel lblGenInfo_Account = new JLabel("Thông tin chung");
-		lblGenInfo_Account.setBounds(10, 5, 139, 20);
-		lblGenInfo_Account.setFont(new Font("Tahoma", Font.BOLD, 16));
-		pAccountInfo.add(lblGenInfo_Account);
-		
 		JPanel pAccountInfoDetails = new JPanel();
-		pAccountInfoDetails.setBackground(new Color(230, 230, 250));
-		pAccountInfoDetails.setBounds(1, 26, 907, 121);
+		pAccountInfoDetails.setBackground(SystemColor.control);
+		pAccountInfoDetails.setBounds(10, 26, 890, 123);
 		pAccountInfo.add(pAccountInfoDetails);
 		pAccountInfoDetails.setLayout(null);
 			
 		JLabel lblEmployeeName_Acc = new JLabel("Mã Nhân Viên");
 		lblEmployeeName_Acc.setBounds(5, 10, 120, 21);
 		pAccountInfoDetails.add(lblEmployeeName_Acc);
-		lblEmployeeName_Acc.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEmployeeName_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblEmployeeName_Acc.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEmployeeName_Acc.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		JTextField txtEmployeeNum_Acc = new JTextField();
-		txtEmployeeNum_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtEmployeeNum_Acc.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtEmployeeNum_Acc.setBounds(148, 10, 220, 23);
 		pAccountInfoDetails.add(txtEmployeeNum_Acc);
 		
 		JLabel lblNewLabel = new JLabel("Tên Nhân Viên");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setBounds(396, 10, 120, 20);
 		pAccountInfoDetails.add(lblNewLabel);
 		
 		JTextField txtEmployeeName_Acc = new JTextField();
-		txtEmployeeName_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtEmployeeName_Acc.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtEmployeeName_Acc.setEditable(false);
-		txtEmployeeName_Acc.setBounds(535, 10, 362, 25);
+		txtEmployeeName_Acc.setBounds(535, 10, 345, 25);
 		pAccountInfoDetails.add(txtEmployeeName_Acc);
 		
 		JLabel lblPassword_Acc = new JLabel("Mật Khẩu");
-		lblPassword_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPassword_Acc.setBounds(15, 50, 93, 21);
+		lblPassword_Acc.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblPassword_Acc.setBounds(5, 50, 103, 21);
 		pAccountInfoDetails.add(lblPassword_Acc);
 		
 		JTextField txtPassword_Acc = new JTextField();
 		txtPassword_Acc.setBounds(148, 48, 220, 25);
-		txtPassword_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtPassword_Acc.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pAccountInfoDetails.add(txtPassword_Acc);
 		
 		JLabel lblPower_Acc = new JLabel("Quyền");
-		lblPower_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPower_Acc.setBounds(17, 90, 103, 21);
+		lblPower_Acc.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblPower_Acc.setBounds(5, 90, 115, 21);
 		pAccountInfoDetails.add(lblPower_Acc);
 		
 		JComboBox cbbQuyen = new JComboBox();
+		cbbQuyen.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbbQuyen.setBackground(Color.WHITE);
 		cbbQuyen.setModel(new DefaultComboBoxModel(new String[] {"Quản Lý", "Nhân Viên"}));
 		cbbQuyen.setBounds(148, 88, 220, 25);
 		pAccountInfoDetails.add(cbbQuyen);
 		
 		JLabel lblNote_Acc = new JLabel("Chú Thích");
-		lblNote_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNote_Acc.setBounds(400, 50, 103, 21);
+		lblNote_Acc.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNote_Acc.setBounds(396, 50, 107, 21);
 		pAccountInfoDetails.add(lblNote_Acc);
 		
 		JTextArea txtChuThich = new JTextArea();
-		txtChuThich.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txtChuThich.setBounds(535, 48, 362, 65);
+		txtChuThich.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtChuThich.setBounds(535, 48, 345, 55);
 		pAccountInfoDetails.add(txtChuThich);
 		
 		JPanel pAccountList = new JPanel();
-		pAccountList.setBounds(5, 209, 1525, 592);
+		pAccountList.setBounds(5, 281, 1525, 473);
 		pAccount.add(pAccountList);
 		pAccountList.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 1525, 591);
+		scrollPane.setBounds(0, 0, 1525, 473);
 		pAccountList.add(scrollPane);
 		
 		String[] header = {"STT", "Mã Nhân Viên", "Tên Nhân Viên", "Mật Khẩu", "Quyền", "Chú Thích"};
@@ -216,19 +207,15 @@ public class UI_TaiKhoan extends JFrame {
 		//table.setShowGrid(false);
 		
 		JPanel pSearchAccount = new JPanel();
-		pSearchAccount.setBackground(new Color(211, 211, 211));
-		pSearchAccount.setBounds(925, 50, 367, 149);
+		pSearchAccount.setBorder(new TitledBorder(null, "T\u00ECm ki\u1EBFm", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pSearchAccount.setBackground(SystemColor.control);
+		pSearchAccount.setBounds(925, 106, 367, 165);
 		pAccount.add(pSearchAccount);
 		pSearchAccount.setLayout(null);
 		
-		JLabel lblSearchAccount = new JLabel("Tìm Kiếm");
-		lblSearchAccount.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblSearchAccount.setBounds(10, 5, 91, 20);
-		pSearchAccount.add(lblSearchAccount);
-		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(230, 230, 250));
-		panel_1.setBounds(1, 26, 365, 121);
+		panel_1.setBackground(SystemColor.control);
+		panel_1.setBounds(10, 26, 347, 121);
 		pSearchAccount.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -239,14 +226,14 @@ public class UI_TaiKhoan extends JFrame {
 		group.add(radEmployeeNumSearch);
 		panel_1.add(radEmployeeNumSearch);
 		radEmployeeNumSearch.setSelected(true);
-		radEmployeeNumSearch.setBackground(new Color(230, 230, 250));
+		radEmployeeNumSearch.setBackground(SystemColor.control);
 		radEmployeeNumSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JRadioButton radEmpployeeNameSearch = new JRadioButton("Tên Nhân Viên");
 		radEmpployeeNameSearch.setBounds(183, 8, 148, 25);
 		group.add(radEmpployeeNameSearch);
 		panel_1.add(radEmpployeeNameSearch);
-		radEmpployeeNameSearch.setBackground(new Color(230, 230, 250));
+		radEmpployeeNameSearch.setBackground(SystemColor.control);
 		radEmpployeeNameSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblSearch_Acc = new JLabel("Nhập nội dung tìm kiếm");
@@ -256,25 +243,26 @@ public class UI_TaiKhoan extends JFrame {
 		lblSearch_Acc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JTextField txtSearch_Acc = new JTextField();
-		txtSearch_Acc.setBounds(16, 75, 339, 25);
+		txtSearch_Acc.setBounds(16, 75, 321, 25);
 		panel_1.add(txtSearch_Acc);
 		
 		JPanel pAccountFunction = new JPanel();
-		pAccountFunction.setBackground(new Color(211, 211, 211));
-		pAccountFunction.setBounds(1302, 50, 228, 149);
+		pAccountFunction.setBorder(new TitledBorder(null, "Ch\u1EE9c n\u0103ng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pAccountFunction.setBackground(SystemColor.control);
+		pAccountFunction.setBounds(1302, 106, 228, 165);
 		pAccount.add(pAccountFunction);
 		pAccountFunction.setLayout(null);
 		
 		JButton btnAdd_Acc = new JButton("Cấp Tài Khoản");
 		btnAdd_Acc.setBackground(new Color(60, 179, 113));
-		btnAdd_Acc.setBounds(20, 10, 193, 40);
+		btnAdd_Acc.setBounds(19, 23, 193, 40);
 		pAccountFunction.add(btnAdd_Acc);
 		btnAdd_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnAdd_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/add-user-icon.png")));
 		
 		JButton btnDelete_Acc = new JButton("Xóa Tài Khoản");
 		btnDelete_Acc.setBackground(new Color(255, 0, 0));
-		btnDelete_Acc.setBounds(20, 55, 193, 40);
+		btnDelete_Acc.setBounds(19, 68, 193, 40);
 		pAccountFunction.add(btnDelete_Acc);
 		btnDelete_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnDelete_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/remove-user-icon.png")));
@@ -295,10 +283,16 @@ public class UI_TaiKhoan extends JFrame {
 			}
 		});
 		btnResetPassword_Acc.setBackground(new Color(30, 144, 255));
-		btnResetPassword_Acc.setBounds(20, 100, 193, 40);
+		btnResetPassword_Acc.setBounds(19, 113, 193, 40);
 		pAccountFunction.add(btnResetPassword_Acc);
 		btnResetPassword_Acc.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnResetPassword_Acc.setIcon(new ImageIcon(UI_TaiKhoan.class.getResource("/image/Reset-icon.png")));
+		
+		JLabel lblNewLabel_1 = new JLabel("Quản lý tài khoản");
+		lblNewLabel_1.setForeground(new Color(184, 134, 11));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel_1.setBounds(5, 10, 439, 72);
+		pAccount.add(lblNewLabel_1);
 		
 		table.addMouseListener(new MouseAdapter() {
 			@Override

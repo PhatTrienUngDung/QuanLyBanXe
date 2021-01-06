@@ -532,12 +532,14 @@ public class UI_ThongKe1 extends JFrame {
 		
 		JScrollPane scrollPaneNV = new JScrollPane();
 		
-		scrollPaneNV.setBounds(22, 40, 1442, 153);
+		scrollPaneNV.setBounds(0, 0, 1492, 193);
 		pnNhanVien.add(scrollPaneNV);
 		
 		String headerNV[]= {"Tên công ty","Mã nhân viên","Tên nhân viên","Giới tính","Số lượng", "Doanh thu"};
 		tableModelNV= new DefaultTableModel(headerNV,0);
 		tbNhanVien = new JTable(tableModelNV);
+		tbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tbNhanVien.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tbNhanVien.setRowHeight(30);
 		try {
 			tableModelNV = dao_ThongKe.getAllNV(ngay,t,n);
@@ -551,6 +553,8 @@ public class UI_ThongKe1 extends JFrame {
 		String headerCTNV[]= {"Tên Xe","Số Lượng","Phiên Bản","Phân Khối", "Doanh thu"};
 		tableModelCTNV= new DefaultTableModel(headerCTNV,0);
 		tbCTNV = new JTable(tableModelCTNV);
+		tbCTNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tbCTNV.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JScrollPane scrollPaneCTNV = new JScrollPane();
 		tbCTNV.setRowHeight(30);
 		tbCTNV.setModel(tableModelCTNV);
@@ -590,13 +594,13 @@ public class UI_ThongKe1 extends JFrame {
 				}
 			}
 		});
-		scrollPaneCTNV.setBounds(22, 234, 1442, 215);
+		scrollPaneCTNV.setBounds(0, 234, 1492, 225);
 		pnNhanVien.add(scrollPaneCTNV);
 		scrollPaneCTNV.setViewportView(tbCTNV);
 		
 		lbChiTiet = new JLabel("Chi tiết thông tin xe đã bán của nhân viên");
-		lbChiTiet.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lbChiTiet.setBounds(22, 203, 519, 21);
+		lbChiTiet.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbChiTiet.setBounds(0, 203, 519, 21);
 		pnNhanVien.add(lbChiTiet);
 		
 		JLabel lbLoc = new JLabel("Lọc ");
