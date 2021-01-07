@@ -288,9 +288,12 @@ public class UI_HopDong extends JFrame {
 					//HopDong hdg = dao_hd.getInfoHDG("maHopDong", "HopDong");
 					HopDong hd = new HopDong(maHD,kh,nv,xe,ngay,3);System.out.println(table.getValueAt(row, 10).toString());
 				
-					if(!table.getValueAt(row, 9).toString().equalsIgnoreCase("Đã Lập HD")) {
+					if(!table.getValueAt(row, 10).toString().equalsIgnoreCase("Đã Lập HD")) {
 						if(dao_hd.themHD(hd)) {
 							tableModel1.addRow(new Object [] {maHD ,txtcmnd.getText(), txttenKH.getText(), kh.getSoDienThoai(), nv.getMaNhanVien(), nv.getTenNhanVien(), maxe,tenxe,loaixe,phienban,phankhoi,sokhung,somay,xe.getDonGia()+"",xe.getThueVAT()+"",LocalDate.now()+"",3+""});
+							tableModel.setValueAt("Đã Lập HD", row, 10);
+							JOptionPane.showMessageDialog(null, "Lập hợp đồng thành công");
+							
 						}else
 							JOptionPane.showMessageDialog(null, "Thêm không thành công");
 						
@@ -317,6 +320,8 @@ public class UI_HopDong extends JFrame {
 				txtcmnd.setText("");
 				txttenKH.setText("");
 				dateChooser.requestFocus();
+				tableModel.getDataVector().removeAllElements();
+				tableModel.fireTableDataChanged();
 				/*try {
 /////					//loadHD();
 				} catch (SQLException e1) {
@@ -357,7 +362,14 @@ public class UI_HopDong extends JFrame {
 				@Override
 			public void mouseClicked(MouseEvent e) {
 				if(textField_4.getText().length()==0) {
-				//	loadHD();
+					try {
+						tableModel1.getDataVector().removeAllElements();
+						tableModel1.fireTableDataChanged();
+						table_1.setModel(dao_hd.getAllHD(header1, tableModel1));
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				if(textField_4.getText().length()>0) {
 					try {
@@ -559,11 +571,11 @@ public class UI_HopDong extends JFrame {
 			}
 		});
 		
+		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_4.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
-		        {
+				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE) {
 		           
 		        }
 		        else

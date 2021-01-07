@@ -37,9 +37,9 @@ public class Help {
 	JMenuItem document = new JMenuItem("Document");
 	document.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			document nv;
+			About nv;
 			try {
-				nv = new document();
+				nv = new About();
 				nv.setVisible(true);
 				
 			} catch (Exception e2) {

@@ -326,7 +326,7 @@ public class UI_TaiKhoan extends JFrame {
 				//char temp =  Character.toUpperCase(e.getKeyChar());
 				//String employeeNum = txtEmployeeNum_Acc.getText() + temp;
 				//txtEmployeeNum_Acc.setText(employeeNum);
-				//txtEmployeeNum_Acc.setText(txtEmployeeNum_Acc.getText().toUpperCase());
+				//txtEmployeeNum_Acc.setText(txtEmployeeNum_Acc.getText().toUpperCase());	
 				if (isNumeric(txtEmployeeNum_Acc.getText())) {
 					txtEmployeeNum_Acc.setForeground(Color.black);
 					Connection con = ConnectDB.getCon();
@@ -338,6 +338,11 @@ public class UI_TaiKhoan extends JFrame {
 						if(rs.next()) {
 							txtEmployeeName_Acc.setText(rs.getString("tenNhanVien"));
 						}
+						else {
+							txtEmployeeName_Acc.setText("");
+							txtPassword_Acc.setText("");
+							txtChuThich.setText("");
+						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						JOptionPane.showMessageDialog(null, e1);
@@ -346,7 +351,7 @@ public class UI_TaiKhoan extends JFrame {
 				}
 				else {
 					txtEmployeeNum_Acc.setForeground(Color.red);
-				}				
+				}		
 			}
 		});
 		
@@ -370,6 +375,7 @@ public class UI_TaiKhoan extends JFrame {
 					try {
 						if(dao_tk.create(taiKhoan)) {
 							tableModel.addRow(new Object[] {stt+"",taiKhoan.getNhanVien().getMaNhanVien(), tenNhanVien, taiKhoan.getMatKhau(), taiKhoan.getQuyen(), taiKhoan.getChuThich()});
+							JOptionPane.showMessageDialog(null, "Tạo tài khoản thành công");
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Nhân viên này đã có tài khoản");

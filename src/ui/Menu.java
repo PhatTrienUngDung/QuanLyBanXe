@@ -697,20 +697,25 @@ public class Menu extends JFrame {
 		menuBar.setBackground(new Color(43, 87, 154));
 		menuBar.add(help);
 
-		JMenuItem about = new JMenuItem("About");
-		JMenuItem document = new JMenuItem("Document");
+		JMenuItem about = new JMenuItem("Thông tin phần mềm");
+		JMenuItem document = new JMenuItem("Tài Liệu hướng dẫn");
 		help.setFont(new Font("Tahoma", Font.BOLD, 11));
 		help.add(about);
 		about.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				document dc = new document();
+				About dc = new About();
 				dc.setVisible(true);
 			}
 		});
 		help.add(document);
 		document.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//link document file tài liệu
+				String cmds[] = new String[] {"cmd", "/c", "D:\\QuanLyBanXe\\branches\\Develop\\TaiLieuHuongDan\\tlhd.docx"};
+				try {
+				    Runtime.getRuntime().exec(cmds);
+				}catch (Exception e1) {
+					// TODO: handle exception
+				}
 			}
 		});
 		help.addMouseListener(new MouseAdapter() {
@@ -807,11 +812,17 @@ public class Menu extends JFrame {
 		JMenuItem profile = new JMenuItem("Hồ sơ");
 		JMenuItem logOut = new JMenuItem("Đăng xuất");
 		User.add(profile);
+		profile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Profile pf;
+				pf = new Profile();
+				pf.setVisible(true); 
+			}
+		});	
 		User.add(logOut);
 		logOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login lg;
-				Menu mn;
 				try {
 					setVisible(false);
 					lg = new Login();

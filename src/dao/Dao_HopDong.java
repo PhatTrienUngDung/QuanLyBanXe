@@ -124,7 +124,7 @@ public class Dao_HopDong {
 				public DefaultTableModel getAllHD(String[] header1, DefaultTableModel tableModel1) throws SQLException{
 					ConnectDB.getInstance();
 					Connection con = ConnectDB.getCon();
-					String sql = "select * from HopDong";
+					String sql = "select Top 50 * from HopDong order by maHopDong desc";
 					Statement statement = con.createStatement();
 					ResultSet rs = statement.executeQuery(sql);
 					Dao_QuanLyXe dao_xe  = new Dao_QuanLyXe();
@@ -203,7 +203,7 @@ public class Dao_HopDong {
 				ConnectDB.getInstance();
 				Connection con = ConnectDB.getCon();
 				
-				String sql ="select * from HopDong inner join KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang inner join  Xe ON HopDong.maXe = Xe.maXe where CMND like '" + cmnd + "' ";
+				String sql ="select * from HopDong inner join KhachHang ON HopDong.maKhachHang = KhachHang.maKhachHang inner join  Xe ON HopDong.maXe = Xe.maXe where CMND like '" + cmnd + "' order by maHopDong desc";
 				Statement statement = con.createStatement();
 				ResultSet rs = statement.executeQuery(sql);
 				while (rs.next()) {
