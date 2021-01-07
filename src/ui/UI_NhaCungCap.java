@@ -44,6 +44,8 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class UI_NhaCungCap extends JFrame {
@@ -439,7 +441,7 @@ public class UI_NhaCungCap extends JFrame {
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
 		
-		JLabel lblNewLabel_4 = new JLabel("Nhập mã hoặc tên cần tìm");
+		JLabel lblNewLabel_4 = new JLabel("Nhập mã hoặc tên nhà cung cấp cần tìm");
 		lblNewLabel_4.setForeground(Color.BLACK);
 		
 		JLabel lblNewLabel_5 = new JLabel("Nhập mã nhà cung cấp cần tìm");
@@ -449,32 +451,30 @@ public class UI_NhaCungCap extends JFrame {
 		lblNewLabel_6.setForeground(Color.BLACK);
 
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4.setBounds(14, 16, 190, 27);
+		lblNewLabel_4.setBounds(10, 26, 309, 27);
 		panel_7.add(lblNewLabel_4);
 		
 		txtTim = new JTextField();
-		txtTim.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtTim.setBounds(211, 17, 228, 29);
-		panel_7.add(txtTim);
-		txtTim.setColumns(10);
-		
-		JButton btnNewButton_4 = new JButton("Tìm Kiếm");
-		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnNewButton_4.setIcon(new ImageIcon("img1\\search2.png"));
-		btnNewButton_4.addMouseListener(new MouseAdapter() {
+		txtTim.addKeyListener(new KeyAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void keyReleased(KeyEvent e) {
 				try {
-					timNCC();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					if(txtTim.getText().length()>0) {
+						timNCC();
+					}
+					else {
+						loadNCC();
+					}
+				} catch (Exception e2) {
+					// TODO: handle exception
 				}
+				
 			}
 		});
-		btnNewButton_4.setBackground(Color.ORANGE);
-		btnNewButton_4.setBounds(461, 12, 143, 39);
-		panel_7.add(btnNewButton_4);
+		txtTim.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtTim.setBounds(329, 24, 376, 29);
+		panel_7.add(txtTim);
+		txtTim.setColumns(10);
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBorder(new MatteBorder(1, 1, 1, 1, (Color) SystemColor.controlShadow));
@@ -541,7 +541,7 @@ public class UI_NhaCungCap extends JFrame {
 	//TÃ¬m kiáº¿m
 	private void timNCC() throws SQLException{
 		Dao_NhaCungCap dao_ncc= new Dao_NhaCungCap();
-		tableModel = dao_ncc.timKiem(txtTim.getText());
+		tableModel = dao_ncc.timKiem("%"+txtTim.getText()+"%");
 		table_1.setModel(tableModel);
 	}
 	public void dem() {
