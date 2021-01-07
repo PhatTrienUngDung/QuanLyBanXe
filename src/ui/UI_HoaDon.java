@@ -39,7 +39,6 @@ import others.PrintSupport;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import java.awt.Panel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;

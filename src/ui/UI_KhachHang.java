@@ -27,22 +27,16 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.Toolkit;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -57,15 +51,11 @@ import dao.Dao_KhachHang;
 import entity.KhachHang;
 
 import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JTextFieldDateEditor;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.border.MatteBorder;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import javax.swing.border.LineBorder;
@@ -162,24 +152,20 @@ public class UI_KhachHang extends JFrame {
 		JPanel panelTimkiem = new JPanel();
 		panelTimkiem.setBorder(new LineBorder(SystemColor.controlShadow));
 		panelTimkiem.setBackground(SystemColor.control);
-		panelTimkiem.setBounds(845, 37, 663, 53);
+		panelTimkiem.setBounds(793, 37, 715, 53);
 		contentPane.add(panelTimkiem);
 		panelTimkiem.setLayout(null);
 		
 
-		JLabel lbltimKiem = new JLabel("Nhập tên, số CMND hoặc mã khách hàng cần tìm\r\n");
+		JLabel lbltimKiem = new JLabel("Nhập tên, số điện thoại, số CMND hoặc mã khách hàng cần tìm\r\n");
 		lbltimKiem.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbltimKiem.setForeground(new Color(0, 0, 0));
-		lbltimKiem.setBounds(10, 14, 316, 26);
+		lbltimKiem.setBounds(10, 14, 403, 26);
 		panelTimkiem.add(lbltimKiem);
 		
 		txttimKiem = new JTextField();
 		txttimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txttimKiem.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				
-			}
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				if(txttimKiem.getText().length()==0) {
@@ -200,7 +186,7 @@ public class UI_KhachHang extends JFrame {
 				}
 			}
 		});
-		txttimKiem.setBounds(336, 14, 270, 25);
+		txttimKiem.setBounds(423, 14, 270, 25);
 		panelTimkiem.add(txttimKiem);
 		txttimKiem.setColumns(10);
 		
@@ -418,7 +404,7 @@ public class UI_KhachHang extends JFrame {
 			}
 		});
 		btnXoa.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/Delete-group-icon.png")));
-		btnXoa.setBackground(Color.RED);
+		btnXoa.setBackground(new Color(220, 20, 60));
 		btnXoa.setBounds(225, 49, 137, 49);
 		panelchucNang.add(btnXoa);
 		
@@ -482,7 +468,7 @@ public class UI_KhachHang extends JFrame {
 			}
 		});
 		btncapNhat.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/Male-user-edit-icon.png")));
-		btncapNhat.setBackground(Color.BLUE);
+		btncapNhat.setBackground(new Color(0, 0, 205));
 		btncapNhat.setBounds(36, 126, 141, 49);
 		panelchucNang.add(btncapNhat);
 		
@@ -507,7 +493,7 @@ public class UI_KhachHang extends JFrame {
 		});
 		
 		btnlamMoi.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/refresh-icon.png")));
-		btnlamMoi.setBackground(new Color(255,190,87));
+		btnlamMoi.setBackground(new Color(255, 127, 80));
 		btnlamMoi.setBounds(225, 126, 137, 49);
 		panelchucNang.add(btnlamMoi);
 //		
@@ -613,7 +599,7 @@ public class UI_KhachHang extends JFrame {
 	    	}
 	    });
 		btnThem.setForeground(new Color(0, 0, 0));
-		btnThem.setBackground(Color.GREEN);
+		btnThem.setBackground(new Color(0, 128, 0));
 		btnThem.setIcon(new ImageIcon(UI_KhachHang.class.getResource("/image/Male-user-add-icon.png")));
 		btnThem.setBounds(36, 49, 141, 49);
 		panelchucNang.add(btnThem);
@@ -680,21 +666,21 @@ public class UI_KhachHang extends JFrame {
 		
 		txtTongkh = new JLabel("");
 		txtTongkh.setForeground(Color.BLUE);
-		txtTongkh.setFont(new Font("Tahoma", Font.BOLD, 22));
+		txtTongkh.setFont(new Font("Tahoma", Font.BOLD, 24));
 		txtTongkh.setText(dao_kh.TongKhachHang()+"");
 		txtTongkh.setBounds(176, 449, 189, 25);
 		contentPane.add(txtTongkh);
 		
 		txtTongkhnam = new JLabel("");
 		txtTongkhnam.setForeground(Color.RED);
-		txtTongkhnam.setFont(new Font("Tahoma", Font.BOLD, 22));
+		txtTongkhnam.setFont(new Font("Tahoma", Font.BOLD, 24));
 		txtTongkhnam.setText(dao_kh.TongKhachNam()+"");
 		txtTongkhnam.setBounds(605, 447, 141, 25);
 		contentPane.add(txtTongkhnam);
 		
 		txttongkhnu = new JLabel("");
 		txttongkhnu.setForeground(Color.GREEN);
-		txttongkhnu.setFont(new Font("Tahoma", Font.BOLD, 22));
+		txttongkhnu.setFont(new Font("Tahoma", Font.BOLD, 24));
 		txttongkhnu.setText(dao_kh.TongKhachNu()+"");
 		txttongkhnu.setBounds(1020, 448, 141, 25);
 		contentPane.add(txttongkhnu);
@@ -733,9 +719,7 @@ public class UI_KhachHang extends JFrame {
 	//Đếm số KhachHang
 	private void timKhachHang() throws SQLException {
 		dao_kh = new Dao_KhachHang();
-		tableModel = dao_kh.timKiem("%"+txttimKiem.getText()+"%","maKhachHang");
-		tableModel = dao_kh.timKiem("%"+txttimKiem.getText()+"%","tenKhachHang");
-		tableModel = dao_kh.timKiem("%"+txttimKiem.getText()+"%","CMND");
+		tableModel = dao_kh.timKiem("%"+txttimKiem.getText()+"%");
 		table.setModel(tableModel);
 		
 	}
@@ -743,7 +727,8 @@ public class UI_KhachHang extends JFrame {
 	public ArrayList<String> xetCMND() {
 		cmnd = new ArrayList<String>();
 		try {
-			Connection con = ConnectDB.getInstance().getCon();
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
 			String sql = "Select CMND from KhachHang";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);

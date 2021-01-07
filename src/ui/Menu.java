@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 
 import connect.ConnectDB;
 import dao.Dao_NhanVien;
-import dao.Dao_ThongKe;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -28,7 +27,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import javax.swing.JButton;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import java.awt.Font;
 
