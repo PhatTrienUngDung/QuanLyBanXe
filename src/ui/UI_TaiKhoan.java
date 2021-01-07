@@ -272,13 +272,18 @@ public class UI_TaiKhoan extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = table.getSelectedRow();				
-				String maNhanVien = table.getValueAt(row, 1).toString();
-				if(dao_tk.Update(maNhanVien)) {
-					txtPassword_Acc.setText("12346");
-					table.setValueAt("123456", row, 3);
-				}
+				if(row < 0)
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn tài khoản!");
 				else {
-					JOptionPane.showMessageDialog(null, "Đặt lại mật khẩu không thành công!");
+					String maNhanVien = table.getValueAt(row, 1).toString();
+					if(dao_tk.Update(maNhanVien)) {
+						txtPassword_Acc.setText("12346");
+						table.setValueAt("123456", row, 3);
+						JOptionPane.showMessageDialog(null, "Đặt lại mật khẩu thành công");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Đặt lại mật khẩu không thành công!");
+					}
 				}
 			}
 		});
@@ -350,25 +355,29 @@ public class UI_TaiKhoan extends JFrame {
 		btnAdd_Acc.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String maNhanVien = txtEmployeeNum_Acc.getText();
-				String matKhau = txtPassword_Acc.getText();
-				if (matKhau.equalsIgnoreCase(""))
-					matKhau = "123456";
-				String quyen = cbbQuyen.getSelectedItem().toString();
-				String chuThich = txtChuThich.getText();
-				TaiKhoan taiKhoan = new TaiKhoan(new NhanVien(maNhanVien), matKhau, quyen, chuThich);
-				String tenNhanVien = txtEmployeeName_Acc.getText();
-				int stt = dao_tk.docTuBang().size();
-				try {
-					if(dao_tk.create(taiKhoan)) {
-						tableModel.addRow(new Object[] {stt+"",taiKhoan.getNhanVien().getMaNhanVien(), tenNhanVien, taiKhoan.getMatKhau(), taiKhoan.getQuyen(), taiKhoan.getChuThich()});
+				if(txtEmployeeName_Acc.getText().equalsIgnoreCase(""))
+					JOptionPane.showMessageDialog(null, "Nhân viên không tồn tại");
+				else {
+					String maNhanVien = txtEmployeeNum_Acc.getText();
+					String matKhau = txtPassword_Acc.getText();
+					if (matKhau.equalsIgnoreCase(""))
+						matKhau = "123456";
+					String quyen = cbbQuyen.getSelectedItem().toString();
+					String chuThich = txtChuThich.getText();
+					TaiKhoan taiKhoan = new TaiKhoan(new NhanVien(maNhanVien), matKhau, quyen, chuThich);
+					String tenNhanVien = txtEmployeeName_Acc.getText();
+					int stt = dao_tk.docTuBang().size();
+					try {
+						if(dao_tk.create(taiKhoan)) {
+							tableModel.addRow(new Object[] {stt+"",taiKhoan.getNhanVien().getMaNhanVien(), tenNhanVien, taiKhoan.getMatKhau(), taiKhoan.getQuyen(), taiKhoan.getChuThich()});
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Nhân viên này đã có tài khoản");
+						}
+					} catch(Exception e1) {
+						//JOptionPane.showMessageDialog(this, "Trung");
+						System.out.println("Wrong!");
 					}
-					else {
-						JOptionPane.showMessageDialog(null, "Nhân viên này đã có tài khoản");
-					}
-				} catch(Exception e1) {
-					//JOptionPane.showMessageDialog(this, "Trung");
-					System.out.println("Wrong!");
 				}
 			}
 		});
@@ -382,13 +391,23 @@ public class UI_TaiKhoan extends JFrame {
 				if (row < 0)
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn Tài Khoản cần xóa!");
 				else {
-					String maNhanVien = table.getValueAt(row, 1).toString();
-					if(dao_tk.delete(maNhanVien)) {
-						tableModel.removeRow(row);
+					int luaChon = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa tài khoản này?", "Chú ý", JOptionPane.YES_NO_OPTION);
+					if(luaChon==JOptionPane.YES_OPTION) {
+						String maNhanVien = table.getValueAt(row, 1).toString();
+						if(maNhanVien.equalsIgnoreCase(Login.txtuser.getText()))
+							JOptionPane.showMessageDialog(null, "Tài khoản này đang thực thi không thể xóa!");
+						else {
+							if(dao_tk.delete(maNhanVien)) {
+								tableModel.removeRow(row);
+								JOptionPane.showMessageDialog(null, "Xóa thành công!");
+							}
+							else {
+								System.out.println("Wrong!");
+							}
+						}
+						
 					}
-					else {
-						System.out.println("Wrong!");
-					}
+					
 				}
 			}
 		});
