@@ -5,8 +5,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
 import connect.ConnectDB;
 import entity.HopDong;
@@ -15,6 +13,7 @@ import entity.NhanVien;
 import entity.Xe;
 
 public class Dao_XuatHopDong {
+	@SuppressWarnings("unused")
 	private static final String Xe = null;
 
 	public HopDong getAllHopDong(String ma){

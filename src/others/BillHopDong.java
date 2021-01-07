@@ -1,6 +1,5 @@
 package others;
 
-import java.awt.BorderLayout;
 
 import java.awt.EventQueue;
 
@@ -12,6 +11,10 @@ import ui.UI_XuatHopDong;
 
 import javax.swing.JTextArea;
 public class BillHopDong extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public static JTextArea textArea;
 	/**

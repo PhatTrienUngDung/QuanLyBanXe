@@ -79,7 +79,7 @@ public class Dao_NhaCungCap {
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
-		String sql = "select *from nhaCungCap where maNhaCungCap='" + maNCC + "'";
+		String sql = "select *from nhaCungCap where maNhaCungCap like'" + maNCC + "' or tenNhaCungCap like N'" + maNCC + "'";
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
 		

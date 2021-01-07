@@ -14,11 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.ChucVu;
-import entity.HangSanXuat;
-import entity.LoaiXe;
-import entity.NhaCungCap;
 import entity.NhanVien;
-import entity.Xe;
 public class Dao_NhanVien {
 	@SuppressWarnings("unused")
 	private int n;

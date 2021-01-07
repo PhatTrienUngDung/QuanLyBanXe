@@ -1,8 +1,5 @@
 package dao;
 
-import java.lang.reflect.Array;
-
-
 import java.sql.Connection;
 
 
@@ -18,20 +15,16 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import com.toedter.calendar.JDateChooser;
 
 import connect.ConnectDB;
-import entity.ChiTietHoaDon;
-import entity.ChucVu;
-import entity.HangSanXuat;
 import entity.HopDong;
 import entity.KhachHang;
-import entity.NhaCungCap;
 import entity.NhanVien;
 import entity.Xe;
 import entity.LoaiXe;
 
 public class Dao_HopDong {
+	@SuppressWarnings("unused")
 	private int n;
 	public Dao_HopDong() {}
 		//Load data
@@ -57,6 +50,7 @@ public class Dao_HopDong {
 //				}
 //				
 				public HopDong getInfoHD(String  properties) {
+					@SuppressWarnings("unused")
 					HopDong hdg = new HopDong(properties);
 					
 					try {
@@ -72,6 +66,7 @@ public class Dao_HopDong {
 						Xe xe;
 						while(rs.next()) {
 							xe = dao_xe.getInfoXe("maXe",rs.getString(4));
+							@SuppressWarnings("unused")
 							LoaiXe lx = dao_lx.getLoaiXeByID(xe.getLoaiXe().getMaLoaiXe());
 							KhachHang kh = dao_kh.getKhachHangById("maKhachHang", rs.getString(2));
 							NhanVien nv = dao_nv.getNhanVienById("maNhanVien", rs.getString(3));
@@ -104,6 +99,7 @@ public class Dao_HopDong {
 					return null;
 				}
 	
+				@SuppressWarnings("unused")
 				public DefaultTableModel getAllXe() throws SQLException{
 					String[] header = {"Mã xe","Tên xe","Loại xe","Phiên bản","Màu xe","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Trạng thái"};
 					DefaultTableModel tableModel = new DefaultTableModel(header,0);
@@ -124,6 +120,7 @@ public class Dao_HopDong {
 					return tableModel;
 					
 				}
+				@SuppressWarnings("unused")
 				public DefaultTableModel getAllHD(String[] header1, DefaultTableModel tableModel1) throws SQLException{
 					ConnectDB.getInstance();
 					Connection con = ConnectDB.getCon();
@@ -199,6 +196,7 @@ public class Dao_HopDong {
 				}
 			
 		//Tìm
+			@SuppressWarnings("unused")
 			public DefaultTableModel timKiem(String cmnd) throws SQLException {
 				String[] header= {"Mã hợp đồng","CMND","Tên khách hàng","Số điện thoại","Mã xe","Tên xe","Loại xe","Phiên bản","Phân khối","Số khung","Số máy","Đơn giá","Thuế","Ngày lập","Thời gian bảo hành"};
 				DefaultTableModel tableModel = new DefaultTableModel(header, 0);
@@ -418,6 +416,7 @@ public class Dao_HopDong {
 					}
 					return dsLXe;
 				}
+				@SuppressWarnings({ "rawtypes", "unchecked" })
 				public void getList(String tenXe, JComboBox comboBox) {
 					Connection con = ConnectDB.getCon();
 					String sql = "select DISTINCT HangSanXuat.tenHangSanXuat from Xe, HangSanXuat where Xe.maHangSanXuat=HangSanXuat.maHangSanXuat and tenXe = ?";

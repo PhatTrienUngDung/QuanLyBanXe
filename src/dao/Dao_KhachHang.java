@@ -13,11 +13,10 @@ import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.KhachHang;
-import entity.NhanVien;
-import entity.TaiKhoan;
 
 
 public class Dao_KhachHang {
+	@SuppressWarnings("unused")
 	private int n;
 	private ArrayList<String> list_CMND;
 	public Dao_KhachHang() {
@@ -25,7 +24,8 @@ public class Dao_KhachHang {
 	}
 	public ArrayList<String> getListCMND(){
 		try {
-			Connection con = ConnectDB.getInstance().getCon();
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
 			String sql = "Select CMND from KhachHang";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
@@ -92,12 +92,12 @@ public class Dao_KhachHang {
 	}
 	
 	//Tìm
-	public DefaultTableModel timKiem(String id,String properties) throws SQLException {
+	public DefaultTableModel timKiem(String id) throws SQLException {
 		String[] header= {"Mã Khách Hàng", "Tên Khách Hàng","CMND" ,"Giới Tính", "Ngày Sinh","Ngày Gia Nhập","Địa Chỉ","Email","Số Điện Thoại","Ghi Chú"};
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
-		String sql = "select * from KhachHang where "+ properties + " like '" + id + "'";
+		String sql = "select * from KhachHang where cmnd like '"+id+"' or maKhachHang like '"+id+"' or tenKhachHang like '"+id+"' or soDienThoai like '"+id+"'";
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
 		while (rs.next()) {

@@ -9,7 +9,12 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 public class Icon32 extends ImageIcon {
-    public Icon32(String f) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Icon32(String f) {
       super(f);
 
       BufferedImage i= new BufferedImage(32, 32, 

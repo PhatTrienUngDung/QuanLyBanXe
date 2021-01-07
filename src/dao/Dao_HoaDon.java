@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -93,7 +92,8 @@ public class Dao_HoaDon {
 	
 	public KhachHang getKhachHangbyHDId(String maHD) {
 		try {
-			Connection con = ConnectDB.getInstance().getCon();
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
 			String sql = "select maKhachHang from HoaDon where maHoaDon = '"+ maHD +"'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
@@ -112,7 +112,8 @@ public class Dao_HoaDon {
 	public ArrayList<Xe> getListOrderDetails(String maHD){
 		ArrayList<Xe> listOrderDetails = new ArrayList<Xe>();
 		try {
-			Connection con = ConnectDB.getInstance().getCon();
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getCon();
 			String sql = "select maXe from ChiTietHoaDon where maHoaDon = '"+ maHD +"'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);

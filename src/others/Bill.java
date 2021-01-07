@@ -1,13 +1,12 @@
 package others;
 
-import java.awt.BorderLayout;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
+
 
 import connect.ConnectDB;
 import dao.Dao_HoaDon;
@@ -15,30 +14,25 @@ import dao.Dao_NhanVien;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.Xe;
-import ui.Login;
 import ui.UI_HoaDon;
 import ui.UI_ThanhToan;
 
 import javax.swing.JTextArea;
 import java.awt.Font;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
 public class Bill extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public static JTextArea textArea;
 	public static String maHD;
@@ -62,6 +56,7 @@ public class Bill extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("unused")
 	public Bill() {
 		try {
 			ConnectDB.getInstance().connect();
@@ -127,10 +122,5 @@ public class Bill extends JFrame {
 		} else
 			textArea.append("\n\n			Ngày xuất hóa đơn  :  " + LocalDateTime.now() +"\n");
 		contentPane.add(textArea);
-	}
-
-	private void setViewportView(JTable table) {
-		// TODO Auto-generated method stub
-		
 	}
 }

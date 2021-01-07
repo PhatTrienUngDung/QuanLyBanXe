@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.ChiTietHoaDon;
+import entity.Xe;
 
 public class Dao_ThongKe {
 	ArrayList<ChiTietHoaDon> dscthd=new ArrayList<ChiTietHoaDon>();
@@ -491,5 +492,100 @@ public class Dao_ThongKe {
 			}
 			return count;
 		}
-
+		public Xe XeNhieuNhat() {
+			Xe xe = null;
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql= "SELECT top 1 Xe.tenXe, count(xe.tenXe), sum(HoaDon.tongTien)\r\n"
+						+ "FROM     chiTietHoaDon INNER JOIN\r\n"
+						+ "                  HoaDon ON chiTietHoaDon.maHoaDon = HoaDon.maHoaDon INNER JOIN\r\n"
+						+ "                  Xe ON chiTietHoaDon.maXe = Xe.maXe\r\n"
+						+ "group by xe.tenXe\r\n"
+						+ "order by count(xe.tenXe) desc ,sum(HoaDon.tongTien) desc";
+				PreparedStatement pst=con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()) {
+					String ten=rs.getString(1);
+					String soluong=rs.getString(2);
+					xe= new Xe(ten, soluong);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return xe;
+		}
+		public String XeItNhat() {
+			String count= "0";
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql= "select ROW_NUMBER() over (order by tenXe),  tenXe,count(xe.tenXe)  from Xe\r\n"
+						+ "where maXe not in (select maXe from ChiTietHoaDon)\r\n"
+						+ "group by xe.tenXe\r\n"
+						+ "order by ROW_NUMBER() over (order by tenXe) desc";
+				PreparedStatement pst=con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()) {
+					count=rs.getString(1);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return count;
+		}
+		public int TuoiTrungBinh() {
+			int count= 0;
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql= "SELECT sum(DATEDIFF(year, ngaySinh,GETDATE()))/count(maKhachHang)\r\n"
+						+ 	"FROM KhachHang";
+				PreparedStatement pst=con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()) {
+					count=rs.getInt(1);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return count;
+		}
+		public int TiLe(int tuoi1, int tuoi2) {
+			int count= 0;
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql= "SELECT DATEDIFF(year, ngaySinh,GETDATE()) AS AgeTB\r\n"
+						+ "    FROM KhachHang\r\n"
+						+ "	where DATEDIFF(year, ngaySinh,GETDATE())>"+tuoi1+"  and DATEDIFF(year, ngaySinh,GETDATE())<="+tuoi2+"";
+				PreparedStatement pst=con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()) {
+					count=rs.getInt(1);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return count;
+		}
+		public double SoLuongTuoi(int tuoi1 ,int tuoi2) {
+			int count= 0;
+			try {
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getCon();
+				String sql= "SELECT top 1 ROW_NUMBER() over (order by DATEDIFF(year, ngaySinh,GETDATE())), DATEDIFF(year, ngaySinh,GETDATE()) AS AgeTB\r\n"
+						+ "    FROM KhachHang\r\n"
+						+ "	where DATEDIFF(year, ngaySinh,GETDATE())>"+tuoi1+"  and DATEDIFF(year, ngaySinh,GETDATE())<="+tuoi2+""
+						+ "	order by DATEDIFF(year, ngaySinh,GETDATE()) desc";
+				PreparedStatement pst=con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()) {
+					count=rs.getInt(1);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return count;
+		}
 }
