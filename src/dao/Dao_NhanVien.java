@@ -14,7 +14,11 @@ import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import entity.ChucVu;
+import entity.HangSanXuat;
+import entity.LoaiXe;
+import entity.NhaCungCap;
 import entity.NhanVien;
+import entity.Xe;
 public class Dao_NhanVien {
 	@SuppressWarnings("unused")
 	private int n;
@@ -193,15 +197,15 @@ public class Dao_NhanVien {
 			try {
 				
 				stmt = con.prepareStatement(
-						"update nhanVien set tenNhanVien=?,CMND=?,gioiTinh=?,diaChi=?,email=?,soDienThoai=?,maChucVu=?,ngayVaoLam=?,ngaySinh=? where maNhanVien=?");
+						"update nhanVien set tenNhanVien=?,CMND=?,ngaySinh=?,gioiTinh=?,diaChi=?,email=?,soDienThoai=?,machucVu=?,ngayVaoLam=? where maNhanVien=?");
 				stmt.setString(1, nv.getTenNhanVien());
 				stmt.setString(2, nv.getCMND());
-				stmt.setString(3, nv.getGioiTinh());
-				stmt.setString(4, nv.getDiaChi());
-				stmt.setString(5, nv.getEmail());				
-				stmt.setString(6, nv.getSdt());
-				stmt.setString(7, nv.getChucVu().getMaChucVu());
-				stmt.setDate(8, (Date) nv.getNgaySinh());
+				stmt.setString(4, nv.getGioiTinh());
+				stmt.setString(5, nv.getDiaChi());
+				stmt.setString(6, nv.getEmail());				
+				stmt.setString(7, nv.getSdt());
+				stmt.setString(8, nv.getChucVu().getMaChucVu());
+				stmt.setDate(3, (Date) nv.getNgaySinh());
 				stmt.setDate(9, (Date) nv.getNgayVaoLam());
 				stmt.setString(10, nv.getMaNhanVien());
 				n = stmt.executeUpdate();

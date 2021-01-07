@@ -210,7 +210,9 @@ public class UI_NhanVien extends JFrame {
 		
 		txttenNV.addKeyListener(new KeyAdapter() {
 			public boolean tennv(String str) {
-				return str.matches("^[a-zA-Z ]+$"); 
+				return str.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\\\" +\\r\\n\" + \r\n" + 
+						"				\"            \\\"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\\\" +\\r\\n\" + \r\n" + 
+						"				\"            \\\"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\\\\\s]+$"); 
 			}	
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -312,6 +314,7 @@ public class UI_NhanVien extends JFrame {
 		txtdiaChi.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtdiaChi.setBounds(638, 71, 275, 24);
 		panel_6.add(txtdiaChi);
+		
 		txtdiaChi.setColumns(10);
 		
 		JLabel lblemail = new JLabel("Email");
@@ -443,7 +446,41 @@ public class UI_NhanVien extends JFrame {
 		panel_6.add(txtcmnd);
 		txtcmnd.setColumns(10);
 		
-		
+		txtdiaChi.addKeyListener(new KeyAdapter() {
+			public boolean sdt(String str) {
+				return str.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\\\" +\\r\\n\" + \r\n" + 
+						"				\"	            \\\"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\\\" +\\r\\n\" + \r\n" + 
+						"				\"	            \\\"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\\\\\s/\\\\\\\\.,]+$");
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!sdt(txtdiaChi.getText())) 
+					txtdiaChi.setForeground(Color.red);
+				else
+					txtdiaChi.setForeground(Color.BLACK);
+				if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE||e.getKeyCode()==KeyEvent.VK_DELETE)
+		        {
+		           
+		        }
+				else
+				{   
+		            String to_check=txttenNV.getText();
+		            int to_check_len=to_check.length();
+		            for(String data:list_CMND)
+		            {
+		                String check_from_data="";
+		                for(int i=0;i<to_check_len;i++)
+		                {
+		                    if(to_check_len<=data.length())
+		                    {
+		                        check_from_data = check_from_data+data.charAt(i);
+		                    }
+		                }
+		            }
+		        }
+				  
+			}
+		});
 //		table = new JTable();
 //		table.setBackground(new Color(255, 255, 255));
 //		scrollPane.setViewportView(table);
@@ -473,7 +510,7 @@ public class UI_NhanVien extends JFrame {
 		       }
 			};
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 427, 1482, 205);
+		scrollPane.setBounds(10, 427, 1482, 285);
 		panel.add(scrollPane);
 		scrollPane.setViewportView(table);
 		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Ngày Vào Làm","Chức vụ",};
@@ -550,10 +587,25 @@ public class UI_NhanVien extends JFrame {
 				}
 			}
 		});
+	
 		txtTimKiem.setBounds(433, 21, 240, 30);
 		txtTimKiem.setColumns(10);
 		panel_3.setLayout(null);
-		
+//		txtdiaChi.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//			//	if ((txtTimKiem.getText().length() < 0)) {
+//			//		txtTimKiem.setForeground(Color.red);
+//			//	}
+//				if (!(txtdiaChi.getText().matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
+//						"	            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
+//						"	            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s/\\\\.,]+$"))) {
+//					txtdiaChi.setForeground(Color.red);
+//				} else {
+//					txtTimKiem.setForeground(Color.black);
+//				}
+//			}
+//		});
 		
 		//panel_4.setLayout(gl_panel_4);
 		panel.setLayout(null);
@@ -605,11 +657,11 @@ public class UI_NhanVien extends JFrame {
 					String gioiTinh = (String) cbgioiTinh.getSelectedItem();
 					System.out.println(maChucVu);
 					NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, maChucVu, sodt, ngayVaoLam);
-					tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getCMND(),nv.getGioiTinh(),nv.getDiaChi(),nv.getEmail(),nv.getSdt()
-							,nv.getNgayVaoLam(),nv.getNgaySinh(),nv.getChucVu().getMaChucVu()});						
+					tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getCMND(),nv.getNgaySinh(),nv.getGioiTinh(),nv.getDiaChi(),nv.getEmail(),nv.getSdt()
+							,nv.getNgayVaoLam(),nv.getChucVu().getMaChucVu()});						
 					JFrame f= new JFrame();
 					dao_nv.themNV(nv);			
-					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+					JOptionPane.showMessageDialog(f, "Thêm thành công nhân viên!!!");
 					}
 				//NhanVien nv = dao_nv.getAllNV();
 //				ArrayList<NhanVien> dsnv = dao_nv.getListMaNV();
@@ -670,6 +722,7 @@ public class UI_NhanVien extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 				}
 			});
+			Date ngayhientai = Date.valueOf(LocalDate.now());
 			btnLamMoi.setBounds(555, 16, 135, 38);
 			btnLamMoi.setIcon(new ImageIcon("img1/refresh.png"));
 			btnLamMoi.addMouseListener(new MouseAdapter() {
@@ -685,7 +738,7 @@ public class UI_NhanVien extends JFrame {
 				
 					txtcmnd.setText("");
 				//	cbgioiTinh.setSelectedIndex(-1);
-					datengayVaoLam.setDate(null);
+					((JTextField) datengayVaoLam.getDateEditor().getUiComponent()).setText(ngayhientai.toString());
 				}
 			});
 			btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -777,6 +830,13 @@ public class UI_NhanVien extends JFrame {
 			JOptionPane.showConfirmDialog(null, "Địa chỉ không được để trống");
 			return false;
 		}
+		String diaChi = txtdiaChi.getText();
+		if(! diaChi.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
+				"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
+				"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$")){
+			JOptionPane.showMessageDialog(null, "Địa chỉ không chứa kí tự đặc biệt " );
+			return false;
+	            }
 //		LocalDate ngaysinh;
 //		if(!datengaysinh.contentEquals("")) {
 //			ngaysinh= LocalDate.parse(ngaysinh);
@@ -824,9 +884,9 @@ public class UI_NhanVien extends JFrame {
 			JOptionPane.showMessageDialog(null, "Địa chỉ không được để trống " );
 			return false;
 		}
-		if(! diaChi.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
-				"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
-				"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$")){
+		if(! diaChi.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
+				"	            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
+				"	            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s/\\\\.,]+$")){
 			JOptionPane.showMessageDialog(null, "Địa chỉ không hợp lệ " );
 			return false;
 	            }
