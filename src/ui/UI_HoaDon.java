@@ -454,7 +454,7 @@ public class UI_HoaDon extends JFrame {
 		pImageVehicle_Bill.setBorder(new LineBorder(SystemColor.controlShadow));
 		pImageVehicle_Bill.setLayout(null);
 		
-		JLabel lblImage = new JLabel("Chưa có hình ảnh");
+		JLabel lblImage = new JLabel("                          Chưa có hình ảnh");
 		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImage.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblImage.setForeground(Color.red);
@@ -528,6 +528,10 @@ public class UI_HoaDon extends JFrame {
 		panelFunction2.add(btnDeleteRowTableCTHD);
 		
 		JButton btnRemoveCTHD = new JButton("Hủy CTHD");
+		btnRemoveCTHD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnRemoveCTHD.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/Status-dialog-error-icon.png")));
 		btnRemoveCTHD.setBackground(Color.RED);
 		btnRemoveCTHD.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -535,6 +539,10 @@ public class UI_HoaDon extends JFrame {
 		panelFunction2.add(btnRemoveCTHD);
 		
 		JButton btnPayments = new JButton("Thanh Toán");
+		btnPayments.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnPayments.setBackground(Color.ORANGE);
 		btnPayments.setIcon(new ImageIcon(UI_HoaDon.class.getResource("/image/coin-icon.png")));
 		btnPayments.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -573,10 +581,14 @@ public class UI_HoaDon extends JFrame {
 				btnRemoveCTHD.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						tableModel.getDataVector().removeAllElements();
-						tableModel.fireTableDataChanged();
-						txtTotal.setText(df.format(0));
-						txtTotalVAT.setText(df.format(0));
+						if(tableModel.getRowCount()<=0)
+							JOptionPane.showMessageDialog(null, "Không có xe nào trong danh sách xe bán");
+						else {
+							tableModel.getDataVector().removeAllElements();
+							tableModel.fireTableDataChanged();
+							txtTotal.setText(df.format(0));
+							txtTotalVAT.setText(df.format(0));
+						}
 					}
 				});
 				
@@ -856,7 +868,8 @@ public class UI_HoaDon extends JFrame {
 						txtMaHD.setText("");
 						txtTenKH.setText("");
 						txtMaKH.setText("");
-						dcNgayLHD.setDate(Date.valueOf(LocalDate.now()));
+						//dcNgayLHD.setDate(Date.valueOf(LocalDate.now()));
+						dcNgayLHD.setCalendar(null);
 						dcNgayLHD.setToolTipText("");
 						SearchHD(header1);
 					}
@@ -872,16 +885,20 @@ public class UI_HoaDon extends JFrame {
 				btnXuatHD.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int row = table1.getSelectedRow();
-						Bill.maHD = table1.getValueAt(row, 0).toString();
-						Bill.kt = 1;
-						Bill bill = new Bill();
-						//bill.setVisible(true);
-						PrintSupport.printComponent(Bill.textArea);
-						String cmds[] = new String[] {"cmd", "/c", "C:\\Users\\hoais\\OneDrive\\Desktop\\a.pdf"};
-						try {
-						    Runtime.getRuntime().exec(cmds);
-						}catch (Exception e1) {
-							// TODO: handle exception
+						if(row < 0) 
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn");
+						else {
+							Bill.maHD = table1.getValueAt(row, 0).toString();
+							Bill.kt = 1;
+							Bill bill = new Bill();
+							//bill.setVisible(true);
+							PrintSupport.printComponent(Bill.textArea);
+							String cmds[] = new String[] {"cmd", "/c", "C:\\Users\\hoais\\OneDrive\\Desktop\\a.pdf"};
+							try {
+							    Runtime.getRuntime().exec(cmds);
+							}catch (Exception e1) {
+								// TODO: handle exception
+							}
 						}
 					}
 				});
@@ -957,7 +974,7 @@ public class UI_HoaDon extends JFrame {
 		btnAddVehicle_Bill.addMouseListener(new MouseAdapter() {
 			public String CheckValueVehicle() {
 				if (cbbVehicleName_Bill.getSelectedItem() == null) 
-					return "Vui lòng chọn Tên Xe";
+					return "Vui lòng chọn xe";
 				int sl = table.getRowCount();
 				if(sl > 0)
 					for(int i = 0; i<sl ; i++)

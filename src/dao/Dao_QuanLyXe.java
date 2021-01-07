@@ -597,21 +597,23 @@ public class Dao_QuanLyXe {
 			String img1 = xe_i.getImg1();
 			int a = 0, b= 0;
 			if (xe_i.getImg1().length()==0) {
-				img1 = "HinhAnhXe\\deletelbl-icon.png";
+				/*img1 = "HinhAnhXe\\deletelbl-icon.png";
 				a = 100;
-				b = 50;
+				b = 50;*/
+				label.setText("                          Chưa có hình ảnh");
 			}
-			//label.setVisible(true);
-			//img1= xe_i.getImg1();
-			try {
-			    img = ImageIO.read(new File(img1));
-			} catch (IOException e1) {
-			    e1.printStackTrace();
+			else {
+				try {
+				    img = ImageIO.read(new File(img1));
+				} catch (IOException e1) {
+				    e1.printStackTrace();
+				}
+				Image dimg = img.getScaledInstance(label.getWidth()-a, label.getHeight()-b,
+				        Image.SCALE_SMOOTH);
+				ImageIcon imageIcon = new ImageIcon(dimg);
+				label.setIcon(imageIcon);
 			}
-			Image dimg = img.getScaledInstance(label.getWidth()-a, label.getHeight()-b,
-			        Image.SCALE_SMOOTH);
-			ImageIcon imageIcon = new ImageIcon(dimg);
-			label.setIcon(imageIcon);
+			
 			return true;
 		}
 		public ArrayList<Xe> getSoKhung(){
