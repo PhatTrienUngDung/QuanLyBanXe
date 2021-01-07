@@ -39,6 +39,8 @@ import java.awt.Font;
 import java.awt.CardLayout;
 
 import connect.ConnectDB;
+import dao.Dao_KhachHang;
+import dao.Dao_QuanLyXe;
 import dao.Dao_ThongKe;
 import others.TableHeaderRenderer;
 
@@ -102,6 +104,11 @@ public class UI_ThongKe1 extends JFrame {
 	private JLabel lbTKXB;
 	private JLabel lbTKXM;
 	private JLabel lbSLKH;
+	private JLabel lblBieuDoXe;
+	private JLabel lbXeTrongThang;
+	private Dao_QuanLyXe dao_qlXe = new Dao_QuanLyXe();
+	private Dao_KhachHang dao_KhachHang= new Dao_KhachHang();
+	private JLabel txtTuoi;
 	/**
 	 * Launch the application.
 	 */
@@ -377,7 +384,7 @@ public class UI_ThongKe1 extends JFrame {
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(Color.WHITE);
-		panel_5.setBounds(25, 308, 1492, 459);
+		panel_5.setBounds(25, 308, 1492, 429);
 		//Thống kê bằng biểu đồ
 		dcd= new DefaultCategoryDataset();
 		Calendar calendar = Calendar.getInstance();
@@ -389,7 +396,7 @@ public class UI_ThongKe1 extends JFrame {
 		}
 		
 
-		JFreeChart jchart= ChartFactory.createBarChart("Thống kê số lượng xe bán ", null, "Số lượng", dcd, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart jchart= ChartFactory.createBarChart(null, null, "Số lượng", dcd, PlotOrientation.VERTICAL, true, true, false);
 		CategoryPlot plot= jchart.getCategoryPlot();
 		jchart.setBackgroundPaint(Color.white);
 		BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -399,10 +406,11 @@ public class UI_ThongKe1 extends JFrame {
 		panel_5.setLayout(new CardLayout(0, 0));
 		
 		pnChartXeMuaBan = new JPanel();
+		pnChartXeMuaBan.setBorder(new MatteBorder(1, 1, 1, 1, (Color) SystemColor.controlShadow));
 		pnChartXeMuaBan.setBackground(Color.WHITE);
 		pnChartXeMuaBan.setLayout(null);
 		ChartPanel chartPanel= new ChartPanel(jchart);
-		chartPanel.setBounds(10, 10, 933, 420);
+		chartPanel.setBounds(10, 125, 933, 295);
 		chartPanel.setBackground(Color.white);
 		chartPanel.setLayout(null);
 		pnChartXeMuaBan.add(chartPanel);
@@ -426,14 +434,14 @@ public class UI_ThongKe1 extends JFrame {
 		DecimalFormat df = new DecimalFormat("###,###,###,### VNĐ");
 		lbSLTienBan.setText(df.format(dao_ThongKe.TongTienTheoNgay(d, t, n)));
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(978, 10, 504, 420);
+		scrollPane.setBounds(962, 46, 527, 374);
 		pnChartXeMuaBan.add(scrollPane);
 		
 		String header[]= {"Tên Xe","Số Lượng","Tổng tiền thu được"};
 		tableModel= new DefaultTableModel(header,0);
 		table = new JTable(tableModel);
 		table.setEnabled(false);
-		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		table.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 15));
 		try {
 			loadThongKeNgay(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(), LocalDate.now().getYear());
@@ -449,12 +457,96 @@ public class UI_ThongKe1 extends JFrame {
 	    table.getColumnModel().getColumn(1).setPreferredWidth(5);
 		scrollPane.setViewportView(table);
 		Border border = new LineBorder(Color.white);
-		scrollPane.setBorder(border);
+		scrollPane.setBorder(new LineBorder(Color.WHITE));
 		table.getTableHeader().setBorder(border);
 		DefaultTableCellRenderer renderer1 = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
 		renderer1.setHorizontalAlignment(SwingConstants.LEFT);
 		table.getTableHeader().setBackground(Color.white);
 		table.setBackground(Color.WHITE);
+		
+		JLabel lbTongXe = new JLabel("Tổng số xe còn lại trong kho");
+		lbTongXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbTongXe.setBounds(10, 10, 239, 31);
+		pnChartXeMuaBan.add(lbTongXe);
+		
+		JLabel lbTinhTong = new JLabel("New label");
+		lbTinhTong.setForeground(new Color(220, 20, 60));
+		lbTinhTong.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lbTinhTong.setBounds(224, 2, 137, 44);
+		lbTinhTong.setText(dao_qlXe.XeConLai()+" xe");
+		pnChartXeMuaBan.add(lbTinhTong);
+		
+		JLabel lblTngSXe = new JLabel("Tổng số xe đã từng bán");
+		lblTngSXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngSXe.setBounds(10, 51, 239, 31);
+		pnChartXeMuaBan.add(lblTngSXe);
+		
+		JLabel lbTinhXeBan = new JLabel("0 xe");
+		lbTinhXeBan.setForeground(new Color(34, 139, 34));
+		lbTinhXeBan.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lbTinhXeBan.setBounds(224, 43, 137, 44);
+		lbTinhXeBan.setText(dao_qlXe.XeDaBan()+" xe");
+		pnChartXeMuaBan.add(lbTinhXeBan);
+		
+		JPanel panel_6 = new JPanel();
+		panel_6.setBackground(SystemColor.control);
+		panel_6.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_6.setBounds(953, 0, 1, 463);
+		pnChartXeMuaBan.add(panel_6);
+		
+		JLabel lbXeBanNhieu = new JLabel("Xe đã bán nhiều nhất");
+		lbXeBanNhieu.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbXeBanNhieu.setBounds(426, 11, 148, 31);
+		pnChartXeMuaBan.add(lbXeBanNhieu);
+		
+		JLabel lbNhieu = new JLabel("0 xe");
+		lbNhieu.setForeground(new Color(0, 0, 153));
+		lbNhieu.setText(dao_ThongKe.XeNhieuNhat().getMaXe());
+		lbNhieu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbNhieu.setBounds(597, 3, 294, 44);
+		pnChartXeMuaBan.add(lbNhieu);
+		
+		JLabel lblXeBn = new JLabel("Xe chưa từng được bán");
+		lblXeBn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblXeBn.setBounds(426, 51, 161, 31);
+		pnChartXeMuaBan.add(lblXeBn);
+		
+		JLabel lbIt = new JLabel("0 xe");
+		lbIt.setForeground(new Color(255, 153, 0));
+		lbIt.setText(dao_ThongKe.XeItNhat() +" xe");
+		lbIt.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lbIt.setBounds(597, 43, 111, 44);
+		pnChartXeMuaBan.add(lbIt);
+		
+		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(new Color(0, 102, 51));
+		panel_8.setBounds(928, 10, 26, 49);
+		pnChartXeMuaBan.add(panel_8);
+		
+		JPanel panel_8_1 = new JPanel();
+		panel_8_1.setBackground(new Color(204, 0, 0));
+		panel_8_1.setBounds(954, 0, 54, 41);
+		pnChartXeMuaBan.add(panel_8_1);
+		
+		JPanel panel_9 = new JPanel();
+		panel_9.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(160, 160, 160)));
+		panel_9.setBackground(Color.WHITE);
+		panel_9.setBounds(981, 4, 510, 37);
+		pnChartXeMuaBan.add(panel_9);
+		panel_9.setLayout(null);
+		
+		lbXeTrongThang = new JLabel("Những xe đã được bán trong tháng");
+		lbXeTrongThang.setText("Những xe đã được bán trong ngày "+LocalDate.now().getDayOfMonth()+" - "+LocalDate.now().getMonthValue()+" - "+LocalDate.now().getYear());
+		lbXeTrongThang.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lbXeTrongThang.setBounds(42, 0, 461, 33);
+		panel_9.add(lbXeTrongThang);
+		
+		lblBieuDoXe = new JLabel("Biểu đồ xe bán trong");
+		lblBieuDoXe.setText("Biểu đồ xe bán các ngày trong tháng " +LocalDate.now().getMonthValue()+" - "+LocalDate.now().getYear());
+		lblBieuDoXe.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBieuDoXe.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblBieuDoXe.setBounds(10, 92, 933, 33);
+		pnChartXeMuaBan.add(lblBieuDoXe);
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		contentPane.add(panel_5);
 		//Chart Khách hàng
@@ -463,7 +555,7 @@ public class UI_ThongKe1 extends JFrame {
 			dcdKH.addValue(dao_ThongKe.BieuDoKhachHangTheoNgay(i, LocalDate.now().getYear(), LocalDate.now().getMonthValue()), "Số lượng Khách Hàng Mới", String.valueOf(i));
 		}
 
-		JFreeChart jchartKH= ChartFactory.createBarChart("Thống kê số lượng khách hàng ", null, "Số lượng", dcdKH, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart jchartKH= ChartFactory.createBarChart(null, null, "Số lượng", dcdKH, PlotOrientation.VERTICAL, true, true, false);
 		CategoryPlot plotKH= jchartKH.getCategoryPlot();
 		jchartKH.setBackgroundPaint(Color.white);
 		BarRenderer rendererKH = (BarRenderer) plotKH.getRenderer();
@@ -471,15 +563,16 @@ public class UI_ThongKe1 extends JFrame {
 		plotKH.setRangeGridlinePaint(Color.black);
 		
 		pnChartKKhachHang = new JPanel();
+		pnChartKKhachHang.setBorder(new LineBorder(SystemColor.controlShadow));
 		pnChartKKhachHang.setBackground(Color.WHITE);
 		pnChartKKhachHang.setLayout(null);
 		ChartPanel chartPanelKH= new ChartPanel(jchartKH);
-		chartPanelKH.setBounds(10, 10, 933, 420);
+		chartPanelKH.setBounds(10, 153, 933, 266);
 		chartPanelKH.setBackground(Color.white);
 		chartPanelKH.setLayout(null);
 		//Table
 		JScrollPane scrollPaneKH = new JScrollPane();
-		scrollPaneKH.setBounds(978, 10, 504, 420);
+		scrollPaneKH.setBounds(977, 48, 504, 371);
 		pnChartKKhachHang.add(scrollPaneKH);
 		
 		
@@ -487,7 +580,7 @@ public class UI_ThongKe1 extends JFrame {
 		tableModelKH= new DefaultTableModel(headerKH,0);
 		tableKH = new JTable(tableModelKH);
 		tableKH.setEnabled(false);
-		tableKH.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		tableKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tableKH.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		tableKH.setModel(tableModelKH);
@@ -512,6 +605,142 @@ public class UI_ThongKe1 extends JFrame {
 		scrollPaneKH.getViewport().setBackground(Color.WHITE);
 		pnChartKKhachHang.add(chartPanelKH);
 		panel_5.add(pnChartKKhachHang, "name_3671978065000");
+		
+		JLabel lblTngKhchHng = new JLabel("Tổng Số Khách Hàng");
+		lblTngKhchHng.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngKhchHng.setBounds(10, 10, 145, 25);
+		pnChartKKhachHang.add(lblTngKhchHng);
+		
+		JLabel txtTongkh = new JLabel("0");
+		txtTongkh.setForeground(new Color(0, 0, 205));
+		txtTongkh.setText(dao_KhachHang.TongKhachHang()+"");
+		txtTongkh.setFont(new Font("Tahoma", Font.BOLD, 17));
+		txtTongkh.setBounds(196, 8, 118, 27);
+		pnChartKKhachHang.add(txtTongkh);
+		
+		JLabel lblTngKhchHng_1 = new JLabel("Tổng Số Khách Hàng Nam");
+		lblTngKhchHng_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngKhchHng_1.setBounds(398, 12, 179, 25);
+		pnChartKKhachHang.add(lblTngKhchHng_1);
+		
+		JLabel txtTongkhnam = new JLabel("0");
+		txtTongkhnam.setForeground(new Color(220, 20, 60));
+		txtTongkhnam.setText(dao_KhachHang.TongKhachNam()+"");
+		txtTongkhnam.setFont(new Font("Tahoma", Font.BOLD, 17));
+		txtTongkhnam.setBounds(584, 10, 118, 25);
+		pnChartKKhachHang.add(txtTongkhnam);
+		
+		JLabel lblTngKhchHng_2 = new JLabel("Tổng Số Khách Hàng Nữ");
+		lblTngKhchHng_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngKhchHng_2.setBounds(398, 47, 167, 25);
+		pnChartKKhachHang.add(lblTngKhchHng_2);
+		
+		JLabel txttongkhnu = new JLabel("0");
+		txttongkhnu.setForeground(new Color(0, 128, 0));
+		txttongkhnu.setText(dao_KhachHang.TongKhachNu()+"");
+		txttongkhnu.setFont(new Font("Tahoma", Font.BOLD, 17));
+		txttongkhnu.setBounds(584, 46, 118, 29);
+		pnChartKKhachHang.add(txttongkhnu);
+		
+		JLabel lblTngKhchHng_2_1 = new JLabel("Tuổi trung bình");
+		lblTngKhchHng_2_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngKhchHng_2_1.setBounds(10, 46, 167, 25);
+		pnChartKKhachHang.add(lblTngKhchHng_2_1);
+		
+		txtTuoi = new JLabel("0");
+		txtTuoi.setForeground(new Color(255, 102, 0));
+		
+		txtTuoi.setFont(new Font("Tahoma", Font.BOLD, 17));
+		txtTuoi.setBounds(196, 45, 118, 29);
+		txtTuoi.setText(dao_ThongKe.TuoiTrungBinh()+" tuổi");
+		pnChartKKhachHang.add(txtTuoi);
+		
+		JPanel panel_6_1 = new JPanel();
+		panel_6_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_6_1.setBackground(SystemColor.menu);
+		panel_6_1.setBounds(967, 0, 1, 463);
+		pnChartKKhachHang.add(panel_6_1);
+		
+		JPanel panel_9_1 = new JPanel();
+		panel_9_1.setLayout(null);
+		panel_9_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(160, 160, 160)));
+		panel_9_1.setBackground(Color.WHITE);
+		panel_9_1.setBounds(994, 1, 510, 37);
+		pnChartKKhachHang.add(panel_9_1);
+		
+		JLabel lbKHMoi = new JLabel("Những khách hàng mới trong");
+		lbKHMoi.setText("Những khách hàng mới trong ngày " +LocalDate.now().getDayOfMonth()+" - "+LocalDate.now().getMonthValue()+" - "+LocalDate.now().getYear());
+		lbKHMoi.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lbKHMoi.setBounds(10, 0, 493, 33);
+		panel_9_1.add(lbKHMoi);
+		
+		JPanel panel_8_1_1 = new JPanel();
+		panel_8_1_1.setBackground(new Color(204, 0, 0));
+		panel_8_1_1.setBounds(967, -3, 26, 41);
+		pnChartKKhachHang.add(panel_8_1_1);
+		
+		JPanel panel_8_2 = new JPanel();
+		panel_8_2.setBackground(new Color(0, 102, 51));
+		panel_8_2.setBounds(941, 35, 26, 37);
+		pnChartKKhachHang.add(panel_8_2);
+		
+		JLabel lblTngKhchHng_2_1_1 = new JLabel("Tỉ lệ độ tuổi mua xe :");
+		lblTngKhchHng_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngKhchHng_2_1_1.setBounds(10, 79, 145, 25);
+		pnChartKKhachHang.add(lblTngKhchHng_2_1_1);
+		
+		JLabel lblTngKhchHng_2_1_2 = new JLabel("18 - 30 Tuổi ");
+		lblTngKhchHng_2_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTngKhchHng_2_1_2.setBounds(154, 80, 98, 25);
+		pnChartKKhachHang.add(lblTngKhchHng_2_1_2);
+		
+		JLabel txt1830 = new JLabel("0 tuổi");
+		txt1830.setForeground(new Color(128, 0, 128));
+		if(dao_KhachHang.TongKhachHang()==0) {
+			txt1830.setText("0 %");
+		}else
+			txt1830.setText(Math.round(dao_ThongKe.SoLuongTuoi(18, 30)*100/dao_KhachHang.TongKhachHang())+" %");
+		txt1830.setFont(new Font("Tahoma", Font.BOLD, 17));
+		txt1830.setBounds(255, 77, 118, 29);
+		pnChartKKhachHang.add(txt1830);
+		
+		JLabel lb3060 = new JLabel("31 - 60 Tuổi ");
+		lb3060.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lb3060.setBounds(398, 79, 98, 25);
+		pnChartKKhachHang.add(lb3060);
+		
+		JLabel txt3060 = new JLabel("0 tuổi");
+		txt3060.setForeground(new Color(128, 128, 0));
+		if(dao_KhachHang.TongKhachHang()==0) {
+			txt3060.setText("0 %");
+		}else
+			txt3060.setText(Math.round(dao_ThongKe.SoLuongTuoi(30, 60)*100/dao_KhachHang.TongKhachHang())+" %");
+		txt3060.setFont(new Font("Tahoma", Font.BOLD, 17));
+		txt3060.setBounds(506, 76, 118, 29);
+		pnChartKKhachHang.add(txt3060);
+		
+		JLabel lb60tr = new JLabel("Trên 60 Tuổi ");
+		lb60tr.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lb60tr.setBounds(662, 79, 98, 25);
+		pnChartKKhachHang.add(lb60tr);
+		
+		JLabel txtTren60 = new JLabel("0 tuổi");
+		txtTren60.setForeground(new Color(255, 0, 255));
+		
+		txtTren60.setFont(new Font("Tahoma", Font.BOLD, 17));
+		txtTren60.setBounds(787, 76, 118, 29);
+		if(dao_KhachHang.TongKhachHang()==0) {
+			txtTren60.setText("0 %");
+		}else
+			txtTren60.setText(Math.round((dao_ThongKe.SoLuongTuoi(60, 200)*100/dao_KhachHang.TongKhachHang()*100.00)/100.00)+" %");
+		pnChartKKhachHang.add(txtTren60);
+		
+		JLabel lbBieudoKH = new JLabel("Biểu đồ thống kê số lượng khách hàng mới trong tháng "+LocalDate.now().getMonthValue()+" - "+LocalDate.now().getYear());
+		lbBieudoKH.setHorizontalAlignment(SwingConstants.CENTER);
+		lbBieudoKH.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lbBieudoKH.setBounds(10, 122, 933, 33);
+		pnChartKKhachHang.add(lbBieudoKH);
+		
 		//Chart Doanh thu
 		dcdDT= new DefaultCategoryDataset();
 		for (int i = 1; i <=maxDay; i++) {
@@ -594,7 +823,7 @@ public class UI_ThongKe1 extends JFrame {
 				}
 			}
 		});
-		scrollPaneCTNV.setBounds(0, 234, 1492, 225);
+		scrollPaneCTNV.setBounds(0, 234, 1492, 185);
 		pnNhanVien.add(scrollPaneCTNV);
 		scrollPaneCTNV.setViewportView(tbCTNV);
 		
@@ -756,7 +985,10 @@ public class UI_ThongKe1 extends JFrame {
 						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Tháng "+t1+"-"+n1);
 						lbSTDB.setText("Tổng Doanh Thu Trong Tháng "+t1+"-"+n1);
 						lbSLKH.setText("Số Khách Hàng Mới Trong Tháng "+t1+"-"+n1);
-						jchart.setTitle("Thống kê số lượng xe bán theo tháng trong năm "+n1);
+						lblBieuDoXe.setText("Biểu đồ xe nhập, bán trong các tháng năm "+n1);
+						lbXeTrongThang.setText("Những xe đã được bán trong tháng "+t1+" - "+n1);
+						lbBieudoKH.setText("Biểu đồ thống kê số lượng khách hàng mới trong các tháng năm "+n1);
+						lbKHMoi.setText("Những khách hàng mới trong tháng " +t1+" - "+n1);
 						loadKHThang(t1, n1);
 						//Biểu đồ
 						int t2=(int) cbThang.getSelectedItem();
@@ -835,8 +1067,11 @@ public class UI_ThongKe1 extends JFrame {
 						lbTKXM.setText("Tổng Số Lượng Xe Mới Trong Năm "+n1);
 						lbSTDB.setText("Tổng Doanh Thu Trong Năm "+n1);
 						lbSLKH.setText("Số Khách Hàng Mới Trong Năm "+n1);
+						lblBieuDoXe.setText("Biểu đồ xe nhập, bán trong giai đoạn năm 2019 - "+ LocalDate.now().getYear());
+						lbXeTrongThang.setText("Những xe đã được bán trong năm "+n1);
+						lbBieudoKH.setText("Biểu đồ thống kê số lượng khách hàng mới trong giai đoạn năm 2019 - "+LocalDate.now().getYear());
+						lbKHMoi.setText("Những khách hàng mới trong năm "+n1);
 						loadThongKeNam();
-						jchart.setTitle("Thống kê số lượng xe bán theo năm "+n1);
 						loadNhanVienTheoNam(n1);
 						loadKHNam(n1);
 						//Biểu đồ xe Nhập - Bán
@@ -911,6 +1146,10 @@ public class UI_ThongKe1 extends JFrame {
 						int ngay= (int) cbNgay.getSelectedItem();
 						loadThongKeThang();
 						loadKHNgay(ngay1, t1, n1);
+						lblBieuDoXe.setText("Biểu đồ xe nhập, bán các ngày trong tháng " +t1+" - "+n1);
+						lbXeTrongThang.setText("Những xe đã được bán trong ngày "+ngay1+" - "+t1+" - "+n1);
+						lbBieudoKH.setText("Biểu đồ thống kê số lượng khách hàng mới trong tháng " +t1+" - "+n1);
+						lbKHMoi.setText("Những khách hàng mới trong ngày " +ngay1+" - "+t1+" - "+n1);
 						lbSLXeMoi.setText(String.valueOf(dao_ThongKe.BieuDoXeNhap(ngay,t1, n1)));
 						lbSLXeBan.setText(String.valueOf(dao_ThongKe.BieuDoXeBan(ngay,t1, n1)));
 						lbSLKhachHang.setText(String.valueOf(dao_ThongKe.BieuDoKhachHangTheoNgay(ngay,t1, n1)));
@@ -928,7 +1167,6 @@ public class UI_ThongKe1 extends JFrame {
 						int maxDay =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 						
 						//Biểu đồ xe Nhập - Bán
-						jchart.setTitle("Thống kê số lượng xe bán theo ngày trong tháng "+ t1+"-"+n1);
 						for (int i = 1; i <=31; i++) {
 							dcd.addValue(dao_ThongKe.BieuDoXeNhap(i, t2,n2), "Số lượng Nhập", String.valueOf(i));
 							dcd.addValue(dao_ThongKe.BieuDoXeBan(i, t2,n2), "Số lượng Bán", String.valueOf(i));
