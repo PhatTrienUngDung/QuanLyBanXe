@@ -2,8 +2,11 @@ package ui;
 
 import javax.swing.*;
 
+import entity.NhaCungCap;
+
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
+import java.awt.Color;
 import java.awt.event.*;
 import java.sql.SQLException;
 public class Help {
@@ -34,9 +37,9 @@ public class Help {
 	JMenuItem document = new JMenuItem("Document");
 	document.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			UI_NhanVien nv;
+			document nv;
 			try {
-				nv = new UI_NhanVien();
+				nv = new document();
 				nv.setVisible(true);
 				
 			} catch (Exception e2) {

@@ -61,6 +61,7 @@ public class Login extends JFrame {
 	private JPanel panelpass;
 	private JLabel imageuser;
 	private JLabel imagepass;
+	public static JButton btndangNhap;
 	public static JTextField txtuser;
 	private JPasswordField txtpass;
 	private JLabel lblxoauser,lblxoapass;
@@ -198,7 +199,7 @@ public class Login extends JFrame {
 		panelLeft.add(txtuser);
 		txtuser.setColumns(10);
 		
-		JButton btndangNhap = new JButton("Đăng nhập");
+		btndangNhap = new JButton("Đăng nhập");
 		btndangNhap.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
