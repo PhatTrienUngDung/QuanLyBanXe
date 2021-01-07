@@ -91,7 +91,8 @@ public class UI_XuatHopDong extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setBounds(320, 0, 718, 1000);
 		contentPane = new JPanel();
@@ -362,6 +363,13 @@ public class UI_XuatHopDong extends JFrame {
 		contentPane.add(btnXut);
 		
 		JButton btnng = new JButton("Đóng");
+		btnng.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
 		btnng.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}

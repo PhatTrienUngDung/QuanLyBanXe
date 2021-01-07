@@ -564,47 +564,50 @@ public class UI_KhachHang extends JFrame {
 	    		String cmnd = txtCmnd.getText();
 	    		String gioiTinh = cbgioiTinh.getSelectedItem().toString();
 	    		String date = ((JTextField) dcngaySinh.getDateEditor().getUiComponent()).getText();
-	    		Date ngay = Date.valueOf(LocalDate.parse(date));
-	    		String dategn = ((JTextField) dcngayGiaNhap.getDateEditor().getUiComponent()).getText();
-	    		Date ngaygiaNhap = Date.valueOf(LocalDate.parse(dategn));
-	    		String diachi = txtdiaChi.getText();
-	    		String email = txtEmail.getText();
-	    		String sodt = txtsoDt.getText();
-	    		String ghiChu = txtchuThich.getText();
-	    		KhachHang kh1 = dao_kh.getKhachHangById("CMND", txtCmnd.getText());
-	    		KhachHang kh = new KhachHang(makH,tenkH,cmnd,gioiTinh,ngay,ngaygiaNhap,diachi,email,sodt,ghiChu);
-	    		if(kh1!=null)
-	    			JOptionPane.showMessageDialog(null, "Trùng chứng minh nhân dân với khách hàng có mã số là " + kh1.getMaKhachHang());
-	    			
+	    		if(date.equalsIgnoreCase(""))
+	    			JOptionPane.showMessageDialog(null, "Ngày sinh không được để trống!");
 	    		else {
-	    			if(dao_kh.themKH(kh))
-		    		{
-		    			String maKH = dao_hd.getMaHDTail("maKhachHang", "KhachHang");
-			    		JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công");
-			    		txtmaKh.setText(maKH);
-						txtchuThich.setText("");
-						txtdiaChi.setText("");
-						txtEmail.setText("");
-						txtsoDt.setText("");
-						txttenKh.setText("");
-						txtCmnd.setText("");
-						txttimKiem.setText("");
-						dcngaySinh.setCalendar(null);
-						cbgioiTinh.setSelectedIndex(0);
-						txtTongkh.setText(String.valueOf(Integer.parseInt(txtTongkh.getText())+1));
-						if(kh.getGioiTinh().equalsIgnoreCase("Nam"))
-							txtTongkhnam.setText(String.valueOf(Integer.parseInt(txtTongkhnam.getText())+1));
-						else
-							txttongkhnu.setText(String.valueOf(Integer.parseInt(txttongkhnu.getText())+1));
-						txtmaKh.requestFocus();
-						tableModel.addRow(new Object[] {kh.getMaKhachHang(),kh.getTenKhachHang(),kh.getCMND(),kh.getGioiTinh(),kh.getNgaySinh()+"",kh.getNgaygiaNhap()+"",kh.getDiaChi(),kh.getEmail(),kh.getSoDienThoai(),kh.getChuThich()});
-		    		}
+		    		Date ngay = Date.valueOf(LocalDate.parse(date));
+		    		String dategn = ((JTextField) dcngayGiaNhap.getDateEditor().getUiComponent()).getText();
+		    		Date ngaygiaNhap = Date.valueOf(LocalDate.parse(dategn));
+		    		String diachi = txtdiaChi.getText();
+		    		String email = txtEmail.getText();
+		    		String sodt = txtsoDt.getText();
+		    		String ghiChu = txtchuThich.getText();
+		    		KhachHang kh1 = dao_kh.getKhachHangById("CMND", txtCmnd.getText());
+		    		KhachHang kh = new KhachHang(makH,tenkH,cmnd,gioiTinh,ngay,ngaygiaNhap,diachi,email,sodt,ghiChu);
+		    		if(kh1!=null)
+		    			JOptionPane.showMessageDialog(null, "Trùng chứng minh nhân dân với khách hàng có mã số là " + kh1.getMaKhachHang());
+		    			
 		    		else {
-			    		 JOptionPane.showMessageDialog(null, "Thêm khách hàng không thành công!");
-			    	 }
-	    		}
+		    			if(dao_kh.themKH(kh))
+			    		{
+			    			String maKH = dao_hd.getMaHDTail("maKhachHang", "KhachHang");
+				    		JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công");
+				    		txtmaKh.setText(maKH);
+							txtchuThich.setText("");
+							txtdiaChi.setText("");
+							txtEmail.setText("");
+							txtsoDt.setText("");
+							txttenKh.setText("");
+							txtCmnd.setText("");
+							txttimKiem.setText("");
+							dcngaySinh.setCalendar(null);
+							cbgioiTinh.setSelectedIndex(0);
+							txtTongkh.setText(String.valueOf(Integer.parseInt(txtTongkh.getText())+1));
+							if(kh.getGioiTinh().equalsIgnoreCase("Nam"))
+								txtTongkhnam.setText(String.valueOf(Integer.parseInt(txtTongkhnam.getText())+1));
+							else
+								txttongkhnu.setText(String.valueOf(Integer.parseInt(txttongkhnu.getText())+1));
+							txtmaKh.requestFocus();
+							tableModel.addRow(new Object[] {kh.getMaKhachHang(),kh.getTenKhachHang(),kh.getCMND(),kh.getGioiTinh(),kh.getNgaySinh()+"",kh.getNgaygiaNhap()+"",kh.getDiaChi(),kh.getEmail(),kh.getSoDienThoai(),kh.getChuThich()});
+			    		}
+			    		else {
+				    		 JOptionPane.showMessageDialog(null, "Thêm khách hàng không thành công!");
+				    	 }
+		    		}
 	    		
-	    	  
+	    		}
 	    	 }
 	    		     		
 	    	}
@@ -772,9 +775,9 @@ public class UI_KhachHang extends JFrame {
 		String email = txtEmail.getText().trim();
 		String sodt = txtsoDt.getText().trim();
 		String ghichu = txtchuThich.getText().trim();
+		String timkiem = txttimKiem.getText().trim();
 		String ngaysinh = ((JTextField) dcngaySinh.getDateEditor().getUiComponent()).getText();
 		//Date ngay = Date.valueOf(LocalDate.parse(ngaysinh));
-		LocalDate fngaysinh = LocalDate.parse(ngaysinh);
 		String ngaygianhap = ((JTextField) dcngayGiaNhap.getDateEditor().getUiComponent()).getText();
 		LocalDate fngaygn = LocalDate.parse(ngaygianhap);
 
@@ -809,9 +812,14 @@ public class UI_KhachHang extends JFrame {
 			JOptionPane.showMessageDialog(null, "Ghi chú không được trống và không chứa kí tự đặc biệt " );
 			return false;
 		}
-		if(!(ngaysinh.length()>0 && fngaysinh.compareTo(fngaygn)<0)){
-			JOptionPane.showMessageDialog(null, "ngày sinh không được trống và trước ngày gia nhập " );
-			return false;
+		
+		LocalDate fngaysinh;
+		if(!ngaysinh.contentEquals("")) {
+			fngaysinh= LocalDate.parse(ngaysinh);
+			if(!(ngaysinh.length()>0 && fngaysinh.compareTo(fngaygn)<0)){
+				JOptionPane.showMessageDialog(null, "ngày sinh không được trống và trước ngày gia nhập " );
+				return false;
+			}
 		}
 	
 		

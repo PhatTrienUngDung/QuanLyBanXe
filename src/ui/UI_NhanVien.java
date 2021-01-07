@@ -182,7 +182,7 @@ public class UI_NhanVien extends JFrame {
 		panel_3.setBounds(7, 93, 1492, 228);
 		
 		JPanel panel_6 = new JPanel();
-		panel_6.setBorder(new TitledBorder(null, "Th\u00F4ng Tin Nh\u00E2n Vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_6.setBorder(new TitledBorder(null, "Thông Tin Nhân Viên", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_6.setBounds(0, 10, 1482, 211);
 		panel_3.add(panel_6);
 		panel_6.setLayout(null);
@@ -210,7 +210,7 @@ public class UI_NhanVien extends JFrame {
 		
 		txttenNV.addKeyListener(new KeyAdapter() {
 			public boolean tennv(String str) {
-				return str.matches("\\D*"); 
+				return str.matches("^[a-zA-Z ]+$"); 
 			}	
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -240,6 +240,19 @@ public class UI_NhanVien extends JFrame {
 		        }
 			}
 		});
+//		txttenNV.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//				if ((txttenNV.getText().length() < 0)) {
+//					txttenNV.setForeground(Color.red);
+//				}
+//				if (!(txttenNV.getText().matches("^[a-zA-Z0-9 ]+$"))) {
+//					txttenNV.setForeground(Color.red);
+//				} else {
+//					txttenNV.setForeground(Color.black);
+//				}
+//			}
+//		});
 		txttenNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txttenNV.setBounds(137, 69, 260, 27);
 		panel_6.add(txttenNV);
@@ -463,7 +476,7 @@ public class UI_NhanVien extends JFrame {
 		scrollPane.setBounds(10, 427, 1482, 205);
 		panel.add(scrollPane);
 		scrollPane.setViewportView(table);
-		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Chức vụ","Ngày Vào Làm"};
+		String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Ngày Vào Làm","Chức vụ",};
 		tableModel = new DefaultTableModel(header, 0);
 		table.setModel(tableModel);
 		
@@ -474,13 +487,13 @@ public class UI_NhanVien extends JFrame {
 				txtmaNV.setText(tableModel.getValueAt(i, 0).toString().trim());
 				txttenNV.setText(tableModel.getValueAt(i, 1).toString().trim());
 				txtcmnd.setText(tableModel.getValueAt(i, 2).toString().trim());
-				datengaySinh.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 8).toString().trim()))); 
-				cbgioiTinh.setSelectedItem(tableModel.getValueAt(i, 3).toString().trim());
-				txtdiaChi.setText(tableModel.getValueAt(i, 4).toString().trim());
-				txtEmail.setText(tableModel.getValueAt(i, 5).toString().trim());
-				txtSdt.setText(tableModel.getValueAt(i, 6).toString().trim());
+				datengaySinh.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 3).toString().trim()))); 
+				cbgioiTinh.setSelectedItem(tableModel.getValueAt(i, 4).toString().trim());
+				txtdiaChi.setText(tableModel.getValueAt(i, 5).toString().trim());
+				txtEmail.setText(tableModel.getValueAt(i, 6).toString().trim());
+				txtSdt.setText(tableModel.getValueAt(i, 7).toString().trim());
 				cbchucVu.setSelectedItem(tableModel.getValueAt(i, 9).toString().trim());
-				datengayVaoLam.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 7).toString())));
+				datengayVaoLam.setDate(Date.valueOf(LocalDate.parse(tableModel.getValueAt(i, 8).toString())));
 			}
 		});
 		loadNV();
@@ -496,8 +509,8 @@ public class UI_NhanVien extends JFrame {
 		panel_8.setBounds(10, 334, 683, 69);
 		panel_8.setBackground(SystemColor.control);
 		
-		JLabel lblNhpThngTin = new JLabel("Nhập số CMND của  nhân viên");
-		lblNhpThngTin.setBounds(22, 21, 230, 30);
+		JLabel lblNhpThngTin = new JLabel("Nhập số CMND hoặc số điện thoại của  nhân viên");
+		lblNhpThngTin.setBounds(22, 18, 374, 30);
 		lblNhpThngTin.setBackground(new Color(255, 228, 225));
 		lblNhpThngTin.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
@@ -521,9 +534,23 @@ public class UI_NhanVien extends JFrame {
 						e1.printStackTrace();
 					}
 				}
+				
 			}
 		});
-		txtTimKiem.setBounds(282, 21, 337, 30);
+		txtTimKiem.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+			//	if ((txtTimKiem.getText().length() < 0)) {
+			//		txtTimKiem.setForeground(Color.red);
+			//	}
+				if (!(txtTimKiem.getText().matches("^[0-9 ]+$"))) {
+					txtTimKiem.setForeground(Color.red);
+				} else {
+					txtTimKiem.setForeground(Color.black);
+				}
+			}
+		});
+		txtTimKiem.setBounds(433, 21, 240, 30);
 		txtTimKiem.setColumns(10);
 		panel_3.setLayout(null);
 		
@@ -537,7 +564,7 @@ public class UI_NhanVien extends JFrame {
 		panel_8.add(txtTimKiem);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new TitledBorder(null, "Ch\u1EE9c n\u0103ng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_4.setBorder(new TitledBorder(null, "Chức năng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_4.setBounds(768, 334, 724, 69);
 		panel.add(panel_4);
 		panel_4.setBackground(SystemColor.control);
@@ -570,16 +597,28 @@ public class UI_NhanVien extends JFrame {
 				String cmnd = txtcmnd.getText();
 				ChucVu maChucVu=dao_nv.getMaChucVu((String) cbchucVu.getSelectedItem());
 				String chucVu = (String) cbchucVu.getSelectedItem();
-				Date ngaySinh=Date.valueOf(LocalDate.parse(date1));
-				Date ngayVaoLam =Date.valueOf(LocalDate.parse(date2));
-				String gioiTinh = (String) cbgioiTinh.getSelectedItem();
-				System.out.println(maChucVu);
-				NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, maChucVu, sodt, ngayVaoLam);
-				tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getCMND(),nv.getGioiTinh(),nv.getDiaChi(),nv.getEmail(),nv.getSdt()
-						,nv.getNgayVaoLam(),nv.getNgaySinh(),nv.getChucVu().getMaChucVu()});						
-				JFrame f= new JFrame();
-				dao_nv.themNV(nv);			
-				JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+				if(date1.equalsIgnoreCase(""))
+					JOptionPane.showMessageDialog(null, "Ngày sinh không được để trống!");
+				else {
+					Date ngaySinh=Date.valueOf(LocalDate.parse(date1));
+					Date ngayVaoLam =Date.valueOf(LocalDate.parse(date2));
+					String gioiTinh = (String) cbgioiTinh.getSelectedItem();
+					System.out.println(maChucVu);
+					NhanVien nv= new NhanVien(ma, ten, cmnd, gioiTinh, ngaySinh, diachi, email, maChucVu, sodt, ngayVaoLam);
+					tableModel.addRow(new Object[] {nv.getMaNhanVien(),nv.getTenNhanVien(),nv.getCMND(),nv.getGioiTinh(),nv.getDiaChi(),nv.getEmail(),nv.getSdt()
+							,nv.getNgayVaoLam(),nv.getNgaySinh(),nv.getChucVu().getMaChucVu()});						
+					JFrame f= new JFrame();
+					dao_nv.themNV(nv);			
+					JOptionPane.showMessageDialog(f, "Thêm thành công !!!");
+					}
+				//NhanVien nv = dao_nv.getAllNV();
+//				ArrayList<NhanVien> dsnv = dao_nv.getListMaNV();
+//				for (NhanVien nv : dsnv) {
+//					if (nv.getMaNhanVien().equalsIgnoreCase(txtmaNV.getText())) {
+//						return false;
+//					}
+//				}
+//				
 				}
 			}
 		});
@@ -738,6 +777,14 @@ public class UI_NhanVien extends JFrame {
 			JOptionPane.showConfirmDialog(null, "Địa chỉ không được để trống");
 			return false;
 		}
+//		LocalDate ngaysinh;
+//		if(!datengaysinh.contentEquals("")) {
+//			ngaysinh= LocalDate.parse(ngaysinh);
+//			if(!(ngaysinh.length()>0 && fngaysinh.compareTo(fngaygn)<0)){
+//				JOptionPane.showMessageDialog(null, "ngày sinh không được trống và trước ngày gia nhập " );
+//				return false;
+//			}
+//		}
 		String date  = ((JTextField)datengaySinh.getDateEditor().getUiComponent()).getText();
 		Date ngay=Date.valueOf(LocalDate.parse(date));
 		if(ngay.after(Date.valueOf(LocalDate.now()))) {
@@ -762,29 +809,42 @@ public class UI_NhanVien extends JFrame {
 		String diaChi = txtdiaChi.getText();
 		String email = txtEmail.getText();
 		String sdt = txtSdt.getText();
-		if(!(tenNV.length()>0 && tenNV.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
-				"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
-				"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$"))) {
+		if(!(tenNV.length()>0)){
+
 			JOptionPane.showMessageDialog(null, "Tên nhân viên không trống " );
+		
 			return false;
 		}
-//		if(!(cmnd.length()>0 && cmnd.matches("\\d{12}"))) {
-//			JOptionPane.showConfirmDialog(null, "Chứng minh nhân dân gồm 9 kí tự số hoặc 12 số");
-//			return false;
 //		}
-		if(!(diaChi.length()>0 && diaChi.matches("^[0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
-	            "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
-	            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s/\\.,]+$"))) {
+		if(!(cmnd.length()>0 && cmnd.matches("\\d{12}"))) {
+			JOptionPane.showMessageDialog(null, "Chứng minh nhân dân gồm  12 số");
+			return false;
+		}
+		if(!(diaChi.length()>0)) {
+			JOptionPane.showMessageDialog(null, "Địa chỉ không được để trống " );
+			return false;
+		}
+		if(! diaChi.matches("^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ\" +\r\n" + 
+				"            \"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ\" +\r\n" + 
+				"            \"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$")){
 			JOptionPane.showMessageDialog(null, "Địa chỉ không hợp lệ " );
 			return false;
-		}
-		if(!(email.length()>0 && email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"))) {
-			JOptionPane.showConfirmDialog(null, "Sai cú pháp gmail. Cú pháp đúng");
+	            }
+		if(!(email.length()>0 )) {
+			JOptionPane.showMessageDialog(null, "Email không được để trống");
 			return false;
 		}
-		if(!(sdt.length()>0 && sdt.matches("^[0][1-9][0-9]{8}$"))) {
-			JOptionPane.showConfirmDialog(null, "Số điện thoại gồm 10 kí tự số và bắt đầu từ kí tự 0");
+		if( !email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+			JOptionPane.showMessageDialog(null, "Sai cú pháp");
+			return false;
+		}
+		if(!(sdt.length()>0 )) {
+			JOptionPane.showMessageDialog(null, "Số điện thoại không được bỏ trống");
+			return false;
+		}
+		if(!(sdt.matches("^[0][1-9][0-9]{8}$"))) {
+			JOptionPane.showMessageDialog(null, "Số điện thoại gồm 10 kí tự số và bắt đầu từ kí tự 0");
 			return false;
 		}
 		return rootPaneCheckingEnabled;
@@ -809,6 +869,15 @@ public class UI_NhanVien extends JFrame {
 			tableModel = dao_nv.timKiem("%"+txtTimKiem.getText()+"%", "%"+txtTimKiem.getText()+"%");
 			table.setModel(tableModel);
 		}
+//		public boolean KiemTraMa() {
+//			ArrayList<NhanVien> dsnv = dao_nv.get;
+//			for (Xe xe : dsxe) {
+//				if (xe.getMaXe().equalsIgnoreCase(txtMa.getText())) {
+//					return false;
+//				}
+//			}
+//			return true;
+//		}
 //	private void update() {
 //		for(int i =0 ; i<table.getRowCount();i++) {
 //			if(txtmaNV.getText().equalsIgnoreCase(table.getValueAt(i, 0).toString())) {

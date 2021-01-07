@@ -85,11 +85,11 @@ public class Dao_NhanVien {
 	}
 //Load data
 		public DefaultTableModel getAllNV() throws SQLException {
-			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Ngày Vào Làm","Ngay Sinh","Chức Vụ"};
+			String[] header=  {"Mã Nhân Viên","Tên Nhân Viên","CMND","Ngày Sinh","Giới Tính","Địa Chỉ","Email","Số Điện Thoại","Ngày Vào Làm","Chức vụ",};
 			DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getCon();
-			String sql = "SELECT NhanVien.maNhanVien, NhanVien.tenNhanVien, NhanVien.CMND, NhanVien.gioiTinh, NhanVien.diaChi, NhanVien.email, NhanVien.soDienThoai, NhanVien.ngayVaoLam, NhanVien.ngaySinh, ChucVu.tenChucVu\r\n" + 
+			String sql = "SELECT NhanVien.maNhanVien, NhanVien.tenNhanVien, NhanVien.CMND, NhanVien.ngaySinh,NhanVien.gioiTinh, NhanVien.diaChi, NhanVien.email, NhanVien.soDienThoai, NhanVien.ngayVaoLam,  ChucVu.tenChucVu\r\n" + 
 					"FROM     NhanVien INNER JOIN\r\n" + 
 					"                  ChucVu ON NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND \r\n" + 
 					"                  NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu";
@@ -110,7 +110,7 @@ public class Dao_NhanVien {
 		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getCon();
-		String sql = "SELECT NhanVien.maNhanVien, NhanVien.tenNhanVien, NhanVien.CMND, NhanVien.gioiTinh, NhanVien.diaChi, NhanVien.email, NhanVien.soDienThoai, NhanVien.ngayVaoLam, NhanVien.ngaySinh, ChucVu.tenChucVu\r\n" + 
+		String sql = "SELECT NhanVien.maNhanVien, NhanVien.tenNhanVien, NhanVien.CMND, NhanVien.ngaySinh,NhanVien.gioiTinh, NhanVien.diaChi, NhanVien.email, NhanVien.soDienThoai,   ChucVu.tenChucVu,NhanVien.ngayVaoLam\r\n" + 
 				"FROM     NhanVien INNER JOIN\r\n" + 
 				"                  ChucVu ON NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND \r\n" + 
 				"                  NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu where CMND like '"+id+"' or sodienThoai like '"+sdt+"'";

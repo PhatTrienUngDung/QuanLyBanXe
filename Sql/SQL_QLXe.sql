@@ -1027,3 +1027,8 @@ from TaiKhoan, NhanVien
 go
 select hd.*, kh.tenKhachHang, kh.CMND, nv.tenNhanVien from HoaDon hd, KhachHang kh, NhanVien nv
 where hd.maKhachHang = kh.maKhachHang and hd.maNhanVien = nv.maNhanVien
+
+SELECT NhanVien.maNhanVien, NhanVien.tenNhanVien, NhanVien.CMND, NhanVien.gioiTinh, NhanVien.diaChi, NhanVien.email, NhanVien.soDienThoai, NhanVien.ngayVaoLam, NhanVien.ngaySinh, ChucVu.tenChucVu
+				FROM     NhanVien INNER JOIN
+				                  ChucVu ON NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND 
+				                  NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu AND NhanVien.maChucVu = ChucVu.maChucVu 
